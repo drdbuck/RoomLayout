@@ -3,7 +3,7 @@
 		"type": "App"
 	},
 	"project": {
-		"shadows": false,
+		"shadows": true,
 		"shadowType": 1,
 		"vr": false,
 		"toneMapping": 0,
@@ -20,7 +20,7 @@
 			"type": "PerspectiveCamera",
 			"name": "Camera",
 			"layers": 1,
-			"matrix": [1,0,0,0,0,0.8944271909999159,-0.4472135954999579,0,0,0.4472135954999579,0.8944271909999159,0,0,5,10,1],
+			"matrix": [-0.570162524949478,0,-0.8215319197348551,0,-0.3820217960745,0.8853046358873516,0.26513213498249694,0,0.7273060170707027,0.46501150703650745,-0.5047675265470106,0,8.614427242080492,4.6595381386934385,-5.379734824786564,1],
 			"up": [0,1,0],
 			"fov": 50,
 			"zoom": 1,
@@ -51,13 +51,9 @@
 			}],
 		"materials": [
 			{
-				"uuid": "f140f3cb-32aa-4154-9ea3-ff50790928b9",
-				"type": "MeshStandardMaterial",
-				"color": 16777215,
-				"roughness": 1,
-				"metalness": 0,
-				"emissive": 0,
-				"envMapIntensity": 1,
+				"uuid": "1fd34d29-c555-44d6-a71b-d24bb55eb9c7",
+				"type": "MeshMatcapMaterial",
+				"color": 4687027,
 				"blendColor": 0
 			}],
 		"object": {
@@ -69,42 +65,14 @@
 			"up": [0,1,0],
 			"children": [
 				{
-					"uuid": "84bdd0b4-d46e-4334-b643-263ba2cf69de",
-					"type": "PointLight",
-					"name": "PointLight",
-					"layers": 1,
-					"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,1.1459312756771909,0.943939123336393,1.0817485779229792,1],
-					"up": [0,1,0],
-					"color": 16777215,
-					"intensity": 1,
-					"distance": 0,
-					"decay": 2,
-					"shadow": {
-						"camera": {
-							"uuid": "2a630970-2906-4bba-b3db-a6707650f0f1",
-							"type": "PerspectiveCamera",
-							"layers": 1,
-							"up": [0,1,0],
-							"fov": 90,
-							"zoom": 1,
-							"near": 0.5,
-							"far": 500,
-							"focus": 10,
-							"aspect": 1,
-							"filmGauge": 35,
-							"filmOffset": 0
-						}
-					}
-				},
-				{
 					"uuid": "aea8956a-009a-4660-809e-2b4ae706d359",
 					"type": "Mesh",
 					"name": "Box",
 					"layers": 1,
-					"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+					"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,-0.017627673873297445,1],
 					"up": [0,1,0],
 					"geometry": "3dad0dfd-e329-4d51-b0bf-fc34c61f3686",
-					"material": "f140f3cb-32aa-4154-9ea3-ff50790928b9"
+					"material": "1fd34d29-c555-44d6-a71b-d24bb55eb9c7"
 				}]
 		}
 	},

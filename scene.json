@@ -17,13 +17,9 @@
 		}],
 	"materials": [
 		{
-			"uuid": "f140f3cb-32aa-4154-9ea3-ff50790928b9",
-			"type": "MeshStandardMaterial",
-			"color": 16777215,
-			"roughness": 1,
-			"metalness": 0,
-			"emissive": 0,
-			"envMapIntensity": 1,
+			"uuid": "1fd34d29-c555-44d6-a71b-d24bb55eb9c7",
+			"type": "MeshMatcapMaterial",
+			"color": 4687027,
 			"blendColor": 0
 		}],
 	"object": {
@@ -39,38 +35,10 @@
 				"type": "Mesh",
 				"name": "Box",
 				"layers": 1,
-				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,-0.017627673873297445,1],
 				"up": [0,1,0],
 				"geometry": "3dad0dfd-e329-4d51-b0bf-fc34c61f3686",
-				"material": "f140f3cb-32aa-4154-9ea3-ff50790928b9"
-			},
-			{
-				"uuid": "84bdd0b4-d46e-4334-b643-263ba2cf69de",
-				"type": "PointLight",
-				"name": "PointLight",
-				"layers": 1,
-				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,1.1459312756771909,0.943939123336393,1.0817485779229792,1],
-				"up": [0,1,0],
-				"color": 16777215,
-				"intensity": 1,
-				"distance": 0,
-				"decay": 2,
-				"shadow": {
-					"camera": {
-						"uuid": "2a630970-2906-4bba-b3db-a6707650f0f1",
-						"type": "PerspectiveCamera",
-						"layers": 1,
-						"up": [0,1,0],
-						"fov": 90,
-						"zoom": 1,
-						"near": 0.5,
-						"far": 500,
-						"focus": 10,
-						"aspect": 1,
-						"filmGauge": 35,
-						"filmOffset": 0
-					}
-				}
+				"material": "1fd34d29-c555-44d6-a71b-d24bb55eb9c7"
 			}]
 	}
 }
