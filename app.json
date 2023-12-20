@@ -16,11 +16,11 @@
 			"generator": "Object3D.toJSON"
 		},
 		"object": {
-			"uuid": "85a45526-93e0-4a86-9dd1-7f4f22f6bed8",
+			"uuid": "9dfd153e-b07c-417e-b2ba-e379a9528652",
 			"type": "PerspectiveCamera",
 			"name": "Camera",
 			"layers": 1,
-			"matrix": [1,0,0,0,0,0.8660254037844387,-0.49999999999999994,0,0,0.49999999999999994,0.8660254037844387,0,0,5,10,1],
+			"matrix": [1,0,0,0,0,0.8944271909999159,-0.4472135954999579,0,0,0.4472135954999579,0.8944271909999159,0,0,5,10,1],
 			"up": [0,1,0],
 			"fov": 50,
 			"zoom": 1,
@@ -40,7 +40,7 @@
 		},
 		"geometries": [
 			{
-				"uuid": "c9429fc7-6152-407a-a5d7-d16f44eb1bb7",
+				"uuid": "3dad0dfd-e329-4d51-b0bf-fc34c61f3686",
 				"type": "BoxGeometry",
 				"width": 1,
 				"height": 1,
@@ -51,7 +51,7 @@
 			}],
 		"materials": [
 			{
-				"uuid": "143abbd2-50e7-4dcd-b9a9-efa2730ddad5",
+				"uuid": "f140f3cb-32aa-4154-9ea3-ff50790928b9",
 				"type": "MeshStandardMaterial",
 				"color": 16777215,
 				"roughness": 1,
@@ -61,23 +61,13 @@
 				"blendColor": 0
 			}],
 		"object": {
-			"uuid": "3c9e5589-8a90-4214-82e6-41bcc909734c",
+			"uuid": "78799dd4-1019-4511-809e-b2a521f14224",
 			"type": "Scene",
 			"name": "Scene",
 			"layers": 1,
 			"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
 			"up": [0,1,0],
 			"children": [
-				{
-					"uuid": "b4bbcab8-e179-4965-91b8-1cd4153ee1ba",
-					"type": "Mesh",
-					"name": "Box",
-					"layers": 1,
-					"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
-					"up": [0,1,0],
-					"geometry": "c9429fc7-6152-407a-a5d7-d16f44eb1bb7",
-					"material": "143abbd2-50e7-4dcd-b9a9-efa2730ddad5"
-				},
 				{
 					"uuid": "84bdd0b4-d46e-4334-b643-263ba2cf69de",
 					"type": "PointLight",
@@ -105,6 +95,16 @@
 							"filmOffset": 0
 						}
 					}
+				},
+				{
+					"uuid": "aea8956a-009a-4660-809e-2b4ae706d359",
+					"type": "Mesh",
+					"name": "Box",
+					"layers": 1,
+					"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+					"up": [0,1,0],
+					"geometry": "3dad0dfd-e329-4d51-b0bf-fc34c61f3686",
+					"material": "f140f3cb-32aa-4154-9ea3-ff50790928b9"
 				}]
 		}
 	},
