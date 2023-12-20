@@ -1,0 +1,9 @@
+SETUP INSTRUCTIONS
+
+First Time:
+1. Download & Install Node.js: https://nodejs.org/en/
+2. Run node_install.bat
+
+Every Session:
+3. Run server.bat
+4. Go to localhost:8000 in the browser
