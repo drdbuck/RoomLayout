@@ -34,9 +34,9 @@
             window.VRButton = VRButton; // Used by APP Scripts.
 
             var loader = new THREE.FileLoader();
+			var player = new APP.Player();
             loader.load( 'app.json', function ( text ) {
 
-            	var player = new APP.Player();
             	player.load( JSON.parse( text ) );
             	player.setSize( window.innerWidth, window.innerHeight );
             	player.play();
@@ -49,6 +49,10 @@
             	} );
 
             } );
+			loader.load( 'scene.json', function ( text ) {
+				var objloader = new THREE.ObjectLoader();
+				player.setScene(objloader.parse( JSON.parse(  text) ));
+			});
         </script>
     </body>
 </html>
