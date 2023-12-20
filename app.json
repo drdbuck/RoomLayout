@@ -1,0 +1,85 @@
+{
+	"metadata": {
+		"type": "App"
+	},
+	"project": {
+		"shadows": true,
+		"shadowType": 1,
+		"vr": false,
+		"toneMapping": 0,
+		"toneMappingExposure": 1
+	},
+	"camera": {
+		"metadata": {
+			"version": 4.6,
+			"type": "Object",
+			"generator": "Object3D.toJSON"
+		},
+		"object": {
+			"uuid": "85a45526-93e0-4a86-9dd1-7f4f22f6bed8",
+			"type": "PerspectiveCamera",
+			"name": "Camera",
+			"layers": 1,
+			"matrix": [0.5877672887964782,-2.7755575615628914e-17,-0.8090300453140398,0,-0.42193651773384755,0.853230619730718,-0.3065405104656958,0,0.6902892069440691,0.5215338048045733,0.501501048077263,0,2.71437448434801,1.8308844080045503,2.0561400844822657,1],
+			"up": [0,1,0],
+			"fov": 50,
+			"zoom": 1,
+			"near": 0.01,
+			"far": 1000,
+			"focus": 10,
+			"aspect": 1.4183266932270917,
+			"filmGauge": 35,
+			"filmOffset": 0
+		}
+	},
+	"scene": {
+		"metadata": {
+			"version": 4.6,
+			"type": "Object",
+			"generator": "Object3D.toJSON"
+		},
+		"geometries": [
+			{
+				"uuid": "c9429fc7-6152-407a-a5d7-d16f44eb1bb7",
+				"type": "BoxGeometry",
+				"width": 1,
+				"height": 1,
+				"depth": 1,
+				"widthSegments": 1,
+				"heightSegments": 1,
+				"depthSegments": 1
+			}],
+		"materials": [
+			{
+				"uuid": "143abbd2-50e7-4dcd-b9a9-efa2730ddad5",
+				"type": "MeshStandardMaterial",
+				"color": 16777215,
+				"roughness": 1,
+				"metalness": 0,
+				"emissive": 0,
+				"envMapIntensity": 1,
+				"blendColor": 0
+			}],
+		"object": {
+			"uuid": "3c9e5589-8a90-4214-82e6-41bcc909734c",
+			"type": "Scene",
+			"name": "Scene",
+			"layers": 1,
+			"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+			"up": [0,1,0],
+			"children": [
+				{
+					"uuid": "b4bbcab8-e179-4965-91b8-1cd4153ee1ba",
+					"type": "Mesh",
+					"name": "Box",
+					"layers": 1,
+					"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,-0.013434084510575095,0.16042065505841818,0,1],
+					"up": [0,1,0],
+					"geometry": "c9429fc7-6152-407a-a5d7-d16f44eb1bb7",
+					"material": "143abbd2-50e7-4dcd-b9a9-efa2730ddad5"
+				}]
+		}
+	},
+	"scripts": {},
+	"environment": null
+}
