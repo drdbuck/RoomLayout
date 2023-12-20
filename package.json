@@ -1,0 +1,27 @@
+{
+  "name": "room-layout",
+  "version": "0.0.0",
+  "description": "An app to visualize the layout of a room",
+  "main": "index.html",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "layout",
+    "room",
+    "3d",
+    "visual",
+    "visualize",
+    "visualizer",
+    "map",
+    "builder",
+    "tool",
+    "design",
+    "designer",
+    "plan",
+    "planner",
+    "interior"
+  ],
+  "author": "shieldgenerator7",
+  "license": "MIT"
+}
