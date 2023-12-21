@@ -37,10 +37,14 @@ class Controller {
         this.mouse.x = event.clientX / window.innerWidth * 2 - 1;
         this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         console.log("mouse", this.mouse);
+        this.selectObject();
+    }
+
+    selectObject() {
         //2023-12-21: copied from https://stackoverflow.com/a/30871007/2336212
         this.raycaster.setFromCamera(this.mouse, this.camera); 
-        let objects = this.raycaster.intersectObjects(this.scene.children);
-        console.log("objects", objects);
+        this.objects = this.raycaster.intersectObjects(this.scene.children);
+        this.select = this.objects.find(o => o.object.userData.selectable)?.object;
     }
 }
 export { Controller };
