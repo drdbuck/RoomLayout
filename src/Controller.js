@@ -67,6 +67,9 @@ class Controller {
         this.select = this.objects.find(o => o.object.userData.selectable)?.object;
         if (this.select) {
             this.origPos = this.copy(this.select.position);
+            const NONZERO = 0.001;
+            this.origPos.x ||= NONZERO;
+            this.origPos.z ||= NONZERO;
         }
     }
 
