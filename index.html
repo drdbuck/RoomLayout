@@ -47,12 +47,13 @@
             		player.setSize( window.innerWidth, window.innerHeight );
 
             	} );
+                
+                loader.load( 'scene.json', function ( text ) {
+                    var objloader = new THREE.ObjectLoader();
+                    player.setScene(objloader.parse( JSON.parse(  text) ));
+                });
 
             } );
-			loader.load( 'scene.json', function ( text ) {
-				var objloader = new THREE.ObjectLoader();
-				player.setScene(objloader.parse( JSON.parse(  text) ));
-			});
         </script>
     </body>
 </html>

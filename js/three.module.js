@@ -29504,11 +29504,11 @@ class WebGLRenderer {
 
 			}
 
-			if ( _isContextLost === true ) return;
+			if (_isContextLost === true) { return; }
 
 			// update scene graph
 
-			if ( scene.matrixWorldAutoUpdate === true ) scene.updateMatrixWorld();
+			if (scene.matrixWorldAutoUpdate === true) { scene.updateMatrixWorld(); }
 
 			// update camera matrices and frustum
 

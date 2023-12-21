@@ -32,6 +32,50 @@
 			"filmOffset": 0
 		}
 	},
+	"scene": {
+		"metadata": {
+			"version": 4.6,
+			"type": "Object",
+			"generator": "Object3D.toJSON"
+		},
+		"geometries": [
+			{
+				"uuid": "3dad0dfd-e329-4d51-b0bf-fc34c61f3686",
+				"type": "BoxGeometry",
+				"width": 1,
+				"height": 1,
+				"depth": 1,
+				"widthSegments": 1,
+				"heightSegments": 1,
+				"depthSegments": 1
+			}],
+		"materials": [
+			{
+				"uuid": "1fd34d29-c555-44d6-a71b-d24bb55eb9c7",
+				"type": "MeshMatcapMaterial",
+				"color": 4687027,
+				"blendColor": 0
+			}],
+		"object": {
+			"uuid": "78799dd4-1019-4511-809e-b2a521f14224",
+			"type": "Scene",
+			"name": "Scene",
+			"layers": 1,
+			"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+			"up": [0,1,0],
+			"children": [
+				{
+					"uuid": "aea8956a-009a-4660-809e-2b4ae706d359",
+					"type": "Mesh",
+					"name": "Box",
+					"layers": 1,
+					"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,-0.017627673873297445,1],
+					"up": [0,1,0],
+					"geometry": "3dad0dfd-e329-4d51-b0bf-fc34c61f3686",
+					"material": "1fd34d29-c555-44d6-a71b-d24bb55eb9c7"
+				}]
+		}
+	},
 	"scripts": {},
 	"environment": null
 }
