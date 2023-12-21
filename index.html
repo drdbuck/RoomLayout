@@ -29,6 +29,7 @@
 			import * as THREE from './js/three.module.js';
             import { APP } from './js/app.js';
             import { VRButton } from './js/VRButton.js';
+            import {Controller} from './src/Controller.js';
 
             window.THREE = THREE; // Used by APP Scripts.
             window.VRButton = VRButton; // Used by APP Scripts.
@@ -52,6 +53,9 @@
                     var objloader = new THREE.ObjectLoader();
                     player.setScene(objloader.parse( JSON.parse(  text) ));
                 });
+            
+                var controller = new Controller(player.camera);
+                window.onkeydown=(e)=>controller.processInput(e);
 
             } );
         </script>
