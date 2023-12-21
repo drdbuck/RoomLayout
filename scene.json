@@ -14,13 +14,24 @@
 			"widthSegments": 1,
 			"heightSegments": 1,
 			"depthSegments": 1
-		}],
+		},
+		{
+			"uuid": "5cf1811e-a65a-46ea-b4cb-106eb77699d8",
+			"type": "PlaneGeometry",
+			"width": 1,
+			"height": 1,
+			"widthSegments": 1,
+			"heightSegments": 1
+		}
+	],
 	"materials": [
 		{
 			"uuid": "1fd34d29-c555-44d6-a71b-d24bb55eb9c7",
 			"type": "MeshMatcapMaterial",
 			"color": 4687027,
-			"blendColor": 0
+			"blendColor": 0,
+			"depthTest": true,
+			"depthWrite": true
 		},
 		{
 			"uuid": "7c7ed7a8-cc3f-4827-9dc8-e9e043be2de6",
@@ -36,10 +47,18 @@
 			"reflectivity": 0,
 			"refractionRatio": 0.98,
 			"blendColor": 0,
-			"depthTest": false,
-			"depthWrite": false,
+			"depthTest": true,
+			"depthWrite": true,
 			"forceSinglePass": true,
 			"flatShading": true
+		},
+		{
+			"uuid": "29173117-171c-4dd6-abb0-e1f7e4eb71d3",
+			"type": "MeshMatcapMaterial",
+			"color": 12237498,
+			"blendColor": 0,
+			"depthTest": true,
+			"depthWrite": true
 		}
 	],
 	"textures": [
@@ -152,6 +171,16 @@
 				"up": [0,1,0],
 				"geometry": "3dad0dfd-e329-4d51-b0bf-fc34c61f3686",
 				"material": "7c7ed7a8-cc3f-4827-9dc8-e9e043be2de6"
+			},
+			{
+				"uuid": "e467bb54-ecc7-4209-a730-164e15ed9bcd",
+				"type": "Mesh",
+				"name": "Plane",
+				"layers": 1,
+				"matrix": [5,0,0,0,0,0,-5,0,0,5,0,0,0,-0.5,0,1],
+				"up": [0,1,0],
+				"geometry": "5cf1811e-a65a-46ea-b4cb-106eb77699d8",
+				"material": "29173117-171c-4dd6-abb0-e1f7e4eb71d3"
 			}
 		]
 	}
