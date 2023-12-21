@@ -56,7 +56,9 @@
                     var controller = new Controller(player.camera, player.scene);
                     window.controller = controller;
                     window.onkeydown=(e)=>controller.processInput(e);
-                    window.onclick=(e)=>controller.processMouseInput(e);
+                    window.onmousedown=(e)=>controller.processMouseDown(e);
+                    window.onmousemove=(e)=>controller.processMouseMove(e);
+                    window.onmouseup=(e)=>controller.processMouseUp(e);
 
                 });
             } );
