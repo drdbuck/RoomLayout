@@ -52,11 +52,13 @@
                 loader.load( 'scene.json', function ( text ) {
                     var objloader = new THREE.ObjectLoader();
                     player.setScene(objloader.parse( JSON.parse(  text) ));
-                });
             
-                var controller = new Controller(player.camera);
-                window.onkeydown=(e)=>controller.processInput(e);
+                    var controller = new Controller(player.camera, player.scene);
+                    window.controller = controller;
+                    window.onkeydown=(e)=>controller.processInput(e);
+                    window.onclick=(e)=>controller.processMouseInput(e);
 
+                });
             } );
         </script>
     </body>
