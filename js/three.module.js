@@ -3914,9 +3914,16 @@ class Vector3 {
 
 		Vector3.prototype.isVector3 = true;
 
+		if (typeof x === "object") {
+			let obj = x;
+			this.copy(obj);
+		} else {
+
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		
+		}
 
 	}
 
