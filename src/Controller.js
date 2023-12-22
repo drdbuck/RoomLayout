@@ -12,24 +12,35 @@ class Controller {
     }
 
     processInput(event) {
+        let moveCamera = false;
         switch (event.keyCode) {
             case 87://W key
             case 38://Up Arrow
                 this.camera.position.z -= this.speed;
+                moveCamera = true;
                 break;
             case 65://A key
             case 37://Left Arrow
                 this.camera.position.x -= this.speed;
+                moveCamera = true;
                 break;
             case 83://S key
             case 40://Up Arrow
                 this.camera.position.z += this.speed;
+                moveCamera = true;
                 break;
             case 68://D key
             case 39://Right Arrow
                 this.camera.position.x += this.speed;
+                moveCamera = true;
                 break;
             default: break;
+        }
+        //if move the camera, interrupt mouse action
+        if (moveCamera) {
+            if (this.select) {
+                this.mouse.down = false;
+            }
         }
     }
 
