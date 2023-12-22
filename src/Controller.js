@@ -1,5 +1,6 @@
 "use strict";
 import { Raycaster } from "../js/three.module.js";
+import { Vector3 } from "../js/three.module.js";
 
 class Controller {
     constructor(camera, scene) {
@@ -55,7 +56,6 @@ class Controller {
     }
 
     processMouseUp(event) {
-        this.processMouseInput(event);
         this.mouse.down = false;
         this.select = undefined;
     }
@@ -66,18 +66,38 @@ class Controller {
         this.objects = this.raycaster.intersectObjects(this.scene.children);
         this.select = this.objects.find(o => o.object.userData.selectable)?.object;
         if (this.select) {
-            this.origPos = this.copy(this.select.position);
-            const NONZERO = 0.001;
-            this.origPos.x ||= NONZERO;
-            this.origPos.z ||= NONZERO;
+            this.origPos = new Vector3(this.select.position);
+            this.selectOffset = this.origPos.sub(this.getMouseWorld(this.mouse));
         }
     }
 
     moveObject() {
-        let x = this.origPos.x * this.mouse.x / this.origMouse.x;
-        let z = this.origPos.z * this.mouse.y / this.origMouse.y;
-        this.select.position.x = x;
-        this.select.position.z = z;
+        let mouseWorld = this.getMouseWorld(this.mouse);
+        this.select.position.copy(mouseWorld.add(this.selectOffset));
+    }
+
+    getMouseWorld(mouse) {
+        //2023-12-21: copied from https://stackoverflow.com/a/13091694/2336212
+        var vec = new Vector3();
+        var pos = new Vector3();
+
+        vec.set(
+            mouse.x,
+            mouse.y,
+            0.5,
+        );
+
+        vec.unproject(this.camera);
+
+        vec.sub(this.camera.position).normalize();
+
+        var distance = - this.camera.position.y / vec.y;
+
+        vec = vec.multiplyScalar(distance);
+
+        pos.copy(this.camera.position).add(vec);
+
+        return pos;
     }
 
     copy(obj) {
