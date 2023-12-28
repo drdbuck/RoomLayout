@@ -1,15 +1,13 @@
 "use strict";
 
 class Delegate {
-    constructor(requireExplicitContinue) {
+    constructor() {
         this.delegateList = [];
-        //True: after processing, each delegate must return true to remain in the queue
-        this.requireExplicitContinue = requireExplicitContinue ?? false;
     }
 
     add(func){
         if (!func){
-            reportInternalError(false,"func cannot be null or undefined! func: ", func);
+            console.error("func cannot be null or undefined! func: ", func);
             return;
         }
         if (!this.contains(func)) {
@@ -23,14 +21,7 @@ class Delegate {
         for (let i = 0; i < this.delegateList.length; i++) {
             let returnVal = this.delegateList[i](...params);
             returnValList.push(returnVal);
-            //keep in queue?
-            let keepInQueue = !!returnVal;
-            if (this.requireExplicitContinue && !keepInQueue){
-                this.delegateList[i] = undefined;
-            }
         }
-        //Remove blank spaces in queue
-        this.delegateList = this.delegateList.filter(f => f);
         //Return vals
         return returnValList;
     }
