@@ -26,6 +26,7 @@
     <body ontouchstart="">
         <script src="src/Utility.js" type="text/javascript"></script>
         <script src="src/Delegate.js" type="text/javascript"></script>
+        <script src="src/Input.js" type="text/javascript"></script>
         <script src="js/app.js" type="text/javascript"></script>
         <script src="js/three.module.js" type="text/javascript"></script>
         <script src="src/Controller.js" type="text/javascript"></script>
@@ -52,12 +53,19 @@
                     var objloader = new ObjectLoader();
                     player.setScene(objloader.parse( JSON.parse(  text) ));
             
+                    var input = new Input();
+                    window.input = input;
+                    window.onkeydown=(e)=>input.processKeyDown(e);
+                    window.onmousedown=(e)=>input.processMouseDown(e);
+                    window.onmousemove=(e)=>input.processMouseMove(e);
+                    window.onmouseup=(e)=>input.processMouseUp(e);
+
                     var controller = new Controller(player.camera, player.scene);
                     window.controller = controller;
-                    window.onkeydown=(e)=>controller.processInput(e);
-                    window.onmousedown=(e)=>controller.processMouseDown(e);
-                    window.onmousemove=(e)=>controller.processMouseMove(e);
-                    window.onmouseup=(e)=>controller.processMouseUp(e);
+                    input.key.down.add(controller.processInput);
+                    input.mouse.down.add(controller.processMouseDown);
+                    input.mouse.move.add(controller.processMouseMove);
+                    input.mouse.up.add(controller.processMouseUp);
 
                 });
             } );

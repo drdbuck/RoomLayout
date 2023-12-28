@@ -9,7 +9,7 @@ class Controller {
         this.raycaster = new Raycaster();
     }
 
-    processInput(event) {
+    processInput(state, event) {
         let moveCamera = false;
         switch (event.keyCode) {
             case 87://W key
@@ -48,14 +48,14 @@ class Controller {
         this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     }
 
-    processMouseDown(event) {
+    processMouseDown(state, event) {
         this.processMouseInput(event);
         this.mouse.down = true;
         this.origMouse = copy(this.mouse);
         this.selectObject();
     }
 
-    processMouseMove(event) {
+    processMouseMove(state, event) {
         this.processMouseInput(event);
         if (this.mouse.down) {
             if (this.select) {
@@ -73,7 +73,7 @@ class Controller {
         }
     }
 
-    processMouseUp(event) {
+    processMouseUp(state, event) {
         this.mouse.down = false;
         this.select = undefined;
     }
