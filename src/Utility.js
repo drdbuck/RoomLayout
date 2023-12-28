@@ -22,6 +22,10 @@ function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
 //2023-02-27: constructed after consulting https://stackoverflow.com/q/14636536/2336212
 function isInteger(n) { return isNumber(n) && Math.floor(n) === n; }
 
+function $(id) {
+    return document.getElementById(id);
+}
+
 Math.clamp = function (value, min, max) {
     if (min > max) {
         console.error("Min should be less than or equal to max!",
