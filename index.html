@@ -39,6 +39,7 @@
             	player.setSize( window.innerWidth, window.innerHeight );
             	player.play();
             	document.body.appendChild( player.dom );
+                player.dom.firstChild.id = "cvsDisplay";
 
             	window.addEventListener( 'resize', function () {
 

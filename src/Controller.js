@@ -56,10 +56,19 @@ class Controller {
     }
 
     processMouseMove(event) {
+        this.processMouseInput(event);
         if (this.mouse.down) {
-            this.processMouseInput(event);
             if (this.select) {
                 this.moveObject();
+            }
+        }
+        else {
+            this.mouse.over = this.getObjectAtMousePos();
+            if (this.mouse.over) {
+                this.changeCursor("move");
+            }
+            else {
+                this.changeCursor("auto");
             }
         }
     }
@@ -69,11 +78,15 @@ class Controller {
         this.select = undefined;
     }
 
-    selectObject() {
+    getObjectAtMousePos() {
         //2023-12-21: copied from https://stackoverflow.com/a/30871007/2336212
         this.raycaster.setFromCamera(this.mouse, this.camera);
-        this.objects = this.raycaster.intersectObjects(this.scene.children);
-        this.select = this.objects.find(o => o.object.userData.selectable)?.object;
+        let objects = this.raycaster.intersectObjects(this.scene.children);
+        return objects.find(o => o.object.userData.selectable)?.object;
+    }
+
+    selectObject() {
+        this.select = this.getObjectAtMousePos();
         if (this.select) {
             this.origPos = new Vector3(this.select.position);
             this.selectOffset = this.origPos.sub(this.getMouseWorld(this.mouse));
@@ -107,6 +120,10 @@ class Controller {
         pos.copy(this.camera.position).add(vec);
 
         return pos;
+    }
+
+    changeCursor(cursorStyle) {
+        $("cvsDisplay").style.cursor = cursorStyle;
     }
 
     copy(obj) {
