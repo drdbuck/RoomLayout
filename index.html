@@ -62,10 +62,10 @@
 
                     var controller = new Controller(player.camera, player.scene);
                     window.controller = controller;
-                    input.key.down.add(controller.processInput);
-                    input.mouse.down.add(controller.processMouseDown);
-                    input.mouse.move.add(controller.processMouseMove);
-                    input.mouse.up.add(controller.processMouseUp);
+                    input.key.down.add((s,e)=>controller.processInput(s,e));
+                    input.mouse.down.add((s,e)=>controller.processMouseDown(s,e));
+                    input.mouse.move.add((s,e)=>controller.processMouseMove(s,e));
+                    input.mouse.up.add((s,e)=>controller.processMouseUp(s,e));
 
                 });
             } );

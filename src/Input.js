@@ -39,7 +39,7 @@ class Input {
     processMouseDown(event) {
         this.processMouseInput(event);
         this.state.mouse.lmbDown = true;
-        this.state.mouse.posStart = this.state.mouse.pos.copy();
+        this.state.mouse.posStart.copy(this.state.mouse.pos);
         this.mouse.down.run(this.state, event);
     }
     
