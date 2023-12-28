@@ -24,7 +24,7 @@ function isInteger(n) { return isNumber(n) && Math.floor(n) === n; }
 
 Math.clamp = function (value, min, max) {
     if (min > max) {
-        reportInternalError(false, "Min should be less than or equal to max!",
+        console.error("Min should be less than or equal to max!",
             "min:", min,
             "max:", max
         );
@@ -106,7 +106,7 @@ Array.prototype.remove = function (value) {
  * */
 function randomRange(min, max) {
     if (min > max) {
-        reportInternalError(false, "Min should be less than or equal to max!",
+        console.error("Min should be less than or equal to max!",
             "min:", min,
             "max:", max
         );
@@ -119,7 +119,7 @@ function randomRange(min, max) {
  * */
 function randomItem(array) {
     if (!Array.isArray(array)) {
-        reportInternalError(false, "Value must be an array!", array);
+        console.error("Value must be an array!", array);
     }
     let index = randomRange(0, array.length - 1);
     return array[index];
@@ -130,7 +130,7 @@ function randomItem(array) {
  * */
 function randomIndex(array) {
     if (!Array.isArray(array)) {
-        reportInternalError(false, "Value must be an array!", array);
+        console.error("Value must be an array!", array);
     }
     let index = randomRange(0, array.length - 1);
     return index;
@@ -195,7 +195,7 @@ function validateIndexBounds(value, max, name) {
     name ??= "variable";
     let min = 0;
     if (value < min || max <= value) {
-        reportInternalError(false, `${name} is out of bounds [${min}, ${max - 1}]!:`, value);
+        console.error(`${name} is out of bounds [${min}, ${max - 1}]!:`, value);
         return false;
     }
     return true;
