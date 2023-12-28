@@ -51,7 +51,7 @@ class Controller {
     processMouseDown(event) {
         this.processMouseInput(event);
         this.mouse.down = true;
-        this.origMouse = this.copy(this.mouse);
+        this.origMouse = copy(this.mouse);
         this.selectObject();
     }
 
@@ -124,9 +124,5 @@ class Controller {
 
     changeCursor(cursorStyle) {
         $("cvsDisplay").style.cursor = cursorStyle;
-    }
-
-    copy(obj) {
-        return JSON.parse(JSON.stringify(obj));
     }
 }

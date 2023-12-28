@@ -166,6 +166,10 @@ function removeDuplicates(array, ignoreEmpty = true) {
     return array;
 }
 
+function copy(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
+
 function copyObject(obj, stringify) {
     return JSON.parse(JSON.stringify(obj, stringify));
 }
