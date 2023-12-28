@@ -2,14 +2,14 @@ var APP = {
 
 	Player: function () {
 
-		var renderer = new THREE.WebGLRenderer(
+		var renderer = new WebGLRenderer(
 			{
 				antialias: true
 			}
 		);
 		renderer.setPixelRatio(window.devicePixelRatio); // TODO: Use player.setPixelRatio()
 
-		var loader = new THREE.ObjectLoader();
+		var loader = new ObjectLoader();
 		var camera, scene;
 
 		var vrButton = VRButton.createButton(renderer); // eslint-disable-line no-undef
@@ -273,5 +273,3 @@ var APP = {
 	}
 
 };
-
-export { APP };

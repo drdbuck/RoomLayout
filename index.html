@@ -24,18 +24,15 @@
         </style>
     </head>
     <body ontouchstart="">
+        <script src="src/Utility.js" type="text/javascript"></script>
+        <script src="js/app.js" type="text/javascript"></script>
+        <script src="js/three.module.js" type="text/javascript"></script>
+        <script src="src/Controller.js" type="text/javascript"></script>
         <script type="module">
 
-			import * as THREE from './js/three.module.js';
-            import { APP } from './js/app.js';
-            import { VRButton } from './js/VRButton.js';
-            import {Controller} from './src/Controller.js';
-
-            window.THREE = THREE; // Used by APP Scripts.
-            window.VRButton = VRButton; // Used by APP Scripts.
-
-            var loader = new THREE.FileLoader();
+            var loader = new FileLoader();
 			var player = new APP.Player();
+
             loader.load( 'app.json', function ( text ) {
 
             	player.load( JSON.parse( text ) );
@@ -50,7 +47,7 @@
             	} );
                 
                 loader.load( 'scene.json', function ( text ) {
-                    var objloader = new THREE.ObjectLoader();
+                    var objloader = new ObjectLoader();
                     player.setScene(objloader.parse( JSON.parse(  text) ));
             
                     var controller = new Controller(player.camera, player.scene);
@@ -62,7 +59,6 @@
 
                 });
             } );
-        </script>
-        <script src="src/Utility.js" type="text/javascript"></script>
+        </script>        
     </body>
 </html>

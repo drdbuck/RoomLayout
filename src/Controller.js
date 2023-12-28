@@ -1,6 +1,4 @@
 "use strict";
-import { Raycaster } from "../js/three.module.js";
-import { Vector3 } from "../js/three.module.js";
 
 class Controller {
     constructor(camera, scene) {
@@ -115,4 +113,3 @@ class Controller {
         return JSON.parse(JSON.stringify(obj));
     }
 }
-export { Controller };
