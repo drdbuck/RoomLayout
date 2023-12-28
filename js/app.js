@@ -12,8 +12,6 @@ var APP = {
 		var loader = new ObjectLoader();
 		var camera, scene;
 
-		var vrButton = VRButton.createButton(renderer); // eslint-disable-line no-undef
-
 		var events = {};
 
 		var dom = document.createElement('div');
@@ -182,8 +180,6 @@ var APP = {
 
 		this.play = function () {
 
-			if (renderer.xr.enabled) dom.append(vrButton);
-
 			startTime = prevTime = performance.now();
 
 			document.addEventListener('keydown', onKeyDown);
@@ -199,9 +195,6 @@ var APP = {
 		};
 
 		this.stop = function () {
-
-			if (renderer.xr.enabled)
-				vrButton.remove();
 
 			document.removeEventListener('keydown', onKeyDown);
 			document.removeEventListener('keyup', onKeyUp);
