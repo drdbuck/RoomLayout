@@ -56,4 +56,8 @@ class Delegate {
             this.delegateList.splice(index, 1);
         }
     }
+
+    clear() {
+        this.delegateList = [];
+    }
 }

@@ -62,19 +62,12 @@
                     window.onmousemove=input.processMouseMove.bind(input);
                     window.onmouseup=input.processMouseUp.bind(input);
 
-                    // var controller = new Controller(player.camera, player.scene);
+                    var controllerEdit = new Controller(player.camera, player.scene);
+                    window.controllerEdit = controllerEdit;
                     var object = player.scene.children[0];
-                    var controller = new FirstPersonControls(player.camera, object, player.dom);
-                    window.controller = controller;
-                    input.key.down.add(controller._onKeyDown);
-                    input.key.up.add(controller._onKeyUp);
-                    input.mouse.down.add(controller._onPointerDown);
-                    input.mouse.move.add(controller._onPointerMove);
-                    input.mouse.up.add(controller._onPointerUp);
-                    // input.key.down.add(controller.processInput.bind(controller));
-                    // input.mouse.down.add(controller.processMouseDown.bind(controller));
-                    // input.mouse.move.add(controller.processMouseMove.bind(controller));
-                    // input.mouse.up.add(controller.processMouseUp.bind(controller));
+                    var controllerFPS = new FirstPersonControls(player.camera, object, player.dom);
+                    window.controllerFPS = controllerFPS;
+
                     window.looping = false;
                     var loop;
                     var lastTime = 0;
@@ -90,24 +83,79 @@
                             delta = 0;
                         }
                         delta /= 1000;
-                        controller.update(delta);
+                        controllerFPS.update(delta);
                         if (window.looping){
                         window.requestAnimationFrame(loop);
                         }
                         lastTime = now;
                     }
                     window.loop = loop;
-                    
-                    // input.key.down.add(controller._update);
-                    input.key.down.add((s,e)=>{
-                        switch(e.keyCode){
-                            //esc
-                            case 27: window.looping = false; break;
-                            //enter
-                            case 13: window.looping = true; loop(); break;
+
+                    let simulate = (on)=>{
+                        if (on){
+                            if (!window.looping){
+                                window.looping = true;
+                                loop();
+                            }
                         }
-                    });
-                    // loop();
+                        else{
+                            window.looping = false;
+                        }
+                    };
+
+                    let switchMode;
+                    
+                    let registerKeyBindings = (edit, play)=>{
+                        input.clearAllDelegates();
+
+                        if (edit){
+                            input.key.down.add(controllerEdit.processInput.bind(controllerEdit));
+                            input.mouse.down.add(controllerEdit.processMouseDown.bind(controllerEdit));
+                            input.mouse.move.add(controllerEdit.processMouseMove.bind(controllerEdit));
+                            input.mouse.up.add(controllerEdit.processMouseUp.bind(controllerEdit));
+
+                            window.controller = controllerEdit;
+                        }
+                        if (play){                            
+                            input.key.down.add(controllerFPS._onKeyDown);
+                            input.key.up.add(controllerFPS._onKeyUp);
+                            input.mouse.down.add(controllerFPS._onPointerDown);
+                            input.mouse.move.add(controllerFPS._onPointerMove);
+                            input.mouse.up.add(controllerFPS._onPointerUp);
+
+                            window.controller = controllerFPS;
+                        }
+
+                        input.key.down.add((s,e)=>{
+                            switch(e.keyCode){
+                                //esc
+                                case 27: switchMode(true); break;
+                                //enter
+                                case 13: switchMode(false); break;
+                                //tab
+                                case 9:
+                                    switchMode(!inEditMode);
+                                    e.preventDefault();
+                                    break;
+                                //space
+                                case 32:
+                                    switchMode(!inEditMode);
+                                    e.preventDefault();
+                                    break;
+
+                            }
+                        });
+                    };
+
+                    let inEditMode = true;
+                    switchMode = (editMode = !inEditMode)=>{
+                        inEditMode = editMode;
+                        registerKeyBindings(editMode, !editMode);
+                        simulate(!editMode);
+                    };
+                    window.switchMode = switchMode;
+
+                    switchMode(true);
 
                 });
             } );

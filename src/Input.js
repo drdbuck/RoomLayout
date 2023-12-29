@@ -75,4 +75,17 @@ class Input {
         //
         this.key.up.run(this.state, event);
     }
+
+
+
+    clearAllDelegates() {
+        this.mouse.move.clear();
+        this.mouse.down.clear();
+        this.mouse.hold.clear();
+        this.mouse.up.clear();
+        
+        this.key.down.clear();
+        this.key.hold.clear();
+        this.key.up.clear();
+    }
 }
