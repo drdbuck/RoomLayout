@@ -1,12 +1,9 @@
-import {
-	MathUtils,
-	Spherical,
-	Vector3
-} from 'three';
+"use strict";
+//2023-12-28: copied from https://raw.githubusercontent.com/mrdoob/three.js/master/examples/jsm/controls/FirstPersonControls.js
 
 const _lookDirection = new Vector3();
 const _spherical = new Spherical();
-const _target = new Vector3();
+// const _target = new Vector3();
 
 class FirstPersonControls {
 
@@ -76,7 +73,7 @@ class FirstPersonControls {
 
 		};
 
-		this.onPointerDown = function ( event ) {
+		this.onPointerDown = function (state, event ) {
 
 			if ( this.domElement !== document ) {
 
@@ -99,7 +96,7 @@ class FirstPersonControls {
 
 		};
 
-		this.onPointerUp = function ( event ) {
+		this.onPointerUp = function (state, event ) {
 
 			if ( this.activeLook ) {
 
@@ -116,7 +113,7 @@ class FirstPersonControls {
 
 		};
 
-		this.onPointerMove = function ( event ) {
+		this.onPointerMove = function (state, event ) {
 
 			if ( this.domElement === document ) {
 
@@ -132,8 +129,7 @@ class FirstPersonControls {
 
 		};
 
-		this.onKeyDown = function ( event ) {
-
+		this.onKeyDown = function (state, event ) {
 			switch ( event.code ) {
 
 				case 'ArrowUp':
@@ -155,7 +151,7 @@ class FirstPersonControls {
 
 		};
 
-		this.onKeyUp = function ( event ) {
+		this.onKeyUp = function (state, event ) {
 
 			switch ( event.code ) {
 
@@ -270,31 +266,31 @@ class FirstPersonControls {
 
 		}();
 
-		this.dispose = function () {
+		// this.dispose = function () {
 
-			this.domElement.removeEventListener( 'contextmenu', contextmenu );
-			this.domElement.removeEventListener( 'pointerdown', _onPointerDown );
-			this.domElement.removeEventListener( 'pointermove', _onPointerMove );
-			this.domElement.removeEventListener( 'pointerup', _onPointerUp );
+		// 	this.domElement.removeEventListener( 'contextmenu', contextmenu );
+		// 	this.domElement.removeEventListener( 'pointerdown', _onPointerDown );
+		// 	this.domElement.removeEventListener( 'pointermove', _onPointerMove );
+		// 	this.domElement.removeEventListener( 'pointerup', _onPointerUp );
 
-			window.removeEventListener( 'keydown', _onKeyDown );
-			window.removeEventListener( 'keyup', _onKeyUp );
+		// 	window.removeEventListener( 'keydown', _onKeyDown );
+		// 	window.removeEventListener( 'keyup', _onKeyUp );
 
-		};
+		// };
 
-		const _onPointerMove = this.onPointerMove.bind( this );
-		const _onPointerDown = this.onPointerDown.bind( this );
-		const _onPointerUp = this.onPointerUp.bind( this );
-		const _onKeyDown = this.onKeyDown.bind( this );
-		const _onKeyUp = this.onKeyUp.bind( this );
+		this._onPointerMove = this.onPointerMove.bind( this );
+		this._onPointerDown = this.onPointerDown.bind( this );
+		this._onPointerUp = this.onPointerUp.bind( this );
+		this._onKeyDown = this.onKeyDown.bind( this );
+		this._onKeyUp = this.onKeyUp.bind( this );
 
-		this.domElement.addEventListener( 'contextmenu', contextmenu );
-		this.domElement.addEventListener( 'pointerdown', _onPointerDown );
-		this.domElement.addEventListener( 'pointermove', _onPointerMove );
-		this.domElement.addEventListener( 'pointerup', _onPointerUp );
+		// this.domElement.addEventListener( 'contextmenu', contextmenu );
+		// this.domElement.addEventListener( 'pointerdown', _onPointerDown );
+		// this.domElement.addEventListener( 'pointermove', _onPointerMove );
+		// this.domElement.addEventListener( 'pointerup', _onPointerUp );
 
-		window.addEventListener( 'keydown', _onKeyDown );
-		window.addEventListener( 'keyup', _onKeyUp );
+		// window.addEventListener( 'keydown', _onKeyDown );
+		// window.addEventListener( 'keyup', _onKeyUp );
 
 		function setOrientation( controls ) {
 
@@ -321,5 +317,3 @@ function contextmenu( event ) {
 	event.preventDefault();
 
 }
-
-export { FirstPersonControls };

@@ -30,6 +30,7 @@
         <script src="js/app.js" type="text/javascript"></script>
         <script src="js/three.module.js" type="text/javascript"></script>
         <script src="src/Controller.js" type="text/javascript"></script>
+        <script src="src/FirstPersonControls.js" type="text/javascript"></script>
         <script type="module">
 
             var loader = new FileLoader();
@@ -56,16 +57,24 @@
                     var input = new Input();
                     window.input = input;
                     window.onkeydown=input.processKeyDown.bind(input);
+                    window.onkeyup=input.processKeyUp.bind(input);
                     window.onmousedown=input.processMouseDown.bind(input);
                     window.onmousemove=input.processMouseMove.bind(input);
                     window.onmouseup=input.processMouseUp.bind(input);
 
-                    var controller = new Controller(player.camera, player.scene);
+                    // var controller = new Controller(player.camera, player.scene);
+                    var object = player.scene.children[0];
+                    var controller = new FirstPersonControls(object, player.dom);
                     window.controller = controller;
-                    input.key.down.add(controller.processInput.bind(controller));
-                    input.mouse.down.add(controller.processMouseDown.bind(controller));
-                    input.mouse.move.add(controller.processMouseMove.bind(controller));
-                    input.mouse.up.add(controller.processMouseUp.bind(controller));
+                    input.key.down.add(controller._onKeyDown);
+                    input.key.up.add(controller._onKeyUp);
+                    input.mouse.down.add(controller._onPointerDown);
+                    input.mouse.move.add(controller._onPointerMove);
+                    input.mouse.up.add(controller._onPointerUp);
+                    // input.key.down.add(controller.processInput.bind(controller));
+                    // input.mouse.down.add(controller.processMouseDown.bind(controller));
+                    // input.mouse.move.add(controller.processMouseMove.bind(controller));
+                    // input.mouse.up.add(controller.processMouseUp.bind(controller));
 
                 });
             } );
