@@ -13,6 +13,8 @@ class FirstPersonControls {
 		this.object = object;
 		this.domElement = domElement;
 
+        this.camera.position.copy(this.object.position);
+
 		// API
 
 		this.enabled = true;

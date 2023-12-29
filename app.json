@@ -20,7 +20,7 @@
 			"type": "PerspectiveCamera",
 			"name": "Camera",
 			"layers": 1,
-			"matrix": [1,0,0,0,0,0,-1,0,0,1,0,0,0,10,0,1],
+			"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,1,4,1],
 			"up": [0,1,0],
 			"fov": 50,
 			"zoom": 1,
