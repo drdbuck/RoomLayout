@@ -282,7 +282,9 @@ class FirstPersonControls {
 		this._onPointerDown = this.onPointerDown.bind( this );
 		this._onPointerUp = this.onPointerUp.bind( this );
 		this._onKeyDown = this.onKeyDown.bind( this );
-		this._onKeyUp = this.onKeyUp.bind( this );
+        this._onKeyUp = this.onKeyUp.bind(this);
+
+        this._update = this.update.bind(this);
 
 		// this.domElement.addEventListener( 'contextmenu', contextmenu );
 		// this.domElement.addEventListener( 'pointerdown', _onPointerDown );
