@@ -72,6 +72,8 @@
                     var loop;
                     var lastTime = 0;
                     loop = (now)=>{
+                        if (!looping){ return; }
+
                         if (!(lastTime > 0)){
                             lastTime = now;
                         }
@@ -84,9 +86,9 @@
                         }
                         delta /= 1000;
                         controllerFPS.update(delta);
-                        if (window.looping){
+
                         window.requestAnimationFrame(loop);
-                        }
+
                         lastTime = now;
                     }
                     window.loop = loop;
@@ -94,6 +96,7 @@
                     let simulate = (on)=>{
                         if (on){
                             if (!window.looping){
+                                lastTime = 0;
                                 window.looping = true;
                                 loop();
                             }
@@ -157,6 +160,9 @@
                         simulate(!editMode);
                         player.camera.quaternion.copy(window.controller.save.quaternion);
                         player.camera.position.copy(window.controller.save.position);
+                        if (!editMode){
+                            controllerFPS._onPointerMove();
+                        }
                     };
                     window.switchMode = switchMode;
 

@@ -120,6 +120,12 @@ class FirstPersonControls {
 		};
 
 		this.onPointerMove = function (state, event ) {
+            if (!event) {
+                event = {
+                    pageX: this.viewHalfX,
+                    pageY: this.viewHalfY,
+                };
+            }
 
 			if ( this.domElement === document ) {
 
