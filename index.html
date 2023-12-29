@@ -55,17 +55,17 @@
             
                     var input = new Input();
                     window.input = input;
-                    window.onkeydown=(e)=>input.processKeyDown(e);
-                    window.onmousedown=(e)=>input.processMouseDown(e);
-                    window.onmousemove=(e)=>input.processMouseMove(e);
-                    window.onmouseup=(e)=>input.processMouseUp(e);
+                    window.onkeydown=input.processKeyDown.bind(input);
+                    window.onmousedown=input.processMouseDown.bind(input);
+                    window.onmousemove=input.processMouseMove.bind(input);
+                    window.onmouseup=input.processMouseUp.bind(input);
 
                     var controller = new Controller(player.camera, player.scene);
                     window.controller = controller;
-                    input.key.down.add((s,e)=>controller.processInput(s,e));
-                    input.mouse.down.add((s,e)=>controller.processMouseDown(s,e));
-                    input.mouse.move.add((s,e)=>controller.processMouseMove(s,e));
-                    input.mouse.up.add((s,e)=>controller.processMouseUp(s,e));
+                    input.key.down.add(controller.processInput.bind(controller));
+                    input.mouse.down.add(controller.processMouseDown.bind(controller));
+                    input.mouse.move.add(controller.processMouseMove.bind(controller));
+                    input.mouse.up.add(controller.processMouseUp.bind(controller));
 
                 });
             } );
