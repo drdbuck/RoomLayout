@@ -75,7 +75,7 @@
                     // input.mouse.down.add(controller.processMouseDown.bind(controller));
                     // input.mouse.move.add(controller.processMouseMove.bind(controller));
                     // input.mouse.up.add(controller.processMouseUp.bind(controller));
-                    window.looping = true;
+                    window.looping = false;
                     var loop;
                     var lastTime = 0;
                     loop = (now)=>{
@@ -99,8 +99,13 @@
                     window.loop = loop;
                     
                     // input.key.down.add(controller._update);
-                    input.key.up.add((s,e)=>{
-                        loop();
+                    input.key.down.add((s,e)=>{
+                        switch(e.keyCode){
+                            //esc
+                            case 27: window.looping = false; break;
+                            //enter
+                            case 13: window.looping = true; loop(); break;
+                        }
                     });
                     // loop();
 
