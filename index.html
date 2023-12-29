@@ -64,7 +64,7 @@
 
                     // var controller = new Controller(player.camera, player.scene);
                     var object = player.scene.children[0];
-                    var controller = new FirstPersonControls(player.camera, player.dom);
+                    var controller = new FirstPersonControls(player.camera, object, player.dom);
                     window.controller = controller;
                     input.key.down.add(controller._onKeyDown);
                     input.key.up.add(controller._onKeyUp);

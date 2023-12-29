@@ -7,8 +7,9 @@ const _spherical = new Spherical();
 
 class FirstPersonControls {
 
-	constructor( object, domElement ) {
+	constructor( camera, object, domElement ) {
 
+        this.camera = camera;
 		this.object = object;
 		this.domElement = domElement;
 
@@ -17,7 +18,7 @@ class FirstPersonControls {
 		this.enabled = true;
 
 		this.movementSpeed = 1.0;
-		this.lookSpeed = 0.005;
+		this.lookSpeed = 0.1;
 
 		this.lookVertical = true;
 		this.autoForward = false;
@@ -186,7 +187,10 @@ class FirstPersonControls {
 
 			}
 
-			this.object.lookAt( _target );
+			this.camera.lookAt( _target );
+            this.object.quaternion.copy(this.camera.quaternion);
+            this.object.rotation.x = 0;
+            this.object.rotation.z = 0;
 
 			setOrientation( this );
 
@@ -225,6 +229,7 @@ class FirstPersonControls {
 
 				if ( this.moveUp ) this.object.translateY( actualMoveSpeed );
 				if ( this.moveDown ) this.object.translateY( - actualMoveSpeed );
+                this.camera.position.copy(this.object.position);
 
 				let actualLookSpeed = delta * this.lookSpeed;
 
@@ -256,11 +261,14 @@ class FirstPersonControls {
 
 				}
 
-				const position = this.object.position;
+				const position = this.camera.position;
 
 				targetPosition.setFromSphericalCoords( 1, phi, theta ).add( position );
 
-				this.object.lookAt( targetPosition );
+                this.camera.lookAt(targetPosition);
+                this.object.quaternion.copy(this.camera.quaternion);
+                this.object.rotation.x = 0;
+                this.object.rotation.z = 0;
 
 			};
 
