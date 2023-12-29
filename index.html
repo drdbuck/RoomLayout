@@ -150,8 +150,13 @@
                     let inEditMode = true;
                     switchMode = (editMode = !inEditMode)=>{
                         inEditMode = editMode;
+                        window.controller = (editMode)
+                            ? controllerEdit
+                            : controllerFPS;
                         registerKeyBindings(editMode, !editMode);
                         simulate(!editMode);
+                        player.camera.quaternion.copy(window.controller.save.quaternion);
+                        player.camera.position.copy(window.controller.save.position);
                     };
                     window.switchMode = switchMode;
 

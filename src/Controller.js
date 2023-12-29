@@ -7,6 +7,11 @@ class Controller {
         this.speed = 1;
         this.mouse = {};
         this.raycaster = new Raycaster();
+        
+        this.save = {
+            quaternion: new Quaternion(-0.7,0,0,0.7),
+            position: new Vector3(0,10,0),
+        };
     }
 
     processInput(state, event) {
@@ -34,8 +39,11 @@ class Controller {
                 break;
             default: break;
         }
-        //if move the camera, interrupt mouse action
+        //if move the camera,
         if (moveCamera) {
+            //save position
+            this.save.position.copy(this.camera.position);
+            //interrupt mouse action
             if (this.select) {
                 this.mouse.down = false;
             }

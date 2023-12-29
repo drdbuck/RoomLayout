@@ -13,7 +13,10 @@ class FirstPersonControls {
 		this.object = object;
 		this.domElement = domElement;
 
-        this.camera.position.copy(this.object.position);
+        this.save = {
+            quaternion: this.camera.quaternion.clone(),
+            position: this.object.position.clone(),
+        };
 
 		// API
 
@@ -193,6 +196,7 @@ class FirstPersonControls {
             this.object.quaternion.copy(this.camera.quaternion);
             this.object.rotation.x = 0;
             this.object.rotation.z = 0;
+            this.save.quaternion.copy(this.camera.quaternion);
 
 			setOrientation( this );
 
@@ -232,6 +236,7 @@ class FirstPersonControls {
 				if ( this.moveUp ) this.object.translateY( actualMoveSpeed );
 				if ( this.moveDown ) this.object.translateY( - actualMoveSpeed );
                 this.camera.position.copy(this.object.position);
+                this.save.position.copy(this.object.position);
 
 				let actualLookSpeed = delta * this.lookSpeed;
 
@@ -271,6 +276,7 @@ class FirstPersonControls {
                 this.object.quaternion.copy(this.camera.quaternion);
                 this.object.rotation.x = 0;
                 this.object.rotation.z = 0;
+                this.save.quaternion.copy(this.camera.quaternion);
 
 			};
 
