@@ -77,11 +77,24 @@
                     // input.mouse.up.add(controller.processMouseUp.bind(controller));
                     window.looping = true;
                     var loop;
-                    loop = ()=>{
-                        controller.update(0.1);
+                    var lastTime = 0;
+                    loop = (now)=>{
+                        if (!(lastTime > 0)){
+                            lastTime = now;
+                        }
+                        if (!(now > 0)){
+                            now = lastTime;
+                        }
+                        var delta = now - lastTime;
+                        if (!(delta > 0)){
+                            delta = 0;
+                        }
+                        delta /= 1000;
+                        controller.update(delta);
                         if (window.looping){
                         window.requestAnimationFrame(loop);
                         }
+                        lastTime = now;
                     }
                     window.loop = loop;
                     
