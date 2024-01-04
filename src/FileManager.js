@@ -14,16 +14,16 @@ class FileManager {
         this.dropPanel = dropPanel;
 
         //bind responder functions
-        this.preventDefaults.bind(this);
-        this.handleDrop.bind(this);
+        const _preventDefaults = this.preventDefaults.bind(this);
+        const _handleDrop = this.handleDrop.bind(this);
         
         //Drop image event handlers// Prevent default drag behaviors
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropPanel.addEventListener(eventName, this.preventDefaults, false);
-            document.body.addEventListener(eventName, this.preventDefaults, false);
+            dropPanel.addEventListener(eventName, _preventDefaults, false);
+            document.body.addEventListener(eventName, _preventDefaults, false);
         })
-        dropPanel.addEventListener('drop', this.handleDrop, false);
+        dropPanel.addEventListener('drop', _handleDrop, false);
         
         //Delegate initialization
         this.onImageUploaded = new Delegate();//param: image
@@ -39,7 +39,7 @@ class FileManager {
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
         let dt = e.dataTransfer;
         let files = dt.files;
-        handleFiles(files);
+        this.handleFiles(files);
     }
   
     handleFiles(files) {
@@ -50,7 +50,7 @@ class FileManager {
                 this.onImageUploaded.run(file);
             }
             else if (textFileTypes.includes(file.type)) {
-                handleTextFile(file);
+                this.handleTextFile(file);
             }
             else {
                 console.warning("Unknown file type:", file.type, "filename:", file.name);
@@ -78,7 +78,7 @@ class FileManager {
     
     handleTextFile(file) {
         if (file.name.endsWith(".json")){
-            uploadJson(file);
+            this.uploadJson(file);
         }
         else{
             console.warn("Not implemented: handling text file:", file.name, file.type);
