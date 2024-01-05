@@ -42,6 +42,7 @@
             var loader = new FileLoader();
 			var player = new APP.Player();
 
+            //Load empty scene
             loader.load( 'app.json', function ( text ) {
 
             	player.load( JSON.parse( text ) );
@@ -56,10 +57,12 @@
 
             	} );
                 
+                //Load starter scene
                 loader.load( 'scene.json', function ( text ) {
                     var objloader = new ObjectLoader();
                     player.setScene(objloader.parse( JSON.parse(  text) ));
             
+                    //Input init
                     var input = new Input();
                     window.input = input;
                     window.onkeydown=input.processKeyDown.bind(input);
@@ -68,12 +71,14 @@
                     window.onmousemove=input.processMouseMove.bind(input);
                     window.onmouseup=input.processMouseUp.bind(input);
 
+                    //Controller init
                     var controllerEdit = new Controller(player.camera, player.scene);
                     window.controllerEdit = controllerEdit;
                     var object = player.scene.children[0];
                     var controllerFPS = new FirstPersonControls(player.camera, object, player.dom);
                     window.controllerFPS = controllerFPS;
 
+                    //
                     window.looping = false;
                     var loop;
                     var lastTime = 0;
@@ -173,6 +178,17 @@
                     window.switchMode = switchMode;
 
                     switchMode(true);
+
+                    //Upload image to blue box
+                    var bluebox = player.scene.children[1];
+                    const materialImage = player.scene.children[2].material.clone();
+                    
+                    flm.onImageUploaded.add((image)=>{
+                        bluebox.material = materialImage;
+                        bluebox.material.aoMap.source = image.icon;
+                        bluebox.material.lightMap.source = image.icon;
+                        bluebox.material.map.source = image.icon;
+                    });
 
                 });
             } );
