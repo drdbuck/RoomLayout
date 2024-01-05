@@ -47,7 +47,7 @@ class FileManager {
         files = [...files];
         files.forEach((file) => {
             if (imageFileTypes.includes(file.type)) {
-                this.onImageUploaded.run(file);
+                this.uploadImage(file);
             }
             else if (textFileTypes.includes(file.type)) {
                 this.handleTextFile(file);
@@ -61,19 +61,25 @@ class FileManager {
     uploadImage(file){
         let reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onloadend = function() {
+        let _uploadImage = this._uploadImage.bind(this);
+        reader.onloadend = (progressEvent) => {
+            // console.log("result,", progressEvent);
+            let imageURL = progressEvent.currentTarget.result;  
+            _uploadImage(file, imageURL);
+        };
+    }
+    _uploadImage(file, imageURL) {
             //Get values
             let imageName = file.name.split(".")[0];
             //Create object
             let image = {
                 name: imageName,
-                imageURL: reader.result,
+                imageURL: imageURL,
                 icon: new Image(),
             }
             image.icon.src = image.imageURL;
             //Run delegate
             this.onImageUploaded.run(image);
-        }
     }
     
     handleTextFile(file) {
