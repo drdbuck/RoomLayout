@@ -179,19 +179,24 @@
 
                     switchMode(true);
 
-                    //Upload image to blue box
-                    var bluebox = player.scene.children[1];
-                    const materialImage = player.scene.children[2].material.clone();
+                    //Upload image to new box
+                    const materialImage = player.scene.children[2].material;
                     
                     flm.onImageUploaded.add((image)=>{
-                        bluebox.material = materialImage;
-                        let texture = new TextureLoader().load(
+                        let newbox = new Mesh(
+                            new BoxGeometry(),
+                            materialImage.clone()
+                        );
+                        newbox.userData ??= {};
+                        newbox.userData.selectable = true;
+                        player.scene.add(newbox);
+                        new TextureLoader().load(
                             image.imageURL,
                             (texture) =>{
-                                bluebox.material.aoMap = texture;
-                                bluebox.material.lightMap = texture;
-                                bluebox.material.map = texture;
-                                bluebox.material.needsUpdate = true;
+                                newbox.material.aoMap = texture;
+                                newbox.material.lightMap = texture;
+                                newbox.material.map = texture;
+                                newbox.material.needsUpdate = true;
                             }
                         );
                     });
