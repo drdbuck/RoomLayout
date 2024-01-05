@@ -1,5 +1,10 @@
 "use strict";
 
+const mouseDragStringify = [
+    "x",
+    "y",
+];
+
 class Controller {
     constructor(camera, scene) {
         this.camera = camera;
@@ -59,7 +64,7 @@ class Controller {
     processMouseDown(state, event) {
         this.processMouseInput(event);
         this.mouse.down = true;
-        this.origMouse = copy(this.mouse);
+        this.origMouse = copyObject(this.mouse, mouseDragStringify);
         this.selectObject();
     }
 
