@@ -72,12 +72,7 @@ class FileManager {
             //Get values
             let imageName = file.name.split(".")[0];
             //Create object
-            let image = {
-                name: imageName,
-                imageURL: imageURL,
-                icon: new Image(),
-            }
-            image.icon.src = image.imageURL;
+            let image = createImage(imageName, imageURL);
             //Run delegate
             this.onImageUploaded.run(image);
     }

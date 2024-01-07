@@ -67,7 +67,7 @@ loader.load('app.json', function (text) {
             newbox.userData.selectable = true;
             player.scene.add(newbox);
             new TextureLoader().load(
-                image.imageURL,
+                image.src,
                 (texture) => {
                     newbox.material.aoMap = texture;
                     newbox.material.lightMap = texture;

@@ -166,6 +166,13 @@ function removeDuplicates(array, ignoreEmpty = true) {
     return array;
 }
 
+function createImage(name, url) {
+    let image = new Image();
+    image.name = name;
+    image.src = url;
+    return image;
+}
+
 function copy(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
