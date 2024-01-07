@@ -1,11 +1,12 @@
 "use strict";
 
 class Room {
-    constructor() {
-        this._width = 11;
-        this._height = 12;
+    constructor(width, length, height) {
+        this._width = width ?? 11;
+        this._length = length ?? 12;
+        this._height = height ?? 9;
         this.units = "feet";
-        this.onSizeChanged = new Delegate("width", "height");
+        this.onSizeChanged = new Delegate("width", "length", "height");
     }
 
     get width() {
@@ -13,7 +14,15 @@ class Room {
     }
     set width(value) {
         this._width = value;
-        this.onSizeChanged.run(this._width, this._height);
+        this.onSizeChanged.run(this._width, this._length, this._height);
+    }
+
+    get length() {
+        return this._length;
+    }
+    set length(value) {
+        this._length = value;
+        this.onSizeChanged.run(this._width, this._length, this._height);
     }
 
     get height() {
@@ -21,6 +30,6 @@ class Room {
     }
     set height(value) {
         this._height = value;
-        this.onSizeChanged.run(this._width, this._height);
+        this.onSizeChanged.run(this._width, this._length, this._height);
     }
 }
