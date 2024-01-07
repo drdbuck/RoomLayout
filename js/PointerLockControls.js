@@ -1,11 +1,7 @@
-import {
-	Euler,
-	EventDispatcher,
-	Vector3
-} from 'three';
+//2024-01-07: copied from https://github.com/mrdoob/three.js/blob/master/examples/jsm/controls/PointerLockControls.js
 
 const _euler = new Euler( 0, 0, 0, 'YXZ' );
-const _vector = new Vector3();
+const _vectorPLC = new Vector3();
 
 const _changeEvent = { type: 'change' };
 const _lockEvent = { type: 'lock' };
@@ -80,11 +76,11 @@ class PointerLockControls extends EventDispatcher {
 
 		const camera = this.camera;
 
-		_vector.setFromMatrixColumn( camera.matrix, 0 );
+		_vectorPLC.setFromMatrixColumn( camera.matrix, 0 );
 
-		_vector.crossVectors( camera.up, _vector );
+		_vectorPLC.crossVectors( camera.up, _vectorPLC );
 
-		camera.position.addScaledVector( _vector, distance );
+		camera.position.addScaledVector( _vectorPLC, distance );
 
 	}
 
@@ -92,9 +88,9 @@ class PointerLockControls extends EventDispatcher {
 
 		const camera = this.camera;
 
-		_vector.setFromMatrixColumn( camera.matrix, 0 );
+		_vectorPLC.setFromMatrixColumn( camera.matrix, 0 );
 
-		camera.position.addScaledVector( _vector, distance );
+		camera.position.addScaledVector( _vectorPLC, distance );
 
 	}
 
@@ -158,5 +154,3 @@ function onPointerlockError() {
 	console.error( 'THREE.PointerLockControls: Unable to use Pointer Lock API' );
 
 }
-
-export { PointerLockControls };
