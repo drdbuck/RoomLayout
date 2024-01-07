@@ -58,12 +58,30 @@ class FirstPersonControls {
 
 		// private variables
 
-		let lat = 0;
-		let lon = 0;
+		this. lat = 0;
+		this. lon = 0;
+
+		this. targetPosition = new Vector3();
 
 		//
 
-		this.handleResize = function () {
+
+
+
+		this._onPointerMove = this.onPointerMove.bind(this);
+		this._onPointerDown = this.onPointerDown.bind(this);
+		this._onPointerUp = this.onPointerUp.bind(this);
+		this._onKeyDown = this.onKeyDown.bind(this);
+		this._onKeyUp = this.onKeyUp.bind(this);
+
+		this._update = this.update.bind(this);
+
+		this.handleResize();
+
+		this.setOrientation(this);
+	}
+
+		handleResize () {
 
 			if (this.domElement === document) {
 
@@ -77,9 +95,9 @@ class FirstPersonControls {
 
 			}
 
-		};
+		}
 
-		this.onPointerDown = function (state, event) {
+		onPointerDown (state, event) {
 
 			if (this.domElement !== document) {
 
@@ -100,9 +118,9 @@ class FirstPersonControls {
 
 			this.mouseDragOn = true;
 
-		};
+		}
 
-		this.onPointerUp = function (state, event) {
+		onPointerUp  (state, event) {
 
 			if (this.activeLook) {
 
@@ -117,9 +135,9 @@ class FirstPersonControls {
 
 			this.mouseDragOn = false;
 
-		};
+		}
 
-		this.onPointerMove = function (state, event) {
+		onPointerMove  (state, event) {
 			if (!event) {
 				event = {
 					pageX: this.viewHalfX,
@@ -140,9 +158,10 @@ class FirstPersonControls {
 
 			}
 
-		};
 
-		this.onKeyDown = function (state, event) {
+		}
+
+		onKeyDown  (state, event) {
 			switch (event.code) {
 
 				case 'ArrowUp':
@@ -162,9 +181,9 @@ class FirstPersonControls {
 
 			}
 
-		};
+		}
 
-		this.onKeyUp = function (state, event) {
+		onKeyUp  (state, event) {
 
 			switch (event.code) {
 
@@ -185,9 +204,9 @@ class FirstPersonControls {
 
 			}
 
-		};
+		}
 
-		this.lookAt = function (x, y, z) {
+		lookAt  (x, y, z) {
 
 			if (x.isVector3) {
 
@@ -209,13 +228,11 @@ class FirstPersonControls {
 
 			return this;
 
-		};
+		}
 
-		this.update = function () {
 
-			const targetPosition = new Vector3();
 
-			return function update(delta) {
+			 update(delta) {
 
 				if (this.enabled === false) return;
 
@@ -261,13 +278,13 @@ class FirstPersonControls {
 
 				}
 
-				lon -= this.pointerX * actualLookSpeed;
-				if (this.lookVertical) lat -= this.pointerY * actualLookSpeed * verticalLookRatio;
+				this.lon -= this.pointerX * actualLookSpeed;
+				if (this.lookVertical) this.lat -= this.pointerY * actualLookSpeed * verticalLookRatio;
 
-				lat = Math.max(- 85, Math.min(85, lat));
+				this.lat = Math.max(- 85, Math.min(85, this.lat));
 
-				let phi = MathUtils.degToRad(90 - lat);
-				const theta = MathUtils.degToRad(lon);
+				let phi = MathUtils.degToRad(90 - this.lat);
+				const theta = MathUtils.degToRad(this.lon);
 
 				if (this.constrainVertical) {
 
@@ -277,17 +294,16 @@ class FirstPersonControls {
 
 				const position = this.camera.position;
 
-				targetPosition.setFromSphericalCoords(1, phi, theta).add(position);
+				this.targetPosition.setFromSphericalCoords(1, phi, theta).add(position);
 
-				this.camera.lookAt(targetPosition);
+				this.camera.lookAt(this.targetPosition);
 				this.object.quaternion.copy(this.camera.quaternion);
 				this.object.rotation.x = 0;
 				this.object.rotation.z = 0;
 				this.save.quaternion.copy(this.camera.quaternion);
 
-			};
+			}
 
-		}();
 
 		// this.dispose = function () {
 
@@ -301,14 +317,6 @@ class FirstPersonControls {
 
 		// };
 
-		this._onPointerMove = this.onPointerMove.bind(this);
-		this._onPointerDown = this.onPointerDown.bind(this);
-		this._onPointerUp = this.onPointerUp.bind(this);
-		this._onKeyDown = this.onKeyDown.bind(this);
-		this._onKeyUp = this.onKeyUp.bind(this);
-
-		this._update = this.update.bind(this);
-
 		// this.domElement.addEventListener( 'contextmenu', contextmenu );
 		// this.domElement.addEventListener( 'pointerdown', _onPointerDown );
 		// this.domElement.addEventListener( 'pointermove', _onPointerMove );
@@ -317,23 +325,19 @@ class FirstPersonControls {
 		// window.addEventListener( 'keydown', _onKeyDown );
 		// window.addEventListener( 'keyup', _onKeyUp );
 
-		function setOrientation(controls) {
+		setOrientation(controls) {
 
 			const quaternion = controls.object.quaternion;
 
 			_lookDirection.set(0, 0, - 1).applyQuaternion(quaternion);
 			_spherical.setFromVector3(_lookDirection);
 
-			lat = 90 - MathUtils.radToDeg(_spherical.phi);
-			lon = MathUtils.radToDeg(_spherical.theta);
+			this.lat = 90 - MathUtils.radToDeg(_spherical.phi);
+			this.lon = MathUtils.radToDeg(_spherical.theta);
 
 		}
 
-		this.handleResize();
 
-		setOrientation(this);
-
-	}
 
 }
 
