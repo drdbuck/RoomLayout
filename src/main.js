@@ -12,11 +12,11 @@ let controllerEdit;
 let controllerFPS;
 
 //Input init
-        window.onkeydown = input.processKeyDown.bind(input);
-        window.onkeyup = input.processKeyUp.bind(input);
-        window.onmousedown = input.processMouseDown.bind(input);
-        window.onmousemove = input.processMouseMove.bind(input);
-        window.onmouseup = input.processMouseUp.bind(input);
+window.onkeydown = input.processKeyDown.bind(input);
+window.onkeyup = input.processKeyUp.bind(input);
+window.onmousedown = input.processMouseDown.bind(input);
+window.onmousemove = input.processMouseMove.bind(input);
+window.onmouseup = input.processMouseUp.bind(input);
 
 //Load empty scene
 loader.load('app.json', function (text) {
@@ -49,130 +49,130 @@ loader.load('app.json', function (text) {
             player.dom
         );
 
-            //Upload image to new box
-            const materialImage = player.scene.children[2].material;
+        //Upload image to new box
+        const materialImage = player.scene.children[2].material;
 
-            flm.onImageUploaded.add((image) => {
-                let newbox = new Mesh(
-                    new BoxGeometry(),
-                    materialImage.clone()
-                );
-                newbox.userData ??= {};
-                newbox.userData.selectable = true;
-                player.scene.add(newbox);
-                new TextureLoader().load(
-                    image.imageURL,
-                    (texture) => {
-                        newbox.material.aoMap = texture;
-                        newbox.material.lightMap = texture;
-                        newbox.material.map = texture;
-                        newbox.material.needsUpdate = true;
-                    }
-                );
-            });
+        flm.onImageUploaded.add((image) => {
+            let newbox = new Mesh(
+                new BoxGeometry(),
+                materialImage.clone()
+            );
+            newbox.userData ??= {};
+            newbox.userData.selectable = true;
+            player.scene.add(newbox);
+            new TextureLoader().load(
+                image.imageURL,
+                (texture) => {
+                    newbox.material.aoMap = texture;
+                    newbox.material.lightMap = texture;
+                    newbox.material.map = texture;
+                    newbox.material.needsUpdate = true;
+                }
+            );
+        });
 
-    switchMode(true);
+        switchMode(true);
     });
 });
-        
 
-        //
-        let looping = false;
-        let lastTime = 0;
-        function loop (now) {
-            if (!looping) { return; }
 
-            if (!(lastTime > 0)) {
-                lastTime = now;
-            }
-            if (!(now > 0)) {
-                now = lastTime;
-            }
-            let delta = now - lastTime;
-            if (!(delta > 0)) {
-                delta = 0;
-            }
-            delta /= 1000;
-            controllerFPS.update(delta);
+//
+let looping = false;
+let lastTime = 0;
+function loop(now) {
+    if (!looping) { return; }
 
-            window.requestAnimationFrame(loop);
+    if (!(lastTime > 0)) {
+        lastTime = now;
+    }
+    if (!(now > 0)) {
+        now = lastTime;
+    }
+    let delta = now - lastTime;
+    if (!(delta > 0)) {
+        delta = 0;
+    }
+    delta /= 1000;
+    controllerFPS.update(delta);
 
-            lastTime = now;
+    window.requestAnimationFrame(loop);
+
+    lastTime = now;
+}
+
+function simulate(on) {
+    if (on) {
+        if (!looping) {
+            lastTime = 0;
+            window.looping = true;
+            loop();
         }
+    }
+    else {
+        looping = false;
+    }
+};
 
-        function simulate (on) {
-            if (on) {
-                if (!looping) {
-                    lastTime = 0;
-                    window.looping = true;
-                    loop();
-                }
-            }
-            else {
-                looping = false;
-            }
-        };
+function registerKeyBindings(edit, play) {
+    input.clearAllDelegates();
 
-        function registerKeyBindings (edit, play) {
-            input.clearAllDelegates();
+    if (edit) {
+        input.key.down.add(controllerEdit.processInput.bind(controllerEdit));
+        input.mouse.down.add(controllerEdit.processMouseDown.bind(controllerEdit));
+        input.mouse.move.add(controllerEdit.processMouseMove.bind(controllerEdit));
+        input.mouse.up.add(controllerEdit.processMouseUp.bind(controllerEdit));
 
-            if (edit) {
-                input.key.down.add(controllerEdit.processInput.bind(controllerEdit));
-                input.mouse.down.add(controllerEdit.processMouseDown.bind(controllerEdit));
-                input.mouse.move.add(controllerEdit.processMouseMove.bind(controllerEdit));
-                input.mouse.up.add(controllerEdit.processMouseUp.bind(controllerEdit));
+        controller = controllerEdit;
+    }
+    if (play) {
+        input.key.down.add(controllerFPS._onKeyDown);
+        input.key.up.add(controllerFPS._onKeyUp);
+        input.mouse.down.add(controllerFPS._onPointerDown);
+        input.mouse.move.add(controllerFPS._onPointerMove);
+        input.mouse.up.add(controllerFPS._onPointerUp);
 
-                controller = controllerEdit;
-            }
-            if (play) {
-                input.key.down.add(controllerFPS._onKeyDown);
-                input.key.up.add(controllerFPS._onKeyUp);
-                input.mouse.down.add(controllerFPS._onPointerDown);
-                input.mouse.move.add(controllerFPS._onPointerMove);
-                input.mouse.up.add(controllerFPS._onPointerUp);
+        controller = controllerFPS;
+    }
 
-                controller = controllerFPS;
-            }
+    input.key.down.add((s, e) => {
+        switch (e.keyCode) {
+            //esc
+            case 27: switchMode(true); break;
+            //enter
+            case 13: switchMode(false); break;
+            //tab
+            case 9:
+                switchMode(!inEditMode);
+                e.preventDefault();
+                break;
+            //space
+            case 32:
+                switchMode(!inEditMode);
+                e.preventDefault();
+                break;
 
-            input.key.down.add((s, e) => {
-                switch (e.keyCode) {
-                    //esc
-                    case 27: switchMode(true); break;
-                    //enter
-                    case 13: switchMode(false); break;
-                    //tab
-                    case 9:
-                        switchMode(!inEditMode);
-                        e.preventDefault();
-                        break;
-                    //space
-                    case 32:
-                        switchMode(!inEditMode);
-                        e.preventDefault();
-                        break;
+        }
+    });
+    // input.mouse.move.add((s,e)=>{
+    //     if (s.mouse.lmbDown){
+    //         console.log("mouseevent", e);
+    //     }
+    // })
+};
 
-                }
-            });
-            // input.mouse.move.add((s,e)=>{
-            //     if (s.mouse.lmbDown){
-            //         console.log("mouseevent", e);
-            //     }
-            // })
-        };
-
-        let inEditMode = true;
-        function switchMode (editMode = !inEditMode) {
-            inEditMode = editMode;
-            controller = (editMode)
-                ? controllerEdit
-                : controllerFPS;
-            registerKeyBindings(editMode, !editMode);
-            simulate(!editMode);
-            player.camera.quaternion.copy(controller.save.quaternion);
-            player.camera.position.copy(controller.save.position);
-            if (!editMode) {
-                controllerFPS._onPointerMove();
-            }
-        };
+let inEditMode = true;
+function switchMode(editMode = !inEditMode) {
+    inEditMode = editMode;
+    controller = (editMode)
+        ? controllerEdit
+        : controllerFPS;
+    registerKeyBindings(editMode, !editMode);
+    simulate(!editMode);
+    player.camera.quaternion.copy(controller.save.quaternion);
+    player.camera.position.copy(controller.save.position);
+    if (!editMode) {
+        controllerFPS._onPointerMove();
+    }
+};
 
 
