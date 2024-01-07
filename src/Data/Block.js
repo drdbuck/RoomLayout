@@ -1,5 +1,12 @@
 "use strict";
 
+let stringifyBlock = [
+    "_width",
+    "_length",
+    "_height",
+    "units",
+];
+
 class Block{
     constructor(width, length, height) {
         this._width = width ?? 11;

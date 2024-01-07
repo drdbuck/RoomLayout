@@ -1,5 +1,10 @@
 "use strict";
 
+let stringifyHouse = [
+    "units",
+    "rooms",
+];
+
 class House {
     constructor(units) {
         this.units = units ?? "feet";

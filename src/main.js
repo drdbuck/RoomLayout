@@ -192,4 +192,13 @@ function setRoomSize(width, height) {
     room.scale.y = height;
 }
 
+function getDataStringify() {
+    return [
+        stringifyHouse,
+        stringifyBlock,
+        stringifyRoom,
+        stringifyFurniture,
+    ].flat();
+}
+
 

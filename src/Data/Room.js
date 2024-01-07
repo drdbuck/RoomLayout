@@ -1,5 +1,9 @@
 "use strict";
 
+let stringifyRoom = [
+    "furnitures",
+];
+
 class Room extends Block {
     constructor(width, length, height) {
         super(width, length, height);
