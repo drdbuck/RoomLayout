@@ -12,74 +12,74 @@ let controllerEdit;
 let controllerFPS;
 let room;
 
-function init(){
+function init() {
 
-//Input init
-window.onkeydown = input.processKeyDown.bind(input);
-window.onkeyup = input.processKeyUp.bind(input);
-window.onmousedown = input.processMouseDown.bind(input);
-window.onmousemove = input.processMouseMove.bind(input);
-window.onmouseup = input.processMouseUp.bind(input);
+    //Input init
+    window.onkeydown = input.processKeyDown.bind(input);
+    window.onkeyup = input.processKeyUp.bind(input);
+    window.onmousedown = input.processMouseDown.bind(input);
+    window.onmousemove = input.processMouseMove.bind(input);
+    window.onmouseup = input.processMouseUp.bind(input);
 
-//Load empty scene
-loader.load('app.json', function (text) {
+    //Load empty scene
+    loader.load('app.json', function (text) {
 
-    player.load(JSON.parse(text));
-    player.setSize(window.innerWidth, window.innerHeight);
-    player.play();
-    document.body.appendChild(player.dom);
-    player.dom.firstChild.id = "cvsDisplay";
-
-    window.addEventListener('resize', function () {
-
+        player.load(JSON.parse(text));
         player.setSize(window.innerWidth, window.innerHeight);
+        player.play();
+        document.body.appendChild(player.dom);
+        player.dom.firstChild.id = "cvsDisplay";
 
-    });
+        window.addEventListener('resize', function () {
 
-    //Load starter scene
-    loader.load('scene.json', function (text) {
-        let objloader = new ObjectLoader();
-        player.setScene(objloader.parse(JSON.parse(text)));
+            player.setSize(window.innerWidth, window.innerHeight);
 
-        //Room
-        room = player.scene.children[3];
-
-        //Controller init
-        controllerEdit = new Controller(
-            player.camera,
-            player.scene
-        );
-        controllerFPS = new FirstPersonControls(
-            player.camera,
-            player.scene.children[0],
-            player.dom
-        );
-
-        //Upload image to new box
-        const materialImage = player.scene.children[2].material;
-
-        flm.onImageUploaded.add((image) => {
-            let newbox = new Mesh(
-                new BoxGeometry(),
-                materialImage.clone()
-            );
-            newbox.userData ??= {};
-            newbox.userData.selectable = true;
-            player.scene.add(newbox);
-            new TextureLoader().load(
-                image.src,
-                (texture) => {
-                    newbox.material.aoMap = texture;
-                    newbox.material.lightMap = texture;
-                    newbox.material.map = texture;
-                    newbox.material.needsUpdate = true;
-                }
-            );
         });
 
-        switchMode(true);
+        //Load starter scene
+        loader.load('scene.json', function (text) {
+            let objloader = new ObjectLoader();
+            player.setScene(objloader.parse(JSON.parse(text)));
+
+            //Room
+            room = player.scene.children[3];
+
+            //Controller init
+            controllerEdit = new Controller(
+                player.camera,
+                player.scene
+            );
+            controllerFPS = new FirstPersonControls(
+                player.camera,
+                player.scene.children[0],
+                player.dom
+            );
+
+            //Upload image to new box
+            const materialImage = player.scene.children[2].material;
+
+            flm.onImageUploaded.add((image) => {
+                let newbox = new Mesh(
+                    new BoxGeometry(),
+                    materialImage.clone()
+                );
+                newbox.userData ??= {};
+                newbox.userData.selectable = true;
+                player.scene.add(newbox);
+                new TextureLoader().load(
+                    image.src,
+                    (texture) => {
+                        newbox.material.aoMap = texture;
+                        newbox.material.lightMap = texture;
+                        newbox.material.map = texture;
+                        newbox.material.needsUpdate = true;
+                    }
+                );
+            });
+
+            switchMode(true);
+        });
     });
-});
 }
 init();
 

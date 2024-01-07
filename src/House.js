@@ -1,6 +1,6 @@
 "use strict";
 
-class House{
+class House {
     constructor(units) {
         this.units = units ?? "feet";
 

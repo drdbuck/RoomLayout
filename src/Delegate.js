@@ -5,8 +5,8 @@ class Delegate {
         this.delegateList = [];
     }
 
-    add(func){
-        if (!func){
+    add(func) {
+        if (!func) {
             console.error("func cannot be null or undefined! func: ", func);
             return;
         }
@@ -15,7 +15,7 @@ class Delegate {
         }
     }
 
-    run(...params){
+    run(...params) {
         let returnValList = [];
         //Run delegates
         for (let i = 0; i < this.delegateList.length; i++) {
@@ -46,11 +46,11 @@ class Delegate {
         return orResult;
     }
 
-    contains(func){
+    contains(func) {
         return this.delegateList.includes(func);
     }
 
-    remove(func){
+    remove(func) {
         let index = this.delegateList.indexOf(func);
         if (index >= 0) {
             this.delegateList.splice(index, 1);

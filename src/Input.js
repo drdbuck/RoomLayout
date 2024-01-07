@@ -42,7 +42,7 @@ class Input {
         this.state.mouse.posStart.copy(this.state.mouse.pos);
         this.mouse.down.run(this.state, event);
     }
-    
+
     processMouseHold(event) {
         this.processMouseInput(event);
         this.mouse.hold.run(this.state, event);
@@ -83,7 +83,7 @@ class Input {
         this.mouse.down.clear();
         this.mouse.hold.clear();
         this.mouse.up.clear();
-        
+
         this.key.down.clear();
         this.key.hold.clear();
         this.key.up.clear();

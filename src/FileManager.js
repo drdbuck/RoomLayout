@@ -16,7 +16,7 @@ class FileManager {
         //bind responder functions
         const _preventDefaults = this.preventDefaults.bind(this);
         const _handleDrop = this.handleDrop.bind(this);
-        
+
         //Drop image event handlers// Prevent default drag behaviors
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -24,7 +24,7 @@ class FileManager {
             document.body.addEventListener(eventName, _preventDefaults, false);
         })
         dropPanel.addEventListener('drop', _handleDrop, false);
-        
+
         //Delegate initialization
         this.onImageUploaded = new Delegate();//param: image
         this.onJsonUploaded = new Delegate();//param: json
@@ -41,7 +41,7 @@ class FileManager {
         let files = dt.files;
         this.handleFiles(files);
     }
-  
+
     handleFiles(files) {
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
         files = [...files];
@@ -58,38 +58,38 @@ class FileManager {
         });
     }
 
-    uploadImage(file){
+    uploadImage(file) {
         let reader = new FileReader();
         reader.readAsDataURL(file);
         let _uploadImage = this._uploadImage.bind(this);
         reader.onloadend = (progressEvent) => {
             // console.log("result,", progressEvent);
-            let imageURL = progressEvent.currentTarget.result;  
+            let imageURL = progressEvent.currentTarget.result;
             _uploadImage(file, imageURL);
         };
     }
     _uploadImage(file, imageURL) {
-            //Get values
-            let imageName = file.name.split(".")[0];
-            //Create object
-            let image = createImage(imageName, imageURL);
-            //Run delegate
-            this.onImageUploaded.run(image);
+        //Get values
+        let imageName = file.name.split(".")[0];
+        //Create object
+        let image = createImage(imageName, imageURL);
+        //Run delegate
+        this.onImageUploaded.run(image);
     }
-    
+
     handleTextFile(file) {
-        if (file.name.endsWith(".json")){
+        if (file.name.endsWith(".json")) {
             this.uploadJson(file);
         }
-        else{
+        else {
             console.warn("Not implemented: handling text file:", file.name, file.type);
         }
     }
 
-    uploadJson(file){
+    uploadJson(file) {
         let reader = new FileReader();
         reader.readAsText(file);
-        reader.onloadend = function() {
+        reader.onloadend = function () {
             let json = reader.result;
             //Run delegate
             this.onJsonUploaded.run(json);

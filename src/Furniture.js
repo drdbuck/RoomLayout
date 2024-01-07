@@ -1,6 +1,6 @@
 "use strict";
 
-class Furniture extends Block{
+class Furniture extends Block {
     constructor(imageURL, width, length, height) {
         super(width, length, height);
 

@@ -1,6 +1,6 @@
 "use strict";
 
-class Room extends Block{
+class Room extends Block {
     constructor(width, length, height) {
         super(width, length, height);
 

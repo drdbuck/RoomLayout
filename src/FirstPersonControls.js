@@ -7,16 +7,16 @@ const _spherical = new Spherical();
 
 class FirstPersonControls {
 
-	constructor( camera, object, domElement ) {
+	constructor(camera, object, domElement) {
 
-        this.camera = camera;
+		this.camera = camera;
 		this.object = object;
 		this.domElement = domElement;
 
-        this.save = {
-            quaternion: this.camera.quaternion.clone(),
-            position: this.object.position.clone(),
-        };
+		this.save = {
+			quaternion: this.camera.quaternion.clone(),
+			position: this.object.position.clone(),
+		};
 
 		// API
 
@@ -65,7 +65,7 @@ class FirstPersonControls {
 
 		this.handleResize = function () {
 
-			if ( this.domElement === document ) {
+			if (this.domElement === document) {
 
 				this.viewHalfX = window.innerWidth / 2;
 				this.viewHalfY = window.innerHeight / 2;
@@ -79,17 +79,17 @@ class FirstPersonControls {
 
 		};
 
-		this.onPointerDown = function (state, event ) {
+		this.onPointerDown = function (state, event) {
 
-			if ( this.domElement !== document ) {
+			if (this.domElement !== document) {
 
 				this.domElement.focus();
 
 			}
 
-			if ( this.activeLook ) {
+			if (this.activeLook) {
 
-				switch ( event.button ) {
+				switch (event.button) {
 
 					case 0: this.moveForward = true; break;
 					case 2: this.moveBackward = true; break;
@@ -102,11 +102,11 @@ class FirstPersonControls {
 
 		};
 
-		this.onPointerUp = function (state, event ) {
+		this.onPointerUp = function (state, event) {
 
-			if ( this.activeLook ) {
+			if (this.activeLook) {
 
-				switch ( event.button ) {
+				switch (event.button) {
 
 					case 0: this.moveForward = false; break;
 					case 2: this.moveBackward = false; break;
@@ -119,15 +119,16 @@ class FirstPersonControls {
 
 		};
 
-		this.onPointerMove = function (state, event ) {
-            if (!event) {
-                event = {
-                    pageX: this.viewHalfX,
-                    pageY: this.viewHalfY,
-                };
-            }
+		this.onPointerMove = function (state, event) {
+			if (!event) {
+				event = {
+					pageX: this.viewHalfX,
+					pageY: this.viewHalfY,
+				};
+			}
 
-			if ( this.domElement === document ) {
+
+			if (this.domElement === document) {
 
 				this.pointerX = event.pageX - this.viewHalfX;
 				this.pointerY = event.pageY - this.viewHalfY;
@@ -141,8 +142,8 @@ class FirstPersonControls {
 
 		};
 
-		this.onKeyDown = function (state, event ) {
-			switch ( event.code ) {
+		this.onKeyDown = function (state, event) {
+			switch (event.code) {
 
 				case 'ArrowUp':
 				case 'KeyW': this.moveForward = true; break;
@@ -163,9 +164,9 @@ class FirstPersonControls {
 
 		};
 
-		this.onKeyUp = function (state, event ) {
+		this.onKeyUp = function (state, event) {
 
-			switch ( event.code ) {
+			switch (event.code) {
 
 				case 'ArrowUp':
 				case 'KeyW': this.moveForward = false; break;
@@ -186,25 +187,25 @@ class FirstPersonControls {
 
 		};
 
-		this.lookAt = function ( x, y, z ) {
+		this.lookAt = function (x, y, z) {
 
-			if ( x.isVector3 ) {
+			if (x.isVector3) {
 
-				_target.copy( x );
+				_target.copy(x);
 
 			} else {
 
-				_target.set( x, y, z );
+				_target.set(x, y, z);
 
 			}
 
-			this.camera.lookAt( _target );
-            this.object.quaternion.copy(this.camera.quaternion);
-            this.object.rotation.x = 0;
-            this.object.rotation.z = 0;
-            this.save.quaternion.copy(this.camera.quaternion);
+			this.camera.lookAt(_target);
+			this.object.quaternion.copy(this.camera.quaternion);
+			this.object.rotation.x = 0;
+			this.object.rotation.z = 0;
+			this.save.quaternion.copy(this.camera.quaternion);
 
-			setOrientation( this );
+			setOrientation(this);
 
 			return this;
 
@@ -214,16 +215,16 @@ class FirstPersonControls {
 
 			const targetPosition = new Vector3();
 
-			return function update( delta ) {
+			return function update(delta) {
 
-				if ( this.enabled === false ) return;
+				if (this.enabled === false) return;
 
-				if ( this.heightSpeed ) {
+				if (this.heightSpeed) {
 
-					const y = MathUtils.clamp( this.object.position.y, this.heightMin, this.heightMax );
+					const y = MathUtils.clamp(this.object.position.y, this.heightMin, this.heightMax);
 					const heightDelta = y - this.heightMin;
 
-					this.autoSpeedFactor = delta * ( heightDelta * this.heightCoef );
+					this.autoSpeedFactor = delta * (heightDelta * this.heightCoef);
 
 				} else {
 
@@ -233,20 +234,20 @@ class FirstPersonControls {
 
 				const actualMoveSpeed = delta * this.movementSpeed;
 
-				if ( this.moveForward || ( this.autoForward && ! this.moveBackward ) ) this.object.translateZ( - ( actualMoveSpeed + this.autoSpeedFactor ) );
-				if ( this.moveBackward ) this.object.translateZ( actualMoveSpeed );
+				if (this.moveForward || (this.autoForward && !this.moveBackward)) this.object.translateZ(- (actualMoveSpeed + this.autoSpeedFactor));
+				if (this.moveBackward) this.object.translateZ(actualMoveSpeed);
 
-				if ( this.moveLeft ) this.object.translateX( - actualMoveSpeed );
-				if ( this.moveRight ) this.object.translateX( actualMoveSpeed );
+				if (this.moveLeft) this.object.translateX(- actualMoveSpeed);
+				if (this.moveRight) this.object.translateX(actualMoveSpeed);
 
-				if ( this.moveUp ) this.object.translateY( actualMoveSpeed );
-				if ( this.moveDown ) this.object.translateY( - actualMoveSpeed );
-                this.camera.position.copy(this.object.position);
-                this.save.position.copy(this.object.position);
+				if (this.moveUp) this.object.translateY(actualMoveSpeed);
+				if (this.moveDown) this.object.translateY(- actualMoveSpeed);
+				this.camera.position.copy(this.object.position);
+				this.save.position.copy(this.object.position);
 
 				let actualLookSpeed = delta * this.lookSpeed;
 
-				if ( ! this.activeLook ) {
+				if (!this.activeLook) {
 
 					actualLookSpeed = 0;
 
@@ -254,35 +255,35 @@ class FirstPersonControls {
 
 				let verticalLookRatio = 1;
 
-				if ( this.constrainVertical ) {
+				if (this.constrainVertical) {
 
-					verticalLookRatio = Math.PI / ( this.verticalMax - this.verticalMin );
+					verticalLookRatio = Math.PI / (this.verticalMax - this.verticalMin);
 
 				}
 
 				lon -= this.pointerX * actualLookSpeed;
-				if ( this.lookVertical ) lat -= this.pointerY * actualLookSpeed * verticalLookRatio;
+				if (this.lookVertical) lat -= this.pointerY * actualLookSpeed * verticalLookRatio;
 
-				lat = Math.max( - 85, Math.min( 85, lat ) );
+				lat = Math.max(- 85, Math.min(85, lat));
 
-				let phi = MathUtils.degToRad( 90 - lat );
-				const theta = MathUtils.degToRad( lon );
+				let phi = MathUtils.degToRad(90 - lat);
+				const theta = MathUtils.degToRad(lon);
 
-				if ( this.constrainVertical ) {
+				if (this.constrainVertical) {
 
-					phi = MathUtils.mapLinear( phi, 0, Math.PI, this.verticalMin, this.verticalMax );
+					phi = MathUtils.mapLinear(phi, 0, Math.PI, this.verticalMin, this.verticalMax);
 
 				}
 
 				const position = this.camera.position;
 
-				targetPosition.setFromSphericalCoords( 1, phi, theta ).add( position );
+				targetPosition.setFromSphericalCoords(1, phi, theta).add(position);
 
-                this.camera.lookAt(targetPosition);
-                this.object.quaternion.copy(this.camera.quaternion);
-                this.object.rotation.x = 0;
-                this.object.rotation.z = 0;
-                this.save.quaternion.copy(this.camera.quaternion);
+				this.camera.lookAt(targetPosition);
+				this.object.quaternion.copy(this.camera.quaternion);
+				this.object.rotation.x = 0;
+				this.object.rotation.z = 0;
+				this.save.quaternion.copy(this.camera.quaternion);
 
 			};
 
@@ -300,13 +301,13 @@ class FirstPersonControls {
 
 		// };
 
-		this._onPointerMove = this.onPointerMove.bind( this );
-		this._onPointerDown = this.onPointerDown.bind( this );
-		this._onPointerUp = this.onPointerUp.bind( this );
-		this._onKeyDown = this.onKeyDown.bind( this );
-        this._onKeyUp = this.onKeyUp.bind(this);
+		this._onPointerMove = this.onPointerMove.bind(this);
+		this._onPointerDown = this.onPointerDown.bind(this);
+		this._onPointerUp = this.onPointerUp.bind(this);
+		this._onKeyDown = this.onKeyDown.bind(this);
+		this._onKeyUp = this.onKeyUp.bind(this);
 
-        this._update = this.update.bind(this);
+		this._update = this.update.bind(this);
 
 		// this.domElement.addEventListener( 'contextmenu', contextmenu );
 		// this.domElement.addEventListener( 'pointerdown', _onPointerDown );
@@ -316,27 +317,27 @@ class FirstPersonControls {
 		// window.addEventListener( 'keydown', _onKeyDown );
 		// window.addEventListener( 'keyup', _onKeyUp );
 
-		function setOrientation( controls ) {
+		function setOrientation(controls) {
 
 			const quaternion = controls.object.quaternion;
 
-			_lookDirection.set( 0, 0, - 1 ).applyQuaternion( quaternion );
-			_spherical.setFromVector3( _lookDirection );
+			_lookDirection.set(0, 0, - 1).applyQuaternion(quaternion);
+			_spherical.setFromVector3(_lookDirection);
 
-			lat = 90 - MathUtils.radToDeg( _spherical.phi );
-			lon = MathUtils.radToDeg( _spherical.theta );
+			lat = 90 - MathUtils.radToDeg(_spherical.phi);
+			lon = MathUtils.radToDeg(_spherical.theta);
 
 		}
 
 		this.handleResize();
 
-		setOrientation( this );
+		setOrientation(this);
 
 	}
 
 }
 
-function contextmenu( event ) {
+function contextmenu(event) {
 
 	event.preventDefault();
 

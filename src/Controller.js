@@ -12,10 +12,10 @@ class Controller {
         this.speed = 1;
         this.mouse = {};
         this.raycaster = new Raycaster();
-        
+
         this.save = {
-            quaternion: new Quaternion(-0.7,0,0,0.7),
-            position: new Vector3(0,10,0),
+            quaternion: new Quaternion(-0.7, 0, 0, 0.7),
+            position: new Vector3(0, 10, 0),
         };
     }
 
