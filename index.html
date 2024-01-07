@@ -48,6 +48,7 @@
             	player.load( JSON.parse( text ) );
             	player.setSize( window.innerWidth, window.innerHeight );
             	player.play();
+            	window.player = player;
             	document.body.appendChild( player.dom );
                 player.dom.firstChild.id = "cvsDisplay";
 
@@ -159,6 +160,11 @@
 
                             }
                         });
+                        // input.mouse.move.add((s,e)=>{
+                        //     if (s.mouse.lmbDown){
+                        //         console.log("mouseevent", e);
+                        //     }
+                        // })
                     };
 
                     let inEditMode = true;
