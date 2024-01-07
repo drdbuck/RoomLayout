@@ -6,7 +6,7 @@ class Room extends Block {
 
         this.furnitures = [];
 
-        this.onFurnituresChanged = new Delegates("furnitures");
+        this.onFurnituresChanged = new Delegate("furnitures");
     }
 
     addFurniture(furniture) {
