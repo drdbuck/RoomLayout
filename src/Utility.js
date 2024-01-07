@@ -179,8 +179,12 @@ function copy(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
 
-function copyObject(obj, stringify) {
-    return JSON.parse(JSON.stringify(obj, stringify));
+function copyObject(obj, stringify, prototype) {
+    let obj2 = JSON.parse(JSON.stringify(obj, stringify));
+    if (prototype) {
+        Object.setPrototypeOf(obj2, prototype);
+    }
+    return obj2;
 }
 
 
