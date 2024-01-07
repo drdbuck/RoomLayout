@@ -58,15 +58,12 @@ class FirstPersonControls {
 
 		// private variables
 
-		this. lat = 0;
-		this. lon = 0;
+		this.lat = 0;
+		this.lon = 0;
 
-		this. targetPosition = new Vector3();
+		this.targetPosition = new Vector3();
 
 		//
-
-
-
 
 		this._onPointerMove = this.onPointerMove.bind(this);
 		this._onPointerDown = this.onPointerDown.bind(this);
@@ -81,263 +78,258 @@ class FirstPersonControls {
 		this.setOrientation(this);
 	}
 
-		handleResize () {
+	handleResize() {
 
-			if (this.domElement === document) {
+		if (this.domElement === document) {
 
-				this.viewHalfX = window.innerWidth / 2;
-				this.viewHalfY = window.innerHeight / 2;
+			this.viewHalfX = window.innerWidth / 2;
+			this.viewHalfY = window.innerHeight / 2;
 
-			} else {
+		} else {
 
-				this.viewHalfX = this.domElement.offsetWidth / 2;
-				this.viewHalfY = this.domElement.offsetHeight / 2;
+			this.viewHalfX = this.domElement.offsetWidth / 2;
+			this.viewHalfY = this.domElement.offsetHeight / 2;
+
+		}
+
+	}
+
+	onPointerDown(state, event) {
+
+		if (this.domElement !== document) {
+
+			this.domElement.focus();
+
+		}
+
+		if (this.activeLook) {
+
+			switch (event.button) {
+
+				case 0: this.moveForward = true; break;
+				case 2: this.moveBackward = true; break;
 
 			}
 
 		}
 
-		onPointerDown (state, event) {
+		this.mouseDragOn = true;
 
-			if (this.domElement !== document) {
+	}
 
-				this.domElement.focus();
+	onPointerUp(state, event) {
 
-			}
+		if (this.activeLook) {
 
-			if (this.activeLook) {
+			switch (event.button) {
 
-				switch (event.button) {
-
-					case 0: this.moveForward = true; break;
-					case 2: this.moveBackward = true; break;
-
-				}
-
-			}
-
-			this.mouseDragOn = true;
-
-		}
-
-		onPointerUp  (state, event) {
-
-			if (this.activeLook) {
-
-				switch (event.button) {
-
-					case 0: this.moveForward = false; break;
-					case 2: this.moveBackward = false; break;
-
-				}
-
-			}
-
-			this.mouseDragOn = false;
-
-		}
-
-		onPointerMove  (state, event) {
-			if (!event) {
-				event = {
-					pageX: this.viewHalfX,
-					pageY: this.viewHalfY,
-				};
-			}
-
-
-			if (this.domElement === document) {
-
-				this.pointerX = event.pageX - this.viewHalfX;
-				this.pointerY = event.pageY - this.viewHalfY;
-
-			} else {
-
-				this.pointerX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
-				this.pointerY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
-
-			}
-
-
-		}
-
-		onKeyDown  (state, event) {
-			switch (event.code) {
-
-				case 'ArrowUp':
-				case 'KeyW': this.moveForward = true; break;
-
-				case 'ArrowLeft':
-				case 'KeyA': this.moveLeft = true; break;
-
-				case 'ArrowDown':
-				case 'KeyS': this.moveBackward = true; break;
-
-				case 'ArrowRight':
-				case 'KeyD': this.moveRight = true; break;
-
-				case 'KeyR': this.moveUp = true; break;
-				case 'KeyF': this.moveDown = true; break;
+				case 0: this.moveForward = false; break;
+				case 2: this.moveBackward = false; break;
 
 			}
 
 		}
 
-		onKeyUp  (state, event) {
+		this.mouseDragOn = false;
 
-			switch (event.code) {
+	}
 
-				case 'ArrowUp':
-				case 'KeyW': this.moveForward = false; break;
-
-				case 'ArrowLeft':
-				case 'KeyA': this.moveLeft = false; break;
-
-				case 'ArrowDown':
-				case 'KeyS': this.moveBackward = false; break;
-
-				case 'ArrowRight':
-				case 'KeyD': this.moveRight = false; break;
-
-				case 'KeyR': this.moveUp = false; break;
-				case 'KeyF': this.moveDown = false; break;
-
-			}
-
+	onPointerMove(state, event) {
+		if (!event) {
+			event = {
+				pageX: this.viewHalfX,
+				pageY: this.viewHalfY,
+			};
 		}
 
-		lookAt  (x, y, z) {
 
-			if (x.isVector3) {
+		if (this.domElement === document) {
 
-				_target.copy(x);
+			this.pointerX = event.pageX - this.viewHalfX;
+			this.pointerY = event.pageY - this.viewHalfY;
 
-			} else {
+		} else {
 
-				_target.set(x, y, z);
-
-			}
-
-			this.camera.lookAt(_target);
-			this.object.quaternion.copy(this.camera.quaternion);
-			this.object.rotation.x = 0;
-			this.object.rotation.z = 0;
-			this.save.quaternion.copy(this.camera.quaternion);
-
-			setOrientation(this);
-
-			return this;
+			this.pointerX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
+			this.pointerY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
 
 		}
 
 
+	}
 
-			 update(delta) {
+	onKeyDown(state, event) {
+		switch (event.code) {
 
-				if (this.enabled === false) return;
+			case 'ArrowUp':
+			case 'KeyW': this.moveForward = true; break;
 
-				if (this.heightSpeed) {
+			case 'ArrowLeft':
+			case 'KeyA': this.moveLeft = true; break;
 
-					const y = MathUtils.clamp(this.object.position.y, this.heightMin, this.heightMax);
-					const heightDelta = y - this.heightMin;
+			case 'ArrowDown':
+			case 'KeyS': this.moveBackward = true; break;
 
-					this.autoSpeedFactor = delta * (heightDelta * this.heightCoef);
+			case 'ArrowRight':
+			case 'KeyD': this.moveRight = true; break;
 
-				} else {
-
-					this.autoSpeedFactor = 0.0;
-
-				}
-
-				const actualMoveSpeed = delta * this.movementSpeed;
-
-				if (this.moveForward || (this.autoForward && !this.moveBackward)) this.object.translateZ(- (actualMoveSpeed + this.autoSpeedFactor));
-				if (this.moveBackward) this.object.translateZ(actualMoveSpeed);
-
-				if (this.moveLeft) this.object.translateX(- actualMoveSpeed);
-				if (this.moveRight) this.object.translateX(actualMoveSpeed);
-
-				if (this.moveUp) this.object.translateY(actualMoveSpeed);
-				if (this.moveDown) this.object.translateY(- actualMoveSpeed);
-				this.camera.position.copy(this.object.position);
-				this.save.position.copy(this.object.position);
-
-				let actualLookSpeed = delta * this.lookSpeed;
-
-				if (!this.activeLook) {
-
-					actualLookSpeed = 0;
-
-				}
-
-				let verticalLookRatio = 1;
-
-				if (this.constrainVertical) {
-
-					verticalLookRatio = Math.PI / (this.verticalMax - this.verticalMin);
-
-				}
-
-				this.lon -= this.pointerX * actualLookSpeed;
-				if (this.lookVertical) this.lat -= this.pointerY * actualLookSpeed * verticalLookRatio;
-
-				this.lat = Math.max(- 85, Math.min(85, this.lat));
-
-				let phi = MathUtils.degToRad(90 - this.lat);
-				const theta = MathUtils.degToRad(this.lon);
-
-				if (this.constrainVertical) {
-
-					phi = MathUtils.mapLinear(phi, 0, Math.PI, this.verticalMin, this.verticalMax);
-
-				}
-
-				const position = this.camera.position;
-
-				this.targetPosition.setFromSphericalCoords(1, phi, theta).add(position);
-
-				this.camera.lookAt(this.targetPosition);
-				this.object.quaternion.copy(this.camera.quaternion);
-				this.object.rotation.x = 0;
-				this.object.rotation.z = 0;
-				this.save.quaternion.copy(this.camera.quaternion);
-
-			}
-
-
-		// this.dispose = function () {
-
-		// 	this.domElement.removeEventListener( 'contextmenu', contextmenu );
-		// 	this.domElement.removeEventListener( 'pointerdown', _onPointerDown );
-		// 	this.domElement.removeEventListener( 'pointermove', _onPointerMove );
-		// 	this.domElement.removeEventListener( 'pointerup', _onPointerUp );
-
-		// 	window.removeEventListener( 'keydown', _onKeyDown );
-		// 	window.removeEventListener( 'keyup', _onKeyUp );
-
-		// };
-
-		// this.domElement.addEventListener( 'contextmenu', contextmenu );
-		// this.domElement.addEventListener( 'pointerdown', _onPointerDown );
-		// this.domElement.addEventListener( 'pointermove', _onPointerMove );
-		// this.domElement.addEventListener( 'pointerup', _onPointerUp );
-
-		// window.addEventListener( 'keydown', _onKeyDown );
-		// window.addEventListener( 'keyup', _onKeyUp );
-
-		setOrientation(controls) {
-
-			const quaternion = controls.object.quaternion;
-
-			_lookDirection.set(0, 0, - 1).applyQuaternion(quaternion);
-			_spherical.setFromVector3(_lookDirection);
-
-			this.lat = 90 - MathUtils.radToDeg(_spherical.phi);
-			this.lon = MathUtils.radToDeg(_spherical.theta);
+			case 'KeyR': this.moveUp = true; break;
+			case 'KeyF': this.moveDown = true; break;
 
 		}
 
+	}
 
+	onKeyUp(state, event) {
+
+		switch (event.code) {
+
+			case 'ArrowUp':
+			case 'KeyW': this.moveForward = false; break;
+
+			case 'ArrowLeft':
+			case 'KeyA': this.moveLeft = false; break;
+
+			case 'ArrowDown':
+			case 'KeyS': this.moveBackward = false; break;
+
+			case 'ArrowRight':
+			case 'KeyD': this.moveRight = false; break;
+
+			case 'KeyR': this.moveUp = false; break;
+			case 'KeyF': this.moveDown = false; break;
+
+		}
+
+	}
+
+	lookAt(x, y, z) {
+
+		if (x.isVector3) {
+
+			_target.copy(x);
+
+		} else {
+
+			_target.set(x, y, z);
+
+		}
+
+		this.camera.lookAt(_target);
+		this.object.quaternion.copy(this.camera.quaternion);
+		this.object.rotation.x = 0;
+		this.object.rotation.z = 0;
+		this.save.quaternion.copy(this.camera.quaternion);
+
+		setOrientation(this);
+
+		return this;
+
+	}
+
+	update(delta) {
+
+		if (this.enabled === false) return;
+
+		if (this.heightSpeed) {
+
+			const y = MathUtils.clamp(this.object.position.y, this.heightMin, this.heightMax);
+			const heightDelta = y - this.heightMin;
+
+			this.autoSpeedFactor = delta * (heightDelta * this.heightCoef);
+
+		} else {
+
+			this.autoSpeedFactor = 0.0;
+
+		}
+
+		const actualMoveSpeed = delta * this.movementSpeed;
+
+		if (this.moveForward || (this.autoForward && !this.moveBackward)) this.object.translateZ(- (actualMoveSpeed + this.autoSpeedFactor));
+		if (this.moveBackward) this.object.translateZ(actualMoveSpeed);
+
+		if (this.moveLeft) this.object.translateX(- actualMoveSpeed);
+		if (this.moveRight) this.object.translateX(actualMoveSpeed);
+
+		if (this.moveUp) this.object.translateY(actualMoveSpeed);
+		if (this.moveDown) this.object.translateY(- actualMoveSpeed);
+		this.camera.position.copy(this.object.position);
+		this.save.position.copy(this.object.position);
+
+		let actualLookSpeed = delta * this.lookSpeed;
+
+		if (!this.activeLook) {
+
+			actualLookSpeed = 0;
+
+		}
+
+		let verticalLookRatio = 1;
+
+		if (this.constrainVertical) {
+
+			verticalLookRatio = Math.PI / (this.verticalMax - this.verticalMin);
+
+		}
+
+		this.lon -= this.pointerX * actualLookSpeed;
+		if (this.lookVertical) this.lat -= this.pointerY * actualLookSpeed * verticalLookRatio;
+
+		this.lat = Math.max(- 85, Math.min(85, this.lat));
+
+		let phi = MathUtils.degToRad(90 - this.lat);
+		const theta = MathUtils.degToRad(this.lon);
+
+		if (this.constrainVertical) {
+
+			phi = MathUtils.mapLinear(phi, 0, Math.PI, this.verticalMin, this.verticalMax);
+
+		}
+
+		const position = this.camera.position;
+
+		this.targetPosition.setFromSphericalCoords(1, phi, theta).add(position);
+
+		this.camera.lookAt(this.targetPosition);
+		this.object.quaternion.copy(this.camera.quaternion);
+		this.object.rotation.x = 0;
+		this.object.rotation.z = 0;
+		this.save.quaternion.copy(this.camera.quaternion);
+
+	}
+
+	// this.dispose = function () {
+
+	// 	this.domElement.removeEventListener( 'contextmenu', contextmenu );
+	// 	this.domElement.removeEventListener( 'pointerdown', _onPointerDown );
+	// 	this.domElement.removeEventListener( 'pointermove', _onPointerMove );
+	// 	this.domElement.removeEventListener( 'pointerup', _onPointerUp );
+
+	// 	window.removeEventListener( 'keydown', _onKeyDown );
+	// 	window.removeEventListener( 'keyup', _onKeyUp );
+
+	// };
+
+	// this.domElement.addEventListener( 'contextmenu', contextmenu );
+	// this.domElement.addEventListener( 'pointerdown', _onPointerDown );
+	// this.domElement.addEventListener( 'pointermove', _onPointerMove );
+	// this.domElement.addEventListener( 'pointerup', _onPointerUp );
+
+	// window.addEventListener( 'keydown', _onKeyDown );
+	// window.addEventListener( 'keyup', _onKeyUp );
+
+	setOrientation(controls) {
+
+		const quaternion = controls.object.quaternion;
+
+		_lookDirection.set(0, 0, - 1).applyQuaternion(quaternion);
+		_spherical.setFromVector3(_lookDirection);
+
+		this.lat = 90 - MathUtils.radToDeg(_spherical.phi);
+		this.lon = MathUtils.radToDeg(_spherical.theta);
+
+	}
 
 }
 
