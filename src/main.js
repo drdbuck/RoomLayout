@@ -6,6 +6,17 @@ flm.onImageUploaded.add((image) => console.log("image uploaded!", image.name));
 
 let loader = new FileLoader();
 let player = new APP.Player();
+let input = new Input();
+let controller;
+let controllerEdit;
+let controllerFPS;
+
+//Input init
+        window.onkeydown = input.processKeyDown.bind(input);
+        window.onkeyup = input.processKeyUp.bind(input);
+        window.onmousedown = input.processMouseDown.bind(input);
+        window.onmousemove = input.processMouseMove.bind(input);
+        window.onmouseup = input.processMouseUp.bind(input);
 
 //Load empty scene
 loader.load('app.json', function (text) {
@@ -13,7 +24,6 @@ loader.load('app.json', function (text) {
     player.load(JSON.parse(text));
     player.setSize(window.innerWidth, window.innerHeight);
     player.play();
-    window.player = player;
     document.body.appendChild(player.dom);
     player.dom.firstChild.id = "cvsDisplay";
 
@@ -28,27 +38,48 @@ loader.load('app.json', function (text) {
         let objloader = new ObjectLoader();
         player.setScene(objloader.parse(JSON.parse(text)));
 
-        //Input init
-        let input = new Input();
-        window.input = input;
-        window.onkeydown = input.processKeyDown.bind(input);
-        window.onkeyup = input.processKeyUp.bind(input);
-        window.onmousedown = input.processMouseDown.bind(input);
-        window.onmousemove = input.processMouseMove.bind(input);
-        window.onmouseup = input.processMouseUp.bind(input);
-
         //Controller init
-        let controllerEdit = new Controller(player.camera, player.scene);
-        window.controllerEdit = controllerEdit;
-        let object = player.scene.children[0];
-        let controllerFPS = new FirstPersonControls(player.camera, object, player.dom);
-        window.controllerFPS = controllerFPS;
+        controllerEdit = new Controller(
+            player.camera,
+            player.scene
+        );
+        controllerFPS = new FirstPersonControls(
+            player.camera,
+            player.scene.children[0],
+            player.dom
+        );
+
+            //Upload image to new box
+            const materialImage = player.scene.children[2].material;
+
+            flm.onImageUploaded.add((image) => {
+                let newbox = new Mesh(
+                    new BoxGeometry(),
+                    materialImage.clone()
+                );
+                newbox.userData ??= {};
+                newbox.userData.selectable = true;
+                player.scene.add(newbox);
+                new TextureLoader().load(
+                    image.imageURL,
+                    (texture) => {
+                        newbox.material.aoMap = texture;
+                        newbox.material.lightMap = texture;
+                        newbox.material.map = texture;
+                        newbox.material.needsUpdate = true;
+                    }
+                );
+            });
+
+    switchMode(true);
+    });
+});
+        
 
         //
-        window.looping = false;
-        let loop;
+        let looping = false;
         let lastTime = 0;
-        loop = (now) => {
+        function loop (now) {
             if (!looping) { return; }
 
             if (!(lastTime > 0)) {
@@ -68,24 +99,21 @@ loader.load('app.json', function (text) {
 
             lastTime = now;
         }
-        window.loop = loop;
 
-        let simulate = (on) => {
+        function simulate (on) {
             if (on) {
-                if (!window.looping) {
+                if (!looping) {
                     lastTime = 0;
                     window.looping = true;
                     loop();
                 }
             }
             else {
-                window.looping = false;
+                looping = false;
             }
         };
 
-        let switchMode;
-
-        let registerKeyBindings = (edit, play) => {
+        function registerKeyBindings (edit, play) {
             input.clearAllDelegates();
 
             if (edit) {
@@ -94,7 +122,7 @@ loader.load('app.json', function (text) {
                 input.mouse.move.add(controllerEdit.processMouseMove.bind(controllerEdit));
                 input.mouse.up.add(controllerEdit.processMouseUp.bind(controllerEdit));
 
-                window.controller = controllerEdit;
+                controller = controllerEdit;
             }
             if (play) {
                 input.key.down.add(controllerFPS._onKeyDown);
@@ -103,7 +131,7 @@ loader.load('app.json', function (text) {
                 input.mouse.move.add(controllerFPS._onPointerMove);
                 input.mouse.up.add(controllerFPS._onPointerUp);
 
-                window.controller = controllerFPS;
+                controller = controllerFPS;
             }
 
             input.key.down.add((s, e) => {
@@ -133,44 +161,18 @@ loader.load('app.json', function (text) {
         };
 
         let inEditMode = true;
-        switchMode = (editMode = !inEditMode) => {
+        function switchMode (editMode = !inEditMode) {
             inEditMode = editMode;
-            window.controller = (editMode)
+            controller = (editMode)
                 ? controllerEdit
                 : controllerFPS;
             registerKeyBindings(editMode, !editMode);
             simulate(!editMode);
-            player.camera.quaternion.copy(window.controller.save.quaternion);
-            player.camera.position.copy(window.controller.save.position);
+            player.camera.quaternion.copy(controller.save.quaternion);
+            player.camera.position.copy(controller.save.position);
             if (!editMode) {
                 controllerFPS._onPointerMove();
             }
         };
-        window.switchMode = switchMode;
 
-        switchMode(true);
 
-        //Upload image to new box
-        const materialImage = player.scene.children[2].material;
-
-        flm.onImageUploaded.add((image) => {
-            let newbox = new Mesh(
-                new BoxGeometry(),
-                materialImage.clone()
-            );
-            newbox.userData ??= {};
-            newbox.userData.selectable = true;
-            player.scene.add(newbox);
-            new TextureLoader().load(
-                image.imageURL,
-                (texture) => {
-                    newbox.material.aoMap = texture;
-                    newbox.material.lightMap = texture;
-                    newbox.material.map = texture;
-                    newbox.material.needsUpdate = true;
-                }
-            );
-        });
-
-    });
-});
