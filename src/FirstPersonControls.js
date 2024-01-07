@@ -299,28 +299,6 @@ class FirstPersonControls {
 
 	}
 
-	dispose() {
-
-		this.domElement.removeEventListener('contextmenu', contextmenu);
-		this.domElement.removeEventListener('pointerdown', _onPointerDown);
-		this.domElement.removeEventListener('pointermove', _onPointerMove);
-		this.domElement.removeEventListener('pointerup', _onPointerUp);
-
-		window.removeEventListener('keydown', _onKeyDown);
-		window.removeEventListener('keyup', _onKeyUp);
-
-	};
-
-	connect() {
-		this.domElement.addEventListener('contextmenu', contextmenu);
-		this.domElement.addEventListener('pointerdown', _onPointerDown);
-		this.domElement.addEventListener('pointermove', _onPointerMove);
-		this.domElement.addEventListener('pointerup', _onPointerUp);
-
-		window.addEventListener('keydown', _onKeyDown);
-		window.addEventListener('keyup', _onKeyUp);
-	}
-
 	setOrientation(controls) {
 
 		const quaternion = controls.object.quaternion;
