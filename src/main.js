@@ -10,6 +10,7 @@ let input = new Input();
 let controller;
 let controllerEdit;
 let controllerFPS;
+let room;
 
 function init(){
 
@@ -39,6 +40,9 @@ loader.load('app.json', function (text) {
     loader.load('scene.json', function (text) {
         let objloader = new ObjectLoader();
         player.setScene(objloader.parse(JSON.parse(text)));
+
+        //Room
+        room = player.scene.children[3];
 
         //Controller init
         controllerEdit = new Controller(
@@ -178,5 +182,14 @@ function switchMode(editMode = !inEditMode) {
         controllerFPS._onPointerMove();
     }
 };
+
+function setRoomSize(width, height) {
+    //defaults
+    width ??= room.scale.x;
+    height ??= room.scale.y;
+    //processing
+    room.scale.x = width;
+    room.scale.y = height;
+}
 
 
