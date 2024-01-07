@@ -104,7 +104,7 @@ function simulate(on) {
     if (on) {
         if (!looping) {
             lastTime = 0;
-            window.looping = true;
+            looping = true;
             loop();
         }
     }
