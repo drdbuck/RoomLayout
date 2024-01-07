@@ -4,8 +4,8 @@ let body = $("body");
 let flm = new FileManager(body);
 flm.onImageUploaded.add((image) => console.log("image uploaded!", image.name));
 
-var loader = new FileLoader();
-var player = new APP.Player();
+let loader = new FileLoader();
+let player = new APP.Player();
 
 //Load empty scene
 loader.load('app.json', function (text) {
@@ -25,11 +25,11 @@ loader.load('app.json', function (text) {
 
     //Load starter scene
     loader.load('scene.json', function (text) {
-        var objloader = new ObjectLoader();
+        let objloader = new ObjectLoader();
         player.setScene(objloader.parse(JSON.parse(text)));
 
         //Input init
-        var input = new Input();
+        let input = new Input();
         window.input = input;
         window.onkeydown = input.processKeyDown.bind(input);
         window.onkeyup = input.processKeyUp.bind(input);
@@ -38,16 +38,16 @@ loader.load('app.json', function (text) {
         window.onmouseup = input.processMouseUp.bind(input);
 
         //Controller init
-        var controllerEdit = new Controller(player.camera, player.scene);
+        let controllerEdit = new Controller(player.camera, player.scene);
         window.controllerEdit = controllerEdit;
-        var object = player.scene.children[0];
-        var controllerFPS = new FirstPersonControls(player.camera, object, player.dom);
+        let object = player.scene.children[0];
+        let controllerFPS = new FirstPersonControls(player.camera, object, player.dom);
         window.controllerFPS = controllerFPS;
 
         //
         window.looping = false;
-        var loop;
-        var lastTime = 0;
+        let loop;
+        let lastTime = 0;
         loop = (now) => {
             if (!looping) { return; }
 
@@ -57,7 +57,7 @@ loader.load('app.json', function (text) {
             if (!(now > 0)) {
                 now = lastTime;
             }
-            var delta = now - lastTime;
+            let delta = now - lastTime;
             if (!(delta > 0)) {
                 delta = 0;
             }
