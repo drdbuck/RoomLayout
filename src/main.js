@@ -11,6 +11,8 @@ let controller;
 let controllerEdit;
 let controllerFPS;
 
+function init(){
+
 //Input init
 window.onkeydown = input.processKeyDown.bind(input);
 window.onkeyup = input.processKeyUp.bind(input);
@@ -74,6 +76,8 @@ loader.load('app.json', function (text) {
         switchMode(true);
     });
 });
+}
+init();
 
 
 //
