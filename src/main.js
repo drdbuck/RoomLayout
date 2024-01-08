@@ -181,9 +181,11 @@ function switchMode(editMode = !inEditMode) {
     controller?.activate(true);
     //
     registerKeyBindings(editMode, !editMode);
-    simulate(!editMode);
+    //Position camera
     player.camera.quaternion.copy(controller.save.quaternion);
     player.camera.position.copy(controller.save.position);
+    //Simulate
+    simulate(!editMode);
 };
 
 function setRoomSize(width, height) {

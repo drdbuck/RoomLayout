@@ -14,12 +14,6 @@ class FirstPersonControls {
 		this.domElement = domElement;
 
 		this.controls = new PointerLockControls(camera, domElement);
-		this.raycaster = new THREE.Raycaster(
-			new Vector3(),
-			new Vector3(0, - 1, 0),
-			0,
-			10
-		);
 
 		this.save = {
 			quaternion: this.camera.quaternion.clone(),
@@ -30,7 +24,7 @@ class FirstPersonControls {
 
 		this.enabled = true;
 
-		this.movementSpeed = 1.0;
+		this.movementSpeed = 20.0;
 		this.lookSpeed = 0.1;
 
 		this.lookVertical = true;
@@ -64,6 +58,9 @@ class FirstPersonControls {
 		this.viewHalfX = 0;
 		this.viewHalfY = 0;
 
+		this.velocity = new Vector3();
+		this.direction = new Vector3();
+
 		// private variables
 
 		this.lat = 0;
@@ -89,7 +86,7 @@ class FirstPersonControls {
 	activate(active) {
 		if (active) {
 			this.controls.lock();
-			_onPointerMove();
+			this._onPointerMove();
 		}
 		else {
 			this.controls.unlock();
@@ -257,47 +254,33 @@ class FirstPersonControls {
 	}
 
 	_updateLocked(delta) {
-		this.raycaster.ray.origin.copy(controls.getObject().position);
-		this.raycaster.ray.origin.y -= 10;
-
-		const intersections = this.raycaster.intersectObjects(objects, false);
-
-		const onObject = intersections.length > 0;
+		// 2024-01-07: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 
 		this.velocity.x -= this.velocity.x * 10.0 * delta;
 		this.velocity.z -= this.velocity.z * 10.0 * delta;
 
-		this.velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+		this.velocity.y = 0;
 
-		this.direction.z = Number(moveForward) - Number(moveBackward);
-		this.direction.x = Number(moveRight) - Number(moveLeft);
+		this.direction.z = Number(this.moveForward) - Number(this.moveBackward);
+		this.direction.x = Number(this.moveRight) - Number(this.moveLeft);
 		this.direction.normalize(); // this ensures consistent movements in all directions
 
-		if (this.moveForward || this.moveBackward) this.velocity.z -= this.direction.z * 400.0 * delta;
-		if (this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * 400.0 * delta;
-
-		if (onObject === true) {
-
-			this.velocity.y = Math.max(0, this.velocity.y);
-			canJump = true;
-
-		}
+		if (this.moveForward || this.moveBackward) this.velocity.z -= this.direction.z * this.movementSpeed * delta;
+		if (this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * this.movementSpeed * delta;
 
 		this.controls.moveRight(- this.velocity.x * delta);
 		this.controls.moveForward(- this.velocity.z * delta);
 
-		this.controls.getObject().position.y += (this.velocity.y * delta); // new behavior
+		const obj = this.controls.getObject();
+		obj.position.y += (this.velocity.y * delta); // new behavior
 
-		if (this.controls.getObject().position.y < 10) {
+		this.save.position.copy(obj.position);
+		this.save.quaternion.copy(obj.quaternion);
 
-			this.velocity.y = 0;
-			this.controls.getObject().position.y = 10;
-
-			canJump = true;
-
-		}
 	}
+
 	_updateUnlocked(delta) {
+
 		if (this.heightSpeed) {
 
 			const y = MathUtils.clamp(this.object.position.y, this.heightMin, this.heightMax);
