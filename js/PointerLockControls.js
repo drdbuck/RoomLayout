@@ -37,7 +37,7 @@ class PointerLockControls extends EventDispatcher {
 
 	connect() {
 
-		this.domElement.ownerDocument.addEventListener( 'mousemove', this._onMouseMove );
+		//this.domElement.ownerDocument.addEventListener( 'mousemove', this._onMouseMove );
 		this.domElement.ownerDocument.addEventListener( 'pointerlockchange', this._onPointerlockChange );
 		this.domElement.ownerDocument.addEventListener( 'pointerlockerror', this._onPointerlockError );
 
@@ -45,7 +45,7 @@ class PointerLockControls extends EventDispatcher {
 
 	disconnect() {
 
-		this.domElement.ownerDocument.removeEventListener( 'mousemove', this._onMouseMove );
+		//this.domElement.ownerDocument.removeEventListener( 'mousemove', this._onMouseMove );
 		this.domElement.ownerDocument.removeEventListener( 'pointerlockchange', this._onPointerlockChange );
 		this.domElement.ownerDocument.removeEventListener( 'pointerlockerror', this._onPointerlockError );
 

@@ -86,10 +86,12 @@ class FirstPersonControls {
 	activate(active) {
 		if (active) {
 			this.controls.lock();
+			this.controls.connect();
 			this._onPointerMove();
 		}
 		else {
 			this.controls.unlock();
+			this.controls.disconnect();
 		}
 	}
 
@@ -150,6 +152,7 @@ class FirstPersonControls {
 	}
 
 	onPointerMove(state, event) {
+		//defaults
 		if (!event) {
 			event = {
 				pageX: this.viewHalfX,
@@ -157,7 +160,10 @@ class FirstPersonControls {
 			};
 		}
 
+		//locked
+		this.controls._onMouseMove(event);
 
+		//not locked
 		if (this.domElement === document) {
 
 			this.pointerX = event.pageX - this.viewHalfX;

@@ -54,6 +54,9 @@ function init() {
                 player.scene.children[0],
                 player.dom
             );
+            controllerFPS.controls.addEventListener("unlock", () => {
+                switchMode(true);
+            });
 
             //Upload image to new box
             const materialImage = player.scene.children[2].material;
