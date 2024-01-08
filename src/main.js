@@ -171,16 +171,19 @@ function registerKeyBindings(edit, play) {
 let inEditMode = true;
 function switchMode(editMode = !inEditMode) {
     inEditMode = editMode;
+    //deactivate prev controller
+    controller?.activate(false);
+    //switch controller
     controller = (editMode)
         ? controllerEdit
         : controllerFPS;
+    //active new controller
+    controller?.activate(true);
+    //
     registerKeyBindings(editMode, !editMode);
     simulate(!editMode);
     player.camera.quaternion.copy(controller.save.quaternion);
     player.camera.position.copy(controller.save.position);
-    if (!editMode) {
-        controllerFPS._onPointerMove();
-    }
 };
 
 function setRoomSize(width, height) {
@@ -200,5 +203,3 @@ function getDataStringify() {
         stringifyFurniture,
     ].flat();
 }
-
-

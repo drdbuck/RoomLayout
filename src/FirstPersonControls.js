@@ -78,6 +78,16 @@ class FirstPersonControls {
 		this.setOrientation(this);
 	}
 
+	activate(active) {
+		if (active) {
+			this.controls.lock();
+			_onPointerMove();
+		}
+		else {
+			this.controls.unlock();
+		}
+	}
+
 	handleResize() {
 
 		if (this.domElement === document) {

@@ -19,6 +19,10 @@ class Controller {
         };
     }
 
+    activate(active) {
+        //do nothing
+    }
+
     processInput(state, event) {
         let moveCamera = false;
         switch (event.keyCode) {
