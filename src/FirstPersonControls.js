@@ -13,6 +13,14 @@ class FirstPersonControls {
 		this.object = object;
 		this.domElement = domElement;
 
+		this.controls = new PointerLockControls(camera, domElement);
+		this.raycaster = new THREE.Raycaster(
+			new Vector3(),
+			new Vector3(0, - 1, 0),
+			0,
+			10
+		);
+
 		this.save = {
 			quaternion: this.camera.quaternion.clone(),
 			position: this.object.position.clone(),
@@ -105,7 +113,7 @@ class FirstPersonControls {
 	}
 
 	onPointerDown(state, event) {
-
+		return;
 		if (this.domElement !== document) {
 
 			this.domElement.focus();
@@ -128,7 +136,7 @@ class FirstPersonControls {
 	}
 
 	onPointerUp(state, event) {
-
+		return;
 		if (this.activeLook) {
 
 			switch (event.button) {
@@ -240,7 +248,56 @@ class FirstPersonControls {
 	update(delta) {
 
 		if (this.enabled === false) return;
+		if (this.controls.isLocked) {
+			this._updateLocked(delta);
+		}
+		else {
+			this._updateUnlocked(delta);
+		}
+	}
 
+	_updateLocked(delta) {
+		this.raycaster.ray.origin.copy(controls.getObject().position);
+		this.raycaster.ray.origin.y -= 10;
+
+		const intersections = this.raycaster.intersectObjects(objects, false);
+
+		const onObject = intersections.length > 0;
+
+		this.velocity.x -= this.velocity.x * 10.0 * delta;
+		this.velocity.z -= this.velocity.z * 10.0 * delta;
+
+		this.velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+
+		this.direction.z = Number(moveForward) - Number(moveBackward);
+		this.direction.x = Number(moveRight) - Number(moveLeft);
+		this.direction.normalize(); // this ensures consistent movements in all directions
+
+		if (this.moveForward || this.moveBackward) this.velocity.z -= this.direction.z * 400.0 * delta;
+		if (this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * 400.0 * delta;
+
+		if (onObject === true) {
+
+			this.velocity.y = Math.max(0, this.velocity.y);
+			canJump = true;
+
+		}
+
+		this.controls.moveRight(- this.velocity.x * delta);
+		this.controls.moveForward(- this.velocity.z * delta);
+
+		this.controls.getObject().position.y += (this.velocity.y * delta); // new behavior
+
+		if (this.controls.getObject().position.y < 10) {
+
+			this.velocity.y = 0;
+			this.controls.getObject().position.y = 10;
+
+			canJump = true;
+
+		}
+	}
+	_updateUnlocked(delta) {
 		if (this.heightSpeed) {
 
 			const y = MathUtils.clamp(this.object.position.y, this.heightMin, this.heightMax);
