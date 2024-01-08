@@ -109,13 +109,20 @@ class PointerLockControls extends EventDispatcher {
 }
 
 // event listeners
-
+let MOVEMENT_MAX = 5;
 function onMouseMove( event ) {
 
 	if ( this.isLocked === false ) return;
 
-	const movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-	const movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+	let movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+	let movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+	if (Math.abs(movementX > MOVEMENT_MAX)) {
+		movementX = Math.sign(movementX) * MOVEMENT_MAX;
+	}
+	if (Math.abs(movementY > MOVEMENT_MAX)) {
+		movementY = Math.sign(movementY) * MOVEMENT_MAX;
+	}
 
 	const camera = this.camera;
 	_euler.setFromQuaternion( camera.quaternion );
@@ -123,7 +130,7 @@ function onMouseMove( event ) {
 	_euler.y -= movementX * 0.002 * this.pointerSpeed;
 	_euler.x -= movementY * 0.002 * this.pointerSpeed;
 
-	_euler.x = Math.max( _PI_2 - this.maxPolarAngle, Math.min( _PI_2 - this.minPolarAngle, _euler.x ) );
+	_euler.x = Math.clamp(_euler.x, _PI_2 - this.maxPolarAngle, _PI_2 - this.minPolarAngle);
 
 	camera.quaternion.setFromEuler( _euler );
 
