@@ -209,8 +209,8 @@ function getDataStringify() {
     ].flat();
 }
 
-function createFloor(width = 11, length = 12) {
-    //2024-01-07: copied from copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
+function createFloor(width = 11, length = 12, showTriangles = false) {
+    //2024-01-07: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 
     const vertex = new Vector3();
     const color = new Color();
@@ -220,43 +220,36 @@ function createFloor(width = 11, length = 12) {
     let floorGeometry = new PlaneGeometry(
         width,
         length,
-        Math.ceil(width / 20),
-        Math.ceil(length / 20)
+        Math.ceil(width * 2),
+        Math.ceil(length * 2)
     );
     floorGeometry.rotateX( - Math.PI / 2 );
 
-    // vertex displacement
+    //color triangles
 
     let position = floorGeometry.attributes.position;
 
-    for ( let i = 0, l = position.count; i < l; i ++ ) {
-
-        vertex.fromBufferAttribute( position, i );
-
-        vertex.x += Math.random() * 20 - 10;
-        vertex.y += Math.random() * 2;
-        vertex.z += Math.random() * 20 - 10;
-
-        position.setXYZ( i, vertex.x, vertex.y, vertex.z );
-
+    if (showTriangles) {
+        floorGeometry = floorGeometry.toNonIndexed(); // ensure each face has unique vertices
+        position = floorGeometry.attributes.position;
     }
 
-    floorGeometry = floorGeometry.toNonIndexed(); // ensure each face has unique vertices
-
-    position = floorGeometry.attributes.position;
     const colorsFloor = [];
 
     for ( let i = 0, l = position.count; i < l; i ++ ) {
 
-        color.setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75, SRGBColorSpace );
+        let shade = Math.random() * 0.05 +0.5;
+        color.setRGB(shade, shade, shade, SRGBColorSpace);
         colorsFloor.push( color.r, color.g, color.b );
 
     }
 
     floorGeometry.setAttribute( 'color', new Float32BufferAttribute( colorsFloor, 3 ) );
 
+    //floor material
     const floorMaterial = new MeshBasicMaterial( { vertexColors: true } );
 
+    //floor mesh
     const floor = new Mesh( floorGeometry, floorMaterial );
     return floor;
 }
