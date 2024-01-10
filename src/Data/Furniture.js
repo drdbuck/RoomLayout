@@ -5,7 +5,7 @@ let stringifyFurniture = [
 ];
 
 class Furniture extends Block {
-    constructor(imageURL, width, length, height) {
+    constructor(imageURL, width = 1, length = 1, height = 1) {
         super(width, length, height);
 
         this.imageURL = imageURL;

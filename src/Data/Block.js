@@ -7,11 +7,11 @@ let stringifyBlock = [
     "units",
 ];
 
-class Block{
-    constructor(width, length, height) {
-        this._width = width ?? 11;
-        this._length = length ?? 12;
-        this._height = height ?? 9;
+class Block {
+    constructor(width = 1, length = 1, height = 1) {
+        this._width = width;
+        this._length = length;
+        this._height = height;
         this.units = "feet";
         this.onSizeChanged = new Delegate("width", "length", "height");
     }

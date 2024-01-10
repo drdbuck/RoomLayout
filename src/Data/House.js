@@ -6,8 +6,8 @@ let stringifyHouse = [
 ];
 
 class House {
-    constructor(units) {
-        this.units = units ?? "feet";
+    constructor(units = "feet") {
+        this.units = units;
 
         this.rooms = [];
 

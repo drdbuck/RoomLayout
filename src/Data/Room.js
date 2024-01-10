@@ -5,7 +5,7 @@ let stringifyRoom = [
 ];
 
 class Room extends Block {
-    constructor(width, length, height) {
+    constructor(width = 11, length = 12, height = 9) {
         super(width, length, height);
 
         this.furnitures = [];
