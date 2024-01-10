@@ -67,25 +67,14 @@ function init() {
             });
 
             //Upload image to new box
-            const materialImage = player.scene.children[2].material;
-
             flm.onImageUploaded.add((image) => {
                 let newbox = new Mesh(
                     new BoxGeometry(),
-                    materialImage.clone()
+                    createMaterial(image)
                 );
                 newbox.userData ??= {};
                 newbox.userData.selectable = true;
                 player.scene.add(newbox);
-                new TextureLoader().load(
-                    image.src,
-                    (texture) => {
-                        newbox.material.aoMap = texture;
-                        newbox.material.lightMap = texture;
-                        newbox.material.map = texture;
-                        newbox.material.needsUpdate = true;
-                    }
-                );
             });
 
             switchMode(true);
@@ -242,4 +231,28 @@ function testNewHouse() {
 
     //
     return house;
+}
+
+function createMaterial(image) {
+    //material
+    let mat = new MeshLambertMaterial();
+    //settings
+    mat.aoMapIntensity = 1;
+    mat.emissiveIntensity = 2.34;
+    mat.flatShading = true;
+    mat.forceSinglePass = true;
+    mat.lightMapIntensity = 1;
+    mat.reflectivity = 0;
+    //textures
+    new TextureLoader().load(
+        image.src,
+        (texture) => {
+            mat.aoMap = texture;
+            mat.lightMap = texture;
+            mat.map = texture;
+            mat.needsUpdate = true;
+        }
+    );
+    //return
+    return mat;
 }
