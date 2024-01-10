@@ -30,7 +30,8 @@ class Room extends Block {
 
 function inflateRoom(room) {
 
-    inflateObject(room, Room.prototype, ["onFurnituresChanged"]);
+    let inflated = inflateObject(room, Room.prototype, ["onFurnituresChanged"]);
+    if (!inflated) { return; }
     inflateBlock(room);
 
     for (let furniture of room.furnitures) {

@@ -15,7 +15,8 @@ class Furniture extends Block {
 
 function inflateFurniture(furniture) {
 
-    inflateObject(furniture, Furniture.prototype);
+    let inflated = inflateObject(furniture, Furniture.prototype);
+    if (!inflated) { return; }
     inflateBlock(furniture);
 
 }
