@@ -72,6 +72,10 @@ function init() {
 
             //Upload image to new box
             flm.onImageUploaded.add((image) => {
+                //Data
+                let furniture = new Furniture(image.src);
+                house.rooms[0].addFurniture(furniture);
+                //Scene
                 let newbox = new Mesh(
                     new BoxGeometry(),
                     createMaterial(image.src)
