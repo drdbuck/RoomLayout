@@ -11,6 +11,7 @@ let controller;
 let controllerEdit;
 let controllerFPS;
 let room;
+let house = new House();
 
 function init() {
 
@@ -20,6 +21,13 @@ function init() {
     window.onmousedown = input.processMouseDown.bind(input);
     window.onmousemove = input.processMouseMove.bind(input);
     window.onmouseup = input.processMouseUp.bind(input);
+
+    //Load
+    house = loadHouse();
+    //Save
+    window.onbeforeunload = (ev) => {
+        saveHouse(house);
+    };
 
     //Load empty scene
     loader.load('app.json', function (text) {

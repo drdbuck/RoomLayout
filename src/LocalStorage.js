@@ -7,7 +7,7 @@ function saveHouse(house) {
     if (!isString(json)) {
         json = JSON.stringify(house, getDataStringify());
     }
-    localStorage.setItem(houseSaveKey, house);
+    localStorage.setItem(houseSaveKey, json);
 }
 
 function loadHouse() {
