@@ -13,7 +13,10 @@ function saveHouse(house) {
 function loadHouse() {
     let json = localStorage.getItem(houseSaveKey);
     let house = JSON.parse(json);
-    if (!house) {
+    if (house) {
+        inflateHouse(house);
+    }
+    else {
         house = new House();
     }
     return house;
