@@ -48,13 +48,9 @@ function init() {
 
         });
 
-        //Load starter scene
-        loader.load('scene.json', function (text) {
-            let objloader = new ObjectLoader();
-            player.setScene(objloader.parse(JSON.parse(text)));
-
-            //Room
-            room = player.scene.children[3];
+        //Load scene
+        let scene = construct(house);
+        player.setScene(scene);
 
             //Controller init
             controllerEdit = new Controller(
@@ -86,7 +82,7 @@ function init() {
             });
 
             switchMode(true);
-        });
+
     });
 }
 init();
