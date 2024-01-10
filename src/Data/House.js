@@ -6,12 +6,18 @@ let stringifyHouse = [
 ];
 
 class House {
-    constructor(units = "feet") {
+    constructor(emptyRooms = 1, units = "feet") {
         this.units = units;
 
         this.rooms = [];
 
         this.onRoomsChanged = new Delegate("rooms");
+
+        //add empty rooms
+        for (let i = 0; i < emptyRooms; i++){
+            let room = new Room();
+            this.addRoom(room);
+        }
     }
 
     addRoom(room) {

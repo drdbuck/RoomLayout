@@ -210,7 +210,7 @@ function getDataStringify() {
 
 function testNewHouse() {
     //house
-    let house = new House();
+    let house = new House(0);
     //room
     let room = new Room(11, 12);
     //furniture
