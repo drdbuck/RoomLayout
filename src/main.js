@@ -243,6 +243,17 @@ function testNewHouse() {
     return house;
 }
 
+function testLoadHouse() {
+    //house
+    house = loadHouse();
+    //
+    let scene = construct(house);
+    player.setScene(scene);
+    //
+    controllerEdit.scene = scene;
+    controllerFPS.scene = scene;
+}
+
 function createMaterial(imageURL) {
     //material
     let mat = new MeshLambertMaterial();
