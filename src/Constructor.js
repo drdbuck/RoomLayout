@@ -84,5 +84,7 @@ function constructFurniture(furniture) {
         box.userData ??= {};
         box.userData.selectable = true;
 
+        box.furniture = furniture;
+
     return box;
 }

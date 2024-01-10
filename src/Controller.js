@@ -112,7 +112,9 @@ class Controller {
 
     moveObject() {
         let mouseWorld = this.getMouseWorld(this.mouse);
-        this.select.position.copy(mouseWorld.add(this.selectOffset));
+        let pos = mouseWorld.add(this.selectOffset);
+        this.select.position.copy(pos);
+        this.select.furniture.position.copy(pos);
     }
 
     getMouseWorld(mouse) {
