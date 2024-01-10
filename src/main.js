@@ -24,6 +24,10 @@ function init() {
 
     //Load
     house = loadHouse();
+    if (house.rooms.length == 0) {
+        let room = new Room();
+        house.addRoom(room);
+    }
     //Save
     window.onbeforeunload = (ev) => {
         saveHouse(house);
