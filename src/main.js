@@ -74,7 +74,7 @@ function init() {
             flm.onImageUploaded.add((image) => {
                 let newbox = new Mesh(
                     new BoxGeometry(),
-                    createMaterial(image)
+                    createMaterial(image.src)
                 );
                 newbox.userData ??= {};
                 newbox.userData.selectable = true;
@@ -239,7 +239,7 @@ function testNewHouse() {
     return house;
 }
 
-function createMaterial(image) {
+function createMaterial(imageURL) {
     //material
     let mat = new MeshLambertMaterial();
     //settings
@@ -250,15 +250,17 @@ function createMaterial(image) {
     mat.lightMapIntensity = 1;
     mat.reflectivity = 0;
     //textures
-    new TextureLoader().load(
-        image.src,
-        (texture) => {
-            mat.aoMap = texture;
-            mat.lightMap = texture;
-            mat.map = texture;
-            mat.needsUpdate = true;
-        }
-    );
+    if (imageURL) {
+        new TextureLoader().load(
+            imageURL,
+            (texture) => {
+                mat.aoMap = texture;
+                mat.lightMap = texture;
+                mat.map = texture;
+                mat.needsUpdate = true;
+            }
+        );
+    }
     //return
     return mat;
 }
