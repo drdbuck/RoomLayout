@@ -27,3 +27,19 @@ class Room extends Block {
         }
     }
 }
+
+function inflateRoom(room) {
+
+    //Early exit
+    if (!room) {
+        console.error("Cannot inflate null room!", room);
+        return;
+    }
+
+    //Prototype
+    Object.setPrototypeOf(room, Room.prototype);
+
+    //Delegates
+    room.onFurnituresChanged = new Delegate("furnitures");
+
+}

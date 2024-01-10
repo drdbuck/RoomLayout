@@ -28,3 +28,19 @@ class House {
         }
     }
 }
+
+function inflateHouse(house) {
+
+    //Early exit
+    if (!house) {
+        console.error("Cannot inflate null house!", house);
+        return;
+    }
+
+    //Prototype
+    Object.setPrototypeOf(house, House.prototype);
+
+    //Delegates
+    house.onRoomsChanged = new Delegate("rooms");
+
+}

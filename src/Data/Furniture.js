@@ -12,3 +12,16 @@ class Furniture extends Block {
         this.image = undefined;//
     }
 }
+
+function inflateFurniture(furniture) {
+
+    //Early exit
+    if (!furniture) {
+        console.error("Cannot inflate null furniture!", furniture);
+        return;
+    }
+
+    //Prototype
+    Object.setPrototypeOf(furniture, Furniture.prototype);
+
+}
