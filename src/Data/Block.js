@@ -4,6 +4,7 @@ let stringifyBlock = [
     "_width",
     "_length",
     "_height",
+    "_position",
     "units",
 ];
 
@@ -13,7 +14,11 @@ class Block {
         this._length = length;
         this._height = height;
         this.units = "feet";
+
+        this._position = new Vector3();
+
         this.onSizeChanged = new Delegate("width", "length", "height");
+        this.onPositionChanged = new Delegate("position");
     }
 
     get width() {
@@ -39,6 +44,14 @@ class Block {
         this._height = value;
         this.onSizeChanged.run(this._width, this._length, this._height);
     }
+
+    get position() {
+        return this._position;
+    }
+    set position(value) {
+        this._position.copy(value);
+        this.onPositionChanged.run(this._position);
+    }
 }
 
 /**
@@ -48,8 +61,9 @@ class Block {
 function inflateBlock(block) {
     [
         "onSizeChanged",
+        "onPositionChanged",
     ]
         .forEach(delkey => block[delkey] = new Delegate());
 
-    Object.setPrototypeOf(this._position, Vector3.prototype);
+    Object.setPrototypeOf(block._position, Vector3.prototype);
 }
