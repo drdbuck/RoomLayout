@@ -210,12 +210,28 @@ function getDataStringify() {
 }
 
 function testNewHouse() {
+    //house
     let house = new House();
+    //room
     let room = new Room(11, 12);
+    //furniture
+    let furniture = new Furniture();
+    furniture.position.y = 1;
+    room.addFurniture(furniture);
+    let furniture2 = new Furniture();
+    furniture2.position.x = 2;
+    furniture2.position.y = 1;
+    furniture2.position.z = 1;
+    room.addFurniture(furniture2);
+    //
     house.addRoom(room);
+    //
     let scene = construct(house);
     player.setScene(scene);
     //
     controllerEdit.scene = scene;
     controllerFPS.scene = scene;
+
+    //
+    return house;
 }

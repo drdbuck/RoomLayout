@@ -14,7 +14,7 @@ function construct(house) {
 
 function constructRoom(room, scene) {
     //floor
-    let floor = createFloor(room.width, room.height);
+    let floor = createFloor(room.width, room.length);
     scene.add(floor);
     //furniture
     for (let furniture of room.furnitures) {
@@ -76,6 +76,7 @@ function constructFurniture(furniture) {
 
     //create colors
     let position = boxGeometry.attributes.position;
+    let color = new Color();
     const colorsBox = [];
 
     for (let i = 0, l = position.count; i < l; i++) {
