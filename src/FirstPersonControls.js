@@ -278,7 +278,7 @@ class FirstPersonControls {
 		this.controls.moveForward(- this.velocity.z * delta);
 
 		const obj = this.controls.getObject();
-		obj.position.y += (this.velocity.y * delta); // new behavior
+		obj.position.y = 2;//+= (this.velocity.y * delta); // new behavior
 
 		this.save.position.copy(obj.position);
 		this.save.quaternion.copy(obj.quaternion);
