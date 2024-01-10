@@ -30,16 +30,11 @@ class Room extends Block {
 
 function inflateRoom(room) {
 
-    //Early exit
-    if (!room) {
-        console.error("Cannot inflate null room!", room);
-        return;
+    inflateObject(room, Room.prototype, ["onFurnituresChanged"]);
+    inflateBlock(room);
+
+    for (let furniture of room.furnitures) {
+        inflateFurniture(furniture);
     }
-
-    //Prototype
-    Object.setPrototypeOf(room, Room.prototype);
-
-    //Delegates
-    room.onFurnituresChanged = new Delegate("furnitures");
 
 }

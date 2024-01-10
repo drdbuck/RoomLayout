@@ -15,13 +15,7 @@ class Furniture extends Block {
 
 function inflateFurniture(furniture) {
 
-    //Early exit
-    if (!furniture) {
-        console.error("Cannot inflate null furniture!", furniture);
-        return;
-    }
-
-    //Prototype
-    Object.setPrototypeOf(furniture, Furniture.prototype);
+    inflateObject(furniture, Furniture.prototype);
+    inflateBlock(furniture);
 
 }

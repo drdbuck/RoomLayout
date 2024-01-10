@@ -31,16 +31,10 @@ class House {
 
 function inflateHouse(house) {
 
-    //Early exit
-    if (!house) {
-        console.error("Cannot inflate null house!", house);
-        return;
+    inflateObject(house, House.prototype, ["onRoomsChanged"]);
+
+    for (let room of house.rooms) {
+        inflateRoom(room);
     }
-
-    //Prototype
-    Object.setPrototypeOf(house, House.prototype);
-
-    //Delegates
-    house.onRoomsChanged = new Delegate("rooms");
 
 }

@@ -187,6 +187,26 @@ function copyObject(obj, stringify, prototype) {
     return obj2;
 }
 
+function inflateObject(obj, prototype, delegates = []) {
+
+    //Early exit
+    if (!obj) {
+        console.error("Cannot inflate null obj!", obj);
+        return false;
+    }
+
+    //Prototype
+    Object.setPrototypeOf(obj, prototype);
+
+    //Delegates
+    for (let key of delegates) {
+        obj[key] = new Delegate();
+    }
+
+    return true;
+
+}
+
 
 function getMemorySize(json) {
     if (!json) return 0;
@@ -194,7 +214,7 @@ function getMemorySize(json) {
     return size;
 }
 
-/** 
+/**
  * Gets the size display text for the given json string, or the given length
 */
 function getMemorySizeText(json) {
@@ -221,4 +241,3 @@ function validateIndexBounds(value, max, name) {
     }
     return true;
 }
-
