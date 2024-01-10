@@ -40,3 +40,16 @@ class Block {
         this.onSizeChanged.run(this._width, this._length, this._height);
     }
 }
+
+/**
+ * Call this inside subtype inflate...() method
+ * it only does delegates
+ */
+function inflateBlock(block) {
+    [
+        "onSizeChanged",
+    ]
+        .forEach(delkey => block[delkey] = new Delegate());
+
+    Object.setPrototypeOf(this._position, Vector3.prototype);
+}
