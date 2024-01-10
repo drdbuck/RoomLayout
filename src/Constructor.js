@@ -74,29 +74,15 @@ function constructFurniture(furniture) {
     //create geometry
     const boxGeometry = new BoxGeometry(furniture.width, furniture.height, furniture.length).toNonIndexed();
 
-    //create colors
-    let position = boxGeometry.attributes.position;
-    let color = new Color();
-    const colorsBox = [];
-
-    for (let i = 0, l = position.count; i < l; i++) {
-
-        color.setHSL(Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75, SRGBColorSpace);
-        colorsBox.push(color.r, color.g, color.b);
-
-    }
-
-    boxGeometry.setAttribute('color', new Float32BufferAttribute(colorsBox, 3));
-
         //create material
-        const boxMaterial = new MeshPhongMaterial({ specular: 0xffffff, flatShading: true, vertexColors: true });
-        boxMaterial.color.setHSL(Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75, SRGBColorSpace);
+        const boxMaterial = createMaterial(furniture.imageURL);
 
         //create mesh
         const box = new Mesh(boxGeometry, boxMaterial);
-        box.position.x = Math.floor(Math.random() * 20 - 10) * 20;
-        box.position.y = Math.floor(Math.random() * 20) * 20 + 10;
-        box.position.z = Math.floor(Math.random() * 20 - 10) * 20;
+        box.position.copy(furniture.position);
+
+        box.userData ??= {};
+        box.userData.selectable = true;
 
     return box;
 }
