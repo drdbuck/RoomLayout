@@ -207,6 +207,8 @@ function getDataStringify() {
         stringifyBlock,
         stringifyRoom,
         stringifyFurniture,
+        //
+        stringifyVector3,
     ].flat();
 }
 

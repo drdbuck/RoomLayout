@@ -3908,6 +3908,12 @@ class Quaternion {
 
 }
 
+const stringifyVector3 = [
+	"x",
+	"y",
+	"z",
+];
+
 class Vector3 {
 
 	constructor( x = 0, y = 0, z = 0 ) {
@@ -3922,7 +3928,7 @@ class Vector3 {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		
+
 		}
 
 	}
@@ -52999,4 +53005,3 @@ if ( typeof window !== 'undefined' ) {
 	}
 
 }
-
