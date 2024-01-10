@@ -29,6 +29,7 @@ function init() {
         house.addRoom(room);
     }
     //Save
+    //2024-01-09: copied from SyllableSight
     window.onbeforeunload = (ev) => {
         saveHouse(house);
     };
@@ -72,12 +73,7 @@ function init() {
                 let furniture = new Furniture(image.src);
                 house.rooms[0].addFurniture(furniture);
                 //Scene
-                let newbox = new Mesh(
-                    new BoxGeometry(),
-                    createMaterial(image.src)
-                );
-                newbox.userData ??= {};
-                newbox.userData.selectable = true;
+                let newbox = constructFurniture(furniture);
                 player.scene.add(newbox);
             });
 
