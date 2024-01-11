@@ -1,5 +1,10 @@
 "use strict";
 
+const SIDE_FRONT = 0;
+const SIDE_LEFT = 1;
+const SIDE_BACK = 2;
+const SIDE_RIGHT = 3;
+
 //Constructs scene objects from data objects
 
 function construct(house) {
@@ -16,6 +21,18 @@ function constructRoom(room, scene) {
     //floor
     let floor = createFloor(room.width, room.length);
     scene.add(floor);
+    //walls
+    for (let i = 0; i < 4; i++){
+        let length = (i % 2 == 0) ? room.width : room.length;
+        let wall = createWall(length, room.height, i);
+        if (i % 2 == 0) {
+            wall.position.z = room.length / 2 * Math.sign(i - 1.5);
+        }
+        else {
+            wall.position.x = room.width / 2 * Math.sign(i - 1.5);
+        }
+        scene.add(wall);
+    }
     //furniture
     for (let furniture of room.furnitures) {
         let box = constructFurniture(furniture);
@@ -26,7 +43,6 @@ function constructRoom(room, scene) {
 function createFloor(width = 11, length = 12, showTriangles = false) {
     //2024-01-07: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 
-    const vertex = new Vector3();
     const color = new Color();
 
     // floor
@@ -66,6 +82,51 @@ function createFloor(width = 11, length = 12, showTriangles = false) {
     //floor mesh
     const floor = new Mesh(floorGeometry, floorMaterial);
     return floor;
+}
+
+function createWall(length = 11, height = 9, side = 0, showTriangles = false) {
+    //2024-01-07: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
+
+    const color = new Color();
+
+    // wall
+
+    let wallGeometry = new PlaneGeometry(
+        length,
+        height,
+        Math.ceil(length * 2),
+        Math.ceil(height * 2)
+    );
+    wallGeometry.rotateY(side * Math.PI / 2);
+
+    //color triangles
+
+    let position = wallGeometry.attributes.position;
+
+    if (showTriangles) {
+        wallGeometry = wallGeometry.toNonIndexed(); // ensure each face has unique vertices
+        position = wallGeometry.attributes.position;
+    }
+
+    const colorsWall = [];
+
+    for (let i = 0, l = position.count; i < l; i++) {
+
+        let shade = Math.random() * 0.05 + 0.7;
+        color.setRGB(shade, shade, shade, SRGBColorSpace);
+        colorsWall.push(color.r, color.g, color.b);
+
+    }
+
+    wallGeometry.setAttribute('color', new Float32BufferAttribute(colorsWall, 3));
+
+    //wall material
+    const wallMaterial = new MeshBasicMaterial({ vertexColors: true });
+
+    //wall mesh
+    const wall = new Mesh(wallGeometry, wallMaterial);
+    wall.position.y = height / 2;
+    return wall;
 }
 
 function constructFurniture(furniture) {
