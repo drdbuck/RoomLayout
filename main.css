@@ -10,5 +10,11 @@ canvas {
 }
 
 .popupPanel {
-    color: green;
+    color: white;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    padding: 3px;
+    background-color: black;
 }

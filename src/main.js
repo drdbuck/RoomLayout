@@ -61,7 +61,7 @@ function init() {
         player.load(JSON.parse(text));
         player.setSize(window.innerWidth, window.innerHeight);
         player.play();
-        document.body.appendChild(player.dom);
+        $("divCanvas").appendChild(player.dom);
         player.dom.firstChild.id = "cvsDisplay";
 
         window.addEventListener('resize', function () {
