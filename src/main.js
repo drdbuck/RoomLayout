@@ -23,6 +23,21 @@ function init() {
     window.onmouseup = input.processMouseUp.bind(input);
     window.onmousewheel = input.processMouseWheel.bind(input);
 
+    //textbox events
+    [
+        "txtWidth",
+        "txtLength",
+        "txtHeight"
+    ]
+        .forEach(txtId => {
+            let txt = $(txtId);
+            txt.onfocus = () => {
+                input.clearAllDelegates();
+            };
+            txt.onblur = () => {
+                registerKeyBindings();
+            };
+        });
     //Load
     house = loadHouse();
     if (house.rooms.length == 0) {
