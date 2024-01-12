@@ -17,7 +17,9 @@ class Controller {
         this.mouse = {};
         this.raycaster = new Raycaster();
 
-        this.current = undefined;//last furniture selected
+        this._current = undefined;//last furniture selected
+
+        this.onCurrentChanged = new Delegate("furniture");
 
         this.save = {
             quaternion: new Quaternion(-0.7, 0, 0, 0.7),
@@ -27,6 +29,14 @@ class Controller {
 
     activate(active) {
         //do nothing
+    }
+
+    get current() {
+        return this._current;
+    }
+    set current(value) {
+        this._current = value;
+        this.onCurrentChanged.run(this._current);
     }
 
     processInput(state, event) {

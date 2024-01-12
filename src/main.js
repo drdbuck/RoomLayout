@@ -79,6 +79,11 @@ function init() {
                 player.camera,
                 player.scene
             );
+            controllerEdit.onCurrentChanged.add((furniture) => {
+                $("txtWidth").value = furniture.width;
+                $("txtLength").value = furniture.length;
+                $("txtHeight").value = furniture.height;
+            });
             controllerFPS = new FirstPersonControls(
                 player.camera,
                 player.scene.children[0],
