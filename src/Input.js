@@ -7,6 +7,7 @@ class Input {
             down: new Delegate(),
             hold: new Delegate(),
             up: new Delegate(),
+            wheel: new Delegate(),
         };
         this.key = {
             down: new Delegate(),
@@ -20,6 +21,7 @@ class Input {
                 //buttons: [],
                 pos: new Vector2(),
                 posStart: new Vector2(),
+                wheelDelta: 0,
             },
             keys: [],
         }
@@ -29,6 +31,8 @@ class Input {
         //2023-12-21: copied from https://discourse.threejs.org/t/how-can-i-get-the-position-of-mouse-click-point/16864/3
         this.state.mouse.pos.x = event.clientX / window.innerWidth * 2 - 1;
         this.state.mouse.pos.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        //
+        this.state.mouse.wheelDelta = event.deltaY;
     }
 
     processMouseMove(event) {
@@ -51,6 +55,11 @@ class Input {
     processMouseUp(event) {
         this.state.mouse.lmbDown = false;
         this.mouse.up.run(this.state, event);
+    }
+
+    processMouseWheel(event) {
+        this.processMouseInput(event);
+        this.mouse.wheel.run(this.state, event);
     }
 
 

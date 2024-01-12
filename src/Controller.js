@@ -5,11 +5,15 @@ const mouseDragStringify = [
     "y",
 ];
 
+const ZOOM_MIN = 2;
+const ZOOM_MAX = 100;
+
 class Controller {
     constructor(camera, scene) {
         this.camera = camera;
         this.scene = scene;
         this.speed = 1;
+        this.wheelMoveSpeed = 1;
         this.mouse = {};
         this.raycaster = new Raycaster();
 
@@ -93,6 +97,15 @@ class Controller {
     processMouseUp(state, event) {
         this.mouse.down = false;
         this.select = undefined;
+    }
+
+    processMouseWheel(state, event) {
+        let zoomDelta = state.mouse.wheelDelta * this.wheelMoveSpeed / 100;
+        this.camera.position.y = Math.clamp(
+            this.camera.position.y + zoomDelta,
+            ZOOM_MIN,
+            ZOOM_MAX
+        );
     }
 
     getObjectAtMousePos() {

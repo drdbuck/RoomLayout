@@ -21,6 +21,7 @@ function init() {
     window.onmousedown = input.processMouseDown.bind(input);
     window.onmousemove = input.processMouseMove.bind(input);
     window.onmouseup = input.processMouseUp.bind(input);
+    window.onmousewheel = input.processMouseWheel.bind(input);
 
     //Load
     house = loadHouse();
@@ -130,6 +131,7 @@ function registerKeyBindings(edit, play) {
         input.mouse.down.add(controllerEdit.processMouseDown.bind(controllerEdit));
         input.mouse.move.add(controllerEdit.processMouseMove.bind(controllerEdit));
         input.mouse.up.add(controllerEdit.processMouseUp.bind(controllerEdit));
+        input.mouse.wheel.add(controllerEdit.processMouseWheel.bind(controllerEdit));
 
         controller = controllerEdit;
     }
