@@ -17,6 +17,8 @@ class Controller {
         this.mouse = {};
         this.raycaster = new Raycaster();
 
+        this.current = undefined;//last furniture selected
+
         this.save = {
             quaternion: new Quaternion(-0.7, 0, 0, 0.7),
             position: new Vector3(0, 10, 0),
@@ -120,6 +122,7 @@ class Controller {
         if (this.select) {
             this.origPos = new Vector3(this.select.position);
             this.selectOffset = this.origPos.sub(this.getMouseWorld(this.mouse));
+            this.current = this.select.furniture;
         }
     }
 

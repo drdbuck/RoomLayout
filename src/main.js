@@ -38,6 +38,11 @@ function init() {
                 registerKeyBindings();
             };
         });
+    //individual textbox events
+    $("txtWidth").onchange = (txt) => controllerEdit.current.width = parseFloat(txt.target.value);
+    $("txtLength").onchange = (txt) => controllerEdit.current.length = parseFloat(txt.target.value);
+    $("txtHeight").onchange = (txt) => controllerEdit.current.height = parseFloat(txt.target.value);
+
     //Load
     house = loadHouse();
     if (house.rooms.length == 0) {
@@ -92,6 +97,8 @@ function init() {
                 //Scene
                 let newbox = constructFurniture(furniture);
                 player.scene.add(newbox);
+                //Current
+                controllerEdit.current = furniture;
             });
 
             switchMode(true);
@@ -138,7 +145,7 @@ function simulate(on) {
     }
 };
 
-function registerKeyBindings(edit, play) {
+function registerKeyBindings(edit = inEditMode, play = !inEditMode) {
     input.clearAllDelegates();
 
     if (edit) {

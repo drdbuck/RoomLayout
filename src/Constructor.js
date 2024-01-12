@@ -147,5 +147,12 @@ function constructFurniture(furniture) {
 
         box.furniture = furniture;
 
+    //delegates
+    furniture.onSizeChanged.add((width, length, height) => {
+        box.scale.x = width;
+        box.scale.y = height;
+        box.scale.z = length;
+    });
+
     return box;
 }
