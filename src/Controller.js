@@ -115,12 +115,12 @@ class Controller {
         return objects.find(o => o.object.userData.selectable)?.object;
     }
 
-    selectObject() {
+    selectObject(add = false) {
         let select = this.getObjectAtMousePos()?.furniture;
         if (select) {
             let origPos = new Vector3(select.position);
             this.selectOffset = origPos.sub(this.getMouseWorld(this.mouse));
-            this.selector.selectOnly(select);
+            this.selector.select(select, add);
         }
         return select !== undefined;
     }

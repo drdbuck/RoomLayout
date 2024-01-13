@@ -24,8 +24,13 @@ class Selector {
     /**
      * Select the given item
      * @param {object} item The item to select
+     * @param {boolean} [add=true] Whether or not to add the item to the list. If false, clears the list first
      */
-    select(item) {
+    select(item, add = true) {
+        if (!add) {
+            this.selectOnly(item);
+            return;
+        }
         if (!this._selection.includes(item)) {
             this._selection.push(item);
             this.onSelectionGained.run(item);
