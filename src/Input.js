@@ -1,7 +1,9 @@
 "use strict";
 
 class Input {
-    constructor() {
+    constructor(target) {
+        this.target = target;
+
         this.mouse = {
             move: new Delegate(),
             down: new Delegate(),

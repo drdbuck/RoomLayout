@@ -5,8 +5,8 @@ let flm = new FileManager(body);
 flm.onImageUploaded.add((image) => console.log("image uploaded!", image.name));
 
 let loader = new FileLoader();
-let player = new APP.Player();
-let input = new Input();
+let player;
+let input;
 let controller;
 let controllerEdit;
 let controllerFPS;
@@ -14,7 +14,19 @@ let house = new House();
 
 function init() {
 
+    //Player setup
+    player = new APP.Player();
+    player.setSize(window.innerWidth, window.innerHeight);
+    $("divCanvas").appendChild(player.dom);
+    let canvas = player.dom.firstChild;
+    canvas.id = "cvsDisplay";
+    window.addEventListener(
+        'resize',
+        () => player.setSize(window.innerWidth, window.innerHeight)
+    );
+
     //Input init
+    input = new Input(canvas);
     window.onkeydown = input.processKeyDown.bind(input);
     window.onkeyup = input.processKeyUp.bind(input);
     window.onmousedown = input.processMouseDown.bind(input);
@@ -61,19 +73,10 @@ function init() {
     };
 
     //Load empty scene
-    loader.load('app.json', function (text) {
+    loader.load('app.json', (text) => {
 
         player.load(JSON.parse(text));
-        player.setSize(window.innerWidth, window.innerHeight);
         player.play();
-        $("divCanvas").appendChild(player.dom);
-        player.dom.firstChild.id = "cvsDisplay";
-
-        window.addEventListener('resize', function () {
-
-            player.setSize(window.innerWidth, window.innerHeight);
-
-        });
 
         //Load scene
         let scene = construct(house);
