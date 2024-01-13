@@ -1,8 +1,9 @@
 "use strict";
 
 class Input {
-    constructor(target) {
-        this.target = target;
+    constructor(mouseTarget, keyTarget) {
+        this.mouseTarget = mouseTarget;
+        this.keyTarget = keyTarget;
 
         this.mouse = {
             move: new Delegate(),
@@ -30,6 +31,8 @@ class Input {
     }
 
     processMouseInput(event) {
+        if (!this.verifyEvent(event)) { return; }
+        //
         //2023-12-21: copied from https://discourse.threejs.org/t/how-can-i-get-the-position-of-mouse-click-point/16864/3
         this.state.mouse.pos.x = event.clientX / window.innerWidth * 2 - 1;
         this.state.mouse.pos.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -38,11 +41,15 @@ class Input {
     }
 
     processMouseMove(event) {
+        if (!this.verifyEvent(event)) { return; }
+        //
         this.processMouseInput(event);
         this.mouse.move.run(this.state, event);
     }
 
     processMouseDown(event) {
+        if (!this.verifyEvent(event)) { return; }
+        //
         this.processMouseInput(event);
         this.state.mouse.lmbDown = true;
         this.state.mouse.posStart.copy(this.state.mouse.pos);
@@ -50,16 +57,22 @@ class Input {
     }
 
     processMouseHold(event) {
+        if (!this.verifyEvent(event)) { return; }
+        //
         this.processMouseInput(event);
         this.mouse.hold.run(this.state, event);
     }
 
     processMouseUp(event) {
+        if (!this.verifyEvent(event)) { return; }
+        //
         this.state.mouse.lmbDown = false;
         this.mouse.up.run(this.state, event);
     }
 
     processMouseWheel(event) {
+        if (!this.verifyEvent(event)) { return; }
+        //
         this.processMouseInput(event);
         this.mouse.wheel.run(this.state, event);
     }
@@ -67,6 +80,8 @@ class Input {
 
 
     processKeyDown(event) {
+        if (!this.verifyEvent(event)) { return; }
+        //
         if (!this.state.keys.includes(event.keyCode)) {
             this.state.keys.push(event.keyCode);
         }
@@ -75,10 +90,14 @@ class Input {
     }
 
     processKeyHold(event) {
+        if (!this.verifyEvent(event)) { return; }
+        //
         this.key.hold.run(this.state, event);
     }
 
     processKeyUp(event) {
+        if (!this.verifyEvent(event)) { return; }
+        //
         let index = this.state.keys.indexOf(event.keyCode);
         if (index >= 0) {
             this.state.keys.splice(index, 1);
@@ -98,5 +117,15 @@ class Input {
         this.key.down.clear();
         this.key.hold.clear();
         this.key.up.clear();
+    }
+
+    /**
+     * Returns true if the event is processable
+     * @param {Event} event The event to verify
+     * @returns
+     */
+    verifyEvent(event) {
+        return event.constructor.name == "MouseEvent" && event.target === this.mouseTarget
+            || event.constructor.name == "KeyboardEvent" && event.target === this.keyTarget;
     }
 }

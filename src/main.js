@@ -26,7 +26,7 @@ function init() {
     );
 
     //Input init
-    input = new Input(canvas);
+    input = new Input(canvas, body);
     window.onkeydown = input.processKeyDown.bind(input);
     window.onkeyup = input.processKeyUp.bind(input);
     window.onmousedown = input.processMouseDown.bind(input);
