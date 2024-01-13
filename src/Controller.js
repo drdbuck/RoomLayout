@@ -71,7 +71,10 @@ class Controller {
         this.processMouseInput(event);
         this.mouse.down = true;
         this.origMouse = copyObject(this.mouse, mouseDragStringify);
-        this.selectObject();
+        let selected = this.selectObject(event.ctrlKey);
+        if (!selected) {
+            this.selector.clear();
+        }
     }
 
     processMouseMove(state, event) {
@@ -119,6 +122,7 @@ class Controller {
             this.selectOffset = origPos.sub(this.getMouseWorld(this.mouse));
             this.selector.selectOnly(select);
         }
+        return select !== undefined;
     }
 
     moveObject() {
