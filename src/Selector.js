@@ -58,8 +58,8 @@ class Selector {
     selectOnly(item) {
         if (!item) { return; }
         //clear
-        for (let item of this._selection) {
-            this.onSelectionLost.run(item);
+        for (let item1 of this._selection) {
+            this.onSelectionLost.run(item1);
         }
         this._selection.length = 0;
         //select

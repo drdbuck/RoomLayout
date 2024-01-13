@@ -88,10 +88,11 @@ function init() {
             controllerEdit.selector.onSelectionChanged.add((furnitures) => {
                 const reduceFunc = (a, b) => (a === b) ? a : undefined;
                 const inequal = "---";
+                const defaultText = (furnitures.length > 0) ? undefined : "";
                 //Update UI
-                $("txtWidth").value = furnitures.map(f => f.width).reduce(reduceFunc) ?? inequal;
-                $("txtLength").value = furnitures.map(f => f.length).reduce(reduceFunc) ?? inequal;
-                $("txtHeight").value = furnitures.map(f => f.height).reduce(reduceFunc) ?? inequal;
+                $("txtWidth").value = defaultText ?? furnitures.map(f => f.width).reduce(reduceFunc) ?? inequal;
+                $("txtLength").value = defaultText ?? furnitures.map(f => f.length).reduce(reduceFunc) ?? inequal;
+                $("txtHeight").value = defaultText ?? furnitures.map(f => f.height).reduce(reduceFunc) ?? inequal;
             });
             //ControllerFPS init
             controllerFPS = new FirstPersonControls(

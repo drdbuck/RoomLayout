@@ -58,10 +58,6 @@ class Controller {
         if (moveCamera) {
             //save position
             this.save.position.copy(this.camera.position);
-            //interrupt mouse action
-            if (this.selector.count > 0) {
-                this.mouse.down = false;
-            }
         }
     }
 
@@ -98,7 +94,6 @@ class Controller {
 
     processMouseUp(state, event) {
         this.mouse.down = false;
-        this.selector.clear();
     }
 
     processMouseWheel(state, event) {
