@@ -153,6 +153,7 @@ function constructFurniture(furniture) {
         box.scale.y = height;
         box.scale.z = length;
     });
+    furniture.onPositionChanged.add(pos => box.position.copy(pos));
 
     return box;
 }
