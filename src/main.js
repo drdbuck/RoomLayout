@@ -10,7 +10,6 @@ let input = new Input();
 let controller;
 let controllerEdit;
 let controllerFPS;
-let room;
 let house = new House();
 
 function init() {
@@ -229,15 +228,6 @@ function switchMode(editMode = !inEditMode) {
     simulate(!editMode);
 };
 
-function setRoomSize(width, height) {
-    //defaults
-    width ??= room.scale.x;
-    height ??= room.scale.y;
-    //processing
-    room.scale.x = width;
-    room.scale.y = height;
-}
-
 function getDataStringify() {
     return [
         stringifyHouse,
@@ -247,44 +237,6 @@ function getDataStringify() {
         //
         stringifyVector3,
     ].flat();
-}
-
-function testNewHouse() {
-    //house
-    let house = new House(0);
-    //room
-    let room = new Room(11, 12);
-    //furniture
-    let furniture = new Furniture();
-    furniture.position.y = 1;
-    room.addFurniture(furniture);
-    let furniture2 = new Furniture();
-    furniture2.position.x = 2;
-    furniture2.position.y = 1;
-    furniture2.position.z = 1;
-    room.addFurniture(furniture2);
-    //
-    house.addRoom(room);
-    //
-    let scene = construct(house);
-    player.setScene(scene);
-    //
-    controllerEdit.scene = scene;
-    controllerFPS.scene = scene;
-
-    //
-    return house;
-}
-
-function testLoadHouse() {
-    //house
-    house = loadHouse();
-    //
-    let scene = construct(house);
-    player.setScene(scene);
-    //
-    controllerEdit.scene = scene;
-    controllerFPS.scene = scene;
 }
 
 function createMaterial(imageURL) {
