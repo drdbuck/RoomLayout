@@ -39,9 +39,15 @@ function init() {
             };
         });
     //individual textbox events
-    $("txtWidth").onchange = (txt) => controllerEdit.current.width = parseFloat(txt.target.value);
-    $("txtLength").onchange = (txt) => controllerEdit.current.length = parseFloat(txt.target.value);
-    $("txtHeight").onchange = (txt) => controllerEdit.current.height = parseFloat(txt.target.value);
+    $("txtWidth").onchange = (txt) => controllerEdit.selector.forEach(
+        item => item.width = parseFloat(txt.target.value)
+    );
+    $("txtLength").onchange = (txt) => controllerEdit.selector.forEach(
+        item => item.length = parseFloat(txt.target.value)
+    );
+    $("txtHeight").onchange = (txt) => controllerEdit.selector.forEach(
+        item => item.height = parseFloat(txt.target.value)
+    );
 
     //Load
     house = loadHouse();
@@ -79,11 +85,15 @@ function init() {
                 player.camera,
                 player.scene
             );
-            controllerEdit.onCurrentChanged.add((furniture) => {
-                $("txtWidth").value = furniture.width;
-                $("txtLength").value = furniture.length;
-                $("txtHeight").value = furniture.height;
+            controllerEdit.selector.onSelectionChanged.add((furnitures) => {
+                const reduceFunc = (a, b) => (a === b) ? a : undefined;
+                const inequal = "---";
+                //Update UI
+                $("txtWidth").value = furnitures.map(f => f.width).reduce(reduceFunc) ?? inequal;
+                $("txtLength").value = furnitures.map(f => f.length).reduce(reduceFunc) ?? inequal;
+                $("txtHeight").value = furnitures.map(f => f.height).reduce(reduceFunc) ?? inequal;
             });
+            //ControllerFPS init
             controllerFPS = new FirstPersonControls(
                 player.camera,
                 player.scene.children[0],
@@ -103,7 +113,7 @@ function init() {
                 let newbox = constructFurniture(furniture);
                 player.scene.add(newbox);
                 //Current
-                controllerEdit.current = furniture;
+                controllerEdit.selector.selectOnly(furniture);
             });
 
             switchMode(true);

@@ -17,9 +17,7 @@ class Controller {
         this.mouse = {};
         this.raycaster = new Raycaster();
 
-        this._current = undefined;//last furniture selected
-
-        this.onCurrentChanged = new Delegate("furniture");
+        this.selector = new Selector();
 
         this.save = {
             quaternion: new Quaternion(-0.7, 0, 0, 0.7),
@@ -29,14 +27,6 @@ class Controller {
 
     activate(active) {
         //do nothing
-    }
-
-    get current() {
-        return this._current;
-    }
-    set current(value) {
-        this._current = value;
-        this.onCurrentChanged.run(this._current);
     }
 
     processInput(state, event) {
@@ -69,7 +59,7 @@ class Controller {
             //save position
             this.save.position.copy(this.camera.position);
             //interrupt mouse action
-            if (this.select) {
+            if (this.selector.count > 0) {
                 this.mouse.down = false;
             }
         }
@@ -91,7 +81,7 @@ class Controller {
     processMouseMove(state, event) {
         this.processMouseInput(event);
         if (this.mouse.down) {
-            if (this.select) {
+            if (this.selector.count > 0) {
                 this.moveObject();
             }
         }
@@ -108,7 +98,7 @@ class Controller {
 
     processMouseUp(state, event) {
         this.mouse.down = false;
-        this.select = undefined;
+        this.selector.clear();
     }
 
     processMouseWheel(state, event) {
@@ -128,19 +118,18 @@ class Controller {
     }
 
     selectObject() {
-        this.select = this.getObjectAtMousePos();
-        if (this.select) {
-            this.origPos = new Vector3(this.select.position);
-            this.selectOffset = this.origPos.sub(this.getMouseWorld(this.mouse));
-            this.current = this.select.furniture;
+        let select = this.getObjectAtMousePos()?.furniture;
+        if (select) {
+            let origPos = new Vector3(select.position);
+            this.selectOffset = origPos.sub(this.getMouseWorld(this.mouse));
+            this.selector.selectOnly(select);
         }
     }
 
     moveObject() {
         let mouseWorld = this.getMouseWorld(this.mouse);
         let pos = mouseWorld.add(this.selectOffset);
-        this.select.position.copy(pos);
-        this.select.furniture.position.copy(pos);
+        this.selector.forEach(item => item.position.copy(pos));
     }
 
     getMouseWorld(mouse) {
