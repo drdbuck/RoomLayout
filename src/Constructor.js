@@ -175,9 +175,7 @@ function constructFurniture(furniture) {
 
 function createEdgeHighlights(mesh){
     //2024-01-16: copied from https://discourse.threejs.org/t/highlighting-the-edge-of-a-cube-on-hover-linesegmentsgeometry/28480
-    const edgesGeometry = new LineSegmentsGeometry().fromEdgesGeometry(
-        new EdgesGeometry(mesh.geometry, 40)
-      );
+    const edgesGeometry = new EdgesGeometry(mesh.geometry, 40);
       const colors = [];
       for (let i = 0; i < edgesGeometry.attributes.position.count; i++) {
         colors.push(0, 0, 0);
@@ -186,7 +184,7 @@ function createEdgeHighlights(mesh){
         "color",
         new Float32BufferAttribute(colors, 3)
       );
-      const edgesMaterial = new LineMaterial({
+      const edgesMaterial = new LineBasicMaterial({
         color: "black",
         // vertexColors: true,
         linewidth: 0.001
