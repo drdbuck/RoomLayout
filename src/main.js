@@ -97,6 +97,14 @@ function init() {
                 $("txtLength").value = defaultText ?? furnitures.map(f => f.length).reduce(reduceFunc) ?? inequal;
                 $("txtHeight").value = defaultText ?? furnitures.map(f => f.height).reduce(reduceFunc) ?? inequal;
             });
+            controllerEdit.selector.onSelectionGained.add(context => {
+                let box = context.box;
+                box.position.y += 1;
+            });
+            controllerEdit.selector.onSelectionLost.add(context => {
+                let box = context.box;
+                box.position.y -= 1;
+            });
             //ControllerFPS init
             controllerFPS = new FirstPersonControls(
                 player.camera,
@@ -117,7 +125,9 @@ function init() {
                 let newbox = constructFurniture(furniture);
                 player.scene.add(newbox);
                 //Current
-                controllerEdit.selector.selectOnly(controllerEdit.createSelectContext(furniture));
+                controllerEdit.selector.selectOnly(
+                    controllerEdit.createSelectContext(furniture, newbox)
+                );
             });
 
             switchMode(true);

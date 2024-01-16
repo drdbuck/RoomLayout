@@ -127,20 +127,20 @@ class Controller {
     }
 
     selectObject(add = false) {
-        let select = this.getObjectAtMousePos()?.furniture;
+        let box = this.getObjectAtMousePos();
+        let select = box?.furniture;
         if (select) {
-            let origPos = new Vector3(select.position);
-            let offset = origPos.sub(this.getMouseWorld(this.mouse));
-            let selectContext = this.createSelectContext(select, offset);
+            let selectContext = this.createSelectContext(select, box);
             this.selector.select(selectContext, add);
         }
         return select !== undefined;
     }
 
-    createSelectContext(select, offset) {
+    createSelectContext(select, box) {
         return {
             obj: select,
-            offset: offset
+            box: box,
+            offset: _zero.clone(),
         };
     }
 
@@ -154,14 +154,14 @@ class Controller {
             let select = context.obj;
             let origPos = new Vector3(select.position);
             let offset = origPos.sub(mouseWorld);
-            context.offset = offset;
+            context.offset.copy(offset);
         });
     }
 
     clearSelectedOffsets() {
-        let zero = new Vector3();
-        this.selector.forEach(context => context.offset.copy(zero));
+        this.selector.forEach(context => context.offset.copy(_zero));
     }
+
 
     moveObject() {
         let mouseWorld = this.getMouseWorld(this.mouse);
