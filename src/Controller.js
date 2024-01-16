@@ -74,13 +74,13 @@ class Controller {
         let target = this.getObjectAtMousePos()?.furniture;
         if (target) {
             if (this.isSelected(target)) {
-                //prepare for drag
-                this.calculateSelectedOffsets();
             }
             else {
                 //select
                 let selected = this.selectObject(event.ctrlKey);
             }
+            //prepare for drag
+            this.calculateSelectedOffsets();
         }
         else {
             this.selector.clear();
@@ -165,9 +165,11 @@ class Controller {
 
     moveObject() {
         let mouseWorld = this.getMouseWorld(this.mouse);
+        let pos = new Vector3();
         this.selector.forEach(context => {
             let item = context.obj;
-            let pos = mouseWorld.add(context.offset);
+            pos.copy(mouseWorld);
+            pos = pos.add(context.offset);
             item.position = pos;
         });
     }
