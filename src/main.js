@@ -99,11 +99,11 @@ function init() {
             });
             controllerEdit.selector.onSelectionGained.add(context => {
                 let box = context.box;
-                box.position.y += 1;
+                box.material.wireframe = true;
             });
             controllerEdit.selector.onSelectionLost.add(context => {
                 let box = context.box;
-                box.position.y -= 1;
+                box.material.wireframe = false;
             });
             //ControllerFPS init
             controllerFPS = new FirstPersonControls(
