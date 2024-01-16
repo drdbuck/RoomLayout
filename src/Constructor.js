@@ -165,5 +165,32 @@ function constructFurniture(furniture) {
     furniture.onSizeChanged.add(updateScale);
     furniture.onPositionChanged.add(updatePosition);
 
+    //edge highlights
+    let edge = createEdgeHighlights(box);
+    box.edge = edge;
+    box.attach(edge);
+
     return box;
+}
+
+function createEdgeHighlights(mesh){
+    //2024-01-16: copied from https://discourse.threejs.org/t/highlighting-the-edge-of-a-cube-on-hover-linesegmentsgeometry/28480
+    const edgesGeometry = new LineSegmentsGeometry().fromEdgesGeometry(
+        new EdgesGeometry(mesh.geometry, 40)
+      );
+      const colors = [];
+      for (let i = 0; i < edgesGeometry.attributes.position.count; i++) {
+        colors.push(0, 0, 0);
+      }
+      edgesGeometry.setAttribute(
+        "color",
+        new Float32BufferAttribute(colors, 3)
+      );
+      const edgesMaterial = new LineMaterial({
+        color: "black",
+        // vertexColors: true,
+        linewidth: 0.001
+      });
+    const line = new LineSegments(edgesGeometry, edgesMaterial);
+    return line;
 }
