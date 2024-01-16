@@ -51,13 +51,13 @@ function init() {
         });
     //individual textbox events
     $("txtWidth").onchange = (txt) => controllerEdit.selector.forEach(
-        item => item.width = parseFloat(txt.target.value)
+        context => context.obj.width = parseFloat(txt.target.value)
     );
     $("txtLength").onchange = (txt) => controllerEdit.selector.forEach(
-        item => item.length = parseFloat(txt.target.value)
+        context => context.obj.length = parseFloat(txt.target.value)
     );
     $("txtHeight").onchange = (txt) => controllerEdit.selector.forEach(
-        item => item.height = parseFloat(txt.target.value)
+        context => context.obj.height = parseFloat(txt.target.value)
     );
 
     //Load
@@ -87,7 +87,8 @@ function init() {
                 player.camera,
                 player.scene
             );
-            controllerEdit.selector.onSelectionChanged.add((furnitures) => {
+            controllerEdit.selector.onSelectionChanged.add((contexts) => {
+            let furnitures = contexts.map(c => c.obj);
                 const reduceFunc = (a, b) => (a === b) ? a : undefined;
                 const inequal = "---";
                 const defaultText = (furnitures.length > 0) ? undefined : "";
@@ -116,7 +117,7 @@ function init() {
                 let newbox = constructFurniture(furniture);
                 player.scene.add(newbox);
                 //Current
-                controllerEdit.selector.selectOnly(furniture);
+                controllerEdit.selector.selectOnly(controllerEdit.createSelectContext(furniture));
             });
 
             switchMode(true);

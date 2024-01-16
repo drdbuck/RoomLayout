@@ -119,16 +119,27 @@ class Controller {
         let select = this.getObjectAtMousePos()?.furniture;
         if (select) {
             let origPos = new Vector3(select.position);
-            this.selectOffset = origPos.sub(this.getMouseWorld(this.mouse));
-            this.selector.select(select, add);
+            let offset = origPos.sub(this.getMouseWorld(this.mouse));
+            let selectContext = this.createSelectContext(select, offset);
+            this.selector.select(selectContext, add);
         }
         return select !== undefined;
     }
 
+    createSelectContext(select, offset) {
+        return {
+            obj: select,
+            offset: offset
+        };
+    }
+
     moveObject() {
         let mouseWorld = this.getMouseWorld(this.mouse);
-        let pos = mouseWorld.add(this.selectOffset);
-        this.selector.forEach(item => item.position = pos);
+        this.selector.forEach(context => {
+            let item = context.obj;
+            let pos = mouseWorld.add(context.offset);
+            item.position = pos;
+        });
     }
 
     getMouseWorld(mouse) {
