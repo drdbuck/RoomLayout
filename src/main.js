@@ -82,55 +82,55 @@ function init() {
         let scene = construct(house);
         player.setScene(scene);
 
-            //Controller init
-            controllerEdit = new Controller(
-                player.camera,
-                player.scene
-            );
-            controllerEdit.selector.onSelectionChanged.add((contexts) => {
+        //Controller init
+        controllerEdit = new Controller(
+            player.camera,
+            player.scene
+        );
+        controllerEdit.selector.onSelectionChanged.add((contexts) => {
             let furnitures = contexts.map(c => c.obj);
-                const reduceFunc = (a, b) => (a === b) ? a : undefined;
-                const inequal = "---";
-                const defaultText = (furnitures.length > 0) ? undefined : "";
-                //Update UI
-                $("txtWidth").value = defaultText ?? furnitures.map(f => f.width).reduce(reduceFunc) ?? inequal;
-                $("txtLength").value = defaultText ?? furnitures.map(f => f.length).reduce(reduceFunc) ?? inequal;
-                $("txtHeight").value = defaultText ?? furnitures.map(f => f.height).reduce(reduceFunc) ?? inequal;
-            });
-            controllerEdit.selector.onSelectionGained.add(context => {
-                let box = context.box;
-                box.material.wireframe = true;
-            });
-            controllerEdit.selector.onSelectionLost.add(context => {
-                let box = context.box;
-                box.material.wireframe = false;
-            });
-            //ControllerFPS init
-            controllerFPS = new FirstPersonControls(
-                player.camera,
-                player.scene.children[0],
-                player.dom
-            );
-            controllerFPS.controls.addEventListener("unlock", () => {
-                switchMode(true);
-            });
-
-            //Upload image to new box
-            flm.onImageUploaded.add((image) => {
-                //Data
-                let furniture = new Furniture(image.src);
-                furniture.position.y = 0.5;
-                house.rooms[0].addFurniture(furniture);
-                //Scene
-                let newbox = constructFurniture(furniture);
-                player.scene.add(newbox);
-                //Current
-                controllerEdit.selector.selectOnly(
-                    controllerEdit.createSelectContext(furniture, newbox)
-                );
-            });
-
+            const reduceFunc = (a, b) => (a === b) ? a : undefined;
+            const inequal = "---";
+            const defaultText = (furnitures.length > 0) ? undefined : "";
+            //Update UI
+            $("txtWidth").value = defaultText ?? furnitures.map(f => f.width).reduce(reduceFunc) ?? inequal;
+            $("txtLength").value = defaultText ?? furnitures.map(f => f.length).reduce(reduceFunc) ?? inequal;
+            $("txtHeight").value = defaultText ?? furnitures.map(f => f.height).reduce(reduceFunc) ?? inequal;
+        });
+        controllerEdit.selector.onSelectionGained.add(context => {
+            let box = context.box;
+            box.material.wireframe = true;
+        });
+        controllerEdit.selector.onSelectionLost.add(context => {
+            let box = context.box;
+            box.material.wireframe = false;
+        });
+        //ControllerFPS init
+        controllerFPS = new FirstPersonControls(
+            player.camera,
+            player.scene.children[0],
+            player.dom
+        );
+        controllerFPS.controls.addEventListener("unlock", () => {
             switchMode(true);
+        });
+
+        //Upload image to new box
+        flm.onImageUploaded.add((image) => {
+            //Data
+            let furniture = new Furniture(image.src);
+            furniture.position.y = 0.5;
+            house.rooms[0].addFurniture(furniture);
+            //Scene
+            let newbox = constructFurniture(furniture);
+            player.scene.add(newbox);
+            //Current
+            controllerEdit.selector.selectOnly(
+                controllerEdit.createSelectContext(furniture, newbox)
+            );
+        });
+
+        switchMode(true);
 
     });
 }

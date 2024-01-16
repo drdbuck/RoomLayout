@@ -5,8 +5,8 @@ const SIDE_LEFT = 1;
 const SIDE_BACK = 2;
 const SIDE_RIGHT = 3;
 
-    //create geometry
-    const boxGeometry = new BoxGeometry().toNonIndexed();
+//create geometry
+const boxGeometry = new BoxGeometry().toNonIndexed();
 
 //Constructs scene objects from data objects
 
@@ -25,7 +25,7 @@ function constructRoom(room, scene) {
     let floor = createFloor(room.width, room.length);
     scene.add(floor);
     //walls
-    for (let i = 0; i < 4; i++){
+    for (let i = 0; i < 4; i++) {
         let length = (i % 2 == 0) ? room.width : room.length;
         let wall = createWall(length, room.height, i);
         if (i % 2 == 0) {
@@ -135,16 +135,16 @@ function createWall(length = 11, height = 9, side = 0, showTriangles = false) {
 function constructFurniture(furniture) {
     //2024-01-09: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 
-        //create material
-        const boxMaterial = createMaterial(furniture.imageURL);
+    //create material
+    const boxMaterial = createMaterial(furniture.imageURL);
 
-        //create mesh
-        const box = new Mesh(boxGeometry, boxMaterial);
+    //create mesh
+    const box = new Mesh(boxGeometry, boxMaterial);
 
-        box.userData ??= {};
-        box.userData.selectable = true;
+    box.userData ??= {};
+    box.userData.selectable = true;
 
-        box.furniture = furniture;
+    box.furniture = furniture;
 
     //update functions
     let updatePosition = (pos = furniture.position) => {
