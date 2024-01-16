@@ -278,3 +278,17 @@ function createMaterial(imageURL) {
     //return
     return mat;
 }
+function createShaderMaterial() {
+    let edgeShader = new EdgeShader;
+    //2024-01-16: copied from https://jsfiddle.net/prisoner849/kmau6591/
+    var material = new ShaderMaterial({
+        uniforms: {
+          thickness: {
+              value: 1.5
+          }
+        },
+        vertexShader: edgeShader.vertexShader,
+        fragmentShader: edgeShader.fragmentShader
+    });
+    return material;
+}
