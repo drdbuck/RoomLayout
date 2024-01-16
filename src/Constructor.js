@@ -5,6 +5,9 @@ const SIDE_LEFT = 1;
 const SIDE_BACK = 2;
 const SIDE_RIGHT = 3;
 
+    //create geometry
+    const boxGeometry = new BoxGeometry().toNonIndexed();
+
 //Constructs scene objects from data objects
 
 function construct(house) {
@@ -132,28 +135,35 @@ function createWall(length = 11, height = 9, side = 0, showTriangles = false) {
 function constructFurniture(furniture) {
     //2024-01-09: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 
-    //create geometry
-    const boxGeometry = new BoxGeometry(furniture.width, furniture.height, furniture.length).toNonIndexed();
-
         //create material
         const boxMaterial = createMaterial(furniture.imageURL);
 
         //create mesh
         const box = new Mesh(boxGeometry, boxMaterial);
-        box.position.copy(furniture.position);
 
         box.userData ??= {};
         box.userData.selectable = true;
 
         box.furniture = furniture;
 
+    //update functions
+    let updatePosition = (pos = furniture.position) => {
+        box.position.copy(pos);
+        //essentially make the anchor point of data furniture object to be bottom center,
+        //while the 3D object's anchor point is still true center
+        box.position.y += box.scale.y / 2;
+    };
+    let updateScale = (width, length, height) => {
+        box.scale.set(width, height, length);
+        updatePosition();
+    };
+
+    updatePosition(furniture.position);
+    updateScale(furniture.width, furniture.length, furniture.height);
+
     //delegates
-    furniture.onSizeChanged.add((width, length, height) => {
-        box.scale.x = width;
-        box.scale.y = height;
-        box.scale.z = length;
-    });
-    furniture.onPositionChanged.add(pos => box.position.copy(pos));
+    furniture.onSizeChanged.add(updateScale);
+    furniture.onPositionChanged.add(updatePosition);
 
     return box;
 }
