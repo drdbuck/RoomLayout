@@ -1,48 +1,52 @@
 "use strict";
 
 let stringifyBlock = [
-    "_width",
-    "_length",
-    "_height",
+    "_scale",
     "_position",
     "units",
 ];
 
 class Block {
-    constructor(width = 1, length = 1, height = 1) {
-        this._width = width;
-        this._length = length;
-        this._height = height;
+    constructor(scale) {
+        this._scale = scale ?? _one.clone();
         this.units = "feet";
 
         this._position = new Vector3();
 
-        this.onSizeChanged = new Delegate("width", "length", "height");
+        this.onSizeChanged = new Delegate("scale");
         this.onPositionChanged = new Delegate("position");
     }
 
+    get scale() {
+        return this._scale;
+    }
+    set scale(value) {
+        this._scale.copy(value);
+        this.onSizeChanged.run(this._scale);
+    }
+
     get width() {
-        return this._width;
+        return this._scale.x;
     }
     set width(value) {
-        this._width = value;
-        this.onSizeChanged.run(this._width, this._length, this._height);
+        this._scale.x = value;
+        this.onSizeChanged.run(this._scale);
     }
 
     get length() {
-        return this._length;
+        return this._scale.z;
     }
     set length(value) {
-        this._length = value;
-        this.onSizeChanged.run(this._width, this._length, this._height);
+        this._scale.z = value;
+        this.onSizeChanged.run(this._scale);
     }
 
     get height() {
-        return this._height;
+        return this._scale.y;
     }
     set height(value) {
-        this._height = value;
-        this.onSizeChanged.run(this._width, this._length, this._height);
+        this._scale.y = value;
+        this.onSizeChanged.run(this._scale);
     }
 
     get position() {
@@ -66,4 +70,26 @@ function inflateBlock(block) {
         .forEach(delkey => block[delkey] = new Delegate());
 
     Object.setPrototypeOf(block._position, Vector3.prototype);
+
+    backwardsCompatify(block);
+
+    Object.setPrototypeOf(block._scale, Vector3.prototype);
+
+}
+
+function backwardsCompatify(block) {
+    //Change: _width, _length, _height --> _scale
+    block._scale ??= _one.clone();
+    if (block._width) {
+        block._scale.x = block._width;
+        block._width = undefined;
+    }
+    if (block._length) {
+        block._scale.z = block._length;
+        block._length = undefined;
+    }
+    if (block._height) {
+        block._scale.y = block._height;
+        block._height = undefined;
+    }
 }

@@ -153,13 +153,13 @@ function constructFurniture(furniture) {
         //while the 3D object's anchor point is still true center
         box.position.y += box.scale.y / 2;
     };
-    let updateScale = (width, length, height) => {
-        box.scale.set(width, height, length);
+    let updateScale = (scale) => {
+        box.scale.copy(scale);
         updatePosition();
     };
 
     updatePosition(furniture.position);
-    updateScale(furniture.width, furniture.length, furniture.height);
+    updateScale(furniture.scale);
 
     //delegates
     furniture.onSizeChanged.add(updateScale);
