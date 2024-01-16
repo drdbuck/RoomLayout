@@ -108,4 +108,13 @@ class Selector {
         //
         this._selection.forEach(func);
     }
+
+    /**
+     * Returns true if at least one item meets the given condition
+     * @param {(item:object)=>boolean} func
+     * @returns True if at least one item meets the given condition
+     */
+    some(func) {
+        return this._selection.some(func);
+    }
 }

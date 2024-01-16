@@ -71,8 +71,18 @@ class Controller {
         this.processMouseInput(event);
         this.mouse.down = true;
         this.origMouse = copyObject(this.mouse, mouseDragStringify);
-        let selected = this.selectObject(event.ctrlKey);
-        if (!selected) {
+        let target = this.getObjectAtMousePos()?.furniture;
+        if (target) {
+            if (this.isSelected(target)) {
+                //prepare for drag
+                this.calculateSelectedOffsets();
+            }
+            else {
+                //select
+                let selected = this.selectObject(event.ctrlKey);
+            }
+        }
+        else {
             this.selector.clear();
         }
     }
@@ -97,6 +107,7 @@ class Controller {
 
     processMouseUp(state, event) {
         this.mouse.down = false;
+        this.clearSelectedOffsets();
     }
 
     processMouseWheel(state, event) {
@@ -131,6 +142,25 @@ class Controller {
             obj: select,
             offset: offset
         };
+    }
+
+    isSelected(obj) {
+        return this.selector.some(c => c.obj === obj);
+    }
+
+    calculateSelectedOffsets() {
+        let mouseWorld = this.getMouseWorld(this.mouse);
+        this.selector.forEach(context => {
+            let select = context.obj;
+            let origPos = new Vector3(select.position);
+            let offset = origPos.sub(mouseWorld);
+            context.offset = offset;
+        });
+    }
+
+    clearSelectedOffsets() {
+        let zero = new Vector3();
+        this.selector.forEach(context => context.offset.copy(zero));
     }
 
     moveObject() {
