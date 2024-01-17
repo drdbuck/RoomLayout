@@ -93,6 +93,7 @@ function init() {
             const inequal = "---";
             const defaultText = (furnitures.length > 0) ? undefined : "";
             //Update UI
+            $("divPanelEdit").hidden = !(furnitures.length > 0);
             $("txtWidth").value = defaultText ?? furnitures.map(f => f.width).reduce(reduceFunc) ?? inequal;
             $("txtLength").value = defaultText ?? furnitures.map(f => f.length).reduce(reduceFunc) ?? inequal;
             $("txtHeight").value = defaultText ?? furnitures.map(f => f.height).reduce(reduceFunc) ?? inequal;
