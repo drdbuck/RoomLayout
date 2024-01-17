@@ -2,7 +2,9 @@
 
 let body = $("body");
 let flm = new FileManager(body);
+let flmFace = new FileManager($("divFaceDrop"));
 flm.onImageUploaded.add((image) => console.log("image uploaded!", image.name));
+flmFace.onImageUploaded.add((image) => console.log("image uploaded to face!", image.name));
 
 let loader = new FileLoader();
 let player;
@@ -131,6 +133,16 @@ function init() {
             );
         });
 
+        //Upload face to existing box
+        flmFace.onImageUploaded.add((image) => {
+            controllerEdit.selector.forEach(context => {
+                let furniture = context.obj;
+                furniture.faces.push(image.src);
+                let box = context.box;
+                box.material = createMaterials(furniture.faces);
+            });
+        });
+
         switchMode(true);
 
     });
@@ -252,6 +264,16 @@ function getDataStringify() {
         //
         stringifyVector3,
     ].flat();
+}
+
+function createMaterials(imageURLs, count = 6) {
+    let materials = imageURLs.map(
+        face => createMaterial(face)
+    );
+    while (materials.length < count) {
+        materials.push(materials[0]);
+    }
+    return materials;
 }
 
 function createMaterial(imageURL) {

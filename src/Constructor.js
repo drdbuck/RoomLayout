@@ -136,12 +136,7 @@ function constructFurniture(furniture) {
     //2024-01-09: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 
     //create material
-    const boxMaterials = furniture.faces.map(
-        face => createMaterial(face)
-    );
-    while (boxMaterials.length < 6) {
-        boxMaterials.push(boxMaterials[0]);
-    }
+    const boxMaterials = createMaterials(furniture.faces, 6);
 
     //create mesh
     const box = new Mesh(boxGeometry, boxMaterials);
