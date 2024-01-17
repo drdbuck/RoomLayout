@@ -99,11 +99,11 @@ function init() {
         });
         controllerEdit.selector.onSelectionGained.add(context => {
             let box = context.box;
-            box.material.wireframe = true;
+            box.edge.visible = true;
         });
         controllerEdit.selector.onSelectionLost.add(context => {
             let box = context.box;
-            box.material.wireframe = false;
+            box.edge.visible = false;
         });
         //ControllerFPS init
         controllerFPS = new FirstPersonControls(

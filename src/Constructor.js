@@ -136,7 +136,7 @@ function constructFurniture(furniture) {
     //2024-01-09: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 
     //create material
-    const boxMaterial = createShaderMaterial(furniture.imageURL);
+    const boxMaterial = createMaterial(furniture.imageURL);
 
     //create mesh
     const box = new Mesh(boxGeometry, boxMaterial);
@@ -169,6 +169,7 @@ function constructFurniture(furniture) {
     let edge = createEdgeHighlights(box);
     box.edge = edge;
     box.attach(edge);
+    edge.visible = false;
 
     return box;
 }
@@ -176,19 +177,15 @@ function constructFurniture(furniture) {
 function createEdgeHighlights(mesh){
     //2024-01-16: copied from https://discourse.threejs.org/t/highlighting-the-edge-of-a-cube-on-hover-linesegmentsgeometry/28480
     const edgesGeometry = new EdgesGeometry(mesh.geometry, 40);
-      const colors = [];
-      for (let i = 0; i < edgesGeometry.attributes.position.count; i++) {
-        colors.push(0, 0, 0);
-      }
-      edgesGeometry.setAttribute(
-        "color",
-        new Float32BufferAttribute(colors, 3)
-      );
+
       const edgesMaterial = new LineBasicMaterial({
-        color: "black",
-        // vertexColors: true,
-        linewidth: 0.001
+        color: "white",
+        linewidth: 1,
       });
     const line = new LineSegments(edgesGeometry, edgesMaterial);
+
+    line.position.copy(mesh.position);
+    line.scale.copy(mesh.scale);
+
     return line;
 }
