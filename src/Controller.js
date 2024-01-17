@@ -163,6 +163,26 @@ class Controller {
         this.selector.forEach(context => context.offset.copy(_zero));
     }
 
+    selectNextFace() {
+        this.selector.forEach(context => {
+            context.face++;
+            if (context.face > context.box.material.length) {
+                context.face = 0;
+            }
+        });
+        this.updateFaceSelection();
+    }
+
+    updateFaceSelection() {
+        this.selector.forEach(c => {
+            let box = c.box;
+            box.material = [...box.materialList];
+            if (c.face >= 0 && c.face < box.material.length) {
+                box.material[c.face] = selectMaterial;
+            }
+        });
+    }
+
 
     moveObject() {
         let mouseWorld = this.getMouseWorld(this.mouse);
