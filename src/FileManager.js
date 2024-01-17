@@ -3,6 +3,8 @@
 
 const imageFileTypes = [
     "image/png",
+    "image/jpeg",
+    "image/bmp",
 ];
 const textFileTypes = [
     "text/plain",
@@ -53,7 +55,7 @@ class FileManager {
                 this.handleTextFile(file);
             }
             else {
-                console.warning("Unknown file type:", file.type, "filename:", file.name);
+                console.warn("Unknown file type:", file.type, "filename:", file.name);
             }
         });
     }
