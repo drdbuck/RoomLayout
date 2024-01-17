@@ -1,15 +1,16 @@
 "use strict";
 
 let stringifyFurniture = [
-    "imageURL",
+    "faces",
 ];
 
 class Furniture extends Block {
     constructor(imageURL, width = 1, length = 1, height = 1) {
         super(new Vector3(width, height, length));
 
-        this.imageURL = imageURL;
-        this.image = undefined;//
+        this.faces = [
+            imageURL,
+        ];
     }
 }
 
@@ -19,4 +20,15 @@ function inflateFurniture(furniture) {
     if (!inflated) { return; }
     inflateBlock(furniture);
 
+    backwardsCompatify(furniture);
+
+}
+
+function backwardsCompatify(furniture) {
+    //Change: imageURL --> faces[]
+    if (furniture.imageURL) {
+        furniture.faces ??= [];
+        furniture.faces.push(furniture.imageURL);
+        furniture.imageURL = undefined;
+    }
 }

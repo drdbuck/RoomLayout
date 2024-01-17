@@ -136,10 +136,15 @@ function constructFurniture(furniture) {
     //2024-01-09: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 
     //create material
-    const boxMaterial = createMaterial(furniture.imageURL);
+    const boxMaterials = furniture.faces.map(
+        face => createMaterial(face)
+    );
+    while (boxMaterials.length < 6) {
+        boxMaterials.push(boxMaterials[0]);
+    }
 
     //create mesh
-    const box = new Mesh(boxGeometry, boxMaterial);
+    const box = new Mesh(boxGeometry, boxMaterials);
 
     box.userData ??= {};
     box.userData.selectable = true;
