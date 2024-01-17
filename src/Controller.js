@@ -140,6 +140,7 @@ class Controller {
         return {
             obj: select,
             box: box,
+            face: 2,
             offset: _zero.clone(),
         };
     }

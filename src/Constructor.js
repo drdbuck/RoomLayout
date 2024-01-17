@@ -140,6 +140,7 @@ function constructFurniture(furniture) {
 
     //create mesh
     const box = new Mesh(boxGeometry, boxMaterials);
+    box.materialList = [...box.material];
 
     box.userData ??= {};
     box.userData.selectable = true;

@@ -13,6 +13,7 @@ let controller;
 let controllerEdit;
 let controllerFPS;
 let house = new House();
+const selectMaterial = createShaderMaterial(_one,new Vector3(0,0,1));
 
 function init() {
 
@@ -99,14 +100,29 @@ function init() {
             $("txtWidth").value = defaultText ?? furnitures.map(f => f.width).reduce(reduceFunc) ?? inequal;
             $("txtLength").value = defaultText ?? furnitures.map(f => f.length).reduce(reduceFunc) ?? inequal;
             $("txtHeight").value = defaultText ?? furnitures.map(f => f.height).reduce(reduceFunc) ?? inequal;
+            //Update selected faces
+            contexts.forEach(c => {
+                let box = c.box;
+                box.material = [...box.materialList];
+                if (c.face >= 0 && c.face < box.material.length) {
+                    box.material[c.face] = selectMaterial;
+                }
+            });
         });
         controllerEdit.selector.onSelectionGained.add(context => {
             let box = context.box;
             box.edge.visible = true;
+            //
+            box.material = [...box.materialList];
+            if (context.face >= 0 && context.face < box.material.length) {
+                box.material[context.face] = selectMaterial;
+            }
         });
         controllerEdit.selector.onSelectionLost.add(context => {
             let box = context.box;
             box.edge.visible = false;
+            //
+            box.material = [...box.materialList];
         });
         //ControllerFPS init
         controllerFPS = new FirstPersonControls(
@@ -140,6 +156,7 @@ function init() {
                 furniture.faces.push(image.src);
                 let box = context.box;
                 box.material = createMaterials(furniture.faces);
+                box.materialList = [...box.material];
             });
         });
 
@@ -301,14 +318,20 @@ function createMaterial(imageURL) {
     //return
     return mat;
 }
-function createShaderMaterial() {
+function createShaderMaterial(edgeColor = _one, faceColor = _zero) {
     let edgeShader = new EdgeShader;
     //2024-01-16: copied from https://jsfiddle.net/prisoner849/kmau6591/
     var material = new ShaderMaterial({
         uniforms: {
-          thickness: {
-              value: 1.5
-          }
+            thickness: {
+                value: 1.5
+            },
+            edgeColor: {
+                value: edgeColor
+            },
+            faceColor: {
+                value: faceColor
+            },
         },
         vertexShader: edgeShader.vertexShader,
         fragmentShader: edgeShader.fragmentShader

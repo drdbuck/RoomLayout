@@ -15,6 +15,8 @@ class EdgeShader {
 
             varying vec2 vUv;
             uniform float thickness;
+            uniform vec3 edgeColor;
+            uniform vec3 faceColor;
 
             float edgeFactor(vec2 p){
                 vec2 grid = abs(fract(p - 0.5) - 0.5) / fwidth(p) / thickness;
@@ -25,7 +27,7 @@ class EdgeShader {
 
                 float a = edgeFactor(vUv);
 
-                vec3 c = mix(vec3(1), vec3(0), a);
+                vec3 c = mix(edgeColor, faceColor, a);
 
                 gl_FragColor = vec4(c, 1.0);
             }
