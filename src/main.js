@@ -153,7 +153,8 @@ function init() {
         flmFace.onImageUploaded.add((image) => {
             controllerEdit.selector.forEach(context => {
                 let furniture = context.obj;
-                furniture.faces.push(image.src);
+                let index = (context.face >= 0) ? context.face : furniture.faces.length;
+                furniture.faces[index] = image.src;
                 let box = context.box;
                 box.material = createMaterials(furniture.faces);
                 box.materialList = [...box.material];
@@ -287,8 +288,9 @@ function createMaterials(imageURLs, count = 6) {
     let materials = imageURLs.map(
         face => createMaterial(face)
     );
-    while (materials.length < count) {
-        materials.push(materials[0]);
+    let defaultMaterial = materials[2] ?? materials[0];
+    for (let i = 0; i < count; i++) {
+        materials[i] ??= defaultMaterial;
     }
     return materials;
 }

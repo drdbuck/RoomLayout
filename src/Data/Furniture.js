@@ -8,9 +8,8 @@ class Furniture extends Block {
     constructor(imageURL, width = 1, length = 1, height = 1) {
         super(new Vector3(width, height, length));
 
-        this.faces = [
-            imageURL,
-        ];
+        this.faces = [];
+        this.faces[2] = imageURL;
     }
 }
 
