@@ -63,8 +63,8 @@ class Controller {
     }
 
     processMouseDown(state, event) {
+        if (!state.mouse.lmbDown) { return; }
         this.processMouseInput(event);
-        this.mouse.down = true;
         this.origMouse = copyObject(this.mouse, mouseDragStringify);
         let target = this.getObjectAtMousePos()?.furniture;
         if (target) {
@@ -84,7 +84,7 @@ class Controller {
 
     processMouseMove(state, event) {
         this.processMouseInput(event);
-        if (this.mouse.down) {
+        if (state.mouse.lmbDown) {
             if (this.selector.count > 0) {
                 this.moveObject();
             }
@@ -101,8 +101,9 @@ class Controller {
     }
 
     processMouseUp(state, event) {
-        this.mouse.down = false;
-        this.clearSelectedOffsets();
+        if (!state.mouse.lmbDown) {
+            this.clearSelectedOffsets();
+        }
     }
 
     processMouseWheel(state, event) {
