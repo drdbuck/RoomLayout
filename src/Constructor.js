@@ -158,13 +158,18 @@ function constructFurniture(furniture) {
         box.scale.copy(scale);
         updatePosition();
     };
+    let updateAngle = (angle = 0) => {
+        box.rotation.y = angle;
+    }
 
     updatePosition(furniture.position);
     updateScale(furniture.scale);
+    updateAngle(furniture.angle);
 
     //delegates
     furniture.onSizeChanged.add(updateScale);
     furniture.onPositionChanged.add(updatePosition);
+    furniture.onAngleChanged.add(updateAngle);
 
     //edge highlights
     let edge = createEdgeHighlights(box);
@@ -187,6 +192,7 @@ function createEdgeHighlights(mesh){
 
     line.position.copy(mesh.position);
     line.scale.copy(mesh.scale);
+    line.rotation.copy(mesh.rotation);
 
     return line;
 }

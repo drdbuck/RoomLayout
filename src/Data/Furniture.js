@@ -19,11 +19,11 @@ function inflateFurniture(furniture) {
     if (!inflated) { return; }
     inflateBlock(furniture);
 
-    backwardsCompatify(furniture);
+    backwardsCompatifyFurniture(furniture);
 
 }
 
-function backwardsCompatify(furniture) {
+function backwardsCompatifyFurniture(furniture) {
     //Change: imageURL --> faces[]
     if (furniture.imageURL) {
         furniture.faces ??= [];

@@ -3,6 +3,7 @@
 let stringifyBlock = [
     "_scale",
     "_position",
+    "_angle",
     "units",
 ];
 
@@ -13,8 +14,11 @@ class Block {
 
         this._position = new Vector3();
 
+        this._angle = 0;
+
         this.onSizeChanged = new Delegate("scale");
         this.onPositionChanged = new Delegate("position");
+        this.onAngleChanged = new Delegate("angle");
     }
 
     get scale() {
@@ -56,6 +60,14 @@ class Block {
         this._position.copy(value);
         this.onPositionChanged.run(this._position);
     }
+
+    get angle() {
+        return this._angle;
+    }
+    set angle(value) {
+        this._angle = value;
+        this.onAngleChanged.run(this._angle);
+    }
 }
 
 /**
@@ -66,18 +78,19 @@ function inflateBlock(block) {
     [
         "onSizeChanged",
         "onPositionChanged",
+        "onAngleChanged",
     ]
         .forEach(delkey => block[delkey] = new Delegate());
 
     Object.setPrototypeOf(block._position, Vector3.prototype);
 
-    backwardsCompatify(block);
+    backwardsCompatifyBlock(block);
 
     Object.setPrototypeOf(block._scale, Vector3.prototype);
 
 }
 
-function backwardsCompatify(block) {
+function backwardsCompatifyBlock(block) {
     //Change: _width, _length, _height --> _scale
     block._scale ??= _one.clone();
     if (block._width) {
@@ -92,4 +105,6 @@ function backwardsCompatify(block) {
         block._scale.y = block._height;
         block._height = undefined;
     }
+    //Change: add _angle
+    block._angle ??= 0;
 }
