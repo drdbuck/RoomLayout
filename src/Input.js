@@ -113,6 +113,7 @@ class Input {
         this.mouse.down.clear();
         this.mouse.hold.clear();
         this.mouse.up.clear();
+        this.mouse.wheel.clear();
 
         this.key.down.clear();
         this.key.hold.clear();
@@ -125,7 +126,7 @@ class Input {
      * @returns
      */
     verifyEvent(event) {
-        return event.constructor.name == "MouseEvent" && event.target === this.mouseTarget
+        return ["MouseEvent","WheelEvent"].includes(event.constructor.name) && event.target === this.mouseTarget
             || event.constructor.name == "KeyboardEvent" && event.target === this.keyTarget;
     }
 }
