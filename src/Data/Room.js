@@ -10,12 +10,15 @@ class Room extends Block {
 
         this.furnitures = [];
 
+        this.onFurnitureAdded = new Delegate("furniture");
+        this.onFurnitureRemoved = new Delegate("furniture");
         this.onFurnituresChanged = new Delegate("furnitures");
     }
 
     addFurniture(furniture) {
         if (!this.furnitures.includes(furniture)) {
             this.furnitures.push(furniture);
+            this.onFurnitureAdded.run(furniture);
             this.onFurnituresChanged.run([...this.furnitures]);
         }
     }
@@ -23,6 +26,7 @@ class Room extends Block {
     removeFurniture(furniture) {
         let removed = this.furnitures.remove(furniture);
         if (removed) {
+            this.onFurnitureRemoved.run(furniture);
             this.onFurnituresChanged.run([...this.furnitures]);
         }
     }
@@ -30,7 +34,14 @@ class Room extends Block {
 
 function inflateRoom(room) {
 
-    let inflated = inflateObject(room, Room.prototype, ["onFurnituresChanged"]);
+    let inflated = inflateObject(
+        room,
+        Room.prototype,
+        [
+            "onFurnitureAdded",
+            "onFurnitureRemoved",
+            "onFurnituresChanged",
+        ]);
     if (!inflated) { return; }
     inflateBlock(room);
 

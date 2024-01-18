@@ -47,6 +47,16 @@ class Controller {
                 this.camera.position.x += this.speed;
                 moveCamera = true;
                 break;
+            case 46://DEL key
+                let delList = this.selector.selection;
+                this.selector.clear();
+                delList.forEach(c => {
+                    let f = c.obj;
+                    f.room.removeFurniture(f);
+                    let box = c.box;
+                    box.parent.remove(box);
+                })
+                break;
             default: break;
         }
         //if move the camera,
