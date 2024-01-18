@@ -41,6 +41,7 @@ function inflateHouse(house) {
 
     for (let room of house.rooms) {
         inflateRoom(room);
+        room.house = house;
     }
 
 }

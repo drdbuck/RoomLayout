@@ -110,12 +110,12 @@ class Controller {
         let zoomDelta = state.mouse.wheelDelta * this.wheelMoveSpeed / 100;
         if (state.mouse.lmbDown || event.altKey) {
             this.selector.forEach(c => {
-                c.obj.position.y = Math.clamp(
-                    c.obj.position.y + zoomDelta,
+                let furniture = c.obj;
+                furniture.altitude = Math.clamp(
+                    furniture.altitude + zoomDelta,
                     0,
-                    house.rooms[0].scale.y
+                    furniture.room.scale.y - furniture.scale.y
                 );
-                c.obj.onPositionChanged.run(c.obj.position);//dirty: only the data class should call its delegates
             });
         }
         else if (event.shiftKey) {

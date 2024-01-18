@@ -36,6 +36,7 @@ function inflateRoom(room) {
 
     for (let furniture of room.furnitures) {
         inflateFurniture(furniture);
+        furniture.room = room;
     }
 
 }

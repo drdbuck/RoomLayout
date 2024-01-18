@@ -61,6 +61,14 @@ class Block {
         this.onPositionChanged.run(this._position);
     }
 
+    get altitude() {
+        return this._position.y;
+    }
+    set altitude(value) {
+        this._position.y = value;
+        this.onPositionChanged.run(this._position);
+    }
+
     get angle() {
         return this._angle;
     }
