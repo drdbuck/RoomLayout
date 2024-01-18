@@ -3,8 +3,8 @@
 let body = $("body");
 let flm = new FileManager(body);
 let flmFace = new FileManager($("divFaceDrop"));
-flm.onImageUploaded.add((image) => console.log("image uploaded!", image.name));
-flmFace.onImageUploaded.add((image) => console.log("image uploaded to face!", image.name));
+flm.onImageUploaded.add((image) => log("image uploaded!", image.name));
+flmFace.onImageUploaded.add((image) => log("image uploaded to face!", image.name));
 
 let loader = new FileLoader();
 let player;
@@ -91,6 +91,7 @@ function init() {
             player.scene
         );
         controllerEdit.selector.onSelectionChanged.add((contexts) => {
+            log("selected count:", controllerEdit.selector.count);
             let furnitures = contexts.map(c => c.obj);
             const reduceFunc = (a, b) => (a === b) ? a : undefined;
             const inequal = "---";
@@ -248,7 +249,7 @@ function registerKeyBindings(edit = inEditMode, play = !inEditMode) {
     });
     // input.mouse.move.add((s,e)=>{
     //     if (s.mouse.lmbDown){
-    //         console.log("mouseevent", e);
+    //         log("mouseevent", e);
     //     }
     // })
 };

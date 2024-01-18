@@ -50,8 +50,8 @@ function listTools() {
 
 }
 function printTool(toolText) {
-    console.log("===================");
-    console.log(toolText);
+    log("===================");
+    log(toolText);
 }
 //
 //
@@ -66,7 +66,7 @@ performance.analyze = function (testName) {
         entries = performance.getEntriesByType("measure");
     }
     if (entries.length === 0) {
-        console.log("No data to analyze for test: " + testName);
+        log("No data to analyze for test: " + testName);
         return;
     }
     let min = entries[0].duration;
@@ -86,7 +86,7 @@ performance.analyze = function (testName) {
     if (testName === undefined) {
         testName = entries[0].name;
     }
-    console.log(testName + ":",
+    log(testName + ":",
         " min:", min,
         " max:", max,
         " avg:", average,
@@ -143,7 +143,7 @@ function debugDisplay(debugIdx, debugMsg) {
     }
     //add message to list
     debugDisplayList[debugIdx] = debugMsg;
-    //update div    
+    //update div
     divDebug.hidden = false;
     divDebug.innerHTML = debugDisplayList
         .map((msg, i) => `${i}: ${msg}`)
@@ -152,7 +152,7 @@ function debugDisplay(debugIdx, debugMsg) {
 }
 function debugEnable(enable = true) {
     urlParams.debug = enable;
-    console.log(`Debug ${(urlParams.debug) ? "enabled" : "disabled"}!`);
+    log(`Debug ${(urlParams.debug) ? "enabled" : "disabled"}!`);
     debugURLParamWarningGiven = false;
 }
 
@@ -168,14 +168,14 @@ function deepDiff(obj, stringify) {
     //Store first object
     if (!deepDiffMapper.obj1) {
         deepDiffMapper.store(obj, stringify);
-        console.log("deepDiff: obj 1 stored!");
+        log("deepDiff: obj 1 stored!");
         return;
     }
     //Store second object and compare
     else {
         deepDiffMapper.store(obj, stringify);
-        console.log("deepDiff: obj 2 stored!");
-        console.log("deepDiff: comparing the two objects:");
+        log("deepDiff: obj 2 stored!");
+        log("deepDiff: comparing the two objects:");
         return deepDiffMapper.compare();
     }
 }
@@ -395,16 +395,16 @@ function printConstants(...constants) {
             let item = constantDict[constant];
             if (Array.isArray(item)) {
                 for (let str of item) {
-                    console.log(`${constant}: ${str}`);
+                    log(`${constant}: ${str}`);
                 }
             }
             else {
-                console.log(`${constant}: ${item}`);
+                log(`${constant}: ${item}`);
             }
         }
     }
     else {
-        console.log(constantDict);
+        log(constantDict);
     }
 }
 

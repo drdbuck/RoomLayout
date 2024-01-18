@@ -65,7 +65,7 @@ class FileManager {
         reader.readAsDataURL(file);
         let _uploadImage = this._uploadImage.bind(this);
         reader.onloadend = (progressEvent) => {
-            // console.log("result,", progressEvent);
+            // log("result,", progressEvent);
             let imageURL = progressEvent.currentTarget.result;
             _uploadImage(file, imageURL);
         };
