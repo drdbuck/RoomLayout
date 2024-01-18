@@ -53,6 +53,14 @@ class Block {
         this.onSizeChanged.run(this._scale);
     }
 
+    get min() {
+        return new Vector3(this._scale).multiplyScalar(-0.5).setY(0);
+    }
+
+    get max() {
+        return new Vector3(this._scale).multiplyScalar(0.5).setY(this._scale.y);
+    }
+
     get position() {
         return this._position;
     }

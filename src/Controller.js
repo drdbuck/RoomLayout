@@ -113,8 +113,8 @@ class Controller {
                 let furniture = c.obj;
                 furniture.altitude = Math.clamp(
                     furniture.altitude + zoomDelta,
-                    0,
-                    furniture.room.scale.y - furniture.scale.y
+                    furniture.room.min.y,
+                    furniture.room.max.y - furniture.scale.y
                 );
             });
         }
@@ -209,6 +209,10 @@ class Controller {
             let item = context.obj;
             pos.copy(mouseWorld);
             pos = pos.add(context.offset);
+            let min = item.room.min;
+            let max = item.room.max;
+            pos.x = Math.clamp(pos.x, min.x, max.x);
+            pos.z = Math.clamp(pos.z, min.z, max.z);
             item.position = pos;
         });
     }
