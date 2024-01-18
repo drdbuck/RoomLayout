@@ -22,6 +22,14 @@ class Selector {
     }
 
     /**
+     * Returns true if the given item is selected
+     * @param {object} item The item to test if it is selected
+     */
+    isSelected(item) {
+        this._selection.includes(item);
+    }
+
+    /**
      * Select the given item
      * @param {object} item The item to select
      * @param {boolean} [add=true] Whether or not to add the item to the list. If false, clears the list first
@@ -94,6 +102,14 @@ class Selector {
         }
         this._selection.length = 0;
         this.onSelectionChanged.run(this._selection);
+    }
+
+    /**
+     * Returns the first item that matches the given condition
+     * @param {(item:object)=>boolean} func The function to test each item
+     */
+    find(func) {
+        return this._selection.find(func);
     }
 
     /**

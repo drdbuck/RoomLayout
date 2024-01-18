@@ -75,14 +75,19 @@ class Controller {
     processMouseDown(state, event) {
         if (!state.mouse.lmbDown) { return; }
         this.processMouseInput(event);
+        let multiselectButton = event.ctrlKey || event.shiftKey;
         this.origMouse = copyObject(this.mouse, mouseDragStringify);
         let target = this.getObjectAtMousePos()?.furniture;
         if (target) {
             if (this.isSelected(target)) {
+                if (multiselectButton) {
+                    let context = this.selector.find(c => c.obj === target);
+                    this.selector.deselect(context);
+                }
             }
             else {
                 //select
-                let selected = this.selectObject(event.ctrlKey);
+                let selected = this.selectObject(multiselectButton);
             }
             //prepare for drag
             this.calculateSelectedOffsets();
