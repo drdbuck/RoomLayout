@@ -18,11 +18,6 @@ class Controller {
         this.raycaster = new Raycaster();
 
         this.selector = new Selector();
-
-        this.save = {
-            quaternion: new Quaternion(-0.7, 0, 0, 0.7),
-            position: new Vector3(0, 10, 0),
-        };
     }
 
     activate(active) {
@@ -57,7 +52,7 @@ class Controller {
         //if move the camera,
         if (moveCamera) {
             //save position
-            this.save.position.copy(this.camera.position);
+            view.position = this.camera.position;
         }
     }
 

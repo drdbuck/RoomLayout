@@ -14,6 +14,9 @@ let controllerEdit;
 let controllerFPS;
 let house = new House();
 const selectMaterial = createShaderMaterial(_one,new Vector3(0,0,1));
+const viewOverhead = new View(new Vector3(0, 10, 0), new Quaternion(-0.7, 0, 0, 0.7));
+const viewImmersive = new View(new Vector3(0, 5, 0), new Quaternion(0, 0, 0, 1));
+let view = viewOverhead;
 
 function init() {
 
@@ -163,6 +166,7 @@ function init() {
         });
 
         switchMode(true);
+        switchView(true);
 
     });
 }
@@ -231,20 +235,30 @@ function registerKeyBindings(edit = inEditMode, play = !inEditMode) {
     input.key.down.add((s, e) => {
         switch (e.keyCode) {
             //esc
-            case 27: switchMode(true); break;
+            // case 27: switchMode(true); break;
             //enter
-            case 13: switchMode(false); break;
+            // case 13: switchMode(false); break;
             //tab
             case 9:
-                switchMode(!inEditMode);
-                e.preventDefault();
-                break;
             //space
             case 32:
-                switchMode(!inEditMode);
+                switchView(!inOverhead);
+                if (inOverhead) {
+                    switchMode(true);
+                }
                 e.preventDefault();
                 break;
 
+        }
+    });
+    input.mouse.down.add((s, e) => {
+        if (!inEditMode && s.mouse.rmbDown) {
+            switchMode(false);
+        }
+    });
+    input.mouse.up.add((s, e) => {
+        if (!s.mouse.rmbDown) {
+            switchMode(true);
         }
     });
     // input.mouse.move.add((s,e)=>{
@@ -267,12 +281,20 @@ function switchMode(editMode = !inEditMode) {
     controller?.activate(true);
     //
     registerKeyBindings(editMode, !editMode);
-    //Position camera
-    player.camera.quaternion.copy(controller.save.quaternion);
-    player.camera.position.copy(controller.save.position);
     //Simulate
     simulate(!editMode);
 };
+
+let inOverhead = true;
+function switchView(overhead = !inOverhead) {
+    inOverhead = overhead;
+    view = (overhead)
+        ? viewOverhead
+        : viewImmersive;
+        //Position camera
+        player.camera.quaternion.copy(view.quaternion);
+        player.camera.position.copy(view.position);
+}
 
 function getDataStringify() {
     return [

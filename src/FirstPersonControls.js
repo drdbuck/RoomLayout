@@ -15,11 +15,6 @@ class FirstPersonControls {
 
 		this.controls = new PointerLockControls(camera, domElement);
 
-		this.save = {
-			quaternion: this.camera.quaternion.clone(),
-			position: this.object.position.clone(),
-		};
-
 		// API
 
 		this.enabled = true;
@@ -85,6 +80,9 @@ class FirstPersonControls {
 
 	activate(active) {
 		if (active) {
+			this.controls.lock();
+			this.controls.connect();
+			this._onPointerMove();
 		}
 		else {
 			this.controls.unlock();
@@ -109,9 +107,6 @@ class FirstPersonControls {
 	}
 
 	onPointerDown(state, event) {
-		this.controls.lock();
-		this.controls.connect();
-		// this._onPointerMove();
 		return;
 		if (this.domElement !== document) {
 
@@ -135,8 +130,6 @@ class FirstPersonControls {
 	}
 
 	onPointerUp(state, event) {
-		this.controls.unlock();
-		this.controls.disconnect();
 		return;
 		if (this.activeLook) {
 
@@ -242,7 +235,7 @@ class FirstPersonControls {
 		this.object.quaternion.copy(this.camera.quaternion);
 		this.object.rotation.x = 0;
 		this.object.rotation.z = 0;
-		this.save.quaternion.copy(this.camera.quaternion);
+		view.quaternion = this.camera.quaternion;
 
 		setOrientation(this);
 
@@ -280,10 +273,10 @@ class FirstPersonControls {
 		this.controls.moveForward(- this.velocity.z * delta);
 
 		const obj = this.controls.getObject();
-		obj.position.y = 2;//+= (this.velocity.y * delta); // new behavior
+		obj.position.y += (this.velocity.y * delta); // new behavior
 
-		this.save.position.copy(obj.position);
-		this.save.quaternion.copy(obj.quaternion);
+		view.position = obj.position;
+		view.quaternion = obj.quaternion;
 
 	}
 
@@ -313,7 +306,7 @@ class FirstPersonControls {
 		if (this.moveUp) this.object.translateY(actualMoveSpeed);
 		if (this.moveDown) this.object.translateY(- actualMoveSpeed);
 		this.camera.position.copy(this.object.position);
-		this.save.position.copy(this.object.position);
+		view.position = this.object.position;
 
 		let actualLookSpeed = delta * this.lookSpeed;
 
@@ -353,7 +346,7 @@ class FirstPersonControls {
 		this.object.quaternion.copy(this.camera.quaternion);
 		this.object.rotation.x = 0;
 		this.object.rotation.z = 0;
-		this.save.quaternion.copy(this.camera.quaternion);
+		view.quaternion = this.camera.quaternion;
 
 	}
 

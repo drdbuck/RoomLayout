@@ -20,7 +20,7 @@ class Input {
         this.state = {
             mouse: {
                 lmbDown: false,
-                //rmbDown: false,
+                rmbDown: false,
                 //buttons: [],
                 pos: new Vector2(),
                 posStart: new Vector2(),
@@ -52,7 +52,8 @@ class Input {
         if (!this.verifyEvent(event)) { return; }
         //
         this.processMouseInput(event);
-        this.state.mouse.lmbDown = true;
+        this.state.mouse.lmbDown = event.button == 0;
+        this.state.mouse.rmbDown = event.button == 2;
         this.state.mouse.posStart.copy(this.state.mouse.pos);
         this.mouse.down.run(this.state, event);
     }
@@ -68,7 +69,8 @@ class Input {
 		log("input up:", event);
         if (!this.verifyEvent(event)) { return; }
         //
-        this.state.mouse.lmbDown = false;
+        this.state.mouse.lmbDown &&= !(event.button == 0);
+        this.state.mouse.rmbDown &&= !(event.button == 2);
         this.mouse.up.run(this.state, event);
     }
 
