@@ -128,7 +128,8 @@ class Input {
      * @returns
      */
     verifyEvent(event) {
-        return ["MouseEvent","WheelEvent"].includes(event.constructor.name) && event.target === this.mouseTarget
+        return ["MouseEvent", "WheelEvent"].includes(event.constructor.name)
+            && [event.target, event.target?.firstChild].includes(this.mouseTarget)
             || event.constructor.name == "KeyboardEvent" && event.target === this.keyTarget;
     }
 }

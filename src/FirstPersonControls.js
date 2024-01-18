@@ -85,9 +85,6 @@ class FirstPersonControls {
 
 	activate(active) {
 		if (active) {
-			this.controls.lock();
-			this.controls.connect();
-			this._onPointerMove();
 		}
 		else {
 			this.controls.unlock();
@@ -112,6 +109,9 @@ class FirstPersonControls {
 	}
 
 	onPointerDown(state, event) {
+		this.controls.lock();
+		this.controls.connect();
+		// this._onPointerMove();
 		return;
 		if (this.domElement !== document) {
 
@@ -135,6 +135,8 @@ class FirstPersonControls {
 	}
 
 	onPointerUp(state, event) {
+		this.controls.unlock();
+		this.controls.disconnect();
 		return;
 		if (this.activeLook) {
 
