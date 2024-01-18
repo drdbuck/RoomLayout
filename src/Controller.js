@@ -112,15 +112,20 @@ class Controller {
 
     processMouseWheel(state, event) {
         let zoomDelta = state.mouse.wheelDelta * this.wheelMoveSpeed / 100;
-        if (state.mouse.lmbDown) {
+        if (state.mouse.lmbDown || event.shiftKey) {
             this.selector.forEach(c => {
                 c.obj.position.y = Math.clamp(
                     c.obj.position.y + zoomDelta,
                     0,
                     house.rooms[0].scale.y
                 );
-                c.obj.onPositionChanged.run(c.obj.position);//dirty
-            })
+                c.obj.onPositionChanged.run(c.obj.position);//dirty: only the data class should call its delegates
+            });
+        }
+        else if (event.altKey) {
+            this.selector.forEach(c => {
+                c.box.rotation.y += zoomDelta / 10;//dirty: should set rotation in data, not ui
+            });
         }
         else{
         this.camera.position.y = Math.clamp(
