@@ -112,11 +112,23 @@ class Controller {
 
     processMouseWheel(state, event) {
         let zoomDelta = state.mouse.wheelDelta * this.wheelMoveSpeed / 100;
+        if (state.mouse.lmbDown) {
+            this.selector.forEach(c => {
+                c.obj.position.y = Math.clamp(
+                    c.obj.position.y + zoomDelta,
+                    0,
+                    house.rooms[0].scale.y
+                );
+                c.obj.onPositionChanged.run(c.obj.position);//dirty
+            })
+        }
+        else{
         this.camera.position.y = Math.clamp(
             this.camera.position.y + zoomDelta,
             ZOOM_MIN,
             ZOOM_MAX
         );
+        }
     }
 
     getObjectAtMousePos() {
