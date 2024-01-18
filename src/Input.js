@@ -41,7 +41,6 @@ class Input {
     }
 
     processMouseMove(event) {
-		log("input move:", event);
         if (!this.verifyEvent(event)) { return; }
         //
         this.processMouseInput(event);
@@ -66,7 +65,6 @@ class Input {
     }
 
     processMouseUp(event) {
-		log("input up:", event);
         if (!this.verifyEvent(event)) { return; }
         //
         this.state.mouse.lmbDown &&= !(event.button == 0);

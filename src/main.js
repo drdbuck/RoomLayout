@@ -131,7 +131,6 @@ function init() {
         //ControllerFPS init
         controllerFPS = new FirstPersonControls(
             player.camera,
-            player.camera,
             player.dom
         );
         controllerFPS.controls.addEventListener("unlock", () => {
