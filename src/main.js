@@ -131,7 +131,7 @@ function init() {
         //ControllerFPS init
         controllerFPS = new FirstPersonControls(
             player.camera,
-            player.scene.children[0],
+            player.camera,
             player.dom
         );
         controllerFPS.controls.addEventListener("unlock", () => {
@@ -252,7 +252,7 @@ function registerKeyBindings(edit = inEditMode, play = !inEditMode) {
         }
     });
     input.mouse.down.add((s, e) => {
-        if (!inEditMode && s.mouse.rmbDown) {
+        if (!inOverhead && s.mouse.rmbDown) {
             switchMode(false);
         }
     });
