@@ -140,7 +140,7 @@ class Controller {
         return {
             obj: select,
             box: box,
-            face: 2,
+            face: -1,
             offset: _zero.clone(),
         };
     }
@@ -165,7 +165,12 @@ class Controller {
 
     selectNextFace() {
         this.selector.forEach(context => {
+            if (context.face >= 0) {
             context.face++;
+            }
+            else {
+                context.face = 2;
+            }
             if (context.face > context.box.material.length) {
                 context.face = 0;
             }
