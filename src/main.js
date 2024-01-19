@@ -314,14 +314,11 @@ function updateFace(box, face) {
     let edge = box.edge;
     let select = box.select;
     let faceCount = box.material.length;
-    // edge.material = edgeMaterial;
     edge.renderOrder = 0;
-    // select.material = undefined;
-    select.material = new Array(faceCount);
+    select.material = undefined;
     select.visible = false;
-    // box.material = [...box.materialList];
     if (face >= 0 && face < faceCount) {
-        // box.material[face] = selectMaterial;
+        select.material = new Array(faceCount);
         select.material[face] = selectMaterial;
         select.visible = true;
         edge.renderOrder = 999;
