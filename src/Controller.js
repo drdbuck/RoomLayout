@@ -200,7 +200,7 @@ class Controller {
             else {
                 context.face = 2;
             }
-            if (context.face > context.box.material.length) {
+            if (context.face >= context.box.material.length) {
                 context.face = 0;
             }
         });
