@@ -14,7 +14,7 @@ let controllerEdit;
 let controllerFPS;
 let house = new House();
 const selectColor = "#8ce8ff";
-const selectMaterial = createColorMaterial(selectColor, true);
+const selectMaterial = createColorMaterial(selectColor, false);
 const edgeMaterial = new LineBasicMaterial({
     color: selectColor,
     linewidth: 1,
@@ -310,10 +310,20 @@ function getDataStringify() {
 }
 
 function updateFace(box, face) {
+    let edge = box.edge;
+    let select = box.select;
     let faceCount = box.material.length;
-    box.material = [...box.materialList];
+    // edge.material = edgeMaterial;
+    edge.renderOrder = 0;
+    // select.material = undefined;
+    select.material = new Array(faceCount);
+    select.visible = false;
+    // box.material = [...box.materialList];
     if (face >= 0 && face < faceCount) {
-        box.material[face] = selectMaterial;
+        // box.material[face] = selectMaterial;
+        select.material[face] = selectMaterial;
+        select.visible = true;
+        edge.renderOrder = 999;
     }
 }
 

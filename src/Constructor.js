@@ -142,7 +142,6 @@ function constructFurniture(furniture) {
 
     //create mesh
     const box = new Mesh(boxGeometry, boxMaterials);
-    box.materialList = [...box.material];
     box.layers.mask = objectMask;
 
     box.userData ??= {};
@@ -180,6 +179,12 @@ function constructFurniture(furniture) {
     box.attach(edge);
     edge.visible = false;
 
+    //select highlights
+    let select = createSelectHighlights(box);
+    box.select = select;
+    box.attach(select);
+    select.visible = false;
+
     return box;
 }
 
@@ -195,4 +200,18 @@ function createEdgeHighlights(mesh){
     line.rotation.copy(mesh.rotation);
 
     return line;
+}
+
+function createSelectHighlights(mesh){
+    //2024-01-16: copied from https://discourse.threejs.org/t/highlighting-the-edge-of-a-cube-on-hover-linesegmentsgeometry/28480
+
+    const select = new Mesh(mesh.geometry, []);
+    select.renderOrder = 998;
+    select.layers.mask = effectMask;
+
+    select.position.copy(mesh.position);
+    select.scale.copy(mesh.scale);
+    select.rotation.copy(mesh.rotation);
+
+    return select;
 }
