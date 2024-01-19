@@ -21,6 +21,8 @@ class Controller {
         this.raycaster.layers.set(objectMask);
 
         this.selector = new Selector();
+
+        this.onFaceSelectionChanged = new Delegate("faces");
     }
 
     activate(active) {
@@ -230,6 +232,7 @@ class Controller {
         this.selector.forEach(c => {
             updateFace(c.box, c.face);
         });
+        this.onFaceSelectionChanged.run(this.selector.map(c => c.face));
     }
 
 

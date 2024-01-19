@@ -27,6 +27,41 @@ function updateFurnitureEditPanel(contexts) {
     });
 }
 
+function updateFaceEditPanel(faces) {
+    const reduceFunc = (a, b) => (a === b) ? a : undefined;
+    const inequal = -2;
+    const defaultValue = (faces?.length > 0) ? undefined : -1;
+    let face = defaultValue ?? faces.reduce(reduceFunc) ?? inequal;
+    let faceText = "";
+    switch (face) {
+        case 0:
+            faceText = "Right";
+            break;
+        case 1:
+            faceText = "Left";
+            break;
+        case 2:
+            faceText = "Top";
+            break;
+        case 3:
+            faceText = "Bottom";
+            break;
+        case 4:
+            faceText = "Back";
+            break;
+        case 5:
+            faceText = "Front";
+            break;
+        case -1:
+            faceText = "None";
+            break;
+        case -2:
+            faceText = "---";
+            break;
+    }
+    $("spnFaceName").innerHTML = faceText;
+}
+
 
 //
 // ======= UI Controls =======

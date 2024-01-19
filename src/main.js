@@ -104,6 +104,7 @@ function init() {
             player.camera,
             player.scene
         );
+        controllerEdit.onFaceSelectionChanged.add(updateFaceEditPanel);
         controllerEdit.selector.onSelectionChanged.add(updateFurnitureEditPanel);
         controllerEdit.selector.onSelectionGained.add(context => {
             let box = context.box;

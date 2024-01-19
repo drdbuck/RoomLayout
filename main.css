@@ -32,6 +32,8 @@ canvas {
     right: 1px;
 }
 
+/* Specific element styles */
+
 #divPanelEdit{
     top: 10px;
     left: 10px;
@@ -40,4 +42,10 @@ canvas {
 #divFaceEdit{
     top: 10px;
     right: 10px;
+}
+
+#spnFaceName{
+    display:inline-grid;
+    text-align: center;
+    width: 69%;
 }

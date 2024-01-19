@@ -126,6 +126,15 @@ class Selector {
     }
 
     /**
+     * Maps the selected items using the given func
+     * @param {(item:object)=>any} func The function to use to map the items
+     * @returns
+     */
+    map(func) {
+        return this._selection.map(func);
+    }
+
+    /**
      * Returns true if at least one item meets the given condition
      * @param {(item:object)=>boolean} func
      * @returns True if at least one item meets the given condition
