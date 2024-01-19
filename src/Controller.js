@@ -16,6 +16,7 @@ class Controller {
         this.wheelMoveSpeed = 1;
         this.mouse = {};
         this.raycaster = new Raycaster();
+        this.raycaster.layers.mask = objectMask;
 
         this.selector = new Selector();
     }
