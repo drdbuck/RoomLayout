@@ -10,13 +10,14 @@ function updateFurnitureEditPanel(contexts) {
     const reduceFunc = (a, b) => (a === b) ? a : undefined;
     const inequal = "---";
     const defaultText = (furnitures.length > 0) ? undefined : "";
+    const valueFunc = (func) => defaultText ?? furnitures.map(func).reduce(reduceFunc) ?? inequal;
     //Update UI
     let anySelected = furnitures.length > 0;
     $("divPanelEdit").hidden = !anySelected;
     if (anySelected) {
-        $("txtWidth").value = defaultText ?? furnitures.map(f => f.width).reduce(reduceFunc) ?? inequal;
-        $("txtLength").value = defaultText ?? furnitures.map(f => f.length).reduce(reduceFunc) ?? inequal;
-        $("txtHeight").value = defaultText ?? furnitures.map(f => f.height).reduce(reduceFunc) ?? inequal;
+        $("txtWidth").value = valueFunc(f => f.width);
+        $("txtLength").value = valueFunc(f => f.length);
+        $("txtHeight").value = valueFunc(f => f.height);
     }
     else {
         $("divFaceEdit").hidden = true;
