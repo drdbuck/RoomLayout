@@ -21,6 +21,7 @@
 
         <!-- Furniture Edit Panel -->
         <div id="divPanelEdit" class="popupPanel" hidden>
+            <h1>Edit Furniture</h1>
             <label id="lblWidth" for="txtWidth">Width</label><br>
             <input type="text" id="txtWidth" title="Width" placeholder="width" default="1"/><br>
             <label id="lblLength" for="txtLength">Length</label><br>
@@ -32,14 +33,14 @@
         </div>
 
         <!-- Face Edit Panel -->
-        <div id="divFaceEdit" class="popupPanel" >
+        <div id="divFaceEdit" class="popupPanel" hidden>
             <button id="btnFaceEditExit" class="exitButton" onclick="$('divFaceEdit').hidden = true;">X</button>
-            Edit Faces
-            <br>
+            <h1>Edit Faces</h1>
             <button id="btnChangeFace" onclick="controller.selectPrevFace();"><</button>
             <span id="spnFaceName">No Face Selected</span>
             <button id="btnChangeFace" onclick="controller.selectNextFace();">></button>
-
+            <br>
+            <br>
             <div id="divFaceDrop" style="border:2px white solid; padding: 20px; text-align:center">
                 Drop face image here
             </div>
