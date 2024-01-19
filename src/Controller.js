@@ -201,16 +201,26 @@ class Controller {
         this.selector.forEach(context => context.offset.copy(_zero));
     }
 
-    selectNextFace() {
+    selectNextFace(dir) {
         this.selector.forEach(context => {
-            if (context.face >= -1) {
-                context.face++;
+            if (!dir) {
+                context.face = -1;
+                return;
+            }
+            //
+            if (context.face >= 0) {
+                context.face += dir;
             }
             else {
                 context.face = 2;
             }
-            if (context.face >= context.box.material.length) {
-                context.face = -1;
+            const min = 0;
+            const max = context.box.material.length - 1;
+            if (context.face > max) {
+                context.face = min;
+            }
+            if (context.face < min) {
+                context.face = max;
             }
         });
         this.updateFaceSelection();

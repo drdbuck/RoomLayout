@@ -29,16 +29,16 @@
             <label id="lblHeight" for="txtHeight">Height</label><br>
             <input type="text" id="txtHeight" title="Height" placeholder="height" default="1"/><br>
             <br>
-            <button id="btnFaceEdit" onclick="$('divFaceEdit').hidden = false;">Edit Faces</button>
+            <button id="btnFaceEdit" onclick="btnFaceEdit();">Edit Faces</button>
         </div>
 
         <!-- Face Edit Panel -->
         <div id="divFaceEdit" class="popupPanel" hidden>
-            <button id="btnFaceEditExit" class="exitButton" onclick="$('divFaceEdit').hidden = true;">X</button>
+            <button id="btnExitFaceEdit" class="exitButton" onclick="btnExitFaceEdit();">X</button>
             <h1>Edit Faces</h1>
-            <button id="btnChangeFace" onclick="controller.selectPrevFace();"><</button>
+            <button id="btnChangeFace" onclick="controller.selectNextFace(-1);"><</button>
             <span id="spnFaceName">No Face Selected</span>
-            <button id="btnChangeFace" onclick="controller.selectNextFace();">></button>
+            <button id="btnChangeFace" onclick="controller.selectNextFace(1);">></button>
             <br>
             <br>
             <div id="divFaceDrop" style="border:2px white solid; padding: 20px; text-align:center">
