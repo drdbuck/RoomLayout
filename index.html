@@ -28,7 +28,18 @@
             <label id="lblHeight" for="txtHeight">Height</label><br>
             <input type="text" id="txtHeight" title="Height" placeholder="height" default="1"/><br>
             <br>
-            <button id="btnChangeFace" onclick="controller.selectNextFace();">Select Next Face</button>
+            <button id="btnFaceEdit" onclick="$('divFaceEdit').hidden = false;">Edit Faces</button>
+        </div>
+
+        <!-- Face Edit Panel -->
+        <div id="divFaceEdit" class="popupPanel" >
+            <button id="btnFaceEditExit" class="exitButton" onclick="$('divFaceEdit').hidden = true;">X</button>
+            Edit Faces
+            <br>
+            <button id="btnChangeFace" onclick="controller.selectPrevFace();"><</button>
+            <span id="spnFaceName">No Face Selected</span>
+            <button id="btnChangeFace" onclick="controller.selectNextFace();">></button>
+
             <div id="divFaceDrop" style="border:2px white solid; padding: 20px; text-align:center">
                 Drop face image here
             </div>
