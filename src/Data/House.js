@@ -25,6 +25,7 @@ class House {
             this.rooms.push(room);
             this.onRoomsChanged.run([...this.rooms]);
         }
+        room.house = this;
     }
 
     removeRoom(room) {

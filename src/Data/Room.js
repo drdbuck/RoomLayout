@@ -21,6 +21,7 @@ class Room extends Block {
             this.onFurnitureAdded.run(furniture);
             this.onFurnituresChanged.run([...this.furnitures]);
         }
+        furniture.room = this;
     }
 
     removeFurniture(furniture) {

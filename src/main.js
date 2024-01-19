@@ -146,7 +146,8 @@ function init() {
             //Data
             let furniture = new Furniture(image.src);
             furniture.position.y = 0.5;
-            house.rooms[0].addFurniture(furniture);
+            let room = house.rooms[0];
+            room.addFurniture(furniture);
             //Scene
             let newbox = constructFurniture(furniture);
             player.scene.add(newbox);
