@@ -14,7 +14,9 @@ class Controller {
         this.scene = scene;
         this.speed = 1;
         this.wheelMoveSpeed = 1;
-        this.mouse = {};
+        this.mouse = {
+            targetY: 0,
+        };
         this.raycaster = new Raycaster();
         this.raycaster.layers.set(objectMask);
 
@@ -91,6 +93,8 @@ class Controller {
                 let selected = this.selectObject(multiselectButton);
             }
             //prepare for drag
+            let hit = this.getHitAtMousePos();
+            this.mouse.targetY = hit?.point.y ?? 0;
             this.calculateSelectedOffsets();
         }
         else {
@@ -118,6 +122,7 @@ class Controller {
 
     processMouseUp(state, event) {
         if (!state.mouse.lmbDown) {
+            this.mouse.targetY = 0;
             this.clearSelectedOffsets();
         }
     }
@@ -148,11 +153,15 @@ class Controller {
         }
     }
 
-    getObjectAtMousePos() {
+    getHitAtMousePos(findFunc = (rch) => true) {
         //2023-12-21: copied from https://stackoverflow.com/a/30871007/2336212
         this.raycaster.setFromCamera(this.mouse, this.camera);
         let objects = this.raycaster.intersectObjects(this.scene.children);
-        return objects.find(o => o.object.userData.selectable)?.object;
+        return objects.find(findFunc);
+    }
+
+    getObjectAtMousePos() {
+        return this.getHitAtMousePos(o => o.object.userData.selectable)?.object;
     }
 
     selectObject(add = false) {
@@ -244,7 +253,7 @@ class Controller {
 
         vec.sub(this.camera.position).normalize();
 
-        var distance = - this.camera.position.y / vec.y;
+        var distance = (mouse.targetY - this.camera.position.y) / vec.y;
 
         vec = vec.multiplyScalar(distance);
 
