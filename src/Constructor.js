@@ -184,11 +184,7 @@ function createEdgeHighlights(mesh){
     //2024-01-16: copied from https://discourse.threejs.org/t/highlighting-the-edge-of-a-cube-on-hover-linesegmentsgeometry/28480
     const edgesGeometry = new EdgesGeometry(mesh.geometry, 40);
 
-      const edgesMaterial = new LineBasicMaterial({
-        color: "white",
-        linewidth: 1,
-      });
-    const line = new LineSegments(edgesGeometry, edgesMaterial);
+    const line = new LineSegments(edgesGeometry, edgeMaterial);
 
     line.position.copy(mesh.position);
     line.scale.copy(mesh.scale);

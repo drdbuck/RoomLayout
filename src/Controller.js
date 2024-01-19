@@ -208,11 +208,7 @@ class Controller {
 
     updateFaceSelection() {
         this.selector.forEach(c => {
-            let box = c.box;
-            box.material = [...box.materialList];
-            if (c.face >= 0 && c.face < box.material.length) {
-                box.material[c.face] = selectMaterial;
-            }
+            updateFace(c.box, c.face);
         });
     }
 

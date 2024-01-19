@@ -13,7 +13,12 @@ let controller;
 let controllerEdit;
 let controllerFPS;
 let house = new House();
-const selectMaterial = createShaderMaterial(_one,new Vector3(0,0,1));
+const selectColor = "#8ce8ff";
+const selectMaterial = createColorMaterial(selectColor, true);
+const edgeMaterial = new LineBasicMaterial({
+    color: selectColor,
+    linewidth: 1,
+});
 const viewOverhead = new View(new Vector3(0, 10, 0), new Quaternion(-0.7, 0, 0, 0.7));
 const viewImmersive = new View(new Vector3(0, 5, 0), new Quaternion(0, 0, 0, 1));
 let view = viewOverhead;
@@ -106,27 +111,20 @@ function init() {
             $("txtHeight").value = defaultText ?? furnitures.map(f => f.height).reduce(reduceFunc) ?? inequal;
             //Update selected faces
             contexts.forEach(c => {
-                let box = c.box;
-                box.material = [...box.materialList];
-                if (c.face >= 0 && c.face < box.material.length) {
-                    box.material[c.face] = selectMaterial;
-                }
+                updateFace(c.box, c.face);
             });
         });
         controllerEdit.selector.onSelectionGained.add(context => {
             let box = context.box;
             box.edge.visible = true;
             //
-            box.material = [...box.materialList];
-            if (context.face >= 0 && context.face < box.material.length) {
-                box.material[context.face] = selectMaterial;
-            }
+            updateFace(box, context.face);
         });
         controllerEdit.selector.onSelectionLost.add(context => {
             let box = context.box;
             box.edge.visible = false;
             //
-            box.material = [...box.materialList];
+            updateFace(box, -1);
         });
         //ControllerFPS init
         controllerFPS = new FirstPersonControls(
@@ -306,6 +304,14 @@ function getDataStringify() {
     ].flat();
 }
 
+function updateFace(box, face) {
+    let faceCount = box.material.length;
+    box.material = [...box.materialList];
+    if (face >= 0 && face < faceCount) {
+        box.material[face] = selectMaterial;
+    }
+}
+
 function createMaterials(imageURLs, count = 6) {
     let materials = imageURLs.map(
         face => createMaterial(face)
@@ -362,3 +368,15 @@ function createShaderMaterial(edgeColor = _one, faceColor = _zero) {
     });
     return material;
 }
+function createColorMaterial(color = 4687027, depth = true) {
+    let material = new MeshMatcapMaterial(
+        {
+            color: color,
+            blendColor: 0,
+            depthTest: depth,
+            depthWrite: depth,
+            side: DoubleSide,
+        });
+    return material;
+}
+
