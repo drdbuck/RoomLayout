@@ -19,8 +19,8 @@ const edgeMaterial = new LineBasicMaterial({
     color: selectColor,
     linewidth: 1,
 });
-const objectMask = 1;
-const effectMask = 2;
+const objectMask = 0;
+const effectMask = 1;
 const viewOverhead = new View(new Vector3(0, 10, 0), new Quaternion(-0.7, 0, 0, 0.7));
 const viewImmersive = new View(new Vector3(0, 5, 0), new Quaternion(0, 0, 0, 1));
 let view = viewOverhead;
@@ -92,7 +92,8 @@ function init() {
         player.play();
 
         //Camera
-        player.camera.layers.mask = 3;
+        player.camera.layers.enable(objectMask);
+        player.camera.layers.enable(effectMask);
 
         //Load scene
         let scene = construct(house);

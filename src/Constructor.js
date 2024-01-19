@@ -84,7 +84,7 @@ function createFloor(width = 11, length = 12, showTriangles = false) {
 
     //floor mesh
     const floor = new Mesh(floorGeometry, floorMaterial);
-    floor.layers.mask = objectMask;
+    floor.layers.set(objectMask);
     return floor;
 }
 
@@ -129,7 +129,7 @@ function createWall(length = 11, height = 9, side = 0, showTriangles = false) {
 
     //wall mesh
     const wall = new Mesh(wallGeometry, wallMaterial);
-    wall.layers.mask = objectMask;
+    wall.layers.set(objectMask);
     wall.position.y = height / 2;
     return wall;
 }
@@ -142,7 +142,7 @@ function constructFurniture(furniture) {
 
     //create mesh
     const box = new Mesh(boxGeometry, boxMaterials);
-    box.layers.mask = objectMask;
+    box.layers.set(objectMask);
 
     box.userData ??= {};
     box.userData.selectable = true;
@@ -193,7 +193,7 @@ function createEdgeHighlights(mesh){
     const edgesGeometry = new EdgesGeometry(mesh.geometry, 40);
 
     const line = new LineSegments(edgesGeometry, edgeMaterial);
-    line.layers.mask = effectMask;
+    line.layers.set(effectMask);
 
     line.position.copy(mesh.position);
     line.scale.copy(mesh.scale);
@@ -207,7 +207,7 @@ function createSelectHighlights(mesh){
 
     const select = new Mesh(mesh.geometry, []);
     select.renderOrder = 998;
-    select.layers.mask = effectMask;
+    select.layers.set(effectMask);
 
     select.position.copy(mesh.position);
     select.scale.copy(mesh.scale);
