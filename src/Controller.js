@@ -201,7 +201,7 @@ class Controller {
                 context.face = 2;
             }
             if (context.face >= context.box.material.length) {
-                context.face = 0;
+                context.face = -1;
             }
         });
         this.updateFaceSelection();
