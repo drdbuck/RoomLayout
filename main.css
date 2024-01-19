@@ -18,7 +18,7 @@ canvas {
     font-size: 14px;
 }
 
-.popupPanel h1{
+.popupPanel h1 {
     font-size: 18px;
     margin-top: 0px;
 }
@@ -34,18 +34,18 @@ canvas {
 
 /* Specific element styles */
 
-#divPanelEdit{
+#divPanelEdit {
     top: 10px;
     left: 10px;
 }
 
-#divFaceEdit{
+#divFaceEdit {
     top: 10px;
     right: 10px;
 }
 
-#spnFaceName{
-    display:inline-grid;
+#spnFaceName {
+    display: inline-grid;
     text-align: center;
     width: 69%;
 }

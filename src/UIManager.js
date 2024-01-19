@@ -13,10 +13,10 @@ function updateFurnitureEditPanel(contexts) {
     //Update UI
     let anySelected = furnitures.length > 0;
     $("divPanelEdit").hidden = !anySelected;
-    if (anySelected){
-    $("txtWidth").value = defaultText ?? furnitures.map(f => f.width).reduce(reduceFunc) ?? inequal;
-    $("txtLength").value = defaultText ?? furnitures.map(f => f.length).reduce(reduceFunc) ?? inequal;
-    $("txtHeight").value = defaultText ?? furnitures.map(f => f.height).reduce(reduceFunc) ?? inequal;
+    if (anySelected) {
+        $("txtWidth").value = defaultText ?? furnitures.map(f => f.width).reduce(reduceFunc) ?? inequal;
+        $("txtLength").value = defaultText ?? furnitures.map(f => f.length).reduce(reduceFunc) ?? inequal;
+        $("txtHeight").value = defaultText ?? furnitures.map(f => f.height).reduce(reduceFunc) ?? inequal;
     }
     else {
         $("divFaceEdit").hidden = true;

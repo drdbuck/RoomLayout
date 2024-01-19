@@ -146,12 +146,12 @@ class Controller {
                 c.obj.angle += zoomDelta / 10;
             });
         }
-        else{
-        this.camera.position.y = Math.clamp(
-            this.camera.position.y + zoomDelta,
-            ZOOM_MIN,
-            ZOOM_MAX
-        );
+        else {
+            this.camera.position.y = Math.clamp(
+                this.camera.position.y + zoomDelta,
+                ZOOM_MIN,
+                ZOOM_MAX
+            );
         }
     }
 

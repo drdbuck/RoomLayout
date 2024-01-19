@@ -188,7 +188,7 @@ function constructFurniture(furniture) {
     return box;
 }
 
-function createEdgeHighlights(mesh){
+function createEdgeHighlights(mesh) {
     //2024-01-16: copied from https://discourse.threejs.org/t/highlighting-the-edge-of-a-cube-on-hover-linesegmentsgeometry/28480
     const edgesGeometry = new EdgesGeometry(mesh.geometry, 40);
 
@@ -202,7 +202,7 @@ function createEdgeHighlights(mesh){
     return line;
 }
 
-function createSelectHighlights(mesh){
+function createSelectHighlights(mesh) {
     //2024-01-16: copied from https://discourse.threejs.org/t/highlighting-the-edge-of-a-cube-on-hover-linesegmentsgeometry/28480
 
     const select = new Mesh(mesh.geometry, []);

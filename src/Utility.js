@@ -242,6 +242,6 @@ function validateIndexBounds(value, max, name) {
     return true;
 }
 
-function log(...params){
+function log(...params) {
     console.log(...params);
 }

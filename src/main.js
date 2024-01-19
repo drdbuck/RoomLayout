@@ -281,9 +281,9 @@ function switchView(overhead = !inOverhead) {
     view = (overhead)
         ? viewOverhead
         : viewImmersive;
-        //Position camera
-        player.camera.quaternion.copy(view.quaternion);
-        player.camera.position.copy(view.position);
+    //Position camera
+    player.camera.quaternion.copy(view.quaternion);
+    player.camera.position.copy(view.position);
 }
 
 function getDataStringify() {

@@ -14,7 +14,7 @@ class House {
         this.onRoomsChanged = new Delegate("rooms");
 
         //add empty rooms
-        for (let i = 0; i < emptyRooms; i++){
+        for (let i = 0; i < emptyRooms; i++) {
             let room = new Room();
             this.addRoom(room);
         }
