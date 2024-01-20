@@ -3957,6 +3957,7 @@ class Vector3 {
 
 	setX( x ) {
 
+        x ||= 0;//NaN prevention
 		this.x = x;
 
 		return this;
@@ -3965,6 +3966,7 @@ class Vector3 {
 
 	setY( y ) {
 
+        y ||= 0;//NaN prevention
 		this.y = y;
 
 		return this;
@@ -3973,6 +3975,7 @@ class Vector3 {
 
 	setZ( z ) {
 
+        z ||= 0;//NaN prevention
 		this.z = z;
 
 		return this;

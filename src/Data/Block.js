@@ -33,6 +33,7 @@ class Block {
         return this._scale.x;
     }
     set width(value) {
+        value ||= 0;//NaN prevention
         this._scale.x = value;
         this.onSizeChanged.run(this._scale);
     }
@@ -41,6 +42,7 @@ class Block {
         return this._scale.z;
     }
     set length(value) {
+        value ||= 0;//NaN prevention
         this._scale.z = value;
         this.onSizeChanged.run(this._scale);
     }
@@ -49,6 +51,7 @@ class Block {
         return this._scale.y;
     }
     set height(value) {
+        value ||= 0;//NaN prevention
         this._scale.y = value;
         this.onSizeChanged.run(this._scale);
     }
@@ -73,6 +76,7 @@ class Block {
         return this._position.y;
     }
     set altitude(value) {
+        value ||= 0;//NaN prevention
         this._position.y = value;
         this.onPositionChanged.run(this._position);
     }
@@ -81,6 +85,7 @@ class Block {
         return this._angle;
     }
     set angle(value) {
+        value ||= 0;//NaN prevention
         this._angle = value;
         this.onAngleChanged.run(this._angle);
     }
