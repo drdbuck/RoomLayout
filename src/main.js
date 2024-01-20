@@ -63,15 +63,13 @@ function init() {
             };
         });
     //individual textbox events
-    $("txtWidth").onchange = (txt) => controllerEdit.selector.forEach(
-        context => context.obj.width = parseFloat(txt.target.value)
-    );
-    $("txtLength").onchange = (txt) => controllerEdit.selector.forEach(
-        context => context.obj.length = parseFloat(txt.target.value)
-    );
-    $("txtHeight").onchange = (txt) => controllerEdit.selector.forEach(
-        context => context.obj.height = parseFloat(txt.target.value)
-    );
+    const onChangeFunc = (id, func) =>
+        $(id).onchange = (txt) => controllerEdit.selector.forEach(
+            context => func(context.obj, parseFloat(txt.target.value))
+        );
+    onChangeFunc("txtWidth", (f, v) => f.width = v);
+    onChangeFunc("txtLength", (f, v) => f.length = v);
+    onChangeFunc("txtHeight", (f, v) => f.height = v);
 
     //Load
     house = loadHouse();
