@@ -134,16 +134,12 @@ class Controller {
         if (state.mouse.lmbDown || event.altKey) {
             this.selector.forEach(c => {
                 let furniture = c.obj;
-                furniture.altitude = Math.clamp(
-                    furniture.altitude + zoomDelta,
-                    furniture.room.min.y,
-                    furniture.room.max.y - furniture.scale.y
-                );
+                this.setFurnitureAltitude(furniture, furniture.altitude + zoomDelta);
             });
         }
         else if (event.shiftKey) {
             this.selector.forEach(c => {
-                c.obj.angle += zoomDelta / 10;
+                this.setFurnitureAngle(c.obj, c.obj.angle + zoomDelta / 10);
             });
         }
         else {
@@ -243,12 +239,29 @@ class Controller {
             let item = context.obj;
             pos.copy(mouseWorld);
             pos = pos.add(context.offset);
-            let min = item.room.min;
-            let max = item.room.max;
-            pos.x = Math.clamp(pos.x, min.x, max.x);
-            pos.z = Math.clamp(pos.z, min.z, max.z);
-            item.position = pos;
+            this.setFurniturePosition(item, pos);
         });
+    }
+
+    setFurniturePosition(furniture, position) {
+            let min = furniture.room.min;
+            let max = furniture.room.max;
+            position.x = Math.clamp(position.x, min.x, max.x);
+            position.z = Math.clamp(position.z, min.z, max.z);
+            // position.z = -Math.clamp(position.z, min.z, max.z);
+            furniture.position = position;
+    }
+
+    setFurnitureAltitude(furniture, altitude) {
+        furniture.altitude = Math.clamp(
+            altitude,
+            furniture.room.min.y,
+            furniture.room.max.y - furniture.height
+        );
+    }
+
+    setFurnitureAngle(furniture, angle) {
+        furniture.angle = angle;
     }
 
     getMouseWorld(mouse) {

@@ -27,10 +27,10 @@ function initUI() {
     onChangeFunc("txtLength", (f, v) => f.length = v);
     onChangeFunc("txtHeight", (f, v) => f.height = v);
     //Position
-    onChangeFunc("txtPosX", (f, v) => f.position = f.position.setX(v));
-    onChangeFunc("txtPosY", (f, v) => f.position = f.position.setZ(v));
-    onChangeFunc("txtAltitude", (f, v) => f.altitude = v);
-    onChangeFunc("txtAngle", (f, v) => f.angle = v);
+    onChangeFunc("txtPosX", (f, v) => controllerEdit.setFurniturePosition(f, f.position.setX(v)));
+    onChangeFunc("txtPosY", (f, v) => controllerEdit.setFurniturePosition(f, f.position.setZ(v)));
+    onChangeFunc("txtAltitude", (f, v) => controllerEdit.setFurnitureAltitude(f, v));
+    onChangeFunc("txtAngle", (f, v) => controllerEdit.setFurnitureAngle(f, v));
 }
 
 //
