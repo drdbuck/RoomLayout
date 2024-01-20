@@ -20,6 +20,11 @@ function updateFurnitureEditPanel(contexts) {
         updateFunc("txtWidth", f => f.width);
         updateFunc("txtLength", f => f.length);
         updateFunc("txtHeight", f => f.height);
+        //Position
+        updateFunc("txtPosX", f => f.position.x);
+        updateFunc("txtPosY", f => f.position.z);
+        updateFunc("txtAltitude", f => f.altitude);
+        updateFunc("txtAngle", f => f.angle);
     }
     else {
         $("divFaceEdit").hidden = true;
