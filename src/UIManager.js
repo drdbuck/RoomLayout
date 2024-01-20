@@ -4,17 +4,24 @@ let _contexts = [];//dirty
 let _furnitures = [];//dirty
 const reduceFunc = (a, b) => (a === b) ? a : undefined;
 const inequal = "---";
-const updateFunc = (id, func) =>
+const updateFunc = (id, func) => {
+    //early exit: this txt is active
+    if (document.activeElement.id === id) { return; }
+    //processing
     $(id).value = _furnitures.map(func).reduce(reduceFunc) ?? inequal;
+}
 
 function initUI() {
 
 
     //individual textbox listeners
     const onChangeFunc = (id, func) =>
-        $(id).onchange = (txt) => controllerEdit.selector.forEach(
-            context => func(context.obj, parseFloat(txt.target.value))
-        );
+        $(id).onchange = (txt) => {
+            const value = parseFloat(txt.target.value) || 0;
+            controllerEdit.selector.forEach(
+                context => func(context.obj, value)
+            );
+        };
     //Size
     onChangeFunc("txtWidth", (f, v) => f.width = v);
     onChangeFunc("txtLength", (f, v) => f.length = v);
