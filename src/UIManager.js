@@ -1,5 +1,39 @@
 "use strict";
 
+function initUI() {
+
+    //textbox events
+    [
+        "txtWidth",
+        "txtLength",
+        "txtHeight"
+    ]
+        .forEach(txtId => {
+            let txt = $(txtId);
+            txt.onfocus = () => {
+                input.clearAllDelegates();
+            };
+            txt.onblur = () => {
+                registerKeyBindings();
+            };
+        });
+
+    //individual textbox events
+    const onChangeFunc = (id, func) =>
+        $(id).onchange = (txt) => controllerEdit.selector.forEach(
+            context => func(context.obj, parseFloat(txt.target.value))
+        );
+    //Size
+    onChangeFunc("txtWidth", (f, v) => f.width = v);
+    onChangeFunc("txtLength", (f, v) => f.length = v);
+    onChangeFunc("txtHeight", (f, v) => f.height = v);
+    //Position
+    onChangeFunc("txtPosX", (f, v) => f.position = f.position.setX(v));
+    onChangeFunc("txtPosY", (f, v) => f.position = f.position.setZ(v));
+    onChangeFunc("txtAltitude", (f, v) => f.altitude = v);
+    onChangeFunc("txtAngle", (f, v) => f.angle = v);
+}
+
 //
 // ======= Update UI from data =======
 //
