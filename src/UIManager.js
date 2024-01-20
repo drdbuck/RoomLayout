@@ -1,24 +1,16 @@
 "use strict";
 
+let _contexts = [];//dirty
+let _furnitures = [];//dirty
+const reduceFunc = (a, b) => (a === b) ? a : undefined;
+const inequal = "---";
+const updateFunc = (id, func) =>
+    $(id).value = _furnitures.map(func).reduce(reduceFunc) ?? inequal;
+
 function initUI() {
 
-    //textbox events
-    [
-        "txtWidth",
-        "txtLength",
-        "txtHeight"
-    ]
-        .forEach(txtId => {
-            let txt = $(txtId);
-            txt.onfocus = () => {
-                input.clearAllDelegates();
-            };
-            txt.onblur = () => {
-                registerKeyBindings();
-            };
-        });
 
-    //individual textbox events
+    //individual textbox listeners
     const onChangeFunc = (id, func) =>
         $(id).onchange = (txt) => controllerEdit.selector.forEach(
             context => func(context.obj, parseFloat(txt.target.value))
@@ -40,14 +32,13 @@ function initUI() {
 
 function updateFurnitureEditPanel(contexts) {
     log("selected count:", controllerEdit.selector.count);
-    let furnitures = contexts.map(c => c.obj);
-    const reduceFunc = (a, b) => (a === b) ? a : undefined;
-    const inequal = "---";
-    const defaultText = (furnitures.length > 0) ? undefined : "";
-    const valueFunc = (func) => defaultText ?? furnitures.map(func).reduce(reduceFunc) ?? inequal;
-    const updateFunc = (id, func) => $(id).value = valueFunc(func);
+    _contexts = contexts;
+    _furnitures = contexts.map(c => c.obj);
+    _updateFurnitureEditPanel();
+}
+function _updateFurnitureEditPanel() {
     //Update UI
-    let anySelected = furnitures.length > 0;
+    let anySelected = _furnitures.length > 0;
     $("divPanelEdit").hidden = !anySelected;
     if (anySelected) {
         //Size
@@ -64,9 +55,22 @@ function updateFurnitureEditPanel(contexts) {
         $("divFaceEdit").hidden = true;
     }
     //Update selected faces
-    contexts.forEach(c => {
+    _contexts.forEach(c => {
         updateFace(c.box, c.face);
     });
+}
+
+function registerUIDelegates(furniture, register) {
+    if (register) {
+        furniture.onSizeChanged.add(_updateFurnitureEditPanel);
+        furniture.onPositionChanged.add(_updateFurnitureEditPanel);
+        furniture.onAngleChanged.add(_updateFurnitureEditPanel);
+    }
+    else {
+        furniture.onSizeChanged.remove(_updateFurnitureEditPanel);
+        furniture.onPositionChanged.remove(_updateFurnitureEditPanel);
+        furniture.onAngleChanged.remove(_updateFurnitureEditPanel);
+    }
 }
 
 function updateFaceEditPanel(faces) {

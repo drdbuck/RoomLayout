@@ -88,13 +88,16 @@ function init() {
             box.edge.visible = true;
             //
             updateFace(box, context.face);
+            registerUIDelegates(context.obj, true);
         });
         controllerEdit.selector.onSelectionLost.add(context => {
             let box = context.box;
             box.edge.visible = false;
             //
             updateFace(box, -1);
+            registerUIDelegates(context.obj, false);
         });
+
         //ControllerFPS init
         controllerFPS = new FirstPersonControls(
             player.camera,
