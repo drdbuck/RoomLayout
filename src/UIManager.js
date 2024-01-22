@@ -143,6 +143,10 @@ function updateFaceEditPanel(faces) {
 // ======= UI Controls =======
 //
 
+function btnExitFurnitureEdit() {
+    controller.selector.clear();
+}
+
 function btnFaceEdit() {
     $("divFaceEdit").hidden = false;
     controller.selectNextFace(1);
