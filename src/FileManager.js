@@ -5,6 +5,7 @@ const imageFileTypes = [
     "image/png",
     "image/jpeg",
     "image/bmp",
+    "image/webp",
 ];
 const textFileTypes = [
     "text/plain",
