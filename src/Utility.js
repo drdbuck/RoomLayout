@@ -47,11 +47,8 @@ let between = function (value, min, max) {
 }
 
 //Cuts decimals off the given value so that only the given number of places remains
-Math.cut = function (value, places) {
-    let factor = 1;
-    for (let i = 0; i < places; i++) {
-        factor *= 10;
-    }
+Math.cut = function (value, places = 0) {
+    let factor = Math.pow(10, places);
     return Math.round(value * factor) / factor;
 }
 

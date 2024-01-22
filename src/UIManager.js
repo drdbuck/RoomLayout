@@ -4,11 +4,16 @@ let _contexts = [];//dirty
 let _furnitures = [];//dirty
 const reduceFunc = (a, b) => (a === b) ? a : undefined;
 const inequal = "---";
+const DIGITS_OF_PRECISION = 3;
 const updateFunc = (id, func) => {
     //early exit: this txt is active
     if (document.activeElement.id === id) { return; }
     //processing
-    $(id).value = _furnitures.map(func).reduce(reduceFunc) ?? inequal;
+    let value = _furnitures.map(func).reduce(reduceFunc);
+    if (value) {
+        value = Math.cut(value, DIGITS_OF_PRECISION);
+    }
+    $(id).value = value ?? inequal;
 }
 
 function initUI() {
