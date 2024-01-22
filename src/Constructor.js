@@ -161,7 +161,7 @@ function constructFurniture(furniture) {
         updatePosition();
     };
     let updateAngle = (angle = 0) => {
-        box.rotation.y = angle;
+        box.rotation.y = MathUtils.degToRad(angle);
     }
 
     updatePosition(furniture.position);

@@ -139,7 +139,7 @@ class Controller {
         }
         else if (event.shiftKey) {
             this.selector.forEach(c => {
-                this.setFurnitureAngle(c.obj, c.obj.angle + zoomDelta / 10);
+                this.setFurnitureAngle(c.obj, c.obj.angle + zoomDelta / 1);
             });
         }
         else {
