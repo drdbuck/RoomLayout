@@ -28,6 +28,26 @@ canvas {
     margin-bottom: 0px;
 }
 
+.popupPanel button {
+    width: 100%;
+    color: white;
+    background-color: black;
+    border: 2px solid white;
+    padding: 7px;
+}
+
+.popupPanel button:hover {
+    color: black;
+    background-color: white;
+    border: 2px solid white;
+}
+
+.popupPanel button:disabled {
+    color: #AAAAAA;
+    background-color: #555555;
+    border: 2px solid #AAAAAA;
+}
+
 .exitButton {
     color: white;
     position: absolute;
