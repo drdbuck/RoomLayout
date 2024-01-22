@@ -242,6 +242,28 @@ function validateIndexBounds(value, max, name) {
     return true;
 }
 
+function cleanInput(value, regexp) {
+    regexp ??= /[0-9-.]*/g;//float finding regexp
+    let parts = [];
+    let matches = value.matchAll(regexp);
+    for (let s of matches) {
+        parts.push(s);
+    }
+    return parts.map(a => a[0]).join("");
+}
+
+function parseFloatInput(txt) {
+    let f = parseFloat(txt);
+    if (!isNumber(f)) {
+        txt = cleanInput(txt, /[0-9-.]*/g);
+        f = parseFloat(txt);
+        if (!isNumber(f)) {
+            f = 0;
+        }
+    }
+    return f;
+}
+
 function log(...params) {
     console.log(...params);
 }

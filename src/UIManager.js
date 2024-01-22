@@ -17,7 +17,7 @@ function initUI() {
     //individual textbox listeners
     const onChangeFunc = (id, func) =>
         $(id).onchange = (txt) => {
-            const value = parseFloat(txt.target.value) || 0;
+            const value = parseFloatInput(txt.target.value);
             controllerEdit.selector.forEach(
                 context => func(context.obj, value)
             );
