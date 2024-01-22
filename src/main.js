@@ -143,6 +143,45 @@ function init() {
 }
 init();
 
+//Exports all selected sequences as one giant file
+function exportSequenceListFile(seqList) {
+    seqList ??= this.getSelectedSequences();
+    if (seqList.length === 0) {
+        //Do nothing
+    }
+    else if (seqList.length === 1) {
+        //Download it
+        this.exportSequence(seqList[0]);
+    }
+    else if (seqList.length > 1) {
+        //Init savable object
+        let seqObj = {};
+        seqObj.seqs = seqList;
+        //Determine filename
+        let filename = "";
+        for (let i = 0; i < seqList.length; i++) {
+            let name = seqList[i].name;
+            if (!isEmpty(name)) {
+                filename = name;
+                break;
+            }
+        }
+        filename ||= "untitled sequence";
+        filename += " (" + seqList.length + " sequences)";
+        //make json
+        let json = JSON.stringify(
+            seqObj,
+            sequenceStringify.concat(["seqs"])
+        );
+        //Download file
+        window.download(
+            json,
+            filename + '.syl.txt',
+            'data:application/txt'
+        );
+    }
+}
+
 
 //
 let looping = false;
