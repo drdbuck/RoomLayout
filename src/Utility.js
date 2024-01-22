@@ -264,6 +264,16 @@ function parseFloatInput(txt) {
     return f;
 }
 
+function parseFootInchInput(txt) {
+    txt = cleanInput(txt, /[0-9-.]*\' *[0-9-.]*\"/g);
+    let split = txt.split(/["']/);
+    let f = parseFloat(split[0]) + (parseFloat(split[1]) / 12);
+    if (!isNumber(f)) {
+        f = undefined;
+    }
+    return f;
+}
+
 function log(...params) {
     console.log(...params);
 }

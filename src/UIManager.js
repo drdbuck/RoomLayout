@@ -15,9 +15,14 @@ function initUI() {
 
 
     //individual textbox listeners
-    const onChangeFunc = (id, func) =>
+    const onChangeFunc = (id, func, allowFootNotation = true) =>
         $(id).onchange = (txt) => {
-            const value = parseFloatInput(txt.target.value);
+            const rawvalue = txt.target.value;
+            let value = undefined;
+            if (allowFootNotation) {
+                value = parseFootInchInput(rawvalue);
+            }
+            value ??= parseFloatInput(rawvalue);
             if (value == undefined) { return; }
             controllerEdit.selector.forEach(
                 context => func(context.obj, value)
@@ -31,7 +36,7 @@ function initUI() {
     onChangeFunc("txtPosX", (f, v) => controllerEdit.setFurniturePosition(f, f.position.setX(v)));
     onChangeFunc("txtPosY", (f, v) => controllerEdit.setFurniturePosition(f, f.position.setZ(v)));
     onChangeFunc("txtAltitude", (f, v) => controllerEdit.setFurnitureAltitude(f, v));
-    onChangeFunc("txtAngle", (f, v) => controllerEdit.setFurnitureAngle(f, v));
+    onChangeFunc("txtAngle", (f, v) => controllerEdit.setFurnitureAngle(f, v), false);
 }
 
 //
