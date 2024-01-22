@@ -20,8 +20,8 @@ function initUI() {
 
 
     //individual textbox listeners
-        $(id).onchange = (txt) => {
     const onChangeFunc = (id, func, float = true, allowFootNotation = true) =>
+        $(id).onkeyup = (txt) => {
             const rawvalue = txt.target.value;
             let value = undefined;
             if (float) {
