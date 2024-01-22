@@ -239,8 +239,8 @@ function validateIndexBounds(value, max, name) {
     return true;
 }
 
-function cleanInput(value, regexp) {
-    regexp ??= /[0-9-.]*/g;//float finding regexp
+const REGEXP_FLOAT = new RegExp("-?(([0-9]+.?[0-9]*)|([0-9]*.?[0-9]+))", "g");
+function cleanInput(value, regexp = REGEXP_FLOAT) {
     let parts = [];
     let matches = value.matchAll(regexp);
     for (let s of matches) {
@@ -252,7 +252,7 @@ function cleanInput(value, regexp) {
 function parseFloatInput(txt) {
     let f = parseFloat(txt);
     if (!isNumber(f)) {
-        txt = cleanInput(txt, /[0-9-.]*/g);
+        txt = cleanInput(txt, REGEXP_FLOAT);
         f = parseFloat(txt);
         if (!isNumber(f)) {
             f = undefined;
@@ -262,7 +262,8 @@ function parseFloatInput(txt) {
 }
 
 function parseFootInchInput(txt) {
-    txt = cleanInput(txt, /[0-9-.]*\' *[0-9-.]*\"/g);
+    let regexpstr = REGEXP_FLOAT.source + "\' *" + REGEXP_FLOAT.source + "\"";
+    txt = cleanInput(txt, new RegExp(regexpstr, "g"));
     let split = txt.split(/["']/);
     let f = parseFloat(split[0]) + (parseFloat(split[1]) / 12);
     if (!isNumber(f)) {
