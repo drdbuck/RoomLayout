@@ -111,6 +111,7 @@ function init() {
         flm.onImageUploaded.add((image) => {
             //Data
             let furniture = new Furniture(image.src);
+            furniture.name = image.name;
             furniture.position.y = 0.5;
             let room = house.rooms[0];
             room.addFurniture(furniture);
