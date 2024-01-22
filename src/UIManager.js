@@ -18,6 +18,7 @@ function initUI() {
     const onChangeFunc = (id, func) =>
         $(id).onchange = (txt) => {
             const value = parseFloatInput(txt.target.value);
+            if (value == undefined) { return; }
             controllerEdit.selector.forEach(
                 context => func(context.obj, value)
             );

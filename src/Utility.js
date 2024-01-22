@@ -258,7 +258,7 @@ function parseFloatInput(txt) {
         txt = cleanInput(txt, /[0-9-.]*/g);
         f = parseFloat(txt);
         if (!isNumber(f)) {
-            f = 0;
+            f = undefined;
         }
     }
     return f;
