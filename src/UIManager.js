@@ -5,12 +5,12 @@ let _furnitures = [];//dirty
 const reduceFunc = (a, b) => (a === b) ? a : undefined;
 const inequal = "---";
 const DIGITS_OF_PRECISION = 3;
-const updateFunc = (id, func) => {
+const updateFunc = (id, func, float = true) => {
     //early exit: this txt is active
     if (document.activeElement.id === id) { return; }
     //processing
     let value = _furnitures.map(func).reduce(reduceFunc);
-    if (value) {
+    if (value && float) {
         value = Math.cut(value, DIGITS_OF_PRECISION);
     }
     $(id).value = value ?? inequal;
@@ -20,19 +20,26 @@ function initUI() {
 
 
     //individual textbox listeners
-    const onChangeFunc = (id, func, allowFootNotation = true) =>
         $(id).onchange = (txt) => {
+    const onChangeFunc = (id, func, float = true, allowFootNotation = true) =>
             const rawvalue = txt.target.value;
             let value = undefined;
-            if (allowFootNotation) {
-                value = parseFootInchInput(rawvalue);
+            if (float) {
+                if (allowFootNotation) {
+                    value = parseFootInchInput(rawvalue);
+                }
+                value ??= parseFloatInput(rawvalue);
             }
-            value ??= parseFloatInput(rawvalue);
+            else {
+                value = rawvalue;
+            }
             if (value == undefined) { return; }
             controllerEdit.selector.forEach(
                 context => func(context.obj, value)
             );
         };
+    //Name
+    onChangeFunc("txtName", (f, v) => f.name = v, false);
     //Size
     onChangeFunc("txtWidth", (f, v) => f.width = v);
     onChangeFunc("txtLength", (f, v) => f.length = v);
@@ -41,7 +48,7 @@ function initUI() {
     onChangeFunc("txtPosX", (f, v) => controllerEdit.setFurniturePosition(f, f.position.setX(v)));
     onChangeFunc("txtPosY", (f, v) => controllerEdit.setFurniturePosition(f, f.position.setZ(v)));
     onChangeFunc("txtAltitude", (f, v) => controllerEdit.setFurnitureAltitude(f, v));
-    onChangeFunc("txtAngle", (f, v) => controllerEdit.setFurnitureAngle(f, v), false);
+    onChangeFunc("txtAngle", (f, v) => controllerEdit.setFurnitureAngle(f, v), true, false);
 }
 
 //
@@ -52,6 +59,9 @@ function updateFurnitureEditPanel(contexts) {
     log("selected count:", controllerEdit.selector.count);
     _contexts = contexts;
     _furnitures = contexts.map(c => c.obj);
+
+    $("txtName").disabled = !(contexts.length == 1);
+
     _updateFurnitureEditPanel();
 }
 function _updateFurnitureEditPanel() {
@@ -59,6 +69,8 @@ function _updateFurnitureEditPanel() {
     let anySelected = _furnitures.length > 0;
     $("divPanelEdit").hidden = !anySelected;
     if (anySelected) {
+        //Name
+        updateFunc("txtName", f => f.name, false);
         //Size
         updateFunc("txtWidth", f => f.width);
         updateFunc("txtLength", f => f.length);

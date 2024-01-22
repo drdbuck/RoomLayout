@@ -1,6 +1,7 @@
 "use strict";
 
 let stringifyBlock = [
+    "_name",
     "_scale",
     "_position",
     "_angle",
@@ -9,6 +10,9 @@ let stringifyBlock = [
 
 class Block {
     constructor(scale) {
+
+        this._name = "";
+
         this._scale = scale ?? _one.clone();
         this.units = "feet";
 
@@ -19,6 +23,13 @@ class Block {
         this.onSizeChanged = new Delegate("scale");
         this.onPositionChanged = new Delegate("position");
         this.onAngleChanged = new Delegate("angle");
+    }
+
+    get name() {
+        return this._name;
+    }
+    set name(value) {
+        this._name = value;
     }
 
     get scale() {
@@ -128,4 +139,6 @@ function backwardsCompatifyBlock(block) {
     }
     //Change: add _angle
     block._angle ??= 0;
+    //Change: add _name
+    block._name ??= "";
 }
