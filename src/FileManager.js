@@ -10,6 +10,7 @@ const imageFileTypes = [
 const textFileTypes = [
     "text/plain",
     "application/json",
+    "frn",//furniture file extension
 ];
 
 class FileManager {
@@ -30,6 +31,7 @@ class FileManager {
 
         //Delegate initialization
         this.onImageUploaded = new Delegate();//param: image
+        this.onFurnitureUploaded = new Delegate();//param: furniture
         this.onJsonUploaded = new Delegate();//param: json
     }
 
@@ -49,14 +51,15 @@ class FileManager {
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
         files = [...files];
         files.forEach((file) => {
+            let fileExtension = file.name.split(".").at(-1);
             if (imageFileTypes.includes(file.type)) {
                 this.uploadImage(file);
             }
-            else if (textFileTypes.includes(file.type)) {
+            else if (textFileTypes.includes(file.type) || textFileTypes.includes(fileExtension)) {
                 this.handleTextFile(file);
             }
             else {
-                console.warn("Unknown file type:", file.type, "filename:", file.name);
+                console.warn("Unknown file type:", file.type, "filename:", file.name, "extension", fileExtension);
             }
         });
     }
@@ -81,11 +84,33 @@ class FileManager {
     }
 
     handleTextFile(file) {
-        if (file.name.endsWith(".json")) {
+        if (file.name.endsWith(".frn")) {
+            this.uploadFurniture(file);
+        }
+        else if (file.name.endsWith(".json")) {
             this.uploadJson(file);
         }
         else {
             console.warn("Not implemented: handling text file:", file.name, file.type);
+        }
+    }
+
+    uploadFurniture(file) {
+        const reader = new FileReader();
+        reader.readAsText(file);
+        const flm = this;
+        reader.onloadend = function () {
+            let json = reader.result;
+            let furnitueObj = JSON.parse(json);
+            if (!furnitueObj) {
+                console.error("Unable to parse furniture list!", file.name, json);
+                return;
+            }
+            for (let furniture of furnitueObj.list) {
+                inflateFurniture(furniture);
+                //Run delegate
+                flm.onFurnitureUploaded.run(furniture);
+            }
         }
     }
 

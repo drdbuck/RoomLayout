@@ -112,7 +112,6 @@ function init() {
             //Data
             let furniture = new Furniture(image.src);
             furniture.name = image.name;
-            furniture.position.y = 0.5;
             let room = house.rooms[0];
             room.addFurniture(furniture);
             //Scene
@@ -123,6 +122,20 @@ function init() {
                 controllerEdit.createSelectContext(furniture, newbox)
             );
         });
+
+    //Upload new furniture
+    flm.onFurnitureUploaded.add((furniture) => {
+        //Data
+        let room = house.rooms[0];
+        room.addFurniture(furniture);
+        //Scene
+        let newbox = constructFurniture(furniture);
+        player.scene.add(newbox);
+        //Current
+        controllerEdit.selector.selectOnly(
+            controllerEdit.createSelectContext(furniture, newbox)
+        );
+    });
 
         //Upload face to existing box
         flmFace.onImageUploaded.add((image) => {
