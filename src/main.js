@@ -143,43 +143,39 @@ function init() {
 }
 init();
 
-//Exports all selected sequences as one giant file
-function exportSequenceListFile(seqList) {
-    seqList ??= this.getSelectedSequences();
-    if (seqList.length === 0) {
+function exportFurniture() {
+    let furnitures = controllerEdit.selector.map(context => context.obj);
+    if (furnitures.length === 0) {
         //Do nothing
+        return;
     }
-    else if (seqList.length === 1) {
-        //Download it
-        this.exportSequence(seqList[0]);
-    }
-    else if (seqList.length > 1) {
         //Init savable object
-        let seqObj = {};
-        seqObj.seqs = seqList;
+        let listObj = {};
+        listObj.list = furnitures;
         //Determine filename
         let filename = "";
-        for (let i = 0; i < seqList.length; i++) {
-            let name = seqList[i].name;
+        for (let i = 0; i < furnitures.length; i++) {
+            let name = furnitures[i].name;
             if (!isEmpty(name)) {
-                filename = name;
+                filename += name + ", ";
                 break;
             }
         }
-        filename ||= "untitled sequence";
-        filename += " (" + seqList.length + " sequences)";
+        if (filename.endsWith(", ")) {
+            filename = filename.substring(0, filename.length - 2);
+        }
+        filename ||= "furniture";
         //make json
         let json = JSON.stringify(
-            seqObj,
-            sequenceStringify.concat(["seqs"])
+            listObj,
+            getDataStringify().concat(["list"])
         );
         //Download file
         window.download(
             json,
-            filename + '.syl.txt',
+            filename + '.frn',
             'data:application/txt'
         );
-    }
 }
 
 

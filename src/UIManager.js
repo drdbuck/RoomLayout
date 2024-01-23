@@ -147,6 +147,10 @@ function btnExitFurnitureEdit() {
     controller.selector.clear();
 }
 
+function btnFurnitureExport() {
+    exportFurniture();
+}
+
 function btnFaceEdit() {
     $("divFaceEdit").hidden = false;
     controller.selectNextFace(1);
