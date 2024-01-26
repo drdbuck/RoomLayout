@@ -172,6 +172,26 @@ function createImage(name, url) {
     return image;
 }
 
+function getImageData(img) {
+    //2024-01-25: copied from https://stackoverflow.com/a/8751659/2336212
+    let canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    let ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    return ctx.getImageData(0, 0, img.width, img.height);
+}
+
+function imageHasTransparency(img, threshold = 254) {
+    let data = getImageData(img).data;
+    for (let i = 3; i < data.length; i += 4){
+        if (data[i] <= threshold) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function copy(obj) {
     return JSON.parse(JSON.stringify(obj));
 }

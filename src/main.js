@@ -370,7 +370,6 @@ function createMaterial(imageURL) {
     mat.forceSinglePass = true;
     mat.lightMapIntensity = 1;
     mat.reflectivity = 0;
-    mat.transparent = true;
     //textures
     if (imageURL) {
         new TextureLoader().load(
@@ -379,6 +378,7 @@ function createMaterial(imageURL) {
                 mat.aoMap = texture;
                 mat.lightMap = texture;
                 mat.map = texture;
+                mat.transparent = imageHasTransparency(texture.source.data);
                 mat.needsUpdate = true;
             }
         );
