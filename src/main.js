@@ -150,6 +150,7 @@ function init() {
                 box.material = createMaterials(furniture.faces, 6, furniture.defaultFace);
                 box.materialList = [...box.material];
             });
+            updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
         });
 
         switchMode(true);

@@ -104,7 +104,8 @@ function registerUIDelegates(furniture, register) {
 }
 
 function updateFaceEditPanel(faces) {
-    const reduceFunc = (a, b) => (a === b) ? a : undefined;
+
+    //spnFaceName
     const inequal = -3;
     const defaultValue = (faces?.length > 0) ? undefined : -2;
     let face = defaultValue ?? faces.reduce(reduceFunc) ?? inequal;
@@ -139,6 +140,33 @@ function updateFaceEditPanel(faces) {
             break;
     }
     $("spnFaceName").innerHTML = faceText;
+
+    //divFaceDrop
+    const lblDropFace = "<label>Drop face image here</label>";
+    let divhtml = lblDropFace;
+    let imageURLs = _contexts.map(c => {//dirty: using stored _contexts
+        let furniture = c.obj;
+        let face = c.face;
+        if (face == -1) {
+            return furniture.defaultFace;
+        }
+        return furniture.faces[face];
+    });
+    if (imageURLs.some(url => url)) {
+        let imageURL = imageURLs.reduce(reduceFunc);
+        if (imageURL) {
+            const imgFace = "<img src='" + imageURL + "' />";
+            divhtml = imgFace;
+        }
+        else {
+            const lblInequal = "<label>[Various images]</label>";
+            divhtml = lblInequal;
+        }
+    }
+    else {
+        divhtml = lblDropFace;
+    }
+    $("divFaceDrop").innerHTML = divhtml;
 }
 
 

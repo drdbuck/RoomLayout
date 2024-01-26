@@ -46,6 +46,21 @@ canvas {
     border: 2px solid #AAAAAA;
 }
 
+.dropArea {
+    border: 2px white solid;
+    text-align: center;
+    max-width: 200px;
+}
+
+.dropArea label {
+    margin: 20px;
+    display: block;
+}
+
+.dropArea img {
+    max-width: 175px;
+}
+
 .lineButton {
     width: 100%;
     padding: 7px;
