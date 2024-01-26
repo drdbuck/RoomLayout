@@ -92,7 +92,7 @@ class Controller {
             }
             else {
                 //select
-                let selected = this.selectObject(multiselectButton);
+                let selected = this.selectObject(undefined, multiselectButton);
             }
             //prepare for drag
             let hit = this.getHitAtMousePos();
@@ -162,11 +162,17 @@ class Controller {
         return this.getHitAtMousePos(o => o.object.userData.selectable)?.object;
     }
 
-    selectObject(add = false) {
-        let box = this.getObjectAtMousePos();
+    selectObject(box = undefined, add = false) {
+        box ??= this.getObjectAtMousePos();
         let select = box?.furniture;
         if (select) {
             let selectContext = this.createSelectContext(select, box);
+            //
+            let face = this.selector.map(c => c.face).find(f => f >= -1);
+            if (face) {
+                selectContext.face = face;
+            }
+            //
             this.selector.select(selectContext, add);
         }
         return select !== undefined;

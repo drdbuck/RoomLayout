@@ -118,9 +118,9 @@ function init() {
             let newbox = constructFurniture(furniture);
             player.scene.add(newbox);
             //Current
-            controllerEdit.selector.selectOnly(
-                controllerEdit.createSelectContext(furniture, newbox)
-            );
+            controllerEdit.selectObject(newbox, false);
+            //
+            updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
         });
 
     //Upload new furniture
@@ -132,9 +132,9 @@ function init() {
         let newbox = constructFurniture(furniture);
         player.scene.add(newbox);
         //Current
-        controllerEdit.selector.selectOnly(
-            controllerEdit.createSelectContext(furniture, newbox)
-        );
+        controllerEdit.selectObject(newbox, false);
+        //
+        updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
     });
 
         //Upload face to existing box

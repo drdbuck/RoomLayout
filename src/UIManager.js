@@ -88,6 +88,11 @@ function _updateFurnitureEditPanel() {
     _contexts.forEach(c => {
         updateFace(c.box, c.face);
     });
+
+    //
+    if (_contexts.some(c => c.face >= -1)) {
+        updateFaceEditPanel(_contexts.map(c => c.face));
+    }
 }
 
 function registerUIDelegates(furniture, register) {

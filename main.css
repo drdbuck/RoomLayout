@@ -50,6 +50,8 @@ canvas {
     border: 2px white solid;
     text-align: center;
     max-width: 200px;
+    min-width: 200px;
+    width: 200px;
 }
 
 .dropArea label {
