@@ -105,8 +105,8 @@ function registerUIDelegates(furniture, register) {
 
 function updateFaceEditPanel(faces) {
     const reduceFunc = (a, b) => (a === b) ? a : undefined;
-    const inequal = -2;
-    const defaultValue = (faces?.length > 0) ? undefined : -1;
+    const inequal = -3;
+    const defaultValue = (faces?.length > 0) ? undefined : -2;
     let face = defaultValue ?? faces.reduce(reduceFunc) ?? inequal;
     let faceText = "";
     switch (face) {
@@ -129,9 +129,12 @@ function updateFaceEditPanel(faces) {
             faceText = "Front";
             break;
         case -1:
-            faceText = "None";
+            faceText = "[Default]";
             break;
         case -2:
+            faceText = "None";
+            break;
+        case -3:
             faceText = "---";
             break;
     }

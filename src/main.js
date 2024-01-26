@@ -141,10 +141,13 @@ function init() {
         flmFace.onImageUploaded.add((image) => {
             controllerEdit.selector.forEach(context => {
                 let furniture = context.obj;
-                let index = (context.face >= 0) ? context.face : furniture.faces.length;
+                let index = (context.face >= -1) ? context.face : furniture.faces.length;
                 furniture.faces[index] = image.src;
+                if (index == -1) {
+                    furniture.defaultFace = image.src;
+                }
                 let box = context.box;
-                box.material = createMaterials(furniture.faces);
+                box.material = createMaterials(furniture.faces, 6, furniture.defaultFace);
                 box.materialList = [...box.material];
             });
         });
@@ -341,18 +344,22 @@ function updateFace(box, face) {
     }
 }
 
-function createMaterials(imageURLs, count = 6) {
+function createMaterials(imageURLs, mincount = 6, defaultImageURL = undefined) {
     let materials = imageURLs.map(
         face => createMaterial(face)
     );
-    let defaultMaterial = materials[2] ?? materials[0];
-    for (let i = 0; i < count; i++) {
+    let defaultMaterial = createMaterial(defaultImageURL) ?? materials[2] ?? materials[0];
+    mincount = Math.max(mincount, materials.length);
+    for (let i = 0; i < mincount; i++) {
         materials[i] ??= defaultMaterial;
     }
     return materials;
 }
 
 function createMaterial(imageURL) {
+    if (!imageURL) {
+        return undefined;
+    }
     //material
     let mat = new MeshLambertMaterial();
     //settings

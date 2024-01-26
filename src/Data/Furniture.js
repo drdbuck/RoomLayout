@@ -2,6 +2,7 @@
 
 let stringifyFurniture = [
     "faces",
+    "defaultFace",
 ];
 
 class Furniture extends Block {
@@ -10,6 +11,7 @@ class Furniture extends Block {
 
         this.faces = [];
         this.faces[2] = imageURL;
+        this.defaultFace = imageURL;
     }
 }
 
@@ -30,4 +32,6 @@ function backwardsCompatifyFurniture(furniture) {
         furniture.faces.push(furniture.imageURL);
         furniture.imageURL = undefined;
     }
+    //Change: add defaultFace
+    furniture.defaultFace ??= furniture.faces[2] ?? furniture.faces[0];
 }

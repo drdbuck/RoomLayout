@@ -202,17 +202,17 @@ class Controller {
     selectNextFace(dir) {
         this.selector.forEach(context => {
             if (!dir) {
-                context.face = -1;
+                context.face = -2;
                 return;
             }
             //
-            if (context.face >= 0) {
+            if (context.face >= -1) {
                 context.face += dir;
             }
             else {
                 context.face = 2;
             }
-            const min = 0;
+            const min = -1;
             const max = context.box.material.length - 1;
             if (context.face > max) {
                 context.face = min;
