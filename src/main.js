@@ -25,6 +25,8 @@ const viewOverhead = new View(new Vector3(0, 10, 0), new Quaternion(-0.7, 0, 0, 
 const viewImmersive = new View(new Vector3(0, 5, 0), new Quaternion(0, 0, 0, 1));
 let view = viewOverhead;
 
+const _up = new Vector3( 0, 1, 0 );
+
 function init() {
 
     //Player setup

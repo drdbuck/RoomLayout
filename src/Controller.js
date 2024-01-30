@@ -21,6 +21,7 @@ class Controller {
         this.raycaster.layers.set(objectMask);
 
         this.selector = new Selector();
+        this.selector.onSelectionChanged.add(this.updateCollectiveCenter.bind(this));
 
         this.onFaceSelectionChanged = new Delegate("faces");
     }
@@ -131,17 +132,31 @@ class Controller {
 
     processMouseWheel(state, event) {
         let zoomDelta = state.mouse.wheelDelta * this.wheelMoveSpeed / 100;
+        //Camera zoom
         if (state.mouse.lmbDown || event.altKey) {
             this.selector.forEach(c => {
                 let furniture = c.obj;
                 this.setFurnitureAltitude(furniture, furniture.altitude + zoomDelta);
             });
         }
+        //Rotate
         else if (event.shiftKey) {
+            let onlyOne = this.selector.count == 1;
             this.selector.forEach(c => {
-                this.setFurnitureAngle(c.obj, c.obj.angle + zoomDelta / 1);
+                //Rotate object
+                this.setFurnitureAngle(c.obj, c.obj.angle + zoomDelta);
+                //Move around collective center
+                if (onlyOne) { return; }
+                let f = c.obj;
+                let offset = new Vector3(f.position);
+                offset.sub(c.collectiveCenter);
+                let radians = toRadians(zoomDelta)
+                offset.applyAxisAngle(_up, radians);
+                offset.add(c.collectiveCenter);
+                f.position = offset;
             });
         }
+        //Altitude
         else {
             this.camera.position.y = Math.clamp(
                 this.camera.position.y + zoomDelta,
@@ -185,6 +200,19 @@ class Controller {
             face: -2,
             offset: _zero.clone(),
         };
+    }
+
+    updateCollectiveCenter() {
+        const count = this.selector.count;
+        if (count <= 0) { return; }
+        const avgFunc = (func) => this.selector.map(func).sum() / count;
+        let collectiveCenter = _zero;
+        collectiveCenter = new Vector3(
+            avgFunc(c => c.obj.position.x),
+            avgFunc(c => c.obj.position.y),
+            avgFunc(c => c.obj.position.z),
+        );
+        this.selector.forEach(c => c.collectiveCenter = collectiveCenter);
     }
 
     isSelected(obj) {

@@ -52,6 +52,15 @@ Math.cut = function (value, places = 0) {
     return Math.round(value * factor) / factor;
 }
 
+//2024-01-30: copied from https://stackoverflow.com/a/9705160/2336212
+function toDegrees (angle) {
+    return angle * (180 / Math.PI);
+}
+//2024-01-30: copied from https://stackoverflow.com/a/9705160/2336212
+function toRadians(angle) {
+    return angle * (Math.PI / 180);
+  }
+
 function getDisplayDate(date) {
     date ??= new Date();
     // MM/DD HH:MM
