@@ -7,7 +7,11 @@ class ControllerImageEdit {
         this.uiColor = uiColor;
         this.imageEdit = new ImageEdit();
 
-        this.canvas.onclick = this.processMouseClick.bind(this);
+        this.controlCorner;
+
+        this.canvas.onmousedown = this.processMouseDown.bind(this);
+        this.canvas.onmousemove = this.processMouseMove.bind(this);
+        this.canvas.onmouseup = this.processMouseUp.bind(this);
 
         this.onEditChanged = new Delegate("imageURL");
     }
@@ -72,15 +76,40 @@ class ControllerImageEdit {
         }
     }
 
-    processMouseClick(e) {
+    getMouseVector(e) {
         //2024-01-30: copied from https://stackoverflow.com/a/18053642/2336212
         const rect = this.canvas.getBoundingClientRect();
         const x = (e.clientX - rect.left) * (this.imageEdit.width / rect.width);
         const y = (e.clientY - rect.top) * (this.imageEdit.height / rect.height);
-        //
-        this.imageEdit.cornerLT.set(x, y);
+        return new Vector2(x, y);
+    }
+
+    processMouseDown(e) {
+
+        let mouse = this.getMouseVector(e);
+
+        //select control corner
+        this.imageEdit.corners.forEach(c =>
+            c.dist = Math.sqrt(Math.pow(c.x - mouse.x, 2) + Math.pow(c.y - mouse.y, 2))
+        );
+        this.controlCorner = this.imageEdit.corners.reduce((a, b) => (a.dist < b.dist) ? a : b);
+        //find offset
+        this.offset = this.controlCorner.clone();
+        this.offset.sub(mouse);
+        this.mouseDown = true;
+    }
+    processMouseMove(e) {
+        if (this.mouseDown) {
+            let mouse = this.getMouseVector(e);
+            mouse.add(this.offset);
+            this.controlCorner.copy(mouse);
+            this.update();
+        }
+    }
+    processMouseUp(e) {
         this.update();
         let imageURL = this.imageEdit.convertToResolution(500, 500);
         this.onEditChanged.run(imageURL);
+        this.mouseDown = false;
     }
 }
