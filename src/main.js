@@ -388,7 +388,7 @@ function createMaterial(imageURL) {
     //return
     return mat;
 }
-function createShaderMaterial(edgeColor = _one, faceColor = _zero) {
+function createShaderMaterial(edgeColor = _one.clone(), faceColor = _zero.clone()) {
     let edgeShader = new EdgeShader;
     //2024-01-16: copied from https://jsfiddle.net/prisoner849/kmau6591/
     var material = new ShaderMaterial({

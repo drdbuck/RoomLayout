@@ -206,8 +206,7 @@ class Controller {
         const count = this.selector.count;
         if (count <= 0) { return; }
         const avgFunc = (func) => this.selector.map(func).sum() / count;
-        let collectiveCenter = _zero;
-        collectiveCenter = new Vector3(
+        let collectiveCenter = new Vector3(
             avgFunc(c => c.obj.position.x),
             avgFunc(c => c.obj.position.y),
             avgFunc(c => c.obj.position.z),
