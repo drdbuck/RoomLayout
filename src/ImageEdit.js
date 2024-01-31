@@ -79,7 +79,6 @@ class ImageEdit {
         canvas.width = width;
         canvas.height = height;
         const imgData = ctx.getImageData(0, 0, width, height);
-        varid = imgData;
         for (let i = 0; i < width; i++) {// "<=" ?
             for (let j = 0; j < height; j++) {// "<=" ?
                 const pt = this.pullVector(i / width, j / height);
