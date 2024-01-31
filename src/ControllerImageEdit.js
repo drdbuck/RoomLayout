@@ -7,6 +7,8 @@ class ControllerImageEdit {
         this.uiColor = uiColor;
         this.imageEdit = new ImageEdit();
 
+        this.canvas.onclick = this.processMouseClick.bind(this);
+
         this.onEditChanged = new Delegate("imageURL");
     }
 
@@ -60,7 +62,12 @@ class ControllerImageEdit {
     }
 
     processMouseClick(e) {
-        this.imageEdit.cornerLT = new Vector2(e.clientX, e.clientY);
+        //2024-01-30: copied from https://stackoverflow.com/a/18053642/2336212
+        const rect = this.canvas.getBoundingClientRect();
+        const x = (e.clientX - rect.left) * (this.imageEdit.width / rect.width);
+        const y = (e.clientY - rect.top) * (this.imageEdit.height / rect.height);
+        //
+        this.imageEdit.cornerLT = new Vector2(x, y);
         let imageURL = this.imageEdit.convertToResolution(500, 500);
         this.update();
         this.onEditChanged.run(imageURL);
