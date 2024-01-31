@@ -5,7 +5,6 @@ class ControllerImageEdit {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.uiColor = uiColor;
-        this.ctx.strokeStyle = uiColor;
         this.imageEdit = new ImageEdit();
 
         this.onEditChanged = new Delegate("imageURL");
@@ -30,7 +29,10 @@ class ControllerImageEdit {
 
     update() {
         let ctx = this.ctx;
-        ctx.drawImage(this.imageEdit.original, 0, 0);
+        ctx.drawImage(this.imageEdit.original, 0, 0, this.canvas.width, this.canvas.height);
+        ctx.strokeStyle = this.uiColor;
+        ctx.fillStyle = this.uiColor;
+        //Box path
         ctx.beginPath();
         ctx.moveTo(this.imageEdit.cornerLT.x, this.imageEdit.cornerLT.y);
         ctx.lineTo(this.imageEdit.cornerRT.x, this.imageEdit.cornerRT.y);
@@ -38,6 +40,12 @@ class ControllerImageEdit {
         ctx.lineTo(this.imageEdit.cornerLB.x, this.imageEdit.cornerLB.y);
         ctx.lineTo(this.imageEdit.cornerLT.x, this.imageEdit.cornerLT.y);
         ctx.stroke();
+        //Corners
+        let cornerSize = 10;
+        ctx.fillRect(this.imageEdit.cornerLT.x - cornerSize / 2, this.imageEdit.cornerLT.y - cornerSize / 2, cornerSize, cornerSize);
+        ctx.fillRect(this.imageEdit.cornerLB.x - cornerSize / 2, this.imageEdit.cornerLB.y - cornerSize / 2, cornerSize, cornerSize);
+        ctx.fillRect(this.imageEdit.cornerRT.x - cornerSize / 2, this.imageEdit.cornerRT.y - cornerSize / 2, cornerSize, cornerSize);
+        ctx.fillRect(this.imageEdit.cornerRB.x - cornerSize / 2, this.imageEdit.cornerRB.y - cornerSize / 2, cornerSize, cornerSize);
     }
 
     updateImage(context) {
