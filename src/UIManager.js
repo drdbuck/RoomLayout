@@ -205,6 +205,18 @@ function btnExitFaceEdit() {
     controller.selectNextFace();
 }
 
+function btnUseDefaultImage() {
+    controllerEdit.selector.forEach(c => {
+        if (c.face <= -1) { return; }
+        let f = c.obj;
+        f.faces[c.face] = f.defaultFace;
+        //dirty: should use delegate here instead
+        c.box.material = createMaterials(f.faces, 6, f.defaultFace);//dirty
+        updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
+        controllerImageEdit.setImage(f.faces[c.face]);//dirty
+    });
+}
+
 function btnFlipX() {
     btnFlip(true, false);
 }
