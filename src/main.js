@@ -339,6 +339,7 @@ function getDataStringify() {
         stringifyBlock,
         stringifyRoom,
         stringifyFurniture,
+        stringifyKitBash,
         //
         stringifyVector3,
     ].flat();

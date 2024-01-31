@@ -5,6 +5,7 @@ const houseSaveKey = "RoomLayout_house";
 function saveHouse(house) {
     let json = house;
     if (!isString(json)) {
+        house.prepareForSave();
         json = JSON.stringify(house, getDataStringify());
     }
     localStorage.setItem(houseSaveKey, json);

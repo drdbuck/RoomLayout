@@ -34,6 +34,10 @@ class House {
             this.onRoomsChanged.run([...this.rooms]);
         }
     }
+
+    prepareForSave() {
+        this.rooms.forEach(r => r.prepareForSave());
+    }
 }
 
 function inflateHouse(house) {

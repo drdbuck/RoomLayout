@@ -1,6 +1,6 @@
 "use strict";
 
-const stringifyGroup = [
+const stringifyKitBash = [
     "indexs",
 ];
 
@@ -30,4 +30,21 @@ class KitBash {
         return this._items.includes(item);
     }
 
+    prepareForSave(indexFunc) {
+        this.indexs = this._items.map(indexFunc);
+    }
+
+    constructAfterLoad(itemFunc) {
+        this._items = this.indexs.map(itemFunc);
+    }
+
+}
+
+function inflateKitBash(kitbash) {
+    let inflated = inflateObject(
+        kitbash,
+        KitBash.prototype,
+        []
+    );
+    if (!inflated) { return; }
 }

@@ -2,6 +2,7 @@
 
 let stringifyRoom = [
     "furnitures",
+    "groups",
 ];
 
 class Room extends Block {
@@ -38,6 +39,13 @@ class Room extends Block {
         furnitures.forEach(f => group.add(f));
         this.groups.push(group);
     }
+
+    prepareForSave() {
+        const room = this;
+        this.groups.forEach(g => g.prepareForSave(
+            item => room.furnitures.indexOf(item)
+        ));
+    }
 }
 
 function inflateRoom(room) {
@@ -59,6 +67,14 @@ function inflateRoom(room) {
     }
 
     backwardsCompatifyRoom(room);
+
+    for (let group of room.groups) {
+        inflateKitBash(group);
+        group.constructAfterLoad(
+            index => room.furnitures[index]
+        );
+    }
+
 
 }
 
