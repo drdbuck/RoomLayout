@@ -277,12 +277,12 @@ class Controller {
     }
 
     setFurniturePosition(furniture, position) {
-            let min = furniture.room.min;
-            let max = furniture.room.max;
-            position.x = Math.clamp(position.x, min.x, max.x);
-            position.z = Math.clamp(position.z, min.z, max.z);
-            // position.z = -Math.clamp(position.z, min.z, max.z);
-            furniture.position = position;
+        let min = furniture.room.min;
+        let max = furniture.room.max;
+        position.x = Math.clamp(position.x, min.x, max.x);
+        position.z = Math.clamp(position.z, min.z, max.z);
+        // position.z = -Math.clamp(position.z, min.z, max.z);
+        furniture.position = position;
     }
 
     setFurnitureAltitude(furniture, altitude) {

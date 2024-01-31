@@ -53,13 +53,13 @@ Math.cut = function (value, places = 0) {
 }
 
 //2024-01-30: copied from https://stackoverflow.com/a/9705160/2336212
-function toDegrees (angle) {
+function toDegrees(angle) {
     return angle * (180 / Math.PI);
 }
 //2024-01-30: copied from https://stackoverflow.com/a/9705160/2336212
 function toRadians(angle) {
     return angle * (Math.PI / 180);
-  }
+}
 
 function getDisplayDate(date) {
     date ??= new Date();
@@ -196,7 +196,7 @@ function getImageData(img) {
 
 function imageHasTransparency(img, threshold = 254) {
     let data = getImageData(img).data;
-    for (let i = 3; i < data.length; i += 4){
+    for (let i = 3; i < data.length; i += 4) {
         if (data[i] <= threshold) {
             return true;
         }

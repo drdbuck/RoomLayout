@@ -26,7 +26,7 @@ const viewOverhead = new View(new Vector3(0, 10, 0), new Quaternion(-0.7, 0, 0, 
 const viewImmersive = new View(new Vector3(0, 5, 0), new Quaternion(0, 0, 0, 1));
 let view = viewOverhead;
 
-const _up = new Vector3( 0, 1, 0 );
+const _up = new Vector3(0, 1, 0);
 
 function init() {
 
@@ -135,19 +135,19 @@ function init() {
             updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
         });
 
-    //Upload new furniture
-    flm.onFurnitureUploaded.add((furniture) => {
-        //Data
-        let room = house.rooms[0];
-        room.addFurniture(furniture);
-        //Scene
-        let newbox = constructFurniture(furniture);
-        player.scene.add(newbox);
-        //Current
-        controllerEdit.selectObject(newbox, false);
-        //
-        updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
-    });
+        //Upload new furniture
+        flm.onFurnitureUploaded.add((furniture) => {
+            //Data
+            let room = house.rooms[0];
+            room.addFurniture(furniture);
+            //Scene
+            let newbox = constructFurniture(furniture);
+            player.scene.add(newbox);
+            //Current
+            controllerEdit.selectObject(newbox, false);
+            //
+            updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
+        });
 
         //Upload face to existing box
         flmFace.onImageUploaded.add((image) => {
@@ -180,33 +180,33 @@ function exportFurniture() {
         //Do nothing
         return;
     }
-        //Init savable object
-        let listObj = {};
-        listObj.list = furnitures;
-        //Determine filename
-        let filename = "";
-        for (let i = 0; i < furnitures.length; i++) {
-            let name = furnitures[i].name;
-            if (!isEmpty(name)) {
-                filename += name + ", ";
-                break;
-            }
+    //Init savable object
+    let listObj = {};
+    listObj.list = furnitures;
+    //Determine filename
+    let filename = "";
+    for (let i = 0; i < furnitures.length; i++) {
+        let name = furnitures[i].name;
+        if (!isEmpty(name)) {
+            filename += name + ", ";
+            break;
         }
-        if (filename.endsWith(", ")) {
-            filename = filename.substring(0, filename.length - 2);
-        }
-        filename ||= "furniture";
-        //make json
-        let json = JSON.stringify(
-            listObj,
-            getDataStringify().concat(["list"])
-        );
-        //Download file
-        window.download(
-            json,
-            filename + '.frn',
-            'data:application/txt'
-        );
+    }
+    if (filename.endsWith(", ")) {
+        filename = filename.substring(0, filename.length - 2);
+    }
+    filename ||= "furniture";
+    //make json
+    let json = JSON.stringify(
+        listObj,
+        getDataStringify().concat(["list"])
+    );
+    //Download file
+    window.download(
+        json,
+        filename + '.frn',
+        'data:application/txt'
+    );
 }
 
 
