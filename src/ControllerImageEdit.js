@@ -47,7 +47,7 @@ class ControllerImageEdit {
         ctx.beginPath();
         let firstCorner = this.imageEdit.corners[0];
         ctx.moveTo(firstCorner.x, firstCorner.y);
-        for (let i = 1; i < this.imageEdit.corners.length; i++){
+        for (let i = 1; i < this.imageEdit.corners.length; i++) {
             let corner = this.imageEdit.corners[i];
             ctx.lineTo(corner.x, corner.y);
         }
