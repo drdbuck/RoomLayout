@@ -130,7 +130,7 @@ function init() {
             let newbox = constructFurniture(furniture);
             player.scene.add(newbox);
             //Current
-            controllerEdit.selectObject(newbox, false);
+            controllerEdit.selectObject(newbox, false, -1);
             //
             updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
         });

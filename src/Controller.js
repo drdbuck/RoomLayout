@@ -177,15 +177,20 @@ class Controller {
         return this.getHitAtMousePos(o => o.object.userData.selectable)?.object;
     }
 
-    selectObject(box = undefined, add = false) {
+    selectObject(box = undefined, add = false, face = -2) {
         box ??= this.getObjectAtMousePos();
         let select = box?.furniture;
         if (select) {
             let selectContext = this.createSelectContext(select, box);
             //
-            let face = this.selector.map(c => c.face).find(f => f >= -1);
+            if (face >= -1) {
+                selectContext.face = face;
+            }
+            else{
+            face = this.selector.map(c => c.face).find(f => f >= -1);
             if (face) {
                 selectContext.face = face;
+            }
             }
             //
             this.selector.select(selectContext, add);

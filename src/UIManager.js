@@ -110,6 +110,8 @@ function registerUIDelegates(furniture, register) {
 
 function updateFaceEditPanel(faces) {
 
+    $("divFaceEdit").hidden = !(faces.some(f => f >= -1));
+
     //spnFaceName
     const inequal = -3;
     const defaultValue = (faces?.length > 0) ? undefined : -2;
