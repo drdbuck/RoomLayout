@@ -94,6 +94,7 @@ function init() {
         controllerEdit.selector.onSelectionChanged.add(contexts => {
             controllerImageEdit.updateImage(contexts[0]);
             updateFurnitureEditPanel(contexts);
+        });
         controllerEdit.selector.onSelectionGained.add(context => {
             let box = context.box;
             box.edge.visible = true;
@@ -161,6 +162,8 @@ function init() {
                 box.material = createMaterials(furniture.faces, 6, furniture.defaultFace);
                 box.materialList = [...box.material];
             });
+            //
+            controllerImageEdit.updateImage(_contexts[0]);//dirty: using stored _contexts from UIManager
             updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
         });
 

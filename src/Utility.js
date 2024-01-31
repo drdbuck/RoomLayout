@@ -182,7 +182,7 @@ function createImage(name, url) {
 }
 
 const tempCanvas = document.createElement("canvas");
-const tempCTX = tempCanvas.getContext('2d');
+const tempCTX = tempCanvas.getContext('2d', {willReadFrequently: true});
 
 function getImageData(img) {
     //2024-01-25: copied from https://stackoverflow.com/a/8751659/2336212
