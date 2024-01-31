@@ -233,3 +233,20 @@ function btnFlip(flipX, flipY) {
         }
     });
 }
+
+function cropCanvasChanged(url) {
+    controllerEdit.selector.forEach(c => {
+        let f = c.obj;
+        let faceIndex = c.face;
+        if (faceIndex >= 0) {
+            f.faces[faceIndex] = url;
+        }
+        else {
+            f.defaultFace = url;
+        }
+        //dirty: should use delegate here instead
+        // c.box.material = createMaterials(f.faces, 6, f.defaultFace);//dirty
+        // updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
+        $("divFaceDrop").innerHTML = "<img src='" + url + "' />";
+    });
+}

@@ -12,6 +12,7 @@ let input;
 let controller;
 let controllerEdit;
 let controllerFPS;
+let controllerImageEdit;
 let house = new House();
 const selectColor = "#8ce8ff";
 const selectMaterial = createColorMaterial(selectColor, false);
@@ -51,6 +52,9 @@ function init() {
 
 
     initUI();
+    //Crop Canvas
+    controllerImageEdit = new ControllerImageEdit($("cvsCrop"), "#73c9ff");
+    controllerImageEdit.onEditChanged.add((url) => cropCanvasChanged(url));
 
     //Load
     house = loadHouse();
@@ -83,8 +87,13 @@ function init() {
             player.camera,
             player.scene
         );
-        controllerEdit.onFaceSelectionChanged.add(updateFaceEditPanel);
-        controllerEdit.selector.onSelectionChanged.add(updateFurnitureEditPanel);
+        controllerEdit.onFaceSelectionChanged.add(faces => {
+            controllerImageEdit.updateImage(_contexts[0]);//dirty: using stored _contexts from UIManager
+            updateFaceEditPanel(faces);
+        });
+        controllerEdit.selector.onSelectionChanged.add(contexts => {
+            controllerImageEdit.updateImage(contexts[0]);
+            updateFurnitureEditPanel(contexts);
         controllerEdit.selector.onSelectionGained.add(context => {
             let box = context.box;
             box.edge.visible = true;

@@ -2,6 +2,15 @@
 
 class ImageEdit {
     constructor(img) {
+        if (img) {
+            this.setImage(img);
+        }
+        //
+        this.canvas = document.createElement("canvas");
+        this.ctx = this.canvas.getContext('2d');
+    }
+
+    setImage(img) {
         this.original = img;
         this.imgData = getImageData(this.original);
         this.width = img.width;
@@ -12,9 +21,6 @@ class ImageEdit {
         this.cornerLB = new Vector2(0, this.height);
         this.cornerRT = new Vector2(this.width, 0);
         this.cornerRB = new Vector2(this.width, this.height);
-        //
-        this.canvas = document.createElement("canvas");
-        this.ctx = this.canvas.getContext('2d');
     }
 
     getIndex(x, y, width) {

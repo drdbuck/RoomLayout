@@ -75,6 +75,14 @@ canvas {
     margin: 2px;
 }
 
+.buttonPanel canvas {
+    max-width: 200px;
+    min-width: 200px;
+    width: 200px;
+    background-color: #2f2f2f;
+    border: 2px solid #AAAAAA;
+}
+
 .lineButton {
     width: 100%;
     padding: 7px;
