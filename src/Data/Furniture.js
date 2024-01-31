@@ -10,7 +10,6 @@ class Furniture extends Block {
         super(new Vector3(width, height, length));
 
         this.faces = [];
-        this.faces[2] = imageURL;
         this.defaultFace = imageURL;
     }
 }

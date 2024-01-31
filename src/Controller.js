@@ -243,7 +243,7 @@ class Controller {
                 context.face += dir;
             }
             else {
-                context.face = 2;
+                context.face = -1;
             }
             const min = -1;
             const max = context.box.material.length - 1;
