@@ -63,6 +63,18 @@ canvas {
     max-width: 175px;
 }
 
+.buttonPanel {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #AAAAAA;
+}
+
+.buttonPanel label {
+    display: block;
+    margin: 2px;
+}
+
 .lineButton {
     width: 100%;
     padding: 7px;

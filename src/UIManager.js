@@ -148,6 +148,7 @@ function updateFaceEditPanel(faces) {
 
     //divFaceDrop
     const lblDropFace = "<label>Drop face image here</label>";
+    let usingImage = false;
     let divhtml = lblDropFace;
     let imageURLs = _contexts.map(c => {//dirty: using stored _contexts
         let furniture = c.obj;
@@ -162,16 +163,21 @@ function updateFaceEditPanel(faces) {
         if (imageURL) {
             const imgFace = "<img src='" + imageURL + "' />";
             divhtml = imgFace;
+            usingImage = true;
         }
         else {
             const lblInequal = "<label>[Various images]</label>";
             divhtml = lblInequal;
+            usingImage = true;
         }
     }
     else {
         divhtml = lblDropFace;
+        usingImage = false;
     }
     $("divFaceDrop").innerHTML = divhtml;
+    //
+    $("divImageEdit").hidden = !usingImage;
 }
 
 
@@ -195,4 +201,35 @@ function btnFaceEdit() {
 function btnExitFaceEdit() {
     $("divFaceEdit").hidden = true;
     controller.selectNextFace();
+}
+
+function btnFlipX() {
+    btnFlip(true, false);
+}
+
+function btnFlipY() {
+    btnFlip(false, true);
+}
+
+function btnFlip(flipX, flipY) {
+    controllerEdit.selector.forEach(c => {
+        let f = c.obj;
+        let faceIndex = c.face;
+        let imageURL = (faceIndex >= 0) ? f.faces[faceIndex] : f.defaultFace;
+        let img = new Image();
+        img.src = imageURL;
+        img.onload = () => {
+            img = flipImage(img, flipX, flipY);
+            let url = img.src;
+            if (faceIndex >= 0) {
+                f.faces[faceIndex] = url;
+            }
+            else {
+                f.defaultFace = url;
+            }
+            //dirty: should use delegate here instead
+            c.box.material = createMaterials(f.faces, 6, f.defaultFace);//dirty
+            updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
+        }
+    });
 }

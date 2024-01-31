@@ -181,12 +181,15 @@ function createImage(name, url) {
     return image;
 }
 
+const tempCanvas = document.createElement("canvas");
+const tempCTX = tempCanvas.getContext('2d');
+
 function getImageData(img) {
     //2024-01-25: copied from https://stackoverflow.com/a/8751659/2336212
-    let canvas = document.createElement("canvas");
+    let canvas = tempCanvas;
     canvas.width = img.width;
     canvas.height = img.height;
-    let ctx = canvas.getContext('2d');
+    let ctx = tempCTX;
     ctx.drawImage(img, 0, 0, img.width, img.height);
     return ctx.getImageData(0, 0, img.width, img.height);
 }
@@ -199,6 +202,29 @@ function imageHasTransparency(img, threshold = 254) {
         }
     }
     return false;
+}
+
+function flipImage(img, flipX, flipY) {
+    let canvas = tempCanvas;
+    canvas.width = img.width;
+    canvas.height = img.height;
+    let ctx = tempCTX;
+    //2024-01-30: copied from https://stackoverflow.com/a/42856641/2336212
+    ctx.save();  // save the current canvas state
+    ctx.setTransform(
+        (flipX) ? -1 : 1,
+        0, // set the direction of x axis
+        0,
+        (flipY) ? -1 : 1,   // set the direction of y axis
+        (flipX) ? img.width : 0, // set the x origin
+        (flipY) ? img.height : 0   // set the y origin
+    );
+    ctx.drawImage(img, 0, 0);
+    ctx.restore(); // restore the state as it was when this function was called
+    //
+    let newImage = new Image();
+    newImage.src = canvas.toDataURL();
+    return newImage;
 }
 
 function copy(obj) {
