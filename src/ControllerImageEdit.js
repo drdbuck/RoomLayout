@@ -41,18 +41,24 @@ class ControllerImageEdit {
         ctx.drawImage(this.imageEdit.original, 0, 0, width, height);
         //Box path
         ctx.beginPath();
-        ctx.moveTo(this.imageEdit.cornerLT.x, this.imageEdit.cornerLT.y);
-        ctx.lineTo(this.imageEdit.cornerRT.x, this.imageEdit.cornerRT.y);
-        ctx.lineTo(this.imageEdit.cornerRB.x, this.imageEdit.cornerRB.y);
-        ctx.lineTo(this.imageEdit.cornerLB.x, this.imageEdit.cornerLB.y);
-        ctx.lineTo(this.imageEdit.cornerLT.x, this.imageEdit.cornerLT.y);
+        let firstCorner = this.imageEdit.corners[0];
+        ctx.moveTo(firstCorner.x, firstCorner.y);
+        for (let i = 1; i < this.imageEdit.corners.length; i++){
+            let corner = this.imageEdit.corners[i];
+            ctx.lineTo(corner.x, corner.y);
+        }
+        ctx.lineTo(firstCorner.x, firstCorner.y);
         ctx.stroke();
         //Corners
         let cornerSize = 10;
-        ctx.fillRect(this.imageEdit.cornerLT.x - cornerSize / 2, this.imageEdit.cornerLT.y - cornerSize / 2, cornerSize, cornerSize);
-        ctx.fillRect(this.imageEdit.cornerLB.x - cornerSize / 2, this.imageEdit.cornerLB.y - cornerSize / 2, cornerSize, cornerSize);
-        ctx.fillRect(this.imageEdit.cornerRT.x - cornerSize / 2, this.imageEdit.cornerRT.y - cornerSize / 2, cornerSize, cornerSize);
-        ctx.fillRect(this.imageEdit.cornerRB.x - cornerSize / 2, this.imageEdit.cornerRB.y - cornerSize / 2, cornerSize, cornerSize);
+        this.imageEdit.corners.forEach(
+            corner => ctx.fillRect(
+                corner.x - cornerSize / 2,
+                corner.y - cornerSize / 2,
+                cornerSize,
+                cornerSize
+            )
+        );
     }
 
     updateImage(context) {
@@ -72,7 +78,7 @@ class ControllerImageEdit {
         const x = (e.clientX - rect.left) * (this.imageEdit.width / rect.width);
         const y = (e.clientY - rect.top) * (this.imageEdit.height / rect.height);
         //
-        this.imageEdit.cornerLT = new Vector2(x, y);
+        this.imageEdit.cornerLT.set(x, y);
         this.update();
         let imageURL = this.imageEdit.convertToResolution(500, 500);
         this.onEditChanged.run(imageURL);

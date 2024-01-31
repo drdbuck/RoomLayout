@@ -21,6 +21,7 @@ class ImageEdit {
         this.cornerLB = new Vector2(0, this.height);
         this.cornerRT = new Vector2(this.width, 0);
         this.cornerRB = new Vector2(this.width, this.height);
+        this.corners = [this.cornerLT, this.cornerRT, this.cornerRB, this.cornerLB];
     }
 
     getIndex(x, y, width) {
