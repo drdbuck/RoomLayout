@@ -9,6 +9,7 @@ class Room extends Block {
         super(new Vector3(width, height, length));
 
         this.furnitures = [];
+        this.groups = [];
 
         this.onFurnitureAdded = new Delegate("furniture");
         this.onFurnitureRemoved = new Delegate("furniture");
@@ -31,6 +32,12 @@ class Room extends Block {
             this.onFurnituresChanged.run([...this.furnitures]);
         }
     }
+
+    group(furnitures) {
+        let group = new KitBash();
+        furnitures.forEach(f => group.add(f));
+        this.groups.push(group);
+    }
 }
 
 function inflateRoom(room) {
@@ -51,4 +58,11 @@ function inflateRoom(room) {
         furniture.room = room;
     }
 
+    backwardsCompatifyRoom(room);
+
+}
+
+function backwardsCompatifyRoom(room) {
+    //Change: add groups
+    room.groups ??= [];
 }

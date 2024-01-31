@@ -195,6 +195,17 @@ function btnFurnitureExport() {
     exportFurniture();
 }
 
+function btnGroup() {
+    let room = house.rooms[0];
+    //remove from existing
+    controllerEdit.selector.forEach(c => {
+        let f = c.obj;
+        room.groups.forEach(g => g.remove(f));
+    });
+    //add to new
+    room.group(controllerEdit.selector.map(c => c.obj));
+}
+
 function btnFaceEdit() {
     $("divFaceEdit").hidden = false;
     controller.selectNextFace(1);

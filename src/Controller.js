@@ -82,18 +82,33 @@ class Controller {
         if (!state.mouse.lmbDown) { return; }
         this.processMouseInput(event);
         let multiselectButton = event.ctrlKey || event.shiftKey;
+        let onlySelectButton = event.altKey;
         this.origMouse = copyObject(this.mouse, mouseDragStringify);
-        let target = this.getObjectAtMousePos()?.furniture;
+        let targetBox = this.getObjectAtMousePos();
+        let target = targetBox?.furniture;
         if (target) {
             if (this.isSelected(target)) {
                 if (multiselectButton) {
                     let context = this.selector.find(c => c.obj === target);
                     this.selector.deselect(context);
                 }
+                else if (onlySelectButton) {
+                    this.selectObject(targetBox, false);
+                }
             }
             else {
                 //select
-                let selected = this.selectObject(undefined, multiselectButton);
+                let selected = this.selectObject(undefined, multiselectButton && !onlySelectButton);
+                if (!onlySelectButton) {
+                    house.rooms[0].groups.forEach(g => {
+                        if (g.has(selected)) {
+                            g.items.forEach(i => {
+                                let box = player.scene.children.find(box => box.furniture == i);
+                                this.selectObject(box, true);
+                            });
+                        }
+                    });
+                }
             }
             //prepare for drag
             let hit = this.getHitAtMousePos();
