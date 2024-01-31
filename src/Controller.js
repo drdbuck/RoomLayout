@@ -98,10 +98,10 @@ class Controller {
             }
             else {
                 //select
-                let selected = this.selectObject(undefined, multiselectButton && !onlySelectButton);
+                let select = this.selectObject(undefined, multiselectButton && !onlySelectButton);
                 if (!onlySelectButton) {
                     house.rooms[0].groups.forEach(g => {
-                        if (g.has(selected)) {
+                        if (g.has(select)) {
                             g.items.forEach(i => {
                                 let box = player.scene.children.find(box => box.furniture == i);
                                 this.selectObject(box, true);
@@ -210,7 +210,7 @@ class Controller {
             //
             this.selector.select(selectContext, add);
         }
-        return select !== undefined;
+        return select;
     }
 
     createSelectContext(select, box) {
