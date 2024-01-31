@@ -17,7 +17,7 @@ class ImageEdit {
         this.ctx = this.canvas.getContext('2d');
     }
 
-    getIndex(x, y, width = this.width) {
+    getIndex(x, y, width) {
         if (!isNumber(x)) {
             let v = x;
             x = v.x;
@@ -28,11 +28,11 @@ class ImageEdit {
     };
 
     /**
-     * Pull pixel from the original image
+     * Pull vector from the original image
      * @param {number} px Percent X: 0 = left, 1 = right
      * @param {*} py Percent Y: 0 = top, 1 = bottom
      */
-    pullPixel(px, py) {
+    pullVector(px, py) {
         let temp;
         //left point
         let cornerL = this.cornerLT.clone();
@@ -49,8 +49,13 @@ class ImageEdit {
         temp = this.getDir(cornerL, cornerR);
         temp.multiplyScalar(px);
         pt.add(temp);
+        //return
+        return pt;
+    }
+
+    pullPixel(x, y) {
         //pull pixel
-        let index = this.getIndex(pt);
+        let index = this.getIndex(x, y, this.width);
         return this.imgData.data.slice(index, index + 4);
     }
 
@@ -67,9 +72,13 @@ class ImageEdit {
         canvas.width = width;
         canvas.height = height;
         const imgData = ctx.getImageData(0, 0, width, height);
-        for (let i = 0; i < width; i++){// "<=" ?
-            for (let j = 0; j < height; j++){// "<=" ?
-                const pixel = this.pullPixel(i / width, j / height);
+        varid = imgData;
+        for (let i = 0; i < width; i++) {// "<=" ?
+            for (let j = 0; j < height; j++) {// "<=" ?
+                const pt = this.pullVector(i / width, j / height);
+                pt.x = Math.round(pt.x);
+                pt.y = Math.round(pt.y);
+                const pixel = this.pullPixel(pt.x, pt.y);
                 this.pushPixel(imgData, pixel, i, j);
             }
         }
