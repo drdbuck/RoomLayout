@@ -103,6 +103,9 @@ class Controller {
                     house.rooms[0].groups.forEach(g => {
                         if (g.has(select)) {
                             g.items.forEach(i => {
+                                //dont double select
+                                if (i == select) { return; }
+                                //
                                 let box = player.scene.children.find(box => box.furniture == i);
                                 this.selectObject(box, true);
                             });
