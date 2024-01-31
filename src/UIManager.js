@@ -245,7 +245,7 @@ function cropCanvasChanged(url) {
             f.defaultFace = url;
         }
         //dirty: should use delegate here instead
-        // c.box.material = createMaterials(f.faces, 6, f.defaultFace);//dirty
+        c.box.material = createMaterials(f.faces, 6, f.defaultFace);//dirty
         // updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
         $("divFaceDrop").innerHTML = "<img src='" + url + "' />";
     });
