@@ -29,6 +29,9 @@ class Room extends Block {
     removeFurniture(furniture) {
         let removed = this.furnitures.remove(furniture);
         if (removed) {
+            //groups
+            this.groups.forEach(g => g.remove(furniture));
+            //delegates
             this.onFurnitureRemoved.run(furniture);
             this.onFurnituresChanged.run([...this.furnitures]);
         }
@@ -42,6 +45,9 @@ class Room extends Block {
 
     prepareForSave() {
         const room = this;
+        //remove empty groups and those with one item
+        this.groups = this.groups.filter(g => g.items.length > 1);
+        //prepare each group for save
         this.groups.forEach(g => g.prepareForSave(
             item => room.furnitures.indexOf(item)
         ));

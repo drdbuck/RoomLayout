@@ -98,7 +98,7 @@ class Controller {
             }
             else {
                 //select
-                let select = this.selectObject(undefined, multiselectButton && !onlySelectButton);
+                let select = this.selectObject(undefined, multiselectButton);
                 if (!onlySelectButton) {
                     house.rooms[0].groups.forEach(g => {
                         if (g.has(select)) {
