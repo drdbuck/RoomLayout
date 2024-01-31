@@ -31,9 +31,14 @@ class ControllerImageEdit {
 
     update() {
         let ctx = this.ctx;
-        ctx.drawImage(this.imageEdit.original, 0, 0, this.canvas.width, this.canvas.height);
+        let width = this.canvas.width;
+        let height = this.canvas.height;
         ctx.strokeStyle = this.uiColor;
         ctx.fillStyle = this.uiColor;
+        //clear
+        ctx.clearRect(0, 0, width, height);
+        //image
+        ctx.drawImage(this.imageEdit.original, 0, 0, width, height);
         //Box path
         ctx.beginPath();
         ctx.moveTo(this.imageEdit.cornerLT.x, this.imageEdit.cornerLT.y);
@@ -68,8 +73,8 @@ class ControllerImageEdit {
         const y = (e.clientY - rect.top) * (this.imageEdit.height / rect.height);
         //
         this.imageEdit.cornerLT = new Vector2(x, y);
-        let imageURL = this.imageEdit.convertToResolution(500, 500);
         this.update();
+        let imageURL = this.imageEdit.convertToResolution(500, 500);
         this.onEditChanged.run(imageURL);
     }
 }
