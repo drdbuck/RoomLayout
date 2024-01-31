@@ -66,6 +66,7 @@ class ControllerImageEdit {
     }
 
     updateImage(context) {
+        if (!context) { return; }
         let furniture = context.obj;
         let faceIndex = context.face;
         if (faceIndex >= -1) {
