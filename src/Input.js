@@ -25,6 +25,7 @@ class Input {
                 pos: new Vector2(),
                 posStart: new Vector2(),
                 wheelDelta: 0,
+                wasDragged: false,
             },
             keys: [],
         }
@@ -44,6 +45,9 @@ class Input {
         if (!this.verifyEvent(event)) { return; }
         //
         this.processMouseInput(event);
+        if (this.state.mouse.lmbDown || this.state.mouse.rmbDown) {
+            this.state.mouse.wasDragged = true;
+        }
         this.mouse.move.run(this.state, event);
     }
 
@@ -54,6 +58,7 @@ class Input {
         this.state.mouse.lmbDown = event.button == 0;
         this.state.mouse.rmbDown = event.button == 2;
         this.state.mouse.posStart.copy(this.state.mouse.pos);
+        this.state.mouse.wasDragged = false;
         this.mouse.down.run(this.state, event);
     }
 
