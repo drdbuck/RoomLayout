@@ -118,23 +118,8 @@ function updateFaceEditPanel(faces) {
     let face = defaultValue ?? faces.reduce(reduceFunc) ?? inequal;
     let faceText = "";
     switch (face) {
-        case 0:
-            faceText = "Right";
-            break;
-        case 1:
-            faceText = "Left";
-            break;
-        case 2:
-            faceText = "Top";
-            break;
-        case 3:
-            faceText = "Bottom";
-            break;
-        case 4:
-            faceText = "Back";
-            break;
-        case 5:
-            faceText = "Front";
+        case (face >= 0) ? face : undefined:
+            faceText = `Face ${face + 1}`;
             break;
         case -1:
             faceText = "[Default]";
@@ -145,6 +130,8 @@ function updateFaceEditPanel(faces) {
         case -3:
             faceText = "---";
             break;
+        default:
+            console.error("Unknown face index:", face);
     }
     $("spnFaceName").innerHTML = faceText;
 
