@@ -198,14 +198,13 @@ function btnGroup() {
 }
 
 function btnFaceEdit() {
-    let advanceAmount = (uiVars.editFaces) ? 1 : 0;
     uiVars.editFaces = true;
-    controller.selectNextFace(advanceAmount);
+    controller.updateFaceSelection();
 }
 
 function btnExitFaceEdit() {
     uiVars.editFaces = false;
-    controller.selectNextFace();
+    controller.updateFaceSelection();
 }
 
 function btnUseDefaultImage() {
