@@ -231,13 +231,13 @@ class Controller {
         //
         let select = box?.furniture;
         if (!select) { return undefined; }
-            let selectContext = this.createSelectContext(select, box);
-            //
-            if (face >= -1) {
-                selectContext.face = face;
-            }
-            //
-            this.selector.select(selectContext, add);
+        let selectContext = this.createSelectContext(select, box);
+        //
+        if (face >= -1) {
+            selectContext.face = face;
+        }
+        //
+        this.selector.select(selectContext, add);
         return select;
     }
 
@@ -291,14 +291,14 @@ class Controller {
             const max = context.box.material.length - 1;
             if (context.face >= min) {
                 context.face += dir;
-            if (context.face > max) {
-                context.face = min;
+                if (context.face > max) {
+                    context.face = min;
+                }
+                if (context.face < min) {
+                    context.face = max;
+                }
             }
-            if (context.face < min) {
-                context.face = max;
-            }
-            }
-            else if (dir != 0){
+            else if (dir != 0) {
                 context.face = min;
             }
         });
