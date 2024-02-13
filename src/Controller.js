@@ -97,6 +97,11 @@ class Controller {
                 else if (onlySelectButton) {
                     this.selectObject(targetBox, false, targetFace);
                 }
+                else {
+                    let context = this.selector.find(c => c.obj == target);
+                    context.face = targetFace;
+                    this.updateFaceSelection();
+                }
             }
             else {
                 //select
