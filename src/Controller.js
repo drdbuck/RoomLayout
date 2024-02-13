@@ -227,12 +227,6 @@ class Controller {
             if (face >= -1) {
                 selectContext.face = face;
             }
-            else {
-                face = this.selector.map(c => c.face).find(f => f >= -1);
-                if (face) {
-                    selectContext.face = face;
-                }
-            }
             //
             this.selector.select(selectContext, add);
         return select;
