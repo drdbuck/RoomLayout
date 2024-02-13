@@ -97,11 +97,6 @@ class Controller {
                 else if (onlySelectButton) {
                     this.selectObject(targetBox, false, targetFace);
                 }
-                else {
-                    let context = this.selector.find(c => c.obj == target);
-                    context.face = targetFace;
-                    this.updateFaceSelection();
-                }
             }
             else {
                 //select
@@ -152,6 +147,20 @@ class Controller {
 
     processMouseUp(state, event) {
         if (!state.mouse.lmbDown) {
+            //select face
+            if (!state.mouse.wasDragged) {
+                let targetHit = this.getObjectHitAtMousePos();
+                let target = targetHit?.object?.furniture;
+                if (target) {
+                    if (this.isSelected(target)) {
+                        let targetFace = targetHit.face.materialIndex;
+                        let context = this.selector.find(c => c.obj == target);
+                        context.face = targetFace;
+                        this.updateFaceSelection();
+                    }
+                }
+            }
+            //reset drag variables
             this.mouse.targetY = 0;
             this.clearSelectedOffsets();
         }
