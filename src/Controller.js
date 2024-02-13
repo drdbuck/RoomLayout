@@ -277,12 +277,8 @@ class Controller {
         this.selector.forEach(context => context.offset.copy(_zero));
     }
 
-    selectNextFace(dir) {
+    selectNextFace(dir = 0) {
         this.selector.forEach(context => {
-            if (!dir) {
-                context.face = -2;
-                return;
-            }
             //
             const min = -1;
             const max = context.box.material.length - 1;
