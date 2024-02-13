@@ -284,19 +284,19 @@ class Controller {
                 return;
             }
             //
-            if (context.face >= -1) {
-                context.face += dir;
-            }
-            else {
-                context.face = -1;
-            }
             const min = -1;
             const max = context.box.material.length - 1;
+            if (context.face >= min) {
+                context.face += dir;
             if (context.face > max) {
                 context.face = min;
             }
             if (context.face < min) {
                 context.face = max;
+            }
+            }
+            else if (dir != 0){
+                context.face = min;
             }
         });
         this.updateFaceSelection();

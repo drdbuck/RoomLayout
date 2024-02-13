@@ -198,14 +198,13 @@ function btnGroup() {
 }
 
 function btnFaceEdit() {
+    let advanceAmount = (uiVars.editFaces) ? 1 : 0;
     uiVars.editFaces = true;
-    $("divFaceEdit").hidden = !uiVars.editFaces;
-    controller.selectNextFace(1);
+    controller.selectNextFace(advanceAmount);
 }
 
 function btnExitFaceEdit() {
     uiVars.editFaces = false;
-    $("divFaceEdit").hidden = !uiVars.editFaces;
     controller.selectNextFace();
 }
 
