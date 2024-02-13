@@ -352,6 +352,7 @@ function updateFace(box, face) {
     edge.renderOrder = 0;
     select.material = undefined;
     select.visible = false;
+    if (!uiVars.editFaces) { return };
     if (face >= 0 && face < faceCount) {
         select.material = new Array(faceCount);
         select.material[face] = selectMaterial;

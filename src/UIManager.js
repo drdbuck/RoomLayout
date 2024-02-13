@@ -16,6 +16,10 @@ const updateFunc = (id, func, float = true) => {
     $(id).value = value ?? inequal;
 }
 
+let uiVars = {
+    editFaces: false,
+};
+
 function initUI() {
 
 
@@ -110,7 +114,7 @@ function registerUIDelegates(furniture, register) {
 
 function updateFaceEditPanel(faces) {
 
-    $("divFaceEdit").hidden = !(faces.some(f => f >= -1));
+    $("divFaceEdit").hidden = !uiVars.editFaces;
 
     //spnFaceName
     const inequal = -3;
@@ -194,12 +198,14 @@ function btnGroup() {
 }
 
 function btnFaceEdit() {
-    $("divFaceEdit").hidden = false;
+    uiVars.editFaces = true;
+    $("divFaceEdit").hidden = !uiVars.editFaces;
     controller.selectNextFace(1);
 }
 
 function btnExitFaceEdit() {
-    $("divFaceEdit").hidden = true;
+    uiVars.editFaces = false;
+    $("divFaceEdit").hidden = !uiVars.editFaces;
     controller.selectNextFace();
 }
 
