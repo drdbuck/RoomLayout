@@ -198,8 +198,7 @@ function btnGroup() {
 }
 
 function btnFaceEdit() {
-    uiVars.editFaces = !uiVars.editFaces;
-    $("btnFaceEdit").checked = uiVars.editFaces;
+    uiVars.editFaces = true;
     controller.updateFaceSelection();
 }
 
