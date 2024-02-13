@@ -84,22 +84,26 @@ class Controller {
         let multiselectButton = event.ctrlKey || event.shiftKey;
         let onlySelectButton = event.altKey;
         this.origMouse = copyObject(this.mouse, mouseDragStringify);
-        let targetBox = this.getObjectAtMousePos();
+        let targetHit = this.getObjectHitAtMousePos();
+        let targetBox = targetHit?.object;
         let target = targetBox?.furniture;
         if (target) {
+            let targetFace = targetHit.face.materialIndex;
             if (this.isSelected(target)) {
                 if (multiselectButton) {
                     let context = this.selector.find(c => c.obj === target);
                     this.selector.deselect(context);
                 }
                 else if (onlySelectButton) {
-                    this.selectObject(targetBox, false);
+                    this.selectObject(targetBox, false, targetFace);
                 }
             }
             else {
                 //select
-                let select = this.selectObject(undefined, multiselectButton);
+                let select = this.selectObject(targetBox, multiselectButton, targetFace);
+                //
                 if (!onlySelectButton) {
+                    //select other objects in group
                     house.rooms[0].groups.forEach(g => {
                         if (g.has(select)) {
                             g.items.forEach(i => {
@@ -191,14 +195,28 @@ class Controller {
         return objects.find(findFunc);
     }
 
-    getObjectAtMousePos() {
-        return this.getHitAtMousePos(o => o.object.userData.selectable)?.object;
+    getObjectHitAtMousePos() {
+        return this.getHitAtMousePos(o => o.object.userData.selectable);
     }
 
-    selectObject(box = undefined, add = false, face = -2) {
-        box ??= this.getObjectAtMousePos();
+    getObjectAtMousePos() {
+        return this.getObjectHitAtMousePos()?.object;
+    }
+
+    selectObject(box, add, face = -2) {
+        //defaults
+        if (!box) {
+            let hit = this.getObjectHitAtMousePos();
+            box = hit?.object;
+            face ??= hit?.face.materialIndex;
+            if (!box) {
+                console.error("no box!", box, "hit", hit);
+            }
+        }
+        add ??= false;
+        //
         let select = box?.furniture;
-        if (select) {
+        if (!select) { return undefined; }
             let selectContext = this.createSelectContext(select, box);
             //
             if (face >= -1) {
@@ -212,7 +230,6 @@ class Controller {
             }
             //
             this.selector.select(selectContext, add);
-        }
         return select;
     }
 
