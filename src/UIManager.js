@@ -55,6 +55,9 @@ function initUI() {
     //UIVars
     uiVars.onEditFacesChanged.add((editFaces) => {
         $("btnFaceEdit").checked = editFaces;
+        uiVars.highlightSelectedFace = editFaces;
+    });
+    uiVars.onHighlightSelectedFaceChanged.add((highlightSelectedFace) => {
         controller.updateFaceSelection();
     });
 }

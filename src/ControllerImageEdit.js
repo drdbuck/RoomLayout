@@ -98,6 +98,7 @@ class ControllerImageEdit {
         this.offset = this.controlCorner.clone();
         this.offset.sub(mouse);
         this.mouseDown = true;
+        uiVars.highlightSelectedFace = false;
     }
     processMouseMove(e) {
         if (this.mouseDown) {

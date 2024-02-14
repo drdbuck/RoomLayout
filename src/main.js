@@ -90,10 +90,16 @@ function init() {
         controllerEdit.onFaceSelectionChanged.add(faces => {
             controllerImageEdit.updateImage(_contexts[0]);//dirty: using stored _contexts from UIManager
             updateFaceEditPanel(faces);
+            if (uiVars.editFaces) {
+                uiVars.highlightSelectedFace = true;
+            }
         });
         controllerEdit.selector.onSelectionChanged.add(contexts => {
             controllerImageEdit.updateImage(contexts[0]);
             updateFurnitureEditPanel(contexts);
+            if (uiVars.editFaces) {
+                uiVars.highlightSelectedFace = true;
+            }
         });
         controllerEdit.selector.onSelectionGained.add(context => {
             let box = context.box;
@@ -359,7 +365,7 @@ function updateFace(box, face) {
     edge.renderOrder = 0;
     select.material = undefined;
     select.visible = false;
-    if (!uiVars.editFaces) { return };
+    if (!uiVars.highlightSelectedFace) { return; }
     if (face >= 0 && face < faceCount) {
         select.material = new Array(faceCount);
         select.material[face] = selectMaterial;

@@ -11,19 +11,32 @@ let stringifyUIVars = [
 class UIVars{
     constructor() {
         this._editFaces = false;
-
         this.onEditFacesChanged = new Delegate("editFaces");
+
+        this._highlightSelectedFace = false;
+        this.onHighlightSelectedFaceChanged = new Delegate("highSelectedFace");
+
     }
 
     get editFaces() {
         return this._editFaces;
     }
-
     set editFaces(value) {
         //enforce boolean
         value = !!value;
         //
         this._editFaces = value;
         this.onEditFacesChanged.run(this._editFaces);
+    }
+
+    get highlightSelectedFace() {
+        return this._highlightSelectedFace;
+    }
+    set highlightSelectedFace(value) {
+        //enforce boolean
+        value = !!value;
+        //
+        this._highlightSelectedFace = value;
+        this.onHighlightSelectedFaceChanged.run(this._highlightSelectedFace);
     }
 }
