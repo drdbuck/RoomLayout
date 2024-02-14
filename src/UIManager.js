@@ -59,6 +59,7 @@ function initUI() {
         uiVars.highlightSelectedFace = editFaces;
         if (editFaces) {
             updateFaceEditPanel(_contexts.map(c => c.face));
+            $("divFaceEdit").focus();
         }
     });
     uiVars.onHighlightSelectedFaceChanged.add((highlightSelectedFace) => {
@@ -105,7 +106,7 @@ function _updateFurnitureEditPanel() {
     });
 
     //
-    if (_contexts.some(c => c.face >= -1)) {
+    if (uiVars.editFaces) {
         updateFaceEditPanel(_contexts.map(c => c.face));
     }
 }
@@ -124,6 +125,8 @@ function registerUIDelegates(furniture, register) {
 }
 
 function updateFaceEditPanel(faces) {
+
+    $("divFaceEdit").hidden = !(uiVars.editFaces && _furnitures.length > 0);
 
     //spnFaceName
     const inequal = -3;
