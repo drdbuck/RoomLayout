@@ -1,10 +1,8 @@
 "use strict";
 
 let body = $("body");
-let flm = new FileManager(body, true);
-let flmFace = new FileManager($("divFaceEdit"), true);
+let flm = new FileManager(body);
 flm.onImageUploaded.add((image) => log("image uploaded!", image.name));
-flmFace.onImageUploaded.add((image) => log("image uploaded to face!", image.name));
 
 let loader = new FileLoader();
 let player;
@@ -132,7 +130,7 @@ function init() {
             switchMode(true);
         });
 
-        //Upload image to new box
+        //Upload image to new box / existing face
         flm.onImageUploaded.add((image) => {
             //upload face instead if editing faces
             if (uiVars.editFaces) {
@@ -166,9 +164,6 @@ function init() {
             //
             updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
         });
-
-        //Upload face to existing box
-        flmFace.onImageUploaded.add(uploadFace);
 
         switchMode(true);
         switchView(true);
