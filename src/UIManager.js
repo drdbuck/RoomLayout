@@ -16,9 +16,7 @@ const updateFunc = (id, func, float = true) => {
     $(id).value = value ?? inequal;
 }
 
-let uiVars = {
-    editFaces: false,
-};
+const uiVars = new UIVars();
 
 function initUI() {
 
@@ -53,6 +51,12 @@ function initUI() {
     onChangeFunc("txtPosY", (f, v) => controllerEdit.setFurniturePosition(f, f.position.setZ(v)));
     onChangeFunc("txtAltitude", (f, v) => controllerEdit.setFurnitureAltitude(f, v));
     onChangeFunc("txtAngle", (f, v) => controllerEdit.setFurnitureAngle(f, v), true, false);
+
+    //UIVars
+    uiVars.onEditFacesChanged.add((editFaces) => {
+        $("btnFaceEdit").checked = editFaces;
+        controller.updateFaceSelection();
+    });
 }
 
 //
@@ -199,13 +203,10 @@ function btnGroup() {
 
 function btnFaceEdit() {
     uiVars.editFaces = !uiVars.editFaces;
-    $("btnFaceEdit").checked = uiVars.editFaces;
-    controller.updateFaceSelection();
 }
 
 function btnExitFaceEdit() {
     uiVars.editFaces = false;
-    controller.updateFaceSelection();
 }
 
 function btnUseDefaultImage() {

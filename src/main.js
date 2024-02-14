@@ -109,6 +109,13 @@ function init() {
             updateFace(box, -1);
             registerUIDelegates(context.obj, false);
         });
+        uiVars.onEditFacesChanged.add((editFaces) => {
+            if (editFaces) {
+                //deselect objects that dont have a face selected
+                let deselectList = controllerEdit.selector.findAll(c => !(c.face >= -1));
+                deselectList.forEach(c => controllerEdit.selector.deselect(c));
+            }
+        })
 
         //ControllerFPS init
         controllerFPS = new FirstPersonControls(

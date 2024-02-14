@@ -113,6 +113,14 @@ class Selector {
     }
 
     /**
+     * Returns the all items that match the given condition
+     * @param {(item:object)=>boolean} func The function to test each item
+     */
+    findAll(func) {
+        return this._selection.filter(func);
+    }
+
+    /**
      * Runs the given function over all the selected items
      * @param {(item:object)=>void} func The function that will process the selected items
      */
