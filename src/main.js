@@ -361,12 +361,19 @@ function getDataStringify() {
 function updateFace(box, face) {
     let edge = box.edge;
     let select = box.select;
-    let faceCount = box.material.length;
+
+    //unhighlight face
     edge.renderOrder = 0;
     select.material = undefined;
     select.visible = false;
+
+    //early exit: highlighting faces turned off
     if (!uiVars.highlightSelectedFace) { return; }
+
+    //highlighting faces turned on
+    let faceCount = box.material.length;
     if (face >= 0 && face < faceCount) {
+        //highlight face
         select.material = new Array(faceCount);
         select.material[face] = selectMaterial;
         select.visible = true;

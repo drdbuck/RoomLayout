@@ -157,6 +157,7 @@ class Controller {
                         let context = this.selector.find(c => c.obj == target);
                         context.face = targetFace;
                         this.updateFaceSelection();
+                        this.runFaceDelegate();
                     }
                 }
             }
@@ -303,12 +304,16 @@ class Controller {
             }
         });
         this.updateFaceSelection();
+        this.runFaceDelegate();
     }
 
     updateFaceSelection() {
         this.selector.forEach(c => {
             updateFace(c.box, c.face);
         });
+    }
+
+    runFaceDelegate(){
         this.onFaceSelectionChanged.run(this.selector.map(c => c.face));
     }
 
