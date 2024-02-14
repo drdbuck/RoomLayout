@@ -20,6 +20,7 @@ class FileManager {
         //bind responder functions
         const _preventDefaults = this.preventDefaults.bind(this);
         const _handleDrop = this.handleDrop.bind(this);
+        const _handlePaste = this.handlePaste.bind(this);
 
         //Drop image event handlers// Prevent default drag behaviors
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
@@ -28,6 +29,9 @@ class FileManager {
             document.body.addEventListener(eventName, _preventDefaults, false);
         })
         dropPanel.addEventListener('drop', _handleDrop, false);
+
+        //Paste image event handlers
+        dropPanel.onpaste = _handlePaste;
 
         //Delegate initialization
         this.onImageUploaded = new Delegate();//param: image
@@ -45,6 +49,21 @@ class FileManager {
         let dt = e.dataTransfer;
         let files = dt.files;
         this.handleFiles(files);
+    }
+    handlePaste(event) {
+        //2024-02-13: copied from https://stackoverflow.com/a/51586232/2336212
+        var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+        console.log(JSON.stringify(items)); // will give you the mime types
+        for (index in items) {
+          var item = items[index];
+          if (item.kind === 'file') {
+            var blob = item.getAsFile();
+            var reader = new FileReader();
+            reader.onload = function(event){
+              console.log(event.target.result)}; // data url!
+            reader.readAsDataURL(blob);
+          }
+        }
     }
 
     handleFiles(files) {
