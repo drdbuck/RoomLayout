@@ -2,7 +2,7 @@
 
 let body = $("body");
 let flm = new FileManager(body);
-let flmFace = new FileManager($("divFaceDrop"));
+let flmFace = new FileManager($("divFaceEdit"));
 flm.onImageUploaded.add((image) => log("image uploaded!", image.name));
 flmFace.onImageUploaded.add((image) => log("image uploaded to face!", image.name));
 
