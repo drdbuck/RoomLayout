@@ -1,8 +1,8 @@
 "use strict";
 
 let body = $("body");
-let flm = new FileManager(body);
-let flmFace = new FileManager($("divFaceEdit"));
+let flm = new FileManager(body, false);
+let flmFace = new FileManager($("divFaceEdit"), true);
 flm.onImageUploaded.add((image) => log("image uploaded!", image.name));
 flmFace.onImageUploaded.add((image) => log("image uploaded to face!", image.name));
 

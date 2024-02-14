@@ -14,7 +14,7 @@ const textFileTypes = [
 ];
 
 class FileManager {
-    constructor(dropPanel) {
+    constructor(dropPanel, allowPaste = true) {
         this.dropPanel = dropPanel;
 
         //bind responder functions
@@ -33,7 +33,9 @@ class FileManager {
         dropPanel.addEventListener('drop', _handleDrop, false);
 
         //Paste image event handlers
-        dropPanel.addEventListener('paste', _handlePaste, false);
+        if (allowPaste) {
+            dropPanel.addEventListener('paste', _handlePaste, false);
+        }
 
         //Delegate initialization
         this.onImageUploaded = new Delegate();//param: image
