@@ -52,39 +52,48 @@ class FileManager {
     }
     handlePaste(event) {
         //2024-02-13: copied from https://stackoverflow.com/a/51586232/2336212
-        var items = (event.clipboardData || event.originalEvent.clipboardData).items;
-        console.log(JSON.stringify(items)); // will give you the mime types
-        for (index in items) {
-          var item = items[index];
-          if (item.kind === 'file') {
-            var blob = item.getAsFile();
-            var reader = new FileReader();
-            reader.onload = function(event){
-              console.log(event.target.result)}; // data url!
-            reader.readAsDataURL(blob);
-          }
+        // console.log("paste event", event);
+        let items = (event.clipboardData || event.originalEvent.clipboardData).items;
+        // console.log("paste stringify",JSON.stringify(items)); // will give you the mime types
+        let files = [];
+        for (let item of items) {
+            // console.log("paste item", item);
+            if (item.kind === 'file') {
+                // console.log("paste filename", item.name);
+                var blob = item.getAsFile();
+                files.push(blob);
+                // var reader = new FileReader();
+                // reader.onload = function (event) {
+                //     console.log("paste result",event.target.result)
+                // }; // data url!
+                // reader.readAsDataURL(blob);
+            }
         }
+        this.handleFiles(files);
     }
 
     handleFiles(files) {
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
         files = [...files];
         files.forEach((file) => {
+            let fileType = file.type;
             let fileExtension = file.name.split(".").at(-1);
-            if (imageFileTypes.includes(file.type)) {
+            console.log("fileextension", fileExtension);
+            if (imageFileTypes.includes(fileType)) {
                 this.uploadImage(file);
             }
-            else if (textFileTypes.includes(file.type) || textFileTypes.includes(fileExtension)) {
+            else if (textFileTypes.includes(fileType) || textFileTypes.includes(fileExtension)) {
                 this.handleTextFile(file);
             }
             else {
-                console.warn("Unknown file type:", file.type, "filename:", file.name, "extension", fileExtension);
+                console.warn("Unknown file type:", fileType, "filename:", file.name, "extension", fileExtension);
             }
         });
     }
 
     uploadImage(file) {
         let reader = new FileReader();
+        console.log("uploadImage", file);
         reader.readAsDataURL(file);
         let _uploadImage = this._uploadImage.bind(this);
         reader.onloadend = (progressEvent) => {
@@ -95,7 +104,7 @@ class FileManager {
     }
     _uploadImage(file, imageURL) {
         //Get values
-        let imageName = file.name.split(".")[0];
+        let imageName = file.name?.split(".")[0] ?? "untitled";
         //Create object
         let image = createImage(imageName, imageURL);
         //Run delegate
@@ -103,7 +112,10 @@ class FileManager {
     }
 
     handleTextFile(file) {
-        if (file.name.endsWith(".frn")) {
+        if (!file.name) {
+            this.uploadJson(file);
+        }
+        else if (file.name.endsWith(".frn")) {
             this.uploadFurniture(file);
         }
         else if (file.name.endsWith(".json")) {
