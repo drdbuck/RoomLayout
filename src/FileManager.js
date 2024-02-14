@@ -22,16 +22,18 @@ class FileManager {
         const _handleDrop = this.handleDrop.bind(this);
         const _handlePaste = this.handlePaste.bind(this);
 
-        //Drop image event handlers// Prevent default drag behaviors
+        //Prevent default drag behaviors
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        ['dragenter', 'dragover', 'dragleave', 'drop', 'paste'].forEach(eventName => {
             dropPanel.addEventListener(eventName, _preventDefaults, false);
             document.body.addEventListener(eventName, _preventDefaults, false);
         })
+
+        //drop event handlers
         dropPanel.addEventListener('drop', _handleDrop, false);
 
         //Paste image event handlers
-        dropPanel.onpaste = _handlePaste;
+        dropPanel.addEventListener('paste', _handlePaste, false);
 
         //Delegate initialization
         this.onImageUploaded = new Delegate();//param: image
