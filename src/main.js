@@ -1,7 +1,7 @@
 "use strict";
 
 let body = $("body");
-let flm = new FileManager(body, false);
+let flm = new FileManager(body, true);
 let flmFace = new FileManager($("divFaceEdit"), true);
 flm.onImageUploaded.add((image) => log("image uploaded!", image.name));
 flmFace.onImageUploaded.add((image) => log("image uploaded to face!", image.name));
@@ -134,6 +134,11 @@ function init() {
 
         //Upload image to new box
         flm.onImageUploaded.add((image) => {
+            //upload face instead if editing faces
+            if (uiVars.editFaces) {
+                uploadFace(image);
+                return;
+            }
             //Data
             let furniture = new Furniture(image.src);
             furniture.name = image.name;
@@ -163,22 +168,7 @@ function init() {
         });
 
         //Upload face to existing box
-        flmFace.onImageUploaded.add((image) => {
-            controllerEdit.selector.forEach(context => {
-                let furniture = context.obj;
-                let index = (context.face >= -1) ? context.face : furniture.faces.length;
-                furniture.faces[index] = image.src;
-                if (index == -1) {
-                    furniture.defaultFace = image.src;
-                }
-                let box = context.box;
-                box.material = createMaterials(furniture.faces, 6, furniture.defaultFace);
-                box.materialList = [...box.material];
-            });
-            //
-            controllerImageEdit.updateImage(_contexts[0]);//dirty: using stored _contexts from UIManager
-            updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
-        });
+        flmFace.onImageUploaded.add(uploadFace);
 
         switchMode(true);
         switchView(true);
@@ -357,6 +347,23 @@ function getDataStringify() {
         stringifyVector3,
     ].flat();
 }
+
+function uploadFace (image) {
+    controllerEdit.selector.forEach(context => {
+        let furniture = context.obj;
+        let index = (context.face >= -1) ? context.face : furniture.faces.length;
+        furniture.faces[index] = image.src;
+        if (index == -1) {
+            furniture.defaultFace = image.src;
+        }
+        let box = context.box;
+        box.material = createMaterials(furniture.faces, 6, furniture.defaultFace);
+        box.materialList = [...box.material];
+    });
+    //
+    controllerImageEdit.updateImage(_contexts[0]);//dirty: using stored _contexts from UIManager
+    updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
+};
 
 function updateFace(box, face) {
     let edge = box.edge;
