@@ -52,21 +52,12 @@ class FileManager {
     }
     handlePaste(event) {
         //2024-02-13: copied from https://stackoverflow.com/a/51586232/2336212
-        // console.log("paste event", event);
         let items = (event.clipboardData || event.originalEvent.clipboardData).items;
-        // console.log("paste stringify",JSON.stringify(items)); // will give you the mime types
         let files = [];
         for (let item of items) {
-            // console.log("paste item", item);
             if (item.kind === 'file') {
-                // console.log("paste filename", item.name);
                 var blob = item.getAsFile();
                 files.push(blob);
-                // var reader = new FileReader();
-                // reader.onload = function (event) {
-                //     console.log("paste result",event.target.result)
-                // }; // data url!
-                // reader.readAsDataURL(blob);
             }
         }
         this.handleFiles(files);
@@ -78,7 +69,6 @@ class FileManager {
         files.forEach((file) => {
             let fileType = file.type;
             let fileExtension = file.name.split(".").at(-1);
-            console.log("fileextension", fileExtension);
             if (imageFileTypes.includes(fileType)) {
                 this.uploadImage(file);
             }
@@ -112,10 +102,13 @@ class FileManager {
     }
 
     handleTextFile(file) {
+        //early exit: invalid filename
         if (!file.name) {
-            this.uploadJson(file);
+            console.error("file does not have a name!", file);
+            return;
         }
-        else if (file.name.endsWith(".frn")) {
+        //
+        if (file.name.endsWith(".frn")) {
             this.uploadFurniture(file);
         }
         else if (file.name.endsWith(".json")) {
