@@ -55,7 +55,11 @@ function initUI() {
     //UIVars
     uiVars.onEditFacesChanged.add((editFaces) => {
         $("btnFaceEdit").checked = editFaces;
+        $("divFaceEdit").hidden = !editFaces;
         uiVars.highlightSelectedFace = editFaces;
+        if (editFaces) {
+            updateFaceEditPanel(_contexts.map(c => c.face));
+        }
     });
     uiVars.onHighlightSelectedFaceChanged.add((highlightSelectedFace) => {
         controller.updateFaceSelection();
@@ -120,8 +124,6 @@ function registerUIDelegates(furniture, register) {
 }
 
 function updateFaceEditPanel(faces) {
-
-    $("divFaceEdit").hidden = !uiVars.editFaces;
 
     //spnFaceName
     const inequal = -3;
