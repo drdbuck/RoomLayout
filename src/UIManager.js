@@ -66,8 +66,15 @@ function updateFurnitureEditPanel(contexts) {
 
     //defaults
     _contexts = contexts ?? _contexts;
-    _furnitures = contexts.map(c => c.obj);
-    _faces = contexts.map(c => c.face);
+    _furnitures = contexts?.map(c => c.obj);
+    _faces = contexts?.map(c => c.face);
+
+    //early exit: no contexts
+    if (!_contexts) {
+        $("divPanelEdit").hidden = true;
+        $("divFaceEdit").hidden = true;
+        return;
+    }
 
     //Update UI
     let anySelected = _contexts.length > 0;
@@ -113,7 +120,7 @@ function updateFaceEditPanel(faces) {
     _faces = faces ?? _faces;
     faces ??= _faces;
 
-    let showPanel = uiVars.editFaces && _faces.length > 0;
+    let showPanel = uiVars.editFaces && _faces?.length > 0;
     $("divFaceEdit").hidden = !showPanel;
     if (!showPanel) { return; }
 
