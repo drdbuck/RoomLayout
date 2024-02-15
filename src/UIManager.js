@@ -150,7 +150,7 @@ function updateFaceEditPanel(faces) {
         if (face == -1) {
             return furniture.defaultFace;
         }
-        return furniture.faces[face];
+        return furniture.getFace(face);
     });
     if (imageURLs.some(url => url)) {
         let imageURL = imageURLs.reduce(reduceFunc);
@@ -210,11 +210,11 @@ function btnUseDefaultImage() {
     controllerEdit.selector.forEach(c => {
         if (c.face <= -1) { return; }
         let f = c.obj;
-        f.faces[c.face] = f.defaultFace;
+        f.setFace(c.face, f.defaultFace);
         //dirty: should use delegate here instead
-        c.box.material = createMaterials(f.faces, 6, f.defaultFace);//dirty
+        c.box.material = createMaterials(f.faceList, 6, f.defaultFace);//dirty
         updateFaceEditPanel();
-        controllerImageEdit.setImage(f.faces[c.face]);//dirty
+        controllerImageEdit.setImage(f.getFace(c.face));//dirty
     });
 }
 
@@ -230,20 +230,20 @@ function btnFlip(flipX, flipY) {
     controllerEdit.selector.forEach(c => {
         let f = c.obj;
         let faceIndex = c.face;
-        let imageURL = (faceIndex >= 0) ? f.faces[faceIndex] : f.defaultFace;
+        let imageURL = (faceIndex >= 0) ? f.getFace(faceIndex) : f.defaultFace;
         let img = new Image();
         img.src = imageURL;
         img.onload = () => {
             img = flipImage(img, flipX, flipY);
             let url = img.src;
             if (faceIndex >= 0) {
-                f.faces[faceIndex] = url;
+                f.setFace(faceIndex, url);
             }
             else {
                 f.defaultFace = url;
             }
             //dirty: should use delegate here instead
-            c.box.material = createMaterials(f.faces, 6, f.defaultFace);//dirty
+            c.box.material = createMaterials(f.faceList, 6, f.defaultFace);//dirty
             updateFaceEditPanel();
         }
     });
@@ -254,13 +254,13 @@ function cropCanvasChanged(url) {
         let f = c.obj;
         let faceIndex = c.face;
         if (faceIndex >= 0) {
-            f.faces[faceIndex] = url;
+            f.setFace(faceIndex, url);
         }
         else {
             f.defaultFace = url;
         }
         //dirty: should use delegate here instead
-        c.box.material = createMaterials(f.faces, 6, f.defaultFace);//dirty
+        c.box.material = createMaterials(f.faceList, 6, f.defaultFace);//dirty
         // updateFaceEditPanel();
         $("divFaceDrop").innerHTML = "<img src='" + url + "' />";
     });

@@ -70,7 +70,7 @@ class ControllerImageEdit {
         let furniture = context.obj;
         let faceIndex = context.face;
         if (faceIndex >= -1) {
-            let imageURL = (faceIndex >= 0) ? furniture.faces[faceIndex] : furniture.defaultFace;
+            let imageURL = (faceIndex >= 0) ? furniture.getFace(faceIndex) : furniture.defaultFace;
             if (imageURL) {
                 this.setImage(imageURL);
             }

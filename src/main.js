@@ -369,13 +369,13 @@ function getDataStringify() {
 function uploadFace(image) {
     controllerEdit.selector.forEach(context => {
         let furniture = context.obj;
-        let index = (context.face >= -1) ? context.face : furniture.faces.length;
-        furniture.faces[index] = image.src;
+        let index = (context.face >= -1) ? context.face : furniture.faceList.length;
+        furniture.getFace(index) = image.src;
         if (index == -1) {
             furniture.defaultFace = image.src;
         }
         let box = context.box;
-        box.material = createMaterials(furniture.faces, 6, furniture.defaultFace);
+        box.material = createMaterials(furniture.faceList, 6, furniture.defaultFace);
         box.materialList = [...box.material];
     });
     //
