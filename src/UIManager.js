@@ -66,6 +66,7 @@ function updateFurnitureEditPanel(contexts) {
 
     //defaults
     _contexts = contexts ?? _contexts;
+    contexts ??= _contexts;
     _furnitures = contexts?.map(c => c.obj);
     _faces = contexts?.map(c => c.face);
 
