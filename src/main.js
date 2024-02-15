@@ -370,7 +370,7 @@ function uploadFace(image) {
     controllerEdit.selector.forEach(context => {
         let furniture = context.obj;
         let index = (context.face >= -1) ? context.face : furniture.faceList.length;
-        furniture.getFace(index) = image.src;
+        furniture.setFace(index, image.src);
         if (index == -1) {
             furniture.defaultFace = image.src;
         }
