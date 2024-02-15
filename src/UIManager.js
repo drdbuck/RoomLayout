@@ -2,6 +2,7 @@
 
 let _contexts = [];//dirty
 let _furnitures = [];//dirty
+let _faces = [];//dirty
 const reduceFunc = (a, b) => (a === b) ? a : undefined;
 const inequal = "---";
 const DIGITS_OF_PRECISION = 3;
@@ -57,22 +58,26 @@ function initUI() {
 
 function updateFurnitureEditPanel(contexts) {
     log("selected count:", controllerEdit.selector.count);
-    _contexts = contexts;
+
+    //only accept array input
+    if (!Array.isArray(contexts)) {
+        contexts = undefined;
+    }
+
+    //defaults
+    _contexts = contexts ?? _contexts;
     _furnitures = contexts.map(c => c.obj);
+    _faces = contexts.map(c => c.face);
 
-    $("txtName").disabled = !(contexts.length == 1);
-
-    _updateFurnitureEditPanel();
-}
-function _updateFurnitureEditPanel() {
     //Update UI
-    let anySelected = _furnitures.length > 0;
+    let anySelected = _contexts.length > 0;
     $("divPanelEdit").hidden = !anySelected;
-    updateFaceEditPanel(_contexts.map(c => c.face));
+    updateFaceEditPanel();
 
     if (!anySelected) { return; }
 
         //Name
+    $("txtName").disabled = !(contexts.length == 1);
         updateFunc("txtName", f => f.name, false);
         //Size
         updateFunc("txtWidth", f => f.width);
@@ -92,20 +97,23 @@ function _updateFurnitureEditPanel() {
 
 function registerUIDelegates(furniture, register) {
     if (register) {
-        furniture.onSizeChanged.add(_updateFurnitureEditPanel);
-        furniture.onPositionChanged.add(_updateFurnitureEditPanel);
-        furniture.onAngleChanged.add(_updateFurnitureEditPanel);
+        furniture.onSizeChanged.add(updateFurnitureEditPanel);
+        furniture.onPositionChanged.add(updateFurnitureEditPanel);
+        furniture.onAngleChanged.add(updateFurnitureEditPanel);
     }
     else {
-        furniture.onSizeChanged.remove(_updateFurnitureEditPanel);
-        furniture.onPositionChanged.remove(_updateFurnitureEditPanel);
-        furniture.onAngleChanged.remove(_updateFurnitureEditPanel);
+        furniture.onSizeChanged.remove(updateFurnitureEditPanel);
+        furniture.onPositionChanged.remove(updateFurnitureEditPanel);
+        furniture.onAngleChanged.remove(updateFurnitureEditPanel);
     }
 }
 
 function updateFaceEditPanel(faces) {
 
-    let showPanel = uiVars.editFaces && _furnitures.length > 0;
+    _faces = faces ?? _faces;
+    faces ??= _faces;
+
+    let showPanel = uiVars.editFaces && _faces.length > 0;
     $("divFaceEdit").hidden = !showPanel;
     if (!showPanel) { return; }
 
@@ -205,7 +213,7 @@ function btnUseDefaultImage() {
         f.faces[c.face] = f.defaultFace;
         //dirty: should use delegate here instead
         c.box.material = createMaterials(f.faces, 6, f.defaultFace);//dirty
-        updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
+        updateFaceEditPanel();
         controllerImageEdit.setImage(f.faces[c.face]);//dirty
     });
 }
@@ -236,7 +244,7 @@ function btnFlip(flipX, flipY) {
             }
             //dirty: should use delegate here instead
             c.box.material = createMaterials(f.faces, 6, f.defaultFace);//dirty
-            updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
+            updateFaceEditPanel();
         }
     });
 }
@@ -253,7 +261,7 @@ function cropCanvasChanged(url) {
         }
         //dirty: should use delegate here instead
         c.box.material = createMaterials(f.faces, 6, f.defaultFace);//dirty
-        // updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
+        // updateFaceEditPanel();
         $("divFaceDrop").innerHTML = "<img src='" + url + "' />";
     });
 }

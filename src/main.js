@@ -154,7 +154,7 @@ function hookupDelegates() {
             let deselectList = controllerEdit.selector.findAll(c => !(c.face >= -1));
             deselectList.forEach(c => controllerEdit.selector.deselect(c));
             //update face edit panel
-            updateFaceEditPanel(_contexts.map(c => c.face));
+            updateFaceEditPanel();
         }
     });
     uiVars.onHighlightSelectedFaceChanged.add((highlightSelectedFace) => {
@@ -165,7 +165,7 @@ function hookupDelegates() {
 
     //Upload image to new box / existing face
     flm.onImageUploaded.add((image) => {
-        //upload face instead if editing faces
+        //upload face instead of editing faces
         if (uiVars.editFaces) {
             uploadFace(image);
             return;
@@ -178,10 +178,8 @@ function hookupDelegates() {
         //Scene
         let newbox = constructFurniture(furniture);
         player.scene.add(newbox);
-        //Current
+        //Select new furniture
         controllerEdit.selectObject(newbox, false, -1);
-        //
-        updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
     });
 
     //Upload new furniture
@@ -192,10 +190,8 @@ function hookupDelegates() {
         //Scene
         let newbox = constructFurniture(furniture);
         player.scene.add(newbox);
-        //Current
+        //Select new furniture
         controllerEdit.selectObject(newbox, false);
-        //
-        updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
     });
 }
 
@@ -384,7 +380,7 @@ function uploadFace(image) {
     });
     //
     controllerImageEdit.updateImage(_contexts[0]);//dirty: using stored _contexts from UIManager
-    updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
+    updateFaceEditPanel();
 };
 
 function updateFace(box, face) {
