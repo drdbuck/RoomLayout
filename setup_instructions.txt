@@ -6,4 +6,4 @@ First Time:
 
 Every Session:
 3. Run server.bat
-4. Go to localhost:8000 in the browser
+4. Go to localhost:8002 in the browser
