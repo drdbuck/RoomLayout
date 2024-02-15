@@ -16,10 +16,7 @@ const updateFunc = (id, func, float = true) => {
     $(id).value = value ?? inequal;
 }
 
-const uiVars = new UIVars();
-
 function initUI() {
-
 
     //individual textbox listeners
     const onChangeFunc = (id, func, float = true, allowFootNotation = true) =>
@@ -52,19 +49,6 @@ function initUI() {
     onChangeFunc("txtAltitude", (f, v) => controllerEdit.setFurnitureAltitude(f, v));
     onChangeFunc("txtAngle", (f, v) => controllerEdit.setFurnitureAngle(f, v), true, false);
 
-    //UIVars
-    uiVars.onEditFacesChanged.add((editFaces) => {
-        $("btnFaceEdit").checked = editFaces;
-        $("divFaceEdit").hidden = !editFaces;
-        uiVars.highlightSelectedFace = editFaces;
-        if (editFaces) {
-            updateFaceEditPanel(_contexts.map(c => c.face));
-            $("divFaceEdit").focus();
-        }
-    });
-    uiVars.onHighlightSelectedFaceChanged.add((highlightSelectedFace) => {
-        controller.updateFaceSelection();
-    });
 }
 
 //

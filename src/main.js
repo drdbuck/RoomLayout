@@ -4,7 +4,8 @@ let body = $("body");
 let flm = new FileManager(body);
 flm.onImageUploaded.add((image) => log("image uploaded!", image.name));
 
-let loader = new FileLoader();
+const uiVars = new UIVars();
+
 let player;
 let input;
 let controller;
@@ -52,7 +53,6 @@ function init() {
     initUI();
     //Crop Canvas
     controllerImageEdit = new ControllerImageEdit($("cvsCrop"), "#73c9ff");
-    controllerImageEdit.onEditChanged.add((url) => cropCanvasChanged(url));
 
     //Load
     house = loadHouse();
@@ -67,6 +67,7 @@ function init() {
     };
 
     //Load empty scene
+    let loader = new FileLoader();
     loader.load('app.json', (text) => {
 
         player.load(JSON.parse(text));
@@ -85,85 +86,14 @@ function init() {
             player.camera,
             player.scene
         );
-        controllerEdit.onFaceSelectionChanged.add(faces => {
-            controllerImageEdit.updateImage(_contexts[0]);//dirty: using stored _contexts from UIManager
-            updateFaceEditPanel(faces);
-            if (uiVars.editFaces) {
-                uiVars.highlightSelectedFace = true;
-            }
-        });
-        controllerEdit.selector.onSelectionChanged.add(contexts => {
-            controllerImageEdit.updateImage(contexts[0]);
-            updateFurnitureEditPanel(contexts);
-            if (uiVars.editFaces) {
-                uiVars.highlightSelectedFace = true;
-            }
-        });
-        controllerEdit.selector.onSelectionGained.add(context => {
-            let box = context.box;
-            box.edge.visible = true;
-            //
-            updateFace(box, context.face);
-            registerUIDelegates(context.obj, true);
-        });
-        controllerEdit.selector.onSelectionLost.add(context => {
-            let box = context.box;
-            box.edge.visible = false;
-            //
-            updateFace(box, -1);
-            registerUIDelegates(context.obj, false);
-        });
-        uiVars.onEditFacesChanged.add((editFaces) => {
-            if (editFaces) {
-                //deselect objects that dont have a face selected
-                let deselectList = controllerEdit.selector.findAll(c => !(c.face >= -1));
-                deselectList.forEach(c => controllerEdit.selector.deselect(c));
-            }
-        })
 
         //ControllerFPS init
         controllerFPS = new FirstPersonControls(
             player.camera,
             player.dom
         );
-        controllerFPS.controls.addEventListener("unlock", () => {
-            switchMode(true);
-        });
 
-        //Upload image to new box / existing face
-        flm.onImageUploaded.add((image) => {
-            //upload face instead if editing faces
-            if (uiVars.editFaces) {
-                uploadFace(image);
-                return;
-            }
-            //Data
-            let furniture = new Furniture(image.src);
-            furniture.name = image.name;
-            let room = house.rooms[0];
-            room.addFurniture(furniture);
-            //Scene
-            let newbox = constructFurniture(furniture);
-            player.scene.add(newbox);
-            //Current
-            controllerEdit.selectObject(newbox, false, -1);
-            //
-            updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
-        });
-
-        //Upload new furniture
-        flm.onFurnitureUploaded.add((furniture) => {
-            //Data
-            let room = house.rooms[0];
-            room.addFurniture(furniture);
-            //Scene
-            let newbox = constructFurniture(furniture);
-            player.scene.add(newbox);
-            //Current
-            controllerEdit.selectObject(newbox, false);
-            //
-            updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
-        });
+        hookupDelegates();
 
         switchMode(true);
         switchView(true);
@@ -171,6 +101,105 @@ function init() {
     });
 }
 init();
+
+function hookupDelegates() {
+
+    //Controller Image Edit
+    controllerImageEdit.onEditChanged.add((url) => cropCanvasChanged(url));
+
+    //Controller Edit
+    controllerEdit.onFaceSelectionChanged.add(faces => {
+        controllerImageEdit.updateImage(_contexts[0]);//dirty: using stored _contexts from UIManager
+        updateFaceEditPanel(faces);
+        if (uiVars.editFaces) {
+            uiVars.highlightSelectedFace = true;
+        }
+    });
+    controllerEdit.selector.onSelectionChanged.add(contexts => {
+        controllerImageEdit.updateImage(contexts[0]);
+        updateFurnitureEditPanel(contexts);
+        if (uiVars.editFaces) {
+            uiVars.highlightSelectedFace = true;
+        }
+    });
+    controllerEdit.selector.onSelectionGained.add(context => {
+        let box = context.box;
+        box.edge.visible = true;
+        //
+        updateFace(box, context.face);
+        registerUIDelegates(context.obj, true);
+    });
+    controllerEdit.selector.onSelectionLost.add(context => {
+        let box = context.box;
+        box.edge.visible = false;
+        //
+        updateFace(box, -1);
+        registerUIDelegates(context.obj, false);
+    });
+
+    //Controller FPS
+    controllerFPS.controls.addEventListener("unlock", () => {
+        switchMode(true);
+    });
+
+    //UI Vars
+    uiVars.onEditFacesChanged.add((editFaces) => {
+        if (editFaces) {
+            //deselect objects that dont have a face selected
+            let deselectList = controllerEdit.selector.findAll(c => !(c.face >= -1));
+            deselectList.forEach(c => controllerEdit.selector.deselect(c));
+        }
+    });
+    uiVars.onEditFacesChanged.add((editFaces) => {
+        $("btnFaceEdit").checked = editFaces;
+        $("divFaceEdit").hidden = !editFaces;
+        uiVars.highlightSelectedFace = editFaces;
+        if (editFaces) {
+            updateFaceEditPanel(_contexts.map(c => c.face));
+            $("divFaceEdit").focus();
+        }
+    });
+    uiVars.onHighlightSelectedFaceChanged.add((highlightSelectedFace) => {
+        controller.updateFaceSelection();
+    });
+
+    //File Manager
+
+    //Upload image to new box / existing face
+    flm.onImageUploaded.add((image) => {
+        //upload face instead if editing faces
+        if (uiVars.editFaces) {
+            uploadFace(image);
+            return;
+        }
+        //Data
+        let furniture = new Furniture(image.src);
+        furniture.name = image.name;
+        let room = house.rooms[0];
+        room.addFurniture(furniture);
+        //Scene
+        let newbox = constructFurniture(furniture);
+        player.scene.add(newbox);
+        //Current
+        controllerEdit.selectObject(newbox, false, -1);
+        //
+        updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
+    });
+
+    //Upload new furniture
+    flm.onFurnitureUploaded.add((furniture) => {
+        //Data
+        let room = house.rooms[0];
+        room.addFurniture(furniture);
+        //Scene
+        let newbox = constructFurniture(furniture);
+        player.scene.add(newbox);
+        //Current
+        controllerEdit.selectObject(newbox, false);
+        //
+        updateFaceEditPanel(controllerEdit.selector.map(c => c.face));//dirty
+    });
+}
 
 function exportFurniture() {
     let furnitures = controllerEdit.selector.map(context => context.obj);
