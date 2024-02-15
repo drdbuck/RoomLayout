@@ -374,9 +374,6 @@ function uploadFace(image) {
         if (index == -1) {
             furniture.defaultFace = image.src;
         }
-        let box = context.box;
-        box.material = createMaterials(furniture.faceList, 6, furniture.defaultFace);
-        box.materialList = [...box.material];
     });
     //
     controllerImageEdit.updateImage(_contexts[0]);//dirty: using stored _contexts from UIManager

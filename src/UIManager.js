@@ -219,7 +219,6 @@ function btnUseDefaultImage() {
         let f = c.obj;
         f.setFace(c.face, f.defaultFace);
         //dirty: should use delegate here instead
-        c.box.material = createMaterials(f.faceList, 6, f.defaultFace);//dirty
         updateFaceEditPanel();
         controllerImageEdit.setImage(f.getFace(c.face));//dirty
     });
@@ -250,7 +249,6 @@ function btnFlip(flipX, flipY) {
                 f.defaultFace = url;
             }
             //dirty: should use delegate here instead
-            c.box.material = createMaterials(f.faceList, 6, f.defaultFace);//dirty
             updateFaceEditPanel();
         }
     });
@@ -267,7 +265,6 @@ function cropCanvasChanged(url) {
             f.defaultFace = url;
         }
         //dirty: should use delegate here instead
-        c.box.material = createMaterials(f.faceList, 6, f.defaultFace);//dirty
         // updateFaceEditPanel();
         $("divFaceDrop").innerHTML = "<img src='" + url + "' />";
     });

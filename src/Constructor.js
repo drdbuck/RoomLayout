@@ -172,6 +172,10 @@ function constructFurniture(furniture) {
     furniture.onSizeChanged.add(updateScale);
     furniture.onPositionChanged.add(updatePosition);
     furniture.onAngleChanged.add(updateAngle);
+    furniture.onFaceChanged.add((index, url) => {
+        let material = createMaterial(url);
+        boxMaterials[index] = material;
+    });
 
     //edge highlights
     let edge = createEdgeHighlights(box);
