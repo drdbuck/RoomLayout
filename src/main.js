@@ -117,10 +117,14 @@ function hookupDelegates() {
     });
     controllerEdit.selector.onSelectionChanged.add(contexts => {
         controllerImageEdit.updateImage(contexts[0]);
-        updateFurnitureEditPanel(contexts);
         if (uiVars.editFaces) {
             uiVars.highlightSelectedFace = true;
         }
+        updateFurnitureEditPanel(contexts);
+        //Update selected faces
+        contexts.forEach(c => {
+            updateFace(c.box, c.face);
+        });
     });
     controllerEdit.selector.onSelectionGained.add(context => {
         let box = context.box;
@@ -144,19 +148,13 @@ function hookupDelegates() {
 
     //UI Vars
     uiVars.onEditFacesChanged.add((editFaces) => {
+        uiVars.highlightSelectedFace = editFaces;
         if (editFaces) {
             //deselect objects that dont have a face selected
             let deselectList = controllerEdit.selector.findAll(c => !(c.face >= -1));
             deselectList.forEach(c => controllerEdit.selector.deselect(c));
-        }
-    });
-    uiVars.onEditFacesChanged.add((editFaces) => {
-        $("btnFaceEdit").checked = editFaces;
-        $("divFaceEdit").hidden = !editFaces;
-        uiVars.highlightSelectedFace = editFaces;
-        if (editFaces) {
+            //update face edit panel
             updateFaceEditPanel(_contexts.map(c => c.face));
-            $("divFaceEdit").focus();
         }
     });
     uiVars.onHighlightSelectedFaceChanged.add((highlightSelectedFace) => {
@@ -372,7 +370,7 @@ function getDataStringify() {
     ].flat();
 }
 
-function uploadFace (image) {
+function uploadFace(image) {
     controllerEdit.selector.forEach(context => {
         let furniture = context.obj;
         let index = (context.face >= -1) ? context.face : furniture.faces.length;

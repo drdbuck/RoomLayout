@@ -68,7 +68,10 @@ function _updateFurnitureEditPanel() {
     //Update UI
     let anySelected = _furnitures.length > 0;
     $("divPanelEdit").hidden = !anySelected;
-    if (anySelected) {
+    updateFaceEditPanel(_contexts.map(c => c.face));
+
+    if (!anySelected) { return; }
+
         //Name
         updateFunc("txtName", f => f.name, false);
         //Size
@@ -80,19 +83,11 @@ function _updateFurnitureEditPanel() {
         updateFunc("txtPosY", f => f.position.z);
         updateFunc("txtAltitude", f => f.altitude);
         updateFunc("txtAngle", f => f.angle);
-    }
-    else {
-        $("divFaceEdit").hidden = true;
-    }
-    //Update selected faces
-    _contexts.forEach(c => {
-        updateFace(c.box, c.face);
-    });
+
+
+    $("btnFaceEdit").checked = uiVars.editFaces;
 
     //
-    if (uiVars.editFaces) {
-        updateFaceEditPanel(_contexts.map(c => c.face));
-    }
 }
 
 function registerUIDelegates(furniture, register) {
@@ -110,7 +105,9 @@ function registerUIDelegates(furniture, register) {
 
 function updateFaceEditPanel(faces) {
 
-    $("divFaceEdit").hidden = !(uiVars.editFaces && _furnitures.length > 0);
+    let showPanel = uiVars.editFaces && _furnitures.length > 0;
+    $("divFaceEdit").hidden = !showPanel;
+    if (!showPanel) { return; }
 
     //spnFaceName
     const inequal = -3;
