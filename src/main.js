@@ -377,7 +377,6 @@ function uploadFace(image) {
     });
     //
     controllerImageEdit.updateImage(_contexts[0]);//dirty: using stored _contexts from UIManager
-    updateFaceEditPanel();
 };
 
 function updateFace(box, face) {

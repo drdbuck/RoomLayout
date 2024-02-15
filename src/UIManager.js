@@ -107,19 +107,28 @@ function registerUIDelegates(furniture, register) {
         furniture.onSizeChanged.add(updateFurnitureEditPanel);
         furniture.onPositionChanged.add(updateFurnitureEditPanel);
         furniture.onAngleChanged.add(updateFurnitureEditPanel);
+        furniture.onFaceChanged.add(updateFaceEditPanel);
     }
     else {
         furniture.onSizeChanged.remove(updateFurnitureEditPanel);
         furniture.onPositionChanged.remove(updateFurnitureEditPanel);
         furniture.onAngleChanged.remove(updateFurnitureEditPanel);
+        furniture.onFaceChanged.remove(updateFaceEditPanel);
     }
 }
 
 function updateFaceEditPanel(faces) {
 
+    //only accept array input
+    if (!Array.isArray(faces)) {
+        faces = undefined;
+    }
+
+    //defaults
     _faces = faces ?? _faces;
     faces ??= _faces;
 
+    //
     let showPanel = uiVars.editFaces && _faces?.length > 0;
     $("divFaceEdit").hidden = !showPanel;
     if (!showPanel) { return; }
@@ -219,7 +228,6 @@ function btnUseDefaultImage() {
         let f = c.obj;
         f.setFace(c.face, f.defaultFace);
         //dirty: should use delegate here instead
-        updateFaceEditPanel();
         controllerImageEdit.setImage(f.getFace(c.face));//dirty
     });
 }
@@ -248,8 +256,6 @@ function btnFlip(flipX, flipY) {
             else {
                 f.defaultFace = url;
             }
-            //dirty: should use delegate here instead
-            updateFaceEditPanel();
         }
     });
 }
@@ -264,8 +270,7 @@ function cropCanvasChanged(url) {
         else {
             f.defaultFace = url;
         }
-        //dirty: should use delegate here instead
-        // updateFaceEditPanel();
+        //dirty? should be in face change delegate call?
         $("divFaceDrop").innerHTML = "<img src='" + url + "' />";
     });
 }
