@@ -100,7 +100,7 @@ class Controller {
                     }
                     //deselect object
                     else {
-                    this.selector.deselect(context);
+                        this.selector.deselect(context);
                     }
                 }
                 else if (onlySelectButton) {
@@ -163,19 +163,19 @@ class Controller {
                 if (target) {
                     if (this.isSelected(target)) {
                         if (uiVars.editFaces) {
-                        //determine if face is already selected
-                        let targetFace = targetHit.face.materialIndex;
-                        let context = this.selector.find(c => c.obj == target);
+                            //determine if face is already selected
+                            let targetFace = targetHit.face.materialIndex;
+                            let context = this.selector.find(c => c.obj == target);
                             let alreadySelected = context.face == targetFace;
                             if (!alreadySelected) {
                                 //deselect other faces
                                 if (!this.multiselectButton) {
                                     this.selector.forEach(c => c.face = -2);
                                 }
-                        //select target face
-                        context.face = targetFace;
-                        this.updateFaceSelection();
-                        this.runFaceDelegate();
+                                //select target face
+                                context.face = targetFace;
+                                this.updateFaceSelection();
+                                this.runFaceDelegate();
                             }
                         }
                     }
@@ -254,7 +254,7 @@ class Controller {
         if (!select) { return undefined; }
         //create select context
         let selectContext = this.createSelectContext(select, box);
-            selectContext.face = face;
+        selectContext.face = face;
         //select the context
         this.selector.select(selectContext, add);
         //return the selected furniture
@@ -337,7 +337,7 @@ class Controller {
         });
     }
 
-    runFaceDelegate(){
+    runFaceDelegate() {
         this.onFaceSelectionChanged.run(this.selector.map(c => c.face));
     }
 

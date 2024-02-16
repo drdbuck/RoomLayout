@@ -84,18 +84,18 @@ function updateFurnitureEditPanel(contexts) {
 
     if (!anySelected) { return; }
 
-        //Name
+    //Name
     $("txtName").disabled = !(contexts.length == 1);
-        updateFunc("txtName", f => f.name, false);
-        //Size
-        updateFunc("txtWidth", f => f.width);
-        updateFunc("txtLength", f => f.length);
-        updateFunc("txtHeight", f => f.height);
-        //Position
-        updateFunc("txtPosX", f => f.position.x);
-        updateFunc("txtPosY", f => f.position.z);
-        updateFunc("txtAltitude", f => f.altitude);
-        updateFunc("txtAngle", f => f.angle);
+    updateFunc("txtName", f => f.name, false);
+    //Size
+    updateFunc("txtWidth", f => f.width);
+    updateFunc("txtLength", f => f.length);
+    updateFunc("txtHeight", f => f.height);
+    //Position
+    updateFunc("txtPosX", f => f.position.x);
+    updateFunc("txtPosY", f => f.position.z);
+    updateFunc("txtAltitude", f => f.altitude);
+    updateFunc("txtAngle", f => f.angle);
 
 
     $("btnFaceEdit").checked = uiVars.editFaces;
@@ -163,12 +163,12 @@ function updateFaceEditPanel(faces) {
     let divhtml = lblDropFace;
     let imageURLs = _contexts.filter(c => c.face >= -1)//dirty: using stored _contexts
         .map(c => {
-        let furniture = c.obj;
-        let face = c.face;
-        if (face == -1) {
-            return furniture.defaultFace;
-        }
-        return furniture.getFace(face);
+            let furniture = c.obj;
+            let face = c.face;
+            if (face == -1) {
+                return furniture.defaultFace;
+            }
+            return furniture.getFace(face);
         })
         .filter(url => url);
     if (imageURLs.length > 0) {

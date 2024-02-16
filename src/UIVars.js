@@ -8,7 +8,7 @@ let stringifyUIVars = [
  * Stores temporary variables that describe the current state of the UI
  * Might be saved out for the purposes of picking back up where the user last was in the previous session
  */
-class UIVars{
+class UIVars {
     constructor() {
         this._editFaces = false;
         this.onEditFacesChanged = new Delegate("editFaces");
