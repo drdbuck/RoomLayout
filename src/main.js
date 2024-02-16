@@ -109,18 +109,18 @@ function hookupDelegates() {
 
     //Controller Edit
     controllerEdit.onFaceSelectionChanged.add(faces => {
-        updateFaceEditPanel(faces);
         if (uiVars.editFaces) {
         controllerImageEdit.updateImage(_contexts.find(c=>c.face >= -1));//dirty: using stored _contexts from UIManager
+        updateFaceEditPanel(faces);
             uiVars.highlightSelectedFace = true;
         }
     });
     controllerEdit.selector.onSelectionChanged.add(contexts => {
+        updateFurnitureEditPanel(contexts);
         if (uiVars.editFaces) {
         controllerImageEdit.updateImage(contexts.find(c=>c.face >= -1));//dirty: _contexts
             uiVars.highlightSelectedFace = true;
         }
-        updateFurnitureEditPanel(contexts);
         //Update selected faces
         contexts.forEach(c => {
             updateFace(c.box, c.face);
@@ -137,7 +137,7 @@ function hookupDelegates() {
         let box = context.box;
         box.edge.visible = false;
         //
-        updateFace(box, -1);
+        updateFace(box, -2);
         registerUIDelegates(context.obj, false);
     });
 
@@ -151,9 +151,9 @@ function hookupDelegates() {
         uiVars.highlightSelectedFace = editFaces;
         if (editFaces) {
             controllerImageEdit.updateImage(_contexts.find(c=>c.face >= -1));//dirty: _contexts
-            //update face edit panel
-            updateFaceEditPanel();
         }
+        //update face edit panel
+        updateFaceEditPanel();
     });
     uiVars.onHighlightSelectedFaceChanged.add((highlightSelectedFace) => {
         controller.updateFaceSelection();
