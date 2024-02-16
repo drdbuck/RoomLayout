@@ -111,7 +111,7 @@ class Controller {
                                 if (i == select) { return; }
                                 //
                                 let box = player.scene.children.find(box => box.furniture == i);
-                                this.selectObject(box, true);
+                                this.selectObject(box, true, -2);
                             });
                         }
                     });
@@ -232,13 +232,12 @@ class Controller {
         //
         let select = box?.furniture;
         if (!select) { return undefined; }
+        //create select context
         let selectContext = this.createSelectContext(select, box);
-        //
-        if (face >= -1) {
             selectContext.face = face;
-        }
-        //
+        //select the context
         this.selector.select(selectContext, add);
+        //return the selected furniture
         return select;
     }
 
@@ -282,13 +281,18 @@ class Controller {
     }
 
     selectNextFace(dir) {
+        const min = -1;
         this.selector.forEach(context => {
+            //early exit: deselect faces
             if (dir == undefined) {
                 context.face = -2;
                 return;
             }
+            //early exit: no face selected on this object
+            if (context.face < min) {
+                return;
+            }
             //
-            const min = -1;
             const max = context.box.material.length - 1;
             if (context.face >= min) {
                 context.face += dir;
