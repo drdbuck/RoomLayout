@@ -81,7 +81,7 @@ class Controller {
     processMouseDown(state, event) {
         if (!state.mouse.lmbDown) { return; }
         this.processMouseInput(event);
-        let multiselectButton = event.ctrlKey || event.shiftKey;
+        this.multiselectButton = event.ctrlKey || event.shiftKey;
         let onlySelectButton = event.altKey;
         this.origMouse = copyObject(this.mouse, mouseDragStringify);
         let targetHit = this.getObjectHitAtMousePos();
@@ -90,9 +90,18 @@ class Controller {
         if (target) {
             let targetFace = targetHit.face.materialIndex;
             if (this.isSelected(target)) {
-                if (multiselectButton) {
+                if (this.multiselectButton) {
                     let context = this.selector.find(c => c.obj === target);
+                    //select face
+                    if (uiVars.editFaces && context.face != targetFace) {
+                        context.face = targetFace;
+                        this.updateFaceSelection();
+                        this.runFaceDelegate();
+                    }
+                    //deselect object
+                    else {
                     this.selector.deselect(context);
+                    }
                 }
                 else if (onlySelectButton) {
                     this.selectObject(targetBox, false, targetFace);
@@ -100,7 +109,7 @@ class Controller {
             }
             else {
                 //select
-                let select = this.selectObject(targetBox, multiselectButton, targetFace);
+                let select = this.selectObject(targetBox, this.multiselectButton, targetFace);
                 //
                 if (!onlySelectButton && !uiVars.editFaces) {
                     //select other objects in group
@@ -153,11 +162,22 @@ class Controller {
                 let target = targetHit?.object?.furniture;
                 if (target) {
                     if (this.isSelected(target)) {
+                        if (uiVars.editFaces) {
+                        //determine if face is already selected
                         let targetFace = targetHit.face.materialIndex;
                         let context = this.selector.find(c => c.obj == target);
+                            let alreadySelected = context.face == targetFace;
+                            if (!alreadySelected) {
+                                //deselect other faces
+                                if (!this.multiselectButton) {
+                                    this.selector.forEach(c => c.face = -2);
+                                }
+                        //select target face
                         context.face = targetFace;
                         this.updateFaceSelection();
                         this.runFaceDelegate();
+                            }
+                        }
                     }
                 }
             }
