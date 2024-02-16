@@ -150,9 +150,6 @@ function hookupDelegates() {
     uiVars.onEditFacesChanged.add((editFaces) => {
         uiVars.highlightSelectedFace = editFaces;
         if (editFaces) {
-            //deselect objects that dont have a face selected
-            let deselectList = controllerEdit.selector.findAll(c => !(c.face >= -1));
-            deselectList.forEach(c => controllerEdit.selector.deselect(c));
             //update face edit panel
             updateFaceEditPanel();
         }
