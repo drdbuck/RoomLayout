@@ -68,7 +68,7 @@ function updateFurnitureEditPanel(contexts) {
     _contexts = contexts ?? _contexts;
     contexts ??= _contexts;
     _furnitures = contexts?.map(c => c.obj);
-    _faces = contexts?.map(c => c.face);
+    _faces = contexts?.map(c => c.face).filter(f => f >= -1);
 
     //early exit: no contexts
     if (!_contexts) {
@@ -126,8 +126,8 @@ function updateFaceEditPanel(faces) {
     }
 
     //defaults
-    _faces = faces ?? _faces;
-    faces ??= _faces;
+    _faces = faces?.filter(f => f >= -1) ?? _faces;
+    faces = _faces;
 
     //
     let showPanel = uiVars.editFaces && _faces?.length > 0;
@@ -161,16 +161,19 @@ function updateFaceEditPanel(faces) {
     const lblDropFace = "<label>Drop face image here</label>";
     let usingImage = false;
     let divhtml = lblDropFace;
-    let imageURLs = _contexts.map(c => {//dirty: using stored _contexts
+    let imageURLs = _contexts.filter(c => c.face >= -1)//dirty: using stored _contexts
+        .map(c => {
         let furniture = c.obj;
         let face = c.face;
         if (face == -1) {
             return furniture.defaultFace;
         }
         return furniture.getFace(face);
-    });
-    if (imageURLs.some(url => url)) {
-        let imageURL = imageURLs.reduce(reduceFunc);
+        })
+        .filter(url => url);
+    if (imageURLs.length > 0) {
+        let onlyOne = imageURLs.length == 1;
+        let imageURL = (onlyOne) ? imageURLs[0] : imageURLs.reduce(reduceFunc);
         if (imageURL) {
             const imgFace = "<img src='" + imageURL + "' />";
             divhtml = imgFace;
