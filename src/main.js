@@ -109,15 +109,15 @@ function hookupDelegates() {
 
     //Controller Edit
     controllerEdit.onFaceSelectionChanged.add(faces => {
-        controllerImageEdit.updateImage(_contexts[0]);//dirty: using stored _contexts from UIManager
         updateFaceEditPanel(faces);
         if (uiVars.editFaces) {
+        controllerImageEdit.updateImage(_contexts.find(c=>c.face >= -1));//dirty: using stored _contexts from UIManager
             uiVars.highlightSelectedFace = true;
         }
     });
     controllerEdit.selector.onSelectionChanged.add(contexts => {
-        controllerImageEdit.updateImage(contexts[0]);
         if (uiVars.editFaces) {
+        controllerImageEdit.updateImage(contexts.find(c=>c.face >= -1));//dirty: _contexts
             uiVars.highlightSelectedFace = true;
         }
         updateFurnitureEditPanel(contexts);
@@ -150,6 +150,7 @@ function hookupDelegates() {
     uiVars.onEditFacesChanged.add((editFaces) => {
         uiVars.highlightSelectedFace = editFaces;
         if (editFaces) {
+            controllerImageEdit.updateImage(_contexts.find(c=>c.face >= -1));//dirty: _contexts
             //update face edit panel
             updateFaceEditPanel();
         }
