@@ -38,12 +38,20 @@ class Furniture extends Block {
         }
         //
         if (index == FACE_DEFAULT) {
+            if (!imageURL && this.defaultFace) {
+                this.lastImage = this.defaultFace;
+            }
             this.defaultFace = imageURL;
         }
         else {
+            if (!imageURL && this._faces[index]) {
+                this.lastImage = this._faces[index]
+            }
             this._faces[index] = imageURL;
         }
-        this.lastImage = imageURL;
+        if (imageURL) {
+            this.lastImage = imageURL;
+        }
         this.onFaceChanged.run(index, imageURL);
     }
 

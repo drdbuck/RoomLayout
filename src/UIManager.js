@@ -332,3 +332,11 @@ function cropCanvasChanged(url) {
         $("divFaceDrop").innerHTML = "<img src='" + url + "' />";
     });
 }
+
+function btnFaceClear() {
+    controllerEdit.selector.forEach(c => {
+        if (!c.obj.validFaceIndex(c.face)) { return; }
+        let f = c.obj;
+        f.setFace(c.face, undefined);
+    });
+}
