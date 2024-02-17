@@ -190,15 +190,22 @@ function updateFaceEditPanel(faces) {
         let divSuggest = "";
         let suggest = [];
         const maxSuggestions = 4;
-        faceContexts.forEach(context => {
+        //last image
+        _contexts.forEach(context => {//dirty: using _contexts
             let f = context.obj;
-            //last image
             suggest.push(f.lastImage);
-            //image from other side
+        });
+        //image from other side
+        _contexts.forEach(context => {//dirty: using _contexts
+            if (context.face < 0) { return; }
+            let f = context.obj;
             let flipFace = context.face + ((context.face % 2 == 0) ? 1 : -1);
             let flipURL = f.getFace(flipFace);
             suggest.push(flipURL);
-            //default face image
+        });
+        //default face image
+        _contexts.forEach(context => {//dirty: using _contexts
+            let f = context.obj;
             suggest.push(f.defaultFace);
         });
         //make html img elements from suggested

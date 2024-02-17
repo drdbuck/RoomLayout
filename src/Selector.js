@@ -150,4 +150,12 @@ class Selector {
     some(func) {
         return this._selection.some(func);
     }
+
+    /**
+     * Sorts the selection using the given func
+     * @param {(item:object, item:object)=>number} func
+     */
+    sort(func) {
+        this._selection.sort(func);
+    }
 }
