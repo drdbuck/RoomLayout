@@ -211,13 +211,13 @@ function updateFaceEditPanel(faces) {
             .slice(0, maxSuggestions)
             //convert to html img element
             //controllerEdit.selector.forEach(c => c.obj.setFace(c.face, url));
-            .map(url => `<img src='${url}' class="selectableImage" style='width:50px; height:50px;'
+            .map(url => `<img src='${url}' class="selectableImage"
                 onclick="btnUseSuggestedImage(this.src);"
             />`)
             //merge into single string
             .join("");
         if (suggestStr) {
-            divSuggest = `Existing Images:<br>${suggestStr}`;
+            divSuggest = `Suggested Images:<br>${suggestStr}`;
         }
         //
         const lblDropFace = "<label>Drop face image here</label>";

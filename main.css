@@ -65,6 +65,8 @@ canvas {
 
 .selectableImage{
     border: 2px solid black;
+    width: 75px;
+    height: 75px;
 }
 .selectableImage:hover{
     border: 2px solid white;
