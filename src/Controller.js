@@ -126,6 +126,8 @@ class Controller {
                     });
                 }
             }
+            //sort selected
+            this.sortSelected();
             //prepare for drag
             let hit = this.getHitAtMousePos();
             this.mouse.targetY = hit?.point.y ?? 0;
@@ -176,6 +178,8 @@ class Controller {
                                 context.face = targetFace;
                                 this.updateFaceSelection();
                                 this.runFaceDelegate();
+                                //sort selected
+                                this.sortSelected();
                             }
                         }
                     }
@@ -259,6 +263,13 @@ class Controller {
         this.selector.select(selectContext, add);
         //return the selected furniture
         return select;
+    }
+
+    sortSelected() {
+        //sort selected
+        this.selector.sort((c1, c2) => (
+            c1.obj.validFaceIndex(c1.face) && !c2.obj.validFaceIndex(c2.face)) ? -1 : 0
+        );
     }
 
     createSelectContext(select, box) {
