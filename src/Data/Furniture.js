@@ -5,6 +5,8 @@ let stringifyFurniture = [
     "defaultFace",
 ];
 
+const FACE_DEFAULT = -1;
+
 class Furniture extends Block {
     constructor(imageURL, width = 1, length = 1, height = 1) {
         super(new Vector3(width, height, length));
@@ -20,17 +22,29 @@ class Furniture extends Block {
     }
 
     getFace(index) {
+        if (index == FACE_DEFAULT) {
+            return this.defaultFace;
+        }
         return this._faces[index];
     }
     setFace(index, imageURL) {
         //error checking
-        if (index < 0) {
+        if (index < 0 && index != FACE_DEFAULT) {
             console.error("Invalid index!", index);
             return;
         }
         //
-        this._faces[index] = imageURL;
+        if (index == FACE_DEFAULT) {
+            this.defaultFace = imageURL;
+        }
+        else {
+            this._faces[index] = imageURL;
+        }
         this.onFaceChanged.run(index, imageURL);
+    }
+
+    validFaceIndex(index) {
+        return index == FACE_DEFAULT || between(index, 0, 6 - 1);//dirty: hardcoding 6-sided shape
     }
 }
 

@@ -110,7 +110,7 @@ function hookupDelegates() {
     //Controller Edit
     controllerEdit.onFaceSelectionChanged.add(faces => {
         if (uiVars.editFaces) {
-            controllerImageEdit.updateImage(_contexts.find(c => c.face >= -1));//dirty: using stored _contexts from UIManager
+            controllerImageEdit.updateImage(_contexts.find(c => c.obj.validFaceIndex(c.face)));//dirty: using stored _contexts from UIManager
             updateFaceEditPanel(faces);
             uiVars.highlightSelectedFace = true;
         }
@@ -118,7 +118,7 @@ function hookupDelegates() {
     controllerEdit.selector.onSelectionChanged.add(contexts => {
         updateFurnitureEditPanel(contexts);
         if (uiVars.editFaces) {
-            controllerImageEdit.updateImage(contexts.find(c => c.face >= -1));//dirty: _contexts
+            controllerImageEdit.updateImage(contexts.find(c => c.obj.validFaceIndex(c.face)));//dirty: _contexts
             uiVars.highlightSelectedFace = true;
         }
         //Update selected faces
@@ -150,7 +150,7 @@ function hookupDelegates() {
     uiVars.onEditFacesChanged.add((editFaces) => {
         uiVars.highlightSelectedFace = editFaces;
         if (editFaces) {
-            controllerImageEdit.updateImage(_contexts.find(c => c.face >= -1));//dirty: _contexts
+            controllerImageEdit.updateImage(_contexts.find(c => c.obj.validFaceIndex(c.face)));//dirty: _contexts
         }
         //update face edit panel
         updateFaceEditPanel();
@@ -177,7 +177,7 @@ function hookupDelegates() {
         let newbox = constructFurniture(furniture);
         player.scene.add(newbox);
         //Select new furniture
-        controllerEdit.selectObject(newbox, false, -1);
+        controllerEdit.selectObject(newbox, false, FACE_DEFAULT);
     });
 
     //Upload new furniture
@@ -366,12 +366,10 @@ function getDataStringify() {
 
 function uploadFace(image) {
     controllerEdit.selector.forEach(context => {
+        let index = context.face;
+        if (index == -2) { return; }
         let furniture = context.obj;
-        let index = (context.face >= -1) ? context.face : furniture.faceList.length;
         furniture.setFace(index, image.src);
-        if (index == -1) {
-            furniture.defaultFace = image.src;
-        }
     });
     //
     controllerImageEdit.updateImage(_contexts[0]);//dirty: using stored _contexts from UIManager

@@ -174,7 +174,18 @@ function constructFurniture(furniture) {
     furniture.onAngleChanged.add(updateAngle);
     furniture.onFaceChanged.add((index, url) => {
         let material = createMaterial(url);
+        //Set all faces with the default face
+        if (index == FACE_DEFAULT) {
+            for (let i = 0; i < boxMaterials.length; i++){
+                if (!furniture.getFace(i)) {
+                    boxMaterials[i] = material;
+                }
+            }
+        }
+        //Set just the one face that was changed
+        else {
         boxMaterials[index] = material;
+        }
     });
 
     //edge highlights

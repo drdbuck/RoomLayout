@@ -301,7 +301,7 @@ class Controller {
     }
 
     selectNextFace(dir) {
-        const min = -1;
+        const min = 0;
         this.selector.forEach(context => {
             //early exit: deselect faces
             if (dir == undefined) {
@@ -309,7 +309,7 @@ class Controller {
                 return;
             }
             //early exit: no face selected on this object
-            if (context.face < min) {
+            if (!context.obj.validFaceIndex(context.face)) {
                 return;
             }
             //

@@ -69,12 +69,10 @@ class ControllerImageEdit {
         if (!context) { return; }
         let furniture = context.obj;
         let faceIndex = context.face;
-        if (faceIndex >= -1) {
-            let imageURL = (faceIndex >= 0) ? furniture.getFace(faceIndex) : furniture.defaultFace;
+            let imageURL = furniture.getFace(faceIndex);
             if (imageURL) {
                 this.setImage(imageURL);
             }
-        }
     }
 
     getMouseVector(e) {

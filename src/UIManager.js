@@ -68,7 +68,7 @@ function updateFurnitureEditPanel(contexts) {
     _contexts = contexts ?? _contexts;
     contexts ??= _contexts;
     _furnitures = contexts?.map(c => c.obj);
-    _faces = contexts?.map(c => c.face).filter(f => f >= -1);
+    _faces = contexts?.filter(c => c.obj.validFaceIndex(c.face)).map(c => c.face);
 
     //early exit: no contexts
     if (!_contexts) {
@@ -126,7 +126,7 @@ function updateFaceEditPanel(faces) {
     }
 
     //defaults
-    _faces = faces?.filter(f => f >= -1) ?? _faces;
+    _faces = faces?.filter(f => f >= 0 || f == FACE_DEFAULT) ?? _faces;
     faces = _faces;
 
     //
@@ -164,11 +164,7 @@ function updateFaceEditPanel(faces) {
     let imageURLs = _contexts.filter(c => c.face >= -1)//dirty: using stored _contexts
         .map(c => {
             let furniture = c.obj;
-            let face = c.face;
-            if (face == -1) {
-                return furniture.defaultFace;
-            }
-            return furniture.getFace(face);
+            return furniture.getFace(c.face);
         })
         .filter(url => url);
     if (imageURLs.length > 0) {
@@ -228,7 +224,7 @@ function btnExitFaceEdit() {
 
 function btnUseDefaultImage() {
     controllerEdit.selector.forEach(c => {
-        if (c.face <= -1) { return; }
+        if (!c.obj.validFaceIndex(c.face)) { return; }
         let f = c.obj;
         f.setFace(c.face, f.defaultFace);
         //dirty: should use delegate here instead
