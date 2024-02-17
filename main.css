@@ -63,6 +63,13 @@ canvas {
     max-width: 175px;
 }
 
+.selectableImage{
+    border: 2px solid black;
+}
+.selectableImage:hover{
+    border: 2px solid white;
+}
+
 .buttonPanel {
     margin-top: 10px;
     margin-bottom: 10px;

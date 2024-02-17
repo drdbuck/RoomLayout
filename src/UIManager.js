@@ -158,31 +158,67 @@ function updateFaceEditPanel(faces) {
     $("spnFaceName").innerHTML = faceText;
 
     //divFaceDrop
-    const lblDropFace = "<label>Drop face image here</label>";
     let usingImage = false;
-    let divhtml = lblDropFace;
-    let imageURLs = _contexts.filter(c => c.face >= -1)//dirty: using stored _contexts
+    let divhtml = "<label>Error: This element couldn't be displayed</label>";
+    let faceContexts = _contexts.filter(c => c.face >= 0 || c.face == FACE_DEFAULT);//dirty: using stored _contexts
+    let imageURLs = faceContexts
         .map(c => {
             let furniture = c.obj;
             return furniture.getFace(c.face);
         })
         .filter(url => url);
+    //Images exist
     if (imageURLs.length > 0) {
         let onlyOne = imageURLs.length == 1;
         let imageURL = (onlyOne) ? imageURLs[0] : imageURLs.reduce(reduceFunc);
+        //The image is the same, or there's only one
         if (imageURL) {
-            const imgFace = "<img src='" + imageURL + "' />";
+            const imgFace = `<img src='${imageURL}' />`;
             divhtml = imgFace;
             usingImage = true;
         }
+        //There's more than one image and they're different
         else {
             const lblInequal = "<label>[Various images]</label>";
             divhtml = lblInequal;
             usingImage = true;
         }
     }
+    //There's no images here yet
     else {
-        divhtml = lblDropFace;
+        //Suggest images you might want
+        let divSuggest = "";
+        let suggest = [];
+        const maxSuggestions = 4;
+        faceContexts.forEach(context => {
+            let f = context.obj;
+            //last image
+            suggest.push(f.lastImage);
+            //image from other side
+            let flipFace = context.face + ((context.face % 2 == 0) ? 1 : -1);
+            let flipURL = f.getFace(flipFace);
+            suggest.push(flipURL);
+            //default face image
+            suggest.push(f.defaultFace);
+        });
+        //make html img elements from suggested
+        let suggestStr = suggest
+            //remove blanks
+            .filter(url => url)
+            //remove duplicates
+            .removeDuplicates()
+            //only get first few suggestions
+            .slice(0, maxSuggestions)
+            //convert to html img element
+            .map(url => `<img src='${url}' class="selectableImage" style='width:50px; height:50px;' />`)
+            //merge into single string
+            .join("");
+        if (suggestStr) {
+            divSuggest = `Existing Images:<br>${suggestStr}`;
+        }
+        //
+        const lblDropFace = "<label>Drop face image here</label>";
+        divhtml = lblDropFace + divSuggest;
         usingImage = false;
     }
     $("divFaceDrop").innerHTML = divhtml;

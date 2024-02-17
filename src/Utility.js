@@ -114,6 +114,19 @@ Array.prototype.remove = function (value) {
 }
 
 /**
+ * Returns a new array with the duplicates removed
+ */
+Array.prototype.removeDuplicates = function () {
+    let arr = [];
+    this.forEach(n => {
+        if (!arr.includes(n)) {
+            arr.push(n);
+        }
+    });
+    return arr;
+}
+
+/**
  * Returns a random number between min and max, inclusive
  * */
 function randomRange(min, max) {

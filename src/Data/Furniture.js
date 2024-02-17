@@ -15,6 +15,9 @@ class Furniture extends Block {
         this.defaultFace = imageURL;
 
         this.onFaceChanged = new Delegate("index", "imageURL");
+
+        //processing variables
+        this.lastImage = undefined;
     }
 
     get faceList() {
@@ -40,6 +43,7 @@ class Furniture extends Block {
         else {
             this._faces[index] = imageURL;
         }
+        this.lastImage = imageURL;
         this.onFaceChanged.run(index, imageURL);
     }
 

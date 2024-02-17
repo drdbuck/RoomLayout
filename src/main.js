@@ -372,7 +372,7 @@ function uploadFace(image) {
         furniture.setFace(index, image.src);
     });
     //
-    controllerImageEdit.updateImage(_contexts[0]);//dirty: using stored _contexts from UIManager
+    controllerImageEdit.updateImage(_contexts.find(c => c.obj.validFaceIndex(c.face)));//dirty: using stored _contexts from UIManager
 };
 
 function updateFace(box, face) {
