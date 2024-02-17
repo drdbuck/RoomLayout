@@ -111,7 +111,7 @@ class Controller {
                 //select
                 let select = this.selectObject(targetBox, this.multiselectButton, targetFace);
                 //
-                if (!onlySelectButton && !uiVars.editFaces) {
+                if (!onlySelectButton) {
                     //select other objects in group
                     house.rooms[0].groups.forEach(g => {
                         if (g.has(select)) {
