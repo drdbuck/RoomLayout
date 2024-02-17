@@ -325,17 +325,21 @@ class Controller {
             }
             //
             const max = context.box.material.length - 1;
-            if (context.face >= min) {
-                context.face += dir;
-                if (context.face > max) {
+            //Cycle from default
+            if (context.face == FACE_DEFAULT) {
+                if (dir > 0) {
                     context.face = min;
                 }
-                if (context.face < min) {
+                else if (dir < 0) {
                     context.face = max;
                 }
             }
-            else if (dir != 0) {
-                context.face = min;
+            //Cycle normally
+            else {
+                context.face += dir;
+                if (!between(context.face, min, max)) {
+                    context.face = FACE_DEFAULT;
+                }
             }
         });
         this.updateFaceSelection();
