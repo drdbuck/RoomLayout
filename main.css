@@ -16,6 +16,7 @@ canvas {
     padding: 3px;
     background-color: black;
     font-size: 14px;
+    width: 230px;
 }
 
 .popupPanel h1 {
@@ -49,9 +50,8 @@ canvas {
 .dropArea {
     border: 2px white solid;
     text-align: center;
-    max-width: 200px;
-    min-width: 200px;
-    width: 200px;
+    width: 95%;
+    margin: 3px;
 }
 
 .dropArea label {
@@ -99,6 +99,10 @@ canvas {
     margin-bottom: 5px;
 }
 
+.arrowButton {
+    width: 50px;
+}
+
 .exitButton {
     color: white;
     position: absolute;
@@ -124,5 +128,5 @@ canvas {
 #spnFaceName {
     display: inline-grid;
     text-align: center;
-    width: 69%;
+    width: 50%;
 }
