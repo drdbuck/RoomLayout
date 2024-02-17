@@ -160,7 +160,7 @@ function updateFaceEditPanel(faces) {
     //divFaceDrop
     let usingImage = false;
     let divhtml = "<label>Error: This element couldn't be displayed</label>";
-    let faceContexts = _contexts.filter(c => c.face >= 0 || c.face == FACE_DEFAULT);//dirty: using stored _contexts
+    let faceContexts = _contexts.filter(c => c.obj.validFaceIndex(c.face));//dirty: using stored _contexts
     let imageURLs = faceContexts
         .map(c => {
             let furniture = c.obj;
@@ -210,7 +210,10 @@ function updateFaceEditPanel(faces) {
             //only get first few suggestions
             .slice(0, maxSuggestions)
             //convert to html img element
-            .map(url => `<img src='${url}' class="selectableImage" style='width:50px; height:50px;' />`)
+            //controllerEdit.selector.forEach(c => c.obj.setFace(c.face, url));
+            .map(url => `<img src='${url}' class="selectableImage" style='width:50px; height:50px;'
+                onclick="btnUseSuggestedImage(this.src);"
+            />`)
             //merge into single string
             .join("");
         if (suggestStr) {
@@ -258,14 +261,26 @@ function btnExitFaceEdit() {
     uiVars.editFaces = false;
 }
 
+function btnUseSuggestedImage(imgURL) {
+    controllerEdit.selector.forEach(c => {
+        if (!c.obj.validFaceIndex(c.face)) { return; }
+        let f = c.obj;
+        f.setFace(c.face, imgURL);
+    });
+    //dirty: should use delegate here instead
+    let c = _contexts.find(c => c.obj.validFaceIndex(c.face));
+    controllerImageEdit.setImage(c.obj.getFace(c.face));//dirty
+}
+
 function btnUseDefaultImage() {
     controllerEdit.selector.forEach(c => {
         if (!c.obj.validFaceIndex(c.face)) { return; }
         let f = c.obj;
         f.setFace(c.face, f.defaultFace);
-        //dirty: should use delegate here instead
-        controllerImageEdit.setImage(f.getFace(c.face));//dirty
     });
+    //dirty: should use delegate here instead
+    let c = _contexts.find(c => c.obj.validFaceIndex(c.face));
+    controllerImageEdit.setImage(c.obj.getFace(c.face));//dirty
 }
 
 function btnFlipX() {
