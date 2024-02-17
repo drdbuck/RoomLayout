@@ -101,6 +101,27 @@ class Controller {
                     //deselect object
                     else {
                         this.selector.deselect(context);
+                        //check if there's no other face selected now
+                        if (uiVars.editFaces) {
+                            if (!this.selector.some(c => c.obj.validFaceIndex(c.face))) {
+                                let stayInFaceEditModeWhenDeselectLastFace = false;//TODO: make this a user setting
+                                //Select other face
+                                if (stayInFaceEditModeWhenDeselectLastFace) {
+                                    let prevFace = context.face;
+                                    let newContext = this.selector.first;
+                                    if (!newContext.obj.validFaceIndex(prevFace)) {
+                                        prevFace = 2;
+                                    }
+                                    newContext.face = prevFace;
+                                    this.updateFaceSelection();
+                                    this.runFaceDelegate();
+                                }
+                                //Exit mode
+                                else {
+                                    uiVars.editFaces = false;
+                                }
+                            }
+                        }
                     }
                 }
                 else if (onlySelectButton) {

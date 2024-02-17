@@ -21,6 +21,14 @@ class Selector {
         return this._selection.length;
     }
 
+    get first() {
+        return this._selection[0];
+    }
+
+    get last() {
+        return this._selection.at(-1);
+    }
+
     /**
      * Returns true if the given item is selected
      * @param {object} item The item to test if it is selected
