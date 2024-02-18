@@ -103,6 +103,15 @@ canvas {
     width: 50px;
 }
 
+.dangerous {
+    color: rgb(255, 190, 190) !important;
+    border-color: rgb(255, 190, 190) !important;
+}
+.dangerous:hover {
+    color: black !important;
+    background-color: rgb(255, 190, 190) !important;
+}
+
 .exitButton {
     color: white;
     position: absolute;
