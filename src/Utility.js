@@ -161,32 +161,6 @@ function randomIndex(array) {
     return index;
 }
 
-/**
- * Returns a copy of the given array without duplicates
- * @param {any[]} array The array to copy and remove duplicates from
- * @param {boolean} ignoreEmpty If set to true, it will skip over empty elements
- */
-function removeDuplicates(array, ignoreEmpty = true) {
-    //copy array
-    array = array.slice();
-    //remove duplicates
-    for (let i = array.length - 1; i >= 0; i--) {
-        //exception: ignore empty
-        if (ignoreEmpty && array[i] == undefined) {
-            continue;
-        }
-        for (let j = 0; j < array.length; j++) {
-            //if its a duplicate of another element,
-            if (array[i] === array[j] && i != j) {
-                //remove it
-                array.splice(i, 1);
-                break;
-            }
-        }
-    }
-    return array;
-}
-
 function createImage(name, url) {
     let image = new Image();
     image.name = name;
