@@ -55,6 +55,34 @@ class Furniture extends Block {
         this.onFaceChanged.run(index, imageURL);
     }
 
+    getFaceDimensions(index) {
+        //dirty: assumes 6-sided shape
+        switch (index) {
+            case FACE_DEFAULT:
+                return _zero;
+            case 0:
+                // "Right";
+                return new Vector2(this.depth, this.height);
+            case 1:
+                // "Left";
+                return new Vector2(this.depth, this.height);
+            case 2:
+                // "Top";
+                return new Vector2(this.width, this.depth);
+            case 3:
+                // "Bottom";
+                return new Vector2(this.width, this.depth);
+            case 4:
+                // "Back";
+                return new Vector2(this.width, this.height);
+            case 5:
+                // "Front";
+                return new Vector2(this.width, this.height);
+            default:
+                console.error("Unknown index:", index);
+        }
+    }
+
     validFaceIndex(index) {
         return index == FACE_DEFAULT || between(index, 0, 6 - 1);//dirty: hardcoding 6-sided shape
     }

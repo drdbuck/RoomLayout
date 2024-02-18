@@ -7,6 +7,10 @@ class ControllerImageEdit {
         this.uiColor = uiColor;
         this.imageEdit = new ImageEdit();
 
+        this.resolution = 100;//TODO: make this a user setting
+        this.defaultTargetDimensions = new Vector2(5, 5);
+        this.targetDimensions = this.defaultTargetDimensions.clone();
+
         this.controlCorner;
 
         this.canvas.onmousedown = this.processMouseDown.bind(this);
@@ -69,10 +73,14 @@ class ControllerImageEdit {
         if (!context) { return; }
         let furniture = context.obj;
         let faceIndex = context.face;
+        if (!furniture.validFaceIndex(faceIndex)) { return; }
             let imageURL = furniture.getFace(faceIndex);
             if (imageURL) {
                 this.setImage(imageURL);
             }
+        this.targetDimensions = furniture.getFaceDimensions(faceIndex);
+        this.targetDimensions.x ||= this.defaultTargetDimensions.x;
+        this.targetDimensions.y ||= this.defaultTargetDimensions.y;
     }
 
     getMouseVector(e) {
@@ -113,7 +121,10 @@ class ControllerImageEdit {
     }
 
     crop() {
-        let imageURL = this.imageEdit.convertToResolution(500, 500);//dirty: hard-coded resolution
+        let imageURL = this.imageEdit.convertToResolution(
+            this.targetDimensions.x * this.resolution,
+            this.targetDimensions.y * this.resolution
+        );
         this.onEditChanged.run(imageURL);
     }
 }

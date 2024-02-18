@@ -49,6 +49,14 @@ class Block {
         this.onSizeChanged.run(this._scale);
     }
 
+    get depth() {
+        return this._scale.z;
+    }
+    set depth(value) {
+        value ||= 0;//NaN prevention
+        this._scale.z = value;
+        this.onSizeChanged.run(this._scale);
+    }
     get length() {
         return this._scale.z;
     }
