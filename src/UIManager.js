@@ -299,18 +299,14 @@ function btnFlip(flipX, flipY) {
     controllerEdit.selector.forEach(c => {
         let f = c.obj;
         let faceIndex = c.face;
-        let imageURL = (faceIndex >= 0) ? f.getFace(faceIndex) : f.defaultFace;
+        if (!f.validFaceIndex(faceIndex)) { return; }
+        let imageURL = f.getFace(faceIndex);
         let img = new Image();
         img.src = imageURL;
         img.onload = () => {
             img = flipImage(img, flipX, flipY);
             let url = img.src;
-            if (faceIndex >= 0) {
                 f.setFace(faceIndex, url);
-            }
-            else {
-                f.defaultFace = url;
-            }
         }
     });
 }
@@ -319,14 +315,8 @@ function cropCanvasChanged(url) {
     controllerEdit.selector.forEach(c => {
         let f = c.obj;
         let faceIndex = c.face;
-        if (faceIndex >= 0) {
+        if (!f.validFaceIndex(faceIndex)) { return; }
             f.setFace(faceIndex, url);
-        }
-        else {
-            f.defaultFace = url;
-        }
-        //dirty? should be in face change delegate call?
-        $("divFaceDrop").innerHTML = "<img src='" + url + "' />";
     });
 }
 
