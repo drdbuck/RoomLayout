@@ -233,6 +233,9 @@ function updateFaceEditPanel(faces) {
     }
     $("divFaceDrop").innerHTML = divhtml;
     //
+    if (usingImage) {
+        controllerImageEdit.updateImage(_contexts.find(c => c.obj.validFaceIndex(c.face)));//dirty: _contexts
+    }
     $("divImageEdit").hidden = !usingImage;
 }
 
@@ -274,9 +277,6 @@ function btnUseSuggestedImage(imgURL) {
         let f = c.obj;
         f.setFace(c.face, imgURL);
     });
-    //dirty: should use delegate here instead
-    let c = _contexts.find(c => c.obj.validFaceIndex(c.face));
-    controllerImageEdit.setImage(c.obj.getFace(c.face));//dirty
 }
 
 function btnUseDefaultImage() {
@@ -285,9 +285,6 @@ function btnUseDefaultImage() {
         let f = c.obj;
         f.setFace(c.face, f.defaultFace);
     });
-    //dirty: should use delegate here instead
-    let c = _contexts.find(c => c.obj.validFaceIndex(c.face));
-    controllerImageEdit.setImage(c.obj.getFace(c.face));//dirty
 }
 
 function btnFlipX() {

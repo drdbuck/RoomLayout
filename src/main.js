@@ -110,7 +110,6 @@ function hookupDelegates() {
     //Controller Edit
     controllerEdit.onFaceSelectionChanged.add(faces => {
         if (uiVars.editFaces) {
-            controllerImageEdit.updateImage(_contexts.find(c => c.obj.validFaceIndex(c.face)));//dirty: using stored _contexts from UIManager
             updateFaceEditPanel(faces);
             uiVars.highlightSelectedFace = true;
         }
@@ -118,7 +117,6 @@ function hookupDelegates() {
     controllerEdit.selector.onSelectionChanged.add(contexts => {
         updateFurnitureEditPanel(contexts);
         if (uiVars.editFaces) {
-            controllerImageEdit.updateImage(contexts.find(c => c.obj.validFaceIndex(c.face)));//dirty: _contexts
             uiVars.highlightSelectedFace = true;
         }
         //Update selected faces
@@ -149,9 +147,6 @@ function hookupDelegates() {
     //UI Vars
     uiVars.onEditFacesChanged.add((editFaces) => {
         uiVars.highlightSelectedFace = editFaces;
-        if (editFaces) {
-            controllerImageEdit.updateImage(_contexts.find(c => c.obj.validFaceIndex(c.face)));//dirty: _contexts
-        }
         //update face edit panel
         updateFaceEditPanel();
     });
@@ -371,8 +366,6 @@ function uploadFace(image) {
         let furniture = context.obj;
         furniture.setFace(index, image.src);
     });
-    //
-    controllerImageEdit.updateImage(_contexts.find(c => c.obj.validFaceIndex(c.face)));//dirty: using stored _contexts from UIManager
 };
 
 function updateFace(box, face) {
@@ -470,4 +463,3 @@ function createColorMaterial(color = 4687027, depth = true) {
         });
     return material;
 }
-
