@@ -176,7 +176,7 @@ function constructFurniture(furniture) {
         let material = createMaterial(url ?? furniture.defaultFace);
         //Set all faces with the default face
         if (index == FACE_DEFAULT) {
-            for (let i = 0; i < boxMaterials.length; i++){
+            for (let i = 0; i < boxMaterials.length; i++) {
                 if (!furniture.getFace(i)) {
                     boxMaterials[i] = material;
                 }
@@ -184,7 +184,7 @@ function constructFurniture(furniture) {
         }
         //Set just the one face that was changed
         else {
-        boxMaterials[index] = material;
+            boxMaterials[index] = material;
         }
     });
 

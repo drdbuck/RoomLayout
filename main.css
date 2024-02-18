@@ -63,12 +63,13 @@ canvas {
     max-width: 175px;
 }
 
-.selectableImage{
+.selectableImage {
     border: 2px solid black;
     width: 75px;
     height: 75px;
 }
-.selectableImage:hover{
+
+.selectableImage:hover {
     border: 2px solid white;
 }
 
@@ -107,6 +108,7 @@ canvas {
     color: rgb(255, 190, 190) !important;
     border-color: rgb(255, 190, 190) !important;
 }
+
 .dangerous:hover {
     color: black !important;
     background-color: rgb(255, 190, 190) !important;

@@ -77,17 +77,17 @@ class ControllerImageEdit {
         let furniture = context.obj;
         let faceIndex = context.face;
         if (!furniture.validFaceIndex(faceIndex)) { return; }
-            let imageURL = furniture.getFace(faceIndex);
-            if (imageURL) {
-                this.setImage(imageURL);
-            }
+        let imageURL = furniture.getFace(faceIndex);
+        if (imageURL) {
+            this.setImage(imageURL);
+        }
         this.targetDimensions = furniture.getFaceDimensions(faceIndex);
         this.targetDimensions.x ||= this.defaultTargetDimensions.x;
         this.targetDimensions.y ||= this.defaultTargetDimensions.y;
     }
 
     //dirty: boomerang'ing
-    boomerangCorners(outBound=true) {
+    boomerangCorners(outBound = true) {
         if (outBound) {
             this.savedCorners = this.imageEdit.cornerList;
         }

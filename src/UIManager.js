@@ -313,7 +313,7 @@ function btnFlip(flipX, flipY) {
             controllerImageEdit.imageEdit.flip(flipX, flipY);//dirty: directly accessing protected member imageEdit
             controllerImageEdit.boomerangCorners();
             let url = img.src;
-                f.setFace(faceIndex, url);
+            f.setFace(faceIndex, url);
         }
     });
 }
@@ -323,7 +323,7 @@ function cropCanvasChanged(url) {
         let f = c.obj;
         let faceIndex = c.face;
         if (!f.validFaceIndex(faceIndex)) { return; }
-            f.setFace(faceIndex, url);
+        f.setFace(faceIndex, url);
     });
 }
 
