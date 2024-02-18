@@ -310,6 +310,8 @@ function btnFlip(flipX, flipY) {
         img.src = imageURL;
         img.onload = () => {
             img = flipImage(img, flipX, flipY);
+            controllerImageEdit.imageEdit.flip(flipX, flipY);//dirty: directly accessing protected member imageEdit
+            controllerImageEdit.boomerangCorners();
             let url = img.src;
                 f.setFace(faceIndex, url);
         }

@@ -25,6 +25,9 @@ class ControllerImageEdit {
             this.imageEdit.setImage(_img);
             this.canvas.width = _img.width;
             this.canvas.height = _img.height;
+            if (this.savedCorners) {
+                this.boomerangCorners(false);
+            }
             this.update();
         }
         if (isString(img)) {
@@ -81,6 +84,17 @@ class ControllerImageEdit {
         this.targetDimensions = furniture.getFaceDimensions(faceIndex);
         this.targetDimensions.x ||= this.defaultTargetDimensions.x;
         this.targetDimensions.y ||= this.defaultTargetDimensions.y;
+    }
+
+    //dirty: boomerang'ing
+    boomerangCorners(outBound=true) {
+        if (outBound) {
+            this.savedCorners = this.imageEdit.cornerList;
+        }
+        else {
+            this.imageEdit.cornerList = this.savedCorners;
+            this.savedCorners = undefined;
+        }
     }
 
     getMouseVector(e) {

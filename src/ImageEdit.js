@@ -10,6 +10,18 @@ class ImageEdit {
         this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
     }
 
+    get cornerList() {
+        return [...this.corners];
+    }
+    set cornerList(corners) {
+        this.corners = corners;
+        //dirty: relies on corner order set in setImage()
+        this.cornerLT = corners[0];
+        this.cornerRT = corners[1];
+        this.cornerRB = corners[2];
+        this.cornerLB = corners[3];
+    }
+
     setImage(img) {
         this.original = img;
         this.imgData = getImageData(this.original);
@@ -97,6 +109,39 @@ class ImageEdit {
         for (let i = 0; i < 4; i++) {
             imgData.data[index + i] = pixel[i];
         }
+    }
+
+
+    flip(flipX, flipY) {
+        const width = this.width;
+        const height = this.height;
+        this.corners.forEach(corner => {
+            if (flipX) {
+                corner.x = width - corner.x;
+            }
+            if (flipY) {
+                corner.y = height - corner.y;
+            }
+        });
+        if (flipX) {
+            let swapT = this.cornerLT;
+            this.cornerLT = this.cornerRT;
+            this.cornerRT = swapT;
+
+            let swapB = this.cornerLB;
+            this.cornerLB = this.cornerRB;
+            this.cornerRB = swapB;
+        }
+        if (flipY) {
+            let swapL = this.cornerLT;
+            this.cornerLT = this.cornerLB;
+            this.cornerLB = swapL;
+
+            let swapR = this.cornerRT;
+            this.cornerRT = this.cornerRB;
+            this.cornerRB = swapR;
+        }
+        this.corners = [this.cornerLT, this.cornerRT, this.cornerRB, this.cornerLB];
     }
 
 }
