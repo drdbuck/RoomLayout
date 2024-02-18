@@ -20,9 +20,13 @@ const updateFunc = (id, func, float = true) => {
 function initUI() {
 
     //individual textbox listeners
-    const onChangeFunc = (id, func, float = true, allowFootNotation = true) =>
-        $(id).onkeyup = (txt) => {
-            const rawvalue = txt.target.value;
+    const onChangeFunc = (id, func, float = true, allowFootNotation = true) => {
+        const txt = $(id);
+        txt.onfocus = () => {
+            txt.select();
+        }
+        txt.onkeyup = () => {
+            const rawvalue = txt.value;
             let value = undefined;
             if (float) {
                 if (allowFootNotation) {
@@ -38,6 +42,7 @@ function initUI() {
                 context => func(context.obj, value)
             );
         };
+    };
     //Name
     onChangeFunc("txtName", (f, v) => f.name = v, false);
     //Size
