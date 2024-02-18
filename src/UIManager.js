@@ -333,6 +333,10 @@ function cropCanvasChanged(url) {
     });
 }
 
+function btnFaceCrop() {
+    controllerImageEdit.crop();
+}
+
 function btnFaceClear() {
     controllerEdit.selector.forEach(c => {
         if (!c.obj.validFaceIndex(c.face)) { return; }

@@ -108,8 +108,12 @@ class ControllerImageEdit {
     }
     processMouseUp(e) {
         this.update();
-        let imageURL = this.imageEdit.convertToResolution(500, 500);
-        this.onEditChanged.run(imageURL);
+        // this.crop();
         this.mouseDown = false;
+    }
+
+    crop() {
+        let imageURL = this.imageEdit.convertToResolution(500, 500);//dirty: hard-coded resolution
+        this.onEditChanged.run(imageURL);
     }
 }
