@@ -173,7 +173,7 @@ function constructFurniture(furniture) {
     furniture.onPositionChanged.add(updatePosition);
     furniture.onAngleChanged.add(updateAngle);
     furniture.onFaceChanged.add((index, url) => {
-        let material = createMaterial(url);
+        let material = createMaterial(url ?? furniture.defaultFace);
         //Set all faces with the default face
         if (index == FACE_DEFAULT) {
             for (let i = 0; i < boxMaterials.length; i++){
