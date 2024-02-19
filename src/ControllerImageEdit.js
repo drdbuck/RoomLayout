@@ -7,6 +7,8 @@ class ControllerImageEdit {
         this.uiColor = uiColor;
         this.imageEdit = new ImageEdit();
 
+        this.canvasFactor = 1;
+
         this.resolution = 100;//TODO: make this a user setting
         this.defaultTargetDimensions = new Vector2(5, 5);
         this.targetDimensions = this.defaultTargetDimensions.clone();
@@ -28,6 +30,7 @@ class ControllerImageEdit {
             if (this.savedCorners) {
                 this.boomerangCorners(false);
             }
+            this.canvasFactor = _img.width / 200;//dirty: hardcoded on-screen width of canvas
             this.update();
         }
         if (isString(img)) {
@@ -46,6 +49,7 @@ class ControllerImageEdit {
         let height = this.canvas.height;
         ctx.strokeStyle = this.uiColor;
         ctx.fillStyle = this.uiColor;
+        ctx.lineWidth = 1 * this.canvasFactor;
         //clear
         ctx.clearRect(0, 0, width, height);
         //image
@@ -61,7 +65,7 @@ class ControllerImageEdit {
         ctx.lineTo(firstCorner.x, firstCorner.y);
         ctx.stroke();
         //Corners
-        let cornerSize = 10;
+        let cornerSize = 5 * this.canvasFactor;
         this.imageEdit.corners.forEach(
             corner => ctx.fillRect(
                 corner.x - cornerSize / 2,
