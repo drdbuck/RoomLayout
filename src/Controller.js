@@ -195,7 +195,6 @@ class Controller {
                 let target = targetHit?.object?.furniture;
                 if (target) {
                     if (this.isSelected(target)) {
-                        if (uiVars.editFaces) {
                             //determine if face is already selected
                             let targetFace = targetHit.face.materialIndex;
                             let context = this.selector.find(c => c.obj == target);
@@ -207,6 +206,7 @@ class Controller {
                                 }
                                 //select target face
                                 context.face = targetFace;
+                            if (uiVars.editFaces) {
                                 this.updateFaceSelection();
                                 this.runFaceDelegate();
                                 //sort selected
