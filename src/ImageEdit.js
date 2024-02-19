@@ -84,11 +84,36 @@ class ImageEdit {
         return dir;
     }
 
+    convertToAspectRatio(width = 1, height = 1) {
+        //find longest edge
+        let longestEdge = 0;
+        let cornerCount = this.corners.length;
+        for (let i = 0; i < cornerCount; i++){
+            let c1 = this.corners[i];
+            let i2 = (i + 1) % cornerCount;
+            let c2 = this.corners[i2];
+            let edge = c1.distanceTo(c2);
+            longestEdge = Math.max(edge, longestEdge);
+        }
+        //calculate resolution
+        let w = width;
+        let h = height;
+        if (width > height) {
+            w = longestEdge;
+            h = w * height / width;
+        }
+        else {
+            h = longestEdge;
+            w = h * width / height;
+        }
+        //convert
+        return this.convertToResolution(w, h);
+    }
 
     convertToResolution(width, height) {
         //defaults
-        width ??= Math.max(Math.abs(this.cornerLT.x - this.cornerRT.x), Math.abs(this.cornerLB.x - this.cornerRB.x));
-        height ??= Math.max(Math.abs(this.cornerLT.y - this.cornerLB.y), Math.abs(this.cornerRT.y - this.cornerRB.y));
+        width ??= Math.max(this.cornerLT.distanceTo(this.cornerRT), this.cornerLB.distanceTo(cornerRB));
+        height ??= Math.max(this.cornerLT.distanceTo(this.cornerLB), this.cornerRT.distanceTo(this.cornerRB));
         //
         const canvas = this.canvas;
         const ctx = this.ctx;

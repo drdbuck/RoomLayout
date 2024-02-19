@@ -9,7 +9,6 @@ class ControllerImageEdit {
 
         this.canvasFactor = 1;
 
-        this.resolution = 100;//TODO: make this a user setting
         this.defaultTargetDimensions = new Vector2(5, 5);
         this.targetDimensions = this.defaultTargetDimensions.clone();
 
@@ -139,9 +138,9 @@ class ControllerImageEdit {
     }
 
     crop() {
-        let imageURL = this.imageEdit.convertToResolution(
-            // this.targetDimensions.x * this.resolution,
-            // this.targetDimensions.y * this.resolution
+        let imageURL = this.imageEdit.convertToAspectRatio(
+            this.targetDimensions.x,
+            this.targetDimensions.y
         );
         this.onEditChanged.run(imageURL);
     }
