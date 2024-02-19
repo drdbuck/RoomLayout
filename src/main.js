@@ -490,7 +490,9 @@ function duplicateFurniture() {
         //Select new furniture
         controllerEdit.selectObject(newbox, true);
         //make it easier to find the new duplicate in the scene
-        newF.altitude += 1;
+        let offset = new Vector3(0.5, 0, 0.5);
+        offset.add(newF.position);
+        newF.position = offset;
     });
     //
     groups.filter(g => g).forEach(g => room.group(g));
