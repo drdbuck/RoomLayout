@@ -86,6 +86,10 @@ class ImageEdit {
 
 
     convertToResolution(width, height) {
+        //defaults
+        width ??= Math.max(Math.abs(this.cornerLT.x - this.cornerRT.x), Math.abs(this.cornerLB.x - this.cornerRB.x));
+        height ??= Math.max(Math.abs(this.cornerLT.y - this.cornerLB.y), Math.abs(this.cornerRT.y - this.cornerRB.y));
+        //
         const canvas = this.canvas;
         const ctx = this.ctx;
         canvas.width = width;

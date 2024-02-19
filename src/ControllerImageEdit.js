@@ -136,8 +136,8 @@ class ControllerImageEdit {
 
     crop() {
         let imageURL = this.imageEdit.convertToResolution(
-            this.targetDimensions.x * this.resolution,
-            this.targetDimensions.y * this.resolution
+            // this.targetDimensions.x * this.resolution,
+            // this.targetDimensions.y * this.resolution
         );
         this.onEditChanged.run(imageURL);
     }
