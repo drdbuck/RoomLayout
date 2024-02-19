@@ -469,13 +469,21 @@ function duplicateFurniture() {
     const stringify = getDataStringify();
     let selection = controllerEdit.selector.selection;
     controllerEdit.selector.clear();
+    let room = house.rooms[0];//dirty: hardcoded which room to add to
+    let groups = [];
+    //
     selection.forEach(c => {
         let f = c.obj;
         let newF = JSON.parse(JSON.stringify(f, stringify));
         inflateFurniture(newF);
         //Data
-        let room = house.rooms[0];//dirty: hardcoded which room to add to
         room.addFurniture(newF);
+        //Groups
+        let groupIndex = room.groups.indexOf(room.groups.find(g => g.has(f)));
+        if (groupIndex >= 0) {
+            groups[groupIndex] ??= [];
+            groups[groupIndex].push(newF);
+        }
         //Scene
         let newbox = constructFurniture(newF);
         player.scene.add(newbox);
@@ -484,4 +492,6 @@ function duplicateFurniture() {
         //make it easier to find the new duplicate in the scene
         newF.altitude += 1;
     });
+    //
+    groups.filter(g => g).forEach(g => room.group(g));
 }
