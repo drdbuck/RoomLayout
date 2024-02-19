@@ -21,7 +21,7 @@ class Furniture extends Block {
     }
 
     get faceList() {
-        return this._faces;
+        return [...this._faces];
     }
 
     getFace(index) {

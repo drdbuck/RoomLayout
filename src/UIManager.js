@@ -213,6 +213,11 @@ function updateFaceEditPanel(faces) {
             let f = context.obj;
             suggest.push(f.defaultFace);
         });
+        //images from other sides
+        _contexts.forEach(context => {//dirty: using _contexts
+            let f = context.obj;
+            f.faceList.forEach(face => suggest.push(face));
+        });
         //make html img elements from suggested
         let suggestStr = suggest
             //remove blanks
@@ -220,7 +225,7 @@ function updateFaceEditPanel(faces) {
             //remove duplicates
             .removeDuplicates()
             //only get first few suggestions
-            .slice(0, maxSuggestions)
+            // .slice(0, maxSuggestions)
             //convert to html img element
             //controllerEdit.selector.forEach(c => c.obj.setFace(c.face, url));
             .map(url => `<img src='${url}' class="selectableImage"
