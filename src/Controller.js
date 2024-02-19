@@ -195,17 +195,17 @@ class Controller {
                 let target = targetHit?.object?.furniture;
                 if (target) {
                     if (this.isSelected(target)) {
-                            //determine if face is already selected
-                            let targetFace = targetHit.face.materialIndex;
-                            let context = this.selector.find(c => c.obj == target);
-                            let alreadySelected = context.face == targetFace;
-                            if (!alreadySelected) {
-                                //deselect other faces
-                                if (!this.multiselectButton) {
-                                    this.selector.forEach(c => c.face = -2);
-                                }
-                                //select target face
-                                context.face = targetFace;
+                        //determine if face is already selected
+                        let targetFace = targetHit.face.materialIndex;
+                        let context = this.selector.find(c => c.obj == target);
+                        let alreadySelected = context.face == targetFace;
+                        if (!alreadySelected) {
+                            //deselect other faces
+                            if (!this.multiselectButton) {
+                                this.selector.forEach(c => c.face = -2);
+                            }
+                            //select target face
+                            context.face = targetFace;
                             if (uiVars.editFaces) {
                                 this.updateFaceSelection();
                                 this.runFaceDelegate();
