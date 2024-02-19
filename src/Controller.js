@@ -31,6 +31,16 @@ class Controller {
     }
 
     processInput(state, event) {
+        if (event.ctrlKey) {
+            switch (event.keyCode) {
+                //D key
+                case 68:
+                    duplicateFurniture();
+                    event.preventDefault();
+                    break;
+            }
+            return;
+        }
         let moveCamera = false;
         switch (event.keyCode) {
             case 87://W key

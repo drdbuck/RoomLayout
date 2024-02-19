@@ -20,6 +20,7 @@ class Room extends Block {
     addFurniture(furniture) {
         if (!this.furnitures.includes(furniture)) {
             this.furnitures.push(furniture);
+            furniture.room = this;
             this.onFurnitureAdded.run(furniture);
             this.onFurnituresChanged.run([...this.furnitures]);
         }

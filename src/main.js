@@ -178,7 +178,8 @@ function hookupDelegates() {
     //Upload new furniture
     flm.onFurnitureUploaded.add((furniture) => {
         //Data
-        let room = house.rooms[0];
+        inflateFurniture(furniture);
+        let room = house.rooms[0];//dirty: hardcoded which room to add to
         room.addFurniture(furniture);
         //Scene
         let newbox = constructFurniture(furniture);
@@ -299,7 +300,6 @@ function registerKeyBindings(edit = inEditMode, play = !inEditMode) {
                 }
                 e.preventDefault();
                 break;
-
         }
     });
     input.mouse.down.add((s, e) => {
@@ -462,4 +462,26 @@ function createColorMaterial(color = 4687027, depth = true) {
             side: DoubleSide,
         });
     return material;
+}
+
+
+function duplicateFurniture() {
+    const stringify = getDataStringify();
+    let selection = controllerEdit.selector.selection;
+    controllerEdit.selector.clear();
+    selection.forEach(c => {
+        let f = c.obj;
+        let newF = JSON.parse(JSON.stringify(f, stringify));
+        inflateFurniture(newF);
+        //Data
+        let room = house.rooms[0];//dirty: hardcoded which room to add to
+        room.addFurniture(newF);
+        //Scene
+        let newbox = constructFurniture(newF);
+        player.scene.add(newbox);
+        //Select new furniture
+        controllerEdit.selectObject(newbox, true);
+        //make it easier to find the new duplicate in the scene
+        newF.altitude += 1;
+    });
 }
