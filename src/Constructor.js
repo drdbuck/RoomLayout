@@ -37,10 +37,15 @@ function constructRoom(room, scene) {
         scene.add(wall);
     }
     //furniture
-    for (let furniture of room.furnitures) {
+    const _furnitureFunc = (furniture) => {
         let box = constructFurniture(furniture);
         scene.add(box);
-    }
+    };
+    const furnitureFunc = (furniture) => {
+            _furnitureFunc(furniture);
+    };
+    room.furnitures.forEach(furnitureFunc);
+    room.onFurnitureAdded.add(furnitureFunc);
 }
 
 function createFloor(width = 11, length = 12, showTriangles = false) {

@@ -168,9 +168,6 @@ function hookupDelegates() {
         furniture.name = image.name;
         let room = house.rooms[0];
         room.addFurniture(furniture);
-        //Scene
-        let newbox = constructFurniture(furniture);
-        player.scene.add(newbox);
         //Select new furniture
         controllerEdit.selectObject(newbox, false, FACE_DEFAULT);
     });
@@ -181,9 +178,6 @@ function hookupDelegates() {
         inflateFurniture(furniture);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
         room.addFurniture(furniture);
-        //Scene
-        let newbox = constructFurniture(furniture);
-        player.scene.add(newbox);
         //Select new furniture
         controllerEdit.selectObject(newbox, false);
     });
@@ -484,9 +478,6 @@ function duplicateFurniture() {
             groups[groupIndex] ??= [];
             groups[groupIndex].push(newF);
         }
-        //Scene
-        let newbox = constructFurniture(newF);
-        player.scene.add(newbox);
         //Select new furniture
         controllerEdit.selectObject(newbox, true);
         //make it easier to find the new duplicate in the scene
