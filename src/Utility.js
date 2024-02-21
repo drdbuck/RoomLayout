@@ -61,6 +61,15 @@ function toRadians(angle) {
     return angle * (Math.PI / 180);
 }
 
+function loopAngle(angle) {
+    return (angle + 360 * Math.ceil(Math.abs(angle / 360))) % 360;
+}
+
+function loop(n, min, max) {
+    const diff = max - min;
+    return (n + diff * Math.ceil(Math.abs(n / diff))) % diff + min;
+}
+
 function getDisplayDate(date) {
     date ??= new Date();
     // MM/DD HH:MM
