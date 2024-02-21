@@ -38,8 +38,8 @@ class Room extends Block {
         //early exit: not enough furniture to make a group
         if (!(furnitures.length >= 2)) { return; }
         //
-        let group = new KitBash();
-        furnitures.forEach(f => group.add(f));
+        let group = new KitBash(furnitures);
+        this.addFurniture(group);
     }
 
     prepareForSave() {

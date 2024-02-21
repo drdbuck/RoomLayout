@@ -4,9 +4,14 @@ const stringifyKitBash = [
     "_items",
 ];
 
-class KitBash extends Block{
+class KitBash extends Block {
     constructor(items = []) {
-        this._items = [...items];
+        super();
+
+        this.isKitBash = true;
+
+        this._items = [];
+        items.filter(i => i).forEach(item => this.add(item));
     }
 
     get items() {
@@ -16,12 +21,17 @@ class KitBash extends Block{
     add(item) {
         if (!this._items.includes(item)) {
             this._items.push(item);
+            //remove from other group if necessary
+            item.group?.remove(item);
+            //
+            this.onItemAdded.run(item);
         }
     }
 
     remove(item) {
         if (this._items.includes(item)) {
             this._items.remove(item);
+            this.onItemRemoved.run(item);
         }
     }
 
@@ -35,7 +45,7 @@ function inflateKitBash(kitbash) {
     let inflated = inflateObject(
         kitbash,
         KitBash.prototype,
-        []
+        ["onItemAdded", "onItemRemoved"]
     );
     if (!inflated) { return; }
 

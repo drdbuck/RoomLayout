@@ -265,12 +265,10 @@ function btnFurnitureExport() {
 function btnGroup() {
     let room = house.rooms[0];
     //remove from existing
-    controllerEdit.selector.forEach(c => {
-        let f = c.obj;
-        room.groups.forEach(g => g.remove(f));
-    });
+    let furnitures = controllerEdit.selector.map(c => c.furniture);
+    furnitures.forEach(f => f.group.remove(f));
     //add to new
-    room.group(controllerEdit.selector.map(c => c.obj));
+    room.group(furnitures);
 }
 
 function btnFaceEdit() {
