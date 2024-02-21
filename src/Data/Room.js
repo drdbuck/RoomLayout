@@ -13,12 +13,19 @@ class Room extends Block {
         this.onFurnitureAdded = new Delegate("furniture");
         this.onFurnitureRemoved = new Delegate("furniture");
         this.onFurnituresChanged = new Delegate("furnitures");
+
+        this.bind_groupItemAdded = this._groupItemAdded.bind(this);
+        this.bind_groupItemRemoved = this._groupItemRemoved.bind(this);
     }
 
     addFurniture(furniture) {
         if (!this.furnitures.includes(furniture)) {
             this.furnitures.push(furniture);
             furniture.room = this;
+            if (furniture.isKitBash) {
+                furniture.onItemAdded.add(this.bind_groupItemAdded);
+                furniture.onItemRemoved.add(this.bind_groupItemRemoved);
+            }
             this.onFurnitureAdded.run(furniture);
             this.onFurnituresChanged.run([...this.furnitures]);
         }
@@ -28,6 +35,10 @@ class Room extends Block {
     removeFurniture(furniture) {
         let removed = this.furnitures.remove(furniture);
         if (removed) {
+            if (furniture.isKitBash) {
+                furniture.onItemAdded.remove(this.bind_groupItemAdded);
+                furniture.onItemRemoved.remove(this.bind_groupItemRemoved);
+            }
             //delegates
             this.onFurnitureRemoved.run(furniture);
             this.onFurnituresChanged.run([...this.furnitures]);
@@ -40,6 +51,21 @@ class Room extends Block {
         //
         let group = new KitBash(furnitures);
         this.addFurniture(group);
+    }
+
+    _groupItemAdded(item) {
+        if (this.furnitures.includes(item)) {
+            this.furnitures.remove(item);
+            //don't call delegates here
+            //bc the item is still in the room, just organized differently
+        }
+    }
+    _groupItemRemoved(item) {
+        if (!this.furnitures.includes(item)) {
+            this.furnitures.push(item);
+            //don't call delegates here
+            //bc the item is still in the room, just organized differently
+        }
     }
 
     prepareForSave() {
