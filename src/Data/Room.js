@@ -139,7 +139,7 @@ function backwardsCompatifyRoom(room) {
         //Add each group
         for (let group of room.groups) {
             group._items = group.indexs.map(itemFunc);
-            furnitures.push(group);
+            room.furnitures.push(group);
         }
         //Remove each identified furniture from the furnitures list
         let indexList = room.groups
@@ -147,7 +147,7 @@ function backwardsCompatifyRoom(room) {
             .flat()
             .removeDuplicates()
             .sort();
-        this.furnitures = this.furnitures
+        room.furnitures = room.furnitures
             .filter((f, i) => !indexList.includes(i));
         //Remove groups variable
         room.groups = undefined;
