@@ -21,7 +21,6 @@ class Controller {
         this.raycaster.layers.set(objectMask);
 
         this.selector = new Selector();
-        this.selector.onSelectionChanged.add(this.updateCollectiveCenter.bind(this));
 
         this.onFaceSelectionChanged = new Delegate("faces");
     }
@@ -235,15 +234,6 @@ class Controller {
             this.selector.forEach(c => {
                 //Rotate object
                 this.setFurnitureAngle(c.obj, c.obj.angle + zoomDelta);
-                //Move around collective center
-                if (onlyOne) { return; }
-                let f = c.obj;
-                let offset = f.position.clone();
-                offset.sub(c.collectiveCenter);
-                let radians = toRadians(zoomDelta);
-                offset.applyAxisAngle(_up, radians);
-                offset.add(c.collectiveCenter);
-                f.position = offset;
             });
         }
         //Altitude
