@@ -283,6 +283,8 @@ function inflateKitBash(kitbash) {
         item.room = kitbash.room;
         item.group = kitbash;
         inflateFurniture(item);
+        //register delegate
+        item.onFaceChanged.add(kitbash.onFaceChanged.run);
     }
 
 }
