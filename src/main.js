@@ -191,6 +191,10 @@ function getBox(furniture) {
     return player.scene.children.find(box => box.furniture == furniture);
 }
 
+function getBoxes(furnitures) {
+    return player.scene.children.filter(box => furnitures.includes(box.furniture));
+}
+
 function inflateData(data) {
     switch (true) {
         //House

@@ -267,9 +267,7 @@ class Controller {
             selectContext.obj = group;
             selectContext.kitbash = group;
             select = group;
-            let items = group.items;
-            selectContext.boxes = player.scene.children
-                .filter(c => items.includes(c.furniture));
+            selectContext.boxes = getBoxes(group.items);
         }
         selectContext.face = face;
         //select the context
