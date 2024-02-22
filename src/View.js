@@ -1,6 +1,6 @@
 "use strict";
 
-class View{
+class View {
     constructor(position, quaternion) {
         this._position = position;
         this._quaternion = quaternion;

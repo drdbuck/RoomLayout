@@ -88,7 +88,7 @@ class ImageEdit {
         //find longest edge
         let longestEdge = 0;
         let cornerCount = this.corners.length;
-        for (let i = 0; i < cornerCount; i++){
+        for (let i = 0; i < cornerCount; i++) {
             let c1 = this.corners[i];
             let i2 = (i + 1) % cornerCount;
             let c2 = this.corners[i2];

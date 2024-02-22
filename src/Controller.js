@@ -204,7 +204,7 @@ class Controller {
                         if (alreadySelected) {
                             //do nothing
                         }
-                        else{
+                        else {
                             //deselect all other faces
                             if (!this.multiselectButton) {
                                 this.selector.forEach(c => c.face = -2);
@@ -288,16 +288,16 @@ class Controller {
             selectContext.box = getBox(items[0]);
             selectContext.boxes = getBoxes(items);
         }
-        else{
+        else {
             selectContext.furniture = obj;
             let box = getBox(obj);
             selectContext.box = box;
             let group = obj.group;
-        if (group && selectGroups) {
-            selectContext.obj = group;
-            selectContext.kitbash = group;
-            selectContext.boxes = getBoxes(group.items);
-        }
+            if (group && selectGroups) {
+                selectContext.obj = group;
+                selectContext.kitbash = group;
+                selectContext.boxes = getBoxes(group.items);
+            }
             else {
                 selectContext.boxes = [box];
             }
