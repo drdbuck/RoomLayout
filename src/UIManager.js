@@ -266,7 +266,7 @@ function btnGroup() {
     let room = house.rooms[0];
     //remove from existing
     let furnitures = controllerEdit.selector.map(c => c.furniture);
-    furnitures.forEach(f => f.group.remove(f));
+    furnitures.forEach(f => f.group?.remove(f));
     //add to new
     room.group(furnitures);
 }

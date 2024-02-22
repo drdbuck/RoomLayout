@@ -10,6 +10,12 @@ class KitBash extends Block {
 
         this.isKitBash = true;
 
+        //Delegates
+        this.onItemAdded = new Delegate("item");
+        this.onItemRemoved = new Delegate("item");
+        this.onFaceChanged = new Delegate("index", "imageURL");
+
+        //Add items
         this._items = [];
         items.filter(i => i).forEach(item => this.add(item));
 
@@ -32,10 +38,6 @@ class KitBash extends Block {
         let maxHalfWidth = this._items.max(f => pos.distanceTo(f.position) + (f.width / 2));
         let maxHalfDepth = this._items.max(f => pos.distanceTo(f.position) + (f.depth / 2));
 
-        //Delegates
-        this.onItemAdded = new Delegate("item");
-        this.onItemRemoved = new Delegate("item");
-        this.onFaceChanged = new Delegate("index", "imageURL");
     }
 
     get items() {
@@ -48,13 +50,12 @@ class KitBash extends Block {
         //early exit: item is kitbash
         if (item.isKitBash) { return; }
         //
-        //tell item its in a new group now
-        item.group = this;
-        //
         if (!this._items.includes(item)) {
             this._items.push(item);
             //remove from other group if necessary
             item.group?.remove(item);
+            //tell item its in a new group now
+            item.group = this;
             //register delegate
             item.onFaceChanged.add(this.onFaceChanged.run);
             //
