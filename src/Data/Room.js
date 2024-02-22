@@ -133,7 +133,7 @@ function inflateRoom(room) {
 function backwardsCompatifyRoom(room) {
     //Change: add groups
     // room.groups ??= [];
-    //Change: remove groups
+    //Change: remove groups (kitbash refactor 1)
     if (room.groups) {
         let itemFunc = index => room.furnitures[index];
         //Add each group
