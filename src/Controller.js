@@ -108,7 +108,7 @@ class Controller {
                     }
                     //deselect object
                     else {
-                        this.selector.deselect(context);
+                        this.deselectObject(target, !onlySelectButton);
                         //check if there's no other face selected now
                         if (uiVars.editFaces) {
                             if (!this.selector.some(c => c.furniture.validFaceIndex(c.face))) {
@@ -300,6 +300,40 @@ class Controller {
             face: face,
             offset: _zero.clone(),
         };
+    }
+
+    deselectObject(obj, deselectGroups = true) {
+        //early exit: no obj
+        if (!obj) {
+            console.error("can't deselect obj", obj);
+            return undefined;
+        }
+        //warning
+        if (obj.isKitBash && !deselectGroups) {
+            console.warn("obj is a KitBash, deselectGroups will be ignored", obj, deselectGroups);
+        }
+        //get select context
+        let context = this.getSelectContext(obj);
+        //Deselect
+        this.selector.deselect(context);
+        //Groups
+        if (!obj.isKitBash && context.kitbash && !deselectGroups) {
+            //select each piece individually,
+            //except for the clicked on object
+            context.kitbash.items.forEach(item => {
+                //don't select clicked on object
+                if (item == obj) { return; }
+                //select other kitbash pieces individually
+                this.selectObject(
+                    item,
+                    true,
+                    (item == context.furniture) ? context.face : undefined,
+                    false
+                );
+            })
+        }
+        //return the deselected context
+        return context;
     }
 
     updateCollectiveCenter() {
