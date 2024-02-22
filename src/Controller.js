@@ -68,9 +68,8 @@ class Controller {
                 delList.forEach(c => {
                     let f = c.obj;
                     f.room.removeFurniture(f);
-                    let box = c.box;
-                    box.parent.remove(box);
-                })
+                    c.boxes.forEach(box => box.parent.remove(box));
+                });
                 break;
             default: break;
         }
@@ -100,7 +99,7 @@ class Controller {
             let targetFace = targetHit.face.materialIndex;
             if (this.isSelected(target)) {
                 if (this.multiselectButton) {
-                    let context = this.selector.find(c => c.obj === target);
+                    let context = this.selector.find(c => c.obj === target);//acct for kitbash
                     //select face
                     if (uiVars.editFaces && context.face != targetFace) {
                         context.face = targetFace;
@@ -311,7 +310,7 @@ class Controller {
     }
 
     isSelected(obj) {
-        return this.selector.some(c => c.obj === obj);
+        return this.selector.some(c => c.obj === obj) ||;
     }
 
     calculateSelectedOffsets() {
