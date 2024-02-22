@@ -1,12 +1,13 @@
 "use strict";
 
 const stringifyKitBash = [
-    "_items",
+    "indexs",
 ];
 
-class KitBash extends Block{
-    constructor(items = []) {
-        this._items = [...items];
+class KitBash {
+    constructor() {
+        this._items = [];
+        this.indexs = [];
     }
 
     get items() {
@@ -29,6 +30,14 @@ class KitBash extends Block{
         return this._items.includes(item);
     }
 
+    prepareForSave(indexFunc) {
+        this.indexs = this._items.map(indexFunc);
+    }
+
+    constructAfterLoad(itemFunc) {
+        this._items = this.indexs.map(itemFunc);
+    }
+
 }
 
 function inflateKitBash(kitbash) {
@@ -38,22 +47,4 @@ function inflateKitBash(kitbash) {
         []
     );
     if (!inflated) { return; }
-
-    inflateBlock(kitbash);
-
-    backwardsCompatifyKitBash(kitbash);
-
-    for (let item of kitbash._items) {
-        item.room = kitbash.room;
-        item.group = kitbash;
-        inflateFurniture(item);
-    }
-
-}
-
-function backwardsCompatifyKitBash(kitbash) {
-    //Refactor 1: list -> selectable object
-    if (kitbash.indexs) {
-        kitbash._items = kitbash.indexs.map(kitbash.itemFunc);
-    }
 }
