@@ -83,7 +83,7 @@ class KitBash extends Block {
 
     //Position
     get position() {
-        let pos = new Vector2();
+        let pos = new Vector3();
         let sumX = this._items.sum(f => f.position.x);
         pos.x = sumX / this._items.length;
         let sumZ = this._items.sum(f => f.position.z);
@@ -105,6 +105,21 @@ class KitBash extends Block {
         });
         //delegate
         super.position = value;
+    }
+
+    get altitude() {
+        return this._items.min(f => f.altitude)
+    }
+    set altitude(value) {
+        const prev = this.altitude;
+        const offset = value - prev;
+        this._items.forEach(item => {
+            let newPos = item.position.clone();
+            newPos.y += offset;
+            item.position = newPos;
+        });
+        //delegate
+        super.altitude = value;
     }
 
     //Rotation
@@ -135,7 +150,7 @@ class KitBash extends Block {
         let width = this.width;
         let depth = this.depth;
         let height = this.height;
-        return new Vector2(width, height, depth);
+        return new Vector3(width, height, depth);
     }
     set scale(value) {
         this.width = value.x;
@@ -174,6 +189,7 @@ class KitBash extends Block {
     set depth(value) {
         const prev = this.depth;
         let factor = value / prev;
+        const center = this.position;
         this._items.forEach(item => {
             //adjust dimensions
             item.depth *= factor;
@@ -195,6 +211,7 @@ class KitBash extends Block {
     set length(value) {
         const prev = this.length;
         let factor = value / prev;
+        const center = this.position;
         this._items.forEach(item => {
             //adjust dimensions
             item.length *= factor;
@@ -216,6 +233,7 @@ class KitBash extends Block {
     set height(value) {
         const prev = this.height;
         let factor = value / prev;
+        const center = this.position;
         this._items.forEach(item => {
             //adjust dimensions
             item.height *= factor;
