@@ -1,7 +1,7 @@
 "use strict";
 
 const stringifyKitBash = [
-    "_items",
+    "indexs",
 ];
 
 class KitBash extends Block {

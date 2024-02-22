@@ -143,12 +143,14 @@ class Controller {
                 let select = this.selectObject(targetBox, this.multiselectButton, targetFace);
                 //
                 if (select.isKitBash && !onlySelectButton) {
-                    select.boxes ??= [];
                     //select other objects in group
                     select.items.forEach(i => {
-                                let box = player.scene.children.find(box => box.furniture == i);
-                                select.boxes.push(box);
-                            });
+                        //dont double select
+                        if (i == select) { return; }
+                        //
+                        let box = getBox(i);
+                        this.selectObject(box, true, -2);
+                    });
                 }
             }
             //sort selected
