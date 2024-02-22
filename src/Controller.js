@@ -310,7 +310,9 @@ class Controller {
     }
 
     isSelected(obj) {
-        return this.selector.some(c => c.obj === obj) ||;
+        return this.selector.some(c => c.obj === obj)
+            || this.selector.some(c => c.furniture == obj)
+            || this.selector.some(c => c.obj.has?.(obj));
     }
 
     calculateSelectedOffsets() {
