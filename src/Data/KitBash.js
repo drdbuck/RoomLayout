@@ -35,6 +35,7 @@ class KitBash extends Block {
         //Delegates
         this.onItemAdded = new Delegate("item");
         this.onItemRemoved = new Delegate("item");
+        this.onFaceChanged = new Delegate("index", "imageURL");
     }
 
     get items() {
@@ -54,6 +55,8 @@ class KitBash extends Block {
             this._items.push(item);
             //remove from other group if necessary
             item.group?.remove(item);
+            //register delegate
+            item.onFaceChanged.add(this.onFaceChanged.run);
             //
             this.onItemAdded.run(item);
         }
@@ -65,6 +68,9 @@ class KitBash extends Block {
         }
         if (this._items.includes(item)) {
             this._items.remove(item);
+            //unregister delegate
+            item.onFaceChanged.remove(this.onFaceChanged.run);
+            //
             this.onItemRemoved.run(item);
         }
     }
@@ -222,6 +228,41 @@ class KitBash extends Block {
         super.height = value;
     }
 
+
+    get faceList() {
+        return this._items.map(i => i.faceList).flat();
+    }
+
+    getFace(index) {
+        //dirty: using only first item
+        return this._items[0].getFace(index);
+
+        // if (index == FACE_DEFAULT) {
+        //     return this.defaultFace;
+        // }
+        // return this._faces[index];
+    }
+    setFace(index, imageURL) {
+        //error checking
+        if (index < 0 && index != FACE_DEFAULT) {
+            console.error("Invalid index!", index);
+            return;
+        }
+        //
+
+        //dirty: using only first item
+        return this._items[0].setFace(index, imageURL);
+    }
+
+    getFaceDimensions(index) {
+        //dirty: using only first item instead of selected one
+        return this._items[0].getFaceDimensions(index);
+    }
+    validFaceIndex(index) {
+        //dirty: using only first item instead of selected one
+        return this._items[0].validFaceIndex(index);
+    }
+
 }
 
 function inflateKitBash(kitbash) {
@@ -231,7 +272,7 @@ function inflateKitBash(kitbash) {
     let inflated = inflateObject(
         kitbash,
         KitBash.prototype,
-        ["onItemAdded", "onItemRemoved"]
+        ["onItemAdded", "onItemRemoved", "onFaceChanged"]
     );
     if (!inflated) { return; }
 
