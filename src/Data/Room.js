@@ -98,6 +98,14 @@ function inflateRoom(room) {
     if (!inflated) { return; }
     inflateBlock(room);
 
+    //KitBash delegates
+    room.bind_groupItemAdded = room._groupItemAdded.bind(room);
+    room.bind_groupItemRemoved = room._groupItemRemoved.bind(room);
+
+    //Backwards Compatify
+    backwardsCompatifyRoom(room);
+
+    //Furniture
     for (let furniture of room.furnitures) {
         //Both
         furniture.room = room;
@@ -109,14 +117,14 @@ function inflateRoom(room) {
             }
             //inflate
             inflateKitBash(furniture);
+            furniture.onItemAdded.add(room.bind_groupItemAdded);
+            furniture.onItemRemoved.add(room.bind_groupItemRemoved);
         }
         //Furniture
         else {
             inflateFurniture(furniture);
         }
     }
-
-    backwardsCompatifyRoom(room);
 
 }
 
@@ -125,9 +133,21 @@ function backwardsCompatifyRoom(room) {
     // room.groups ??= [];
     //Change: remove groups
     if (room.groups) {
+        let itemFunc = index => room.furnitures[index];
+        //Add each group
         for (let group of room.groups) {
-            group.itemFunc = index => room.furnitures[index]
-            inflateKitBash(group);
+            group._items = group.indexs.map(itemFunc);
+            furnitures.push(group);
         }
+        //Remove each identified furniture from the furnitures list
+        let indexList = room.groups
+            .map(g => g.indexs)
+            .flat()
+            .removeDuplicates()
+            .sort();
+        this.furnitures = this.furnitures
+            .filter((f, i) => !indexList.includes(i));
+        //Remove groups variable
+        room.groups = undefined;
     }
 }

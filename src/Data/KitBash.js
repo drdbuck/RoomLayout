@@ -279,19 +279,10 @@ function inflateKitBash(kitbash) {
 
     inflateBlock(kitbash);
 
-    backwardsCompatifyKitBash(kitbash);
-
     for (let item of kitbash._items) {
         item.room = kitbash.room;
         item.group = kitbash;
         inflateFurniture(item);
     }
 
-}
-
-function backwardsCompatifyKitBash(kitbash) {
-    //Refactor 1: list -> selectable object
-    if (kitbash.indexs) {
-        kitbash._items = kitbash.indexs.map(kitbash.itemFunc);
-    }
 }
