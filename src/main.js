@@ -365,7 +365,7 @@ function uploadFace(image) {
     controllerEdit.selector.forEach(context => {
         let index = context.face;
         if (index == -2) { return; }
-        let furniture = context.obj;
+        let furniture = context.furniture;
         furniture.setFace(index, image.src);
     });
 };

@@ -112,13 +112,13 @@ class Controller {
                         this.selector.deselect(context);
                         //check if there's no other face selected now
                         if (uiVars.editFaces) {
-                            if (!this.selector.some(c => c.obj.validFaceIndex(c.face))) {
+                            if (!this.selector.some(c => c.furniture.validFaceIndex(c.face))) {
                                 let stayInFaceEditModeWhenDeselectLastFace = false;//TODO: make this a user setting
                                 //Select other face
                                 if (stayInFaceEditModeWhenDeselectLastFace) {
                                     let prevFace = context.face;
                                     let newContext = this.selector.first;
-                                    if (!newContext.obj.validFaceIndex(prevFace)) {
+                                    if (!newContext.furniture.validFaceIndex(prevFace)) {
                                         prevFace = 2;
                                     }
                                     newContext.face = prevFace;
@@ -194,7 +194,7 @@ class Controller {
                     if (this.isSelected(target)) {
                         //determine if face is already selected
                         let targetFace = targetHit.face.materialIndex;
-                        let context = this.selector.find(c => c.obj == target);
+                        let context = this.selector.find(c => c.furniture == target);
                         let alreadySelected = context.face == targetFace;
                         if (!alreadySelected) {
                             //deselect other faces
@@ -350,7 +350,7 @@ class Controller {
                 return;
             }
             //early exit: no face selected on this object
-            if (!context.obj.validFaceIndex(context.face)) {
+            if (!context.furniture.validFaceIndex(context.face)) {
                 return;
             }
             //

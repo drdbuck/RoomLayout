@@ -230,39 +230,6 @@ class KitBash extends Block {
     }
 
 
-    get faceList() {
-        return this._items.map(i => i.faceList).flat();
-    }
-
-    getFace(index) {
-        //dirty: using only first item
-        return this._items[0].getFace(index);
-
-        // if (index == FACE_DEFAULT) {
-        //     return this.defaultFace;
-        // }
-        // return this._faces[index];
-    }
-    setFace(index, imageURL) {
-        //error checking
-        if (index < 0 && index != FACE_DEFAULT) {
-            console.error("Invalid index!", index);
-            return;
-        }
-        //
-
-        //dirty: using only first item
-        return this._items[0].setFace(index, imageURL);
-    }
-
-    getFaceDimensions(index) {
-        //dirty: using only first item instead of selected one
-        return this._items[0].getFaceDimensions(index);
-    }
-    validFaceIndex(index) {
-        //dirty: using only first item instead of selected one
-        return this._items[0].validFaceIndex(index);
-    }
 
 }
 
