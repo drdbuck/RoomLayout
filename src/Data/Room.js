@@ -63,6 +63,7 @@ class Room extends Block {
         //
         let group = new KitBash(furnitures);
         this.addFurniture(group);
+        return group;
     }
 
     _groupItemAdded(item) {

@@ -268,7 +268,9 @@ function btnGroup() {
     let furnitures = controllerEdit.selector.map(c => c.furniture);
     furnitures.forEach(f => f.group?.remove(f));
     //add to new
-    room.group(furnitures);
+    let group = room.group(furnitures);
+    //select group
+    controllerEdit.selectObject(group, false);
 }
 
 function btnFaceEdit() {
