@@ -179,7 +179,6 @@ function hookupDelegates() {
     //Upload new furniture
     flm.onFurnitureUploaded.add((furniture) => {
         //Data
-        inflateData(furniture);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
         room.addFurniture(furniture);
         //Select new furniture
