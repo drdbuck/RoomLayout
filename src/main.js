@@ -179,7 +179,7 @@ function hookupDelegates() {
     //Upload new furniture
     flm.onFurnitureUploaded.add((furniture) => {
         //Data
-        inflateFurniture(furniture);
+        inflateData(furniture);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
         room.addFurniture(furniture);
         //Select new furniture
@@ -189,6 +189,23 @@ function hookupDelegates() {
 
 function getBox(furniture) {
     return player.scene.children.find(box => box.furniture == furniture);
+}
+
+function inflateData(data) {
+    switch (true) {
+        //House
+        case !!data.rooms: inflateHouse(data); return;
+        //Room
+        case !!data.furnitures: inflateRoom(data); return;
+        //KitBash
+        case !!data._items: inflateKitBash(data); return;
+        //Furniture
+        case !!data._faces: inflateFurniture(data); return;
+        //Block
+        case !!data._scale: inflateBlock(data); return;
+        //Unknown
+        default: console.error("Data object of unknown type", data);
+    }
 }
 
 function exportFurniture() {
@@ -475,14 +492,8 @@ function duplicateFurniture() {
     //
     selection.forEach(c => {
         let f = c.obj;
-        let isGroup = f.isKitBash;
         let newF = JSON.parse(JSON.stringify(f, stringify));
-        if (isGroup) {
-            inflateKitBash(newF);
-        }
-        else {
-            inflateFurniture(newF);
-        }
+        inflateData(newF);
         //Data
         room.addFurniture(newF);
         //Select new furniture
