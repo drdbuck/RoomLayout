@@ -97,9 +97,9 @@ class Controller {
         let target = targetBox?.furniture;
         if (target) {
             let targetFace = targetHit.face.materialIndex;
-            if (this.isSelected(target)) {
+            let context = this.getSelectContext(target);
+            if (context) {
                 if (this.multiselectButton) {
-                    let context = this.selector.find(c => c.obj === target);//acct for kitbash
                     //select face
                     if (uiVars.editFaces && context.face != targetFace) {
                         context.face = targetFace;
@@ -177,10 +177,10 @@ class Controller {
                 let targetHit = this.getObjectHitAtMousePos();
                 let target = targetHit?.object?.furniture;
                 if (target) {
-                    if (this.isSelected(target)) {
+                    let context = this.getSelectContext(target);
+                    if (context) {
                         //determine if face is already selected
                         let targetFace = targetHit.face.materialIndex;
-                        let context = this.selector.find(c => c.furniture == target);
                         let alreadySelected = context.face == targetFace;
                         if (!alreadySelected) {
                             //deselect other faces
@@ -315,9 +315,13 @@ class Controller {
     }
 
     isSelected(obj) {
-        return this.selector.some(c => c.obj === obj)
-            || this.selector.some(c => c.furniture == obj)
-            || this.selector.some(c => c.obj.has?.(obj));
+        return this.getSelectContext(obj) != undefined;
+    }
+
+    getSelectContext(obj) {
+        return this.selector.find(c => c.obj === obj)
+            || this.selector.find(c => c.furniture == obj)
+            || this.selector.find(c => c.obj.has?.(obj));
     }
 
     calculateSelectedOffsets() {
