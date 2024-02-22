@@ -94,7 +94,7 @@ class KitBash extends Block {
         //get offset
         const oldPos = this.position;
         let offset = value.clone();
-        offset.subtract(oldPos);
+        offset.sub(oldPos);
         //offset each individual piece of furniture
         this._items.forEach(item => {
             let newPos = item.position.clone();
@@ -157,7 +157,7 @@ class KitBash extends Block {
             //move
             //TODO: account for rotation
             let offset = item.position.clone();
-            offset.subtract(center);
+            offset.sub(center);
             offset.x *= factor;
             offset.add(center);
             item.position = offset;
@@ -178,7 +178,7 @@ class KitBash extends Block {
             //move
             //TODO: account for rotation
             let offset = item.position.clone();
-            offset.subtract(center);
+            offset.sub(center);
             offset.z *= factor;
             offset.add(center);
             item.position = offset;
@@ -199,7 +199,7 @@ class KitBash extends Block {
             //move
             //TODO: account for rotation
             let offset = item.position.clone();
-            offset.subtract(center);
+            offset.sub(center);
             offset.z *= factor;
             offset.add(center);
             item.position = offset;
@@ -220,7 +220,7 @@ class KitBash extends Block {
             //move
             //TODO: account for rotation / recline
             let offset = item.position.clone();
-            offset.subtract(center);
+            offset.sub(center);
             offset.y *= factor;
             offset.add(center);
             item.position = offset;
