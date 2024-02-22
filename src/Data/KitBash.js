@@ -114,17 +114,17 @@ class KitBash extends Block {
     }
     set angle(value) {
         const oldAngle = this.angle;
-        let offset = n - oldAngle;
+        let offset = value - oldAngle;
         const center = this.position;
         this._items.forEach(item => {
             //update angle
             item.angle += offset;
             //update position
             let poffset = item.position.clone();
-            poffset.sub(c.center);
+            poffset.sub(center);
             let radians = toRadians(offset);
             poffset.applyAxisAngle(_up, radians);
-            poffset.add(c.center);
+            poffset.add(center);
             item.position = poffset;
         });
         super.angle = value;
