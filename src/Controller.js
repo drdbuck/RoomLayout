@@ -142,19 +142,13 @@ class Controller {
                 //select
                 let select = this.selectObject(targetBox, this.multiselectButton, targetFace);
                 //
-                if (!onlySelectButton) {
+                if (select.isKitBash && !onlySelectButton) {
+                    select.boxes ??= [];
                     //select other objects in group
-                    house.rooms[0].groups.forEach(g => {
-                        if (g.has(select)) {
-                            g.items.forEach(i => {
-                                //dont double select
-                                if (i == select) { return; }
-                                //
+                    select.items.forEach(i => {
                                 let box = player.scene.children.find(box => box.furniture == i);
-                                this.selectObject(box, true, -2);
+                                select.boxes.push(box);
                             });
-                        }
-                    });
                 }
             }
             //sort selected
@@ -289,6 +283,15 @@ class Controller {
         if (!select) { return undefined; }
         //create select context
         let selectContext = this.createSelectContext(select, box);
+        let group = select.group;
+        if (group) {
+            selectContext.obj = group;
+            selectContext.kitbash = group;
+            select = group;
+            let items = group.items;
+            selectContext.boxes = player.scene.children
+                .filter(c => items.includes(c.furniture));
+        }
         selectContext.face = face;
         //select the context
         this.selector.select(selectContext, add);
@@ -306,7 +309,10 @@ class Controller {
     createSelectContext(select, box) {
         return {
             obj: select,
+            furniture: select,
+            kitbash: undefined,
             box: box,
+            boxes: [box],
             face: -2,
             offset: _zero.clone(),
         };

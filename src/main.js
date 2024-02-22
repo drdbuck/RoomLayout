@@ -125,17 +125,21 @@ function hookupDelegates() {
         });
     });
     controllerEdit.selector.onSelectionGained.add(context => {
-        let box = context.box;
-        box.edge.visible = true;
+        context.boxes.forEach(box => {
+            box.edge.visible = true;
+            updateFace(box, -2);
+        })
         //
-        updateFace(box, context.face);
+        updateFace(context.box, context.face);
         registerUIDelegates(context.obj, true);
     });
     controllerEdit.selector.onSelectionLost.add(context => {
-        let box = context.box;
-        box.edge.visible = false;
+        context.boxes.forEach(box => {
+            box.edge.visible = false;
+            updateFace(box, -2);
+        })
         //
-        updateFace(box, -2);
+        updateFace(context.box, -2);
         registerUIDelegates(context.obj, false);
     });
 
