@@ -283,7 +283,10 @@ class Controller {
         let selectContext = this.createSelectContext(obj, face);
         if (obj.isKitBash) {
             selectContext.kitbash = obj;
-            selectContext.boxes = getBoxes(obj.items);
+            let items = obj.items;
+            selectContext.furniture = items[0];
+            selectContext.box = getBox(items[0]);
+            selectContext.boxes = getBoxes(items);
         }
         else{
             selectContext.furniture = obj;
