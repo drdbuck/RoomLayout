@@ -173,7 +173,7 @@ function hookupDelegates() {
         let room = house.rooms[0];
         room.addFurniture(furniture);
         //Select new furniture
-        controllerEdit.selectObject(getBox(furniture), false, FACE_DEFAULT);
+        controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
     });
 
     //Upload new furniture
@@ -183,7 +183,7 @@ function hookupDelegates() {
         let room = house.rooms[0];//dirty: hardcoded which room to add to
         room.addFurniture(furniture);
         //Select new furniture
-        controllerEdit.selectObject(getBox(furniture), false);
+        controllerEdit.selectObject(furniture, false);
     });
 }
 
@@ -501,7 +501,7 @@ function duplicateFurniture() {
         //Data
         room.addFurniture(newF);
         //Select new furniture
-        controllerEdit.selectObject(getBox(newF), true);
+        controllerEdit.selectObject(newF, true);
         //make it easier to find the new duplicate in the scene
         let offset = new Vector3(0.5, 0, 0.5);
         offset.add(newF.position);

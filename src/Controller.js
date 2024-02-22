@@ -133,12 +133,12 @@ class Controller {
                     }
                 }
                 else if (onlySelectButton) {
-                    this.selectObject(targetBox, false, targetFace, !onlySelectButton);
+                    this.selectObject(target, false, targetFace, !onlySelectButton);
                 }
             }
             else {
                 //select
-                this.selectObject(targetBox, this.multiselectButton, targetFace, !onlySelectButton);
+                this.selectObject(target, this.multiselectButton, targetFace, !onlySelectButton);
             }
             //sort selected
             this.sortSelected();
@@ -247,29 +247,36 @@ class Controller {
         return this.getObjectHitAtMousePos()?.object;
     }
 
-    selectObject(box, add = false, face = -2, selectGroups = true) {
-        //defaults
-        if (!box) {
-            let hit = this.getObjectHitAtMousePos();
-            box = hit?.object;
-            face ??= hit?.face.materialIndex;
-            if (!box) {
-                console.error("no box!", box, "hit", hit);
-            }
+    selectObject(obj, add = false, face = -2, selectGroups = true) {
+        //early exit: no obj
+        if (!obj) {
+            console.error("can't select obj", obj);
+            return undefined;
         }
-        //
-        let select = box?.furniture;
-        if (!select) { return undefined; }
+        //warning
+        if (obj.isKitBash && !selectGroups) {
+            console.warn("obj is a KitBash, selectGroups will be ignored", obj, selectGroups);
+        }
         //create select context
-        let selectContext = this.createSelectContext(select, box);
-        let group = select.group;
+        let selectContext = this.createSelectContext(obj, face);
+        if (obj.isKitBash) {
+            selectContext.kitbash = obj;
+            selectContext.boxes = getBoxes(obj.items);
+        }
+        else{
+            selectContext.furniture = obj;
+            let box = getBox(obj);
+            selectContext.box = box;
+            let group = obj.group;
         if (group && selectGroups) {
             selectContext.obj = group;
             selectContext.kitbash = group;
-            select = group;
             selectContext.boxes = getBoxes(group.items);
         }
-        selectContext.face = face;
+            else {
+                selectContext.boxes = [box];
+            }
+        }
         //select the context
         this.selector.select(selectContext, add);
         //return the selected context
@@ -283,14 +290,14 @@ class Controller {
         );
     }
 
-    createSelectContext(select, box) {
+    createSelectContext(select, face = -2) {
         return {
             obj: select,
-            furniture: select,
+            furniture: undefined,
             kitbash: undefined,
-            box: box,
-            boxes: [box],
-            face: -2,
+            box: undefined,
+            boxes: undefined,
+            face: face,
             offset: _zero.clone(),
         };
     }
