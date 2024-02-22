@@ -2,7 +2,6 @@
 
 let stringifyRoom = [
     "furnitures",
-    "groups",
 ];
 
 class Room extends Block {
@@ -10,7 +9,6 @@ class Room extends Block {
         super(new Vector3(width, height, length));
 
         this.furnitures = [];
-        this.groups = [];
 
         this.onFurnitureAdded = new Delegate("furniture");
         this.onFurnitureRemoved = new Delegate("furniture");
@@ -111,7 +109,7 @@ function inflateRoom(room) {
 
     //Furniture
     for (let furniture of room.furnitures) {
-        inflateFurniture(furniture);
+        //Both
         furniture.room = room;
         //KitBash
         if (furniture._items || furniture.indexs) {
