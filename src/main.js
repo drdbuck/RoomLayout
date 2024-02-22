@@ -483,7 +483,7 @@ function duplicateFurniture() {
             groups[groupIndex].push(newF);
         }
         //Select new furniture
-        controllerEdit.selectObject(getBox(furniture), true);
+        controllerEdit.selectObject(getBox(newF), true);
         //make it easier to find the new duplicate in the scene
         let offset = new Vector3(0.5, 0, 0.5);
         offset.add(newF.position);
