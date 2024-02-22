@@ -142,15 +142,17 @@ class Controller {
                 //select
                 let select = this.selectObject(targetBox, this.multiselectButton, targetFace);
                 //
-                if (select.isKitBash && !onlySelectButton) {
-                    //select other objects in group
-                    select.items.forEach(i => {
-                        //dont double select
-                        if (i == select) { return; }
-                        //
-                        let box = getBox(i);
-                        this.selectObject(box, true, -2);
-                    });
+                if (select.isKitBash) {
+                    if (onlySelectButton) {
+                        //only select the one furniture
+                        let context = this.selector.find(c => c.obj == select);
+                        context.obj = context.furniture;
+                        context.boxes = [getBox(context.furniture)];
+                    }
+                    else {
+                        //don't do anything
+                        //everything is selected already
+                    }
                 }
             }
             //sort selected
