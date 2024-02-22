@@ -14,6 +14,7 @@ class KitBash extends Block {
         this.onItemAdded = new Delegate("item");
         this.onItemRemoved = new Delegate("item");
         this.onFaceChanged = new Delegate("index", "imageURL");
+        this.bind_FaceChanged = this.onFaceChanged.run.bind(this.onFaceChanged);
 
         //Add items
         this._items = [];
@@ -57,7 +58,7 @@ class KitBash extends Block {
             //tell item its in a new group now
             item.group = this;
             //register delegate
-            item.onFaceChanged.add(this.onFaceChanged.run);
+            item.onFaceChanged.add(this.bind_FaceChanged);
             //
             this.onItemAdded.run(item);
         }
@@ -246,12 +247,14 @@ function inflateKitBash(kitbash) {
 
     inflateBlock(kitbash);
 
+    kitbash.bind_FaceChanged = kitbash.onFaceChanged.run.bind(kitbash.onFaceChanged);
+
     for (let item of kitbash._items) {
         item.room = kitbash.room;
         item.group = kitbash;
         inflateFurniture(item);
         //register delegate
-        item.onFaceChanged.add(kitbash.onFaceChanged.run);
+        item.onFaceChanged.add(kitbash.bind_FaceChanged);
     }
 
 }
