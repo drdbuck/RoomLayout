@@ -134,25 +134,12 @@ class Controller {
                     }
                 }
                 else if (onlySelectButton) {
-                    this.selectObject(targetBox, false, targetFace);
+                    this.selectObject(targetBox, false, targetFace, !onlySelectButton);
                 }
             }
             else {
                 //select
-                let select = this.selectObject(targetBox, this.multiselectButton, targetFace);
-                //
-                if (select.isKitBash) {
-                    if (onlySelectButton) {
-                        //only select the one furniture
-                        let context = this.selector.find(c => c.obj == select);
-                        context.obj = context.furniture;
-                        context.boxes = [getBox(context.furniture)];
-                    }
-                    else {
-                        //don't do anything
-                        //everything is selected already
-                    }
-                }
+                this.selectObject(targetBox, this.multiselectButton, targetFace, !onlySelectButton);
             }
             //sort selected
             this.sortSelected();
@@ -261,7 +248,7 @@ class Controller {
         return this.getObjectHitAtMousePos()?.object;
     }
 
-    selectObject(box, add = false, face = -2) {
+    selectObject(box, add = false, face = -2, selectGroups = true) {
         //defaults
         if (!box) {
             let hit = this.getObjectHitAtMousePos();
@@ -277,7 +264,7 @@ class Controller {
         //create select context
         let selectContext = this.createSelectContext(select, box);
         let group = select.group;
-        if (group) {
+        if (group && selectGroups) {
             selectContext.obj = group;
             selectContext.kitbash = group;
             select = group;
@@ -288,8 +275,8 @@ class Controller {
         selectContext.face = face;
         //select the context
         this.selector.select(selectContext, add);
-        //return the selected furniture
-        return select;
+        //return the selected context
+        return selectContext;
     }
 
     sortSelected() {
