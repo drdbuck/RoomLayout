@@ -20,6 +20,10 @@ class KitBash extends Block {
         this._items = [];
         items.filter(i => i).forEach(item => this.add(item));
 
+        //Name
+        let name = this._items[0].name ?? ""
+        this.name = ((name) ? `${name} Group` : "Group") + ` (${this._items.length} count)`;
+
         //Position
         let pos = _zero.clone();
         let sumX = this._items.sum(f => f.position.x);
