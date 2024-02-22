@@ -142,8 +142,19 @@ class Controller {
                 }
             }
             else {
+                //check to see if the target is in a group that has some pieces single selected
+                let anyPieceSingleSelected = false;
+                if (target.group) {
+                    let items = target.group.items;
+                    anyPieceSingleSelected = this.selector.some(c => items.includes(c.obj));
+                }
                 //select object
-                this.selectObject(target, this.multiselectButton, targetFace, !onlySelectButton);
+                this.selectObject(
+                    target,
+                    this.multiselectButton,
+                    targetFace,
+                    !onlySelectButton && !anyPieceSingleSelected
+                );
             }
             //sort selected
             this.sortSelected();
