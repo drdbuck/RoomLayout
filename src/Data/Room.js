@@ -19,6 +19,9 @@ class Room extends Block {
     }
 
     addFurniture(furniture) {
+        //early exit: invalid furniture
+        if (!furniture) { return; }
+        //
         furniture.room = this;
         if (furniture.isKitBash) {
             furniture.items.forEach(item => item.room = this);
