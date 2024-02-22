@@ -414,6 +414,7 @@ function createMaterial(imageURL) {
     mat.forceSinglePass = true;
     mat.lightMapIntensity = 1;
     mat.reflectivity = 0;
+    mat.side = DoubleSide;
     //textures
     if (imageURL) {
         new TextureLoader().load(
