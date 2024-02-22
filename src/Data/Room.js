@@ -63,6 +63,9 @@ class Room extends Block {
         //
         let group = new KitBash(furnitures);
         this.addFurniture(group);
+        //remove furnitures from list
+        furnitures.forEach(f => this._groupItemAdded(f));
+        //
         return group;
     }
 
