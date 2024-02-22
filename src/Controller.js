@@ -234,9 +234,9 @@ class Controller {
                 //Move around collective center
                 if (onlyOne) { return; }
                 let f = c.obj;
-                let offset = new Vector3(f.position);
+                let offset = f.position.clone();
                 offset.sub(c.collectiveCenter);
-                let radians = toRadians(zoomDelta)
+                let radians = toRadians(zoomDelta);
                 offset.applyAxisAngle(_up, radians);
                 offset.add(c.collectiveCenter);
                 f.position = offset;
@@ -267,7 +267,7 @@ class Controller {
         return this.getObjectHitAtMousePos()?.object;
     }
 
-    selectObject(box, add, face = -2) {
+    selectObject(box, add = false, face = -2) {
         //defaults
         if (!box) {
             let hit = this.getObjectHitAtMousePos();
@@ -277,7 +277,6 @@ class Controller {
                 console.error("no box!", box, "hit", hit);
             }
         }
-        add ??= false;
         //
         let select = box?.furniture;
         if (!select) { return undefined; }
@@ -302,7 +301,7 @@ class Controller {
     sortSelected() {
         //sort selected
         this.selector.sort((c1, c2) => (
-            c1.obj.validFaceIndex(c1.face) && !c2.obj.validFaceIndex(c2.face)) ? -1 : 0
+            c1.furniture.validFaceIndex(c1.face) && !c2.furniture.validFaceIndex(c2.face)) ? -1 : 0
         );
     }
 
