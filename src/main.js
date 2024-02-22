@@ -169,7 +169,7 @@ function hookupDelegates() {
         let room = house.rooms[0];
         room.addFurniture(furniture);
         //Select new furniture
-        controllerEdit.selectObject(newbox, false, FACE_DEFAULT);
+        controllerEdit.selectObject(getBox(furniture), false, FACE_DEFAULT);
     });
 
     //Upload new furniture
@@ -179,8 +179,12 @@ function hookupDelegates() {
         let room = house.rooms[0];//dirty: hardcoded which room to add to
         room.addFurniture(furniture);
         //Select new furniture
-        controllerEdit.selectObject(newbox, false);
+        controllerEdit.selectObject(getBox(furniture), false);
     });
+}
+
+function getBox(furniture) {
+    return player.scene.children.find(box => box.furniture == furniture);
 }
 
 function exportFurniture() {
@@ -479,7 +483,7 @@ function duplicateFurniture() {
             groups[groupIndex].push(newF);
         }
         //Select new furniture
-        controllerEdit.selectObject(newbox, true);
+        controllerEdit.selectObject(getBox(furniture), true);
         //make it easier to find the new duplicate in the scene
         let offset = new Vector3(0.5, 0, 0.5);
         offset.add(newF.position);

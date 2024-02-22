@@ -150,7 +150,7 @@ class Controller {
                                 //dont double select
                                 if (i == select) { return; }
                                 //
-                                let box = player.scene.children.find(box => box.furniture == i);
+                                let box = getBox(i);
                                 this.selectObject(box, true, -2);
                             });
                         }
