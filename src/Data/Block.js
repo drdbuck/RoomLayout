@@ -122,9 +122,9 @@ function inflateBlock(block) {
     ]
         .forEach(delkey => block[delkey] = new Delegate());
 
-    Object.setPrototypeOf(block._position, Vector3.prototype);
-
     backwardsCompatifyBlock(block);
+
+    Object.setPrototypeOf(block._position, Vector3.prototype);
 
     Object.setPrototypeOf(block._scale, Vector3.prototype);
 
@@ -149,4 +149,6 @@ function backwardsCompatifyBlock(block) {
     block._angle ??= 0;
     //Change: add _name
     block._name ??= "";
+    //Change: KitBash extends Block
+    block._position ??= _zero.clone();
 }
