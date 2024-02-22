@@ -19,6 +19,9 @@ class KitBash extends Block {
     }
 
     add(item) {
+        //tell item its in a new group now
+        item.group = this;
+        //
         if (!this._items.includes(item)) {
             this._items.push(item);
             //remove from other group if necessary
@@ -29,6 +32,9 @@ class KitBash extends Block {
     }
 
     remove(item) {
+        if (item?.group == this) {
+            item.group = undefined;
+        }
         if (this._items.includes(item)) {
             this._items.remove(item);
             this.onItemRemoved.run(item);

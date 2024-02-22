@@ -19,9 +19,13 @@ class Room extends Block {
     }
 
     addFurniture(furniture) {
+        furniture.room = this;
+        if (furniture.isKitBash) {
+            furniture.items.forEach(item => item.room = this);
+        }
+        //
         if (!this.furnitures.includes(furniture)) {
             this.furnitures.push(furniture);
-            furniture.room = this;
             if (furniture.isKitBash) {
                 furniture.onItemAdded.add(this.bind_groupItemAdded);
                 furniture.onItemRemoved.add(this.bind_groupItemRemoved);
@@ -29,10 +33,15 @@ class Room extends Block {
             this.onFurnitureAdded.run(furniture);
             this.onFurnituresChanged.run([...this.furnitures]);
         }
-        furniture.room = this;
     }
 
     removeFurniture(furniture) {
+        if (furniture?.room == this) {
+            furniture.room = undefined;
+            if (furniture.isKitBash) {
+                furniture.items.forEach(item => item.room = undefined);
+            }
+        }
         let removed = this.furnitures.remove(furniture);
         if (removed) {
             if (furniture.isKitBash) {
