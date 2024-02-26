@@ -21,7 +21,6 @@ class Controller {
         this.raycaster.layers.set(objectMask);
 
         this.selector = new Selector();
-        this.selector.onSelectionChanged.add(this.updateCollectiveCenter.bind(this));
 
         this.onFaceSelectionChanged = new Delegate("faces");
     }
@@ -69,9 +68,8 @@ class Controller {
                 delList.forEach(c => {
                     let f = c.obj;
                     f.room.removeFurniture(f);
-                    let box = c.box;
-                    box.parent.remove(box);
-                })
+                    c.boxes.forEach(box => box.parent.remove(box));
+                });
                 break;
             default: break;
         }
@@ -97,11 +95,14 @@ class Controller {
         let targetHit = this.getObjectHitAtMousePos();
         let targetBox = targetHit?.object;
         let target = targetBox?.furniture;
+        //if an object was clicked on
         if (target) {
             let targetFace = targetHit.face.materialIndex;
-            if (this.isSelected(target)) {
+            //if the object is selected already
+            let context = this.getSelectContext(target);
+            if (context) {
+                //if multiselect button is down (ctrl, shift)
                 if (this.multiselectButton) {
-                    let context = this.selector.find(c => c.obj === target);
                     //select face
                     if (uiVars.editFaces && context.face != targetFace) {
                         context.face = targetFace;
@@ -110,16 +111,16 @@ class Controller {
                     }
                     //deselect object
                     else {
-                        this.selector.deselect(context);
+                        this.deselectObject(target, !onlySelectButton);
                         //check if there's no other face selected now
                         if (uiVars.editFaces) {
-                            if (!this.selector.some(c => c.obj.validFaceIndex(c.face))) {
+                            if (!this.selector.some(c => c.furniture.validFaceIndex(c.face))) {
                                 let stayInFaceEditModeWhenDeselectLastFace = false;//TODO: make this a user setting
                                 //Select other face
                                 if (stayInFaceEditModeWhenDeselectLastFace) {
                                     let prevFace = context.face;
                                     let newContext = this.selector.first;
-                                    if (!newContext.obj.validFaceIndex(prevFace)) {
+                                    if (!newContext.furniture.validFaceIndex(prevFace)) {
                                         prevFace = 2;
                                     }
                                     newContext.face = prevFace;
@@ -134,28 +135,26 @@ class Controller {
                         }
                     }
                 }
+                //if only select button is down (alt)
                 else if (onlySelectButton) {
-                    this.selectObject(targetBox, false, targetFace);
+                    //select this object only
+                    this.selectObject(target, false, targetFace, !onlySelectButton);
                 }
             }
             else {
-                //select
-                let select = this.selectObject(targetBox, this.multiselectButton, targetFace);
-                //
-                if (!onlySelectButton) {
-                    //select other objects in group
-                    house.rooms[0].groups.forEach(g => {
-                        if (g.has(select)) {
-                            g.items.forEach(i => {
-                                //dont double select
-                                if (i == select) { return; }
-                                //
-                                let box = getBox(i);
-                                this.selectObject(box, true, -2);
-                            });
-                        }
-                    });
+                //check to see if the target is in a group that has some pieces single selected
+                let anyPieceSingleSelected = false;
+                if (target.group) {
+                    let items = target.group.items;
+                    anyPieceSingleSelected = this.selector.some(c => items.includes(c.obj));
                 }
+                //select object
+                this.selectObject(
+                    target,
+                    this.multiselectButton,
+                    targetFace,
+                    !onlySelectButton && !anyPieceSingleSelected
+                );
             }
             //sort selected
             this.sortSelected();
@@ -164,6 +163,7 @@ class Controller {
             this.mouse.targetY = hit?.point.y ?? 0;
             this.calculateSelectedOffsets();
         }
+        //if no object was clicked on
         else {
             this.selector.clear();
         }
@@ -193,14 +193,19 @@ class Controller {
             if (!state.mouse.wasDragged) {
                 let targetHit = this.getObjectHitAtMousePos();
                 let target = targetHit?.object?.furniture;
+                //if an object was clicked on
                 if (target) {
-                    if (this.isSelected(target)) {
+                    //if the object is selected
+                    let context = this.getSelectContext(target);
+                    if (context) {
                         //determine if face is already selected
                         let targetFace = targetHit.face.materialIndex;
-                        let context = this.selector.find(c => c.obj == target);
                         let alreadySelected = context.face == targetFace;
-                        if (!alreadySelected) {
-                            //deselect other faces
+                        if (alreadySelected) {
+                            //do nothing
+                        }
+                        else {
+                            //deselect all other faces
                             if (!this.multiselectButton) {
                                 this.selector.forEach(c => c.face = -2);
                             }
@@ -237,15 +242,6 @@ class Controller {
             this.selector.forEach(c => {
                 //Rotate object
                 this.setFurnitureAngle(c.obj, c.obj.angle + zoomDelta);
-                //Move around collective center
-                if (onlyOne) { return; }
-                let f = c.obj;
-                let offset = new Vector3(f.position);
-                offset.sub(c.collectiveCenter);
-                let radians = toRadians(zoomDelta)
-                offset.applyAxisAngle(_up, radians);
-                offset.add(c.collectiveCenter);
-                f.position = offset;
             });
         }
         //Altitude
@@ -273,43 +269,96 @@ class Controller {
         return this.getObjectHitAtMousePos()?.object;
     }
 
-    selectObject(box, add, face = -2) {
-        //defaults
-        if (!box) {
-            let hit = this.getObjectHitAtMousePos();
-            box = hit?.object;
-            face ??= hit?.face.materialIndex;
-            if (!box) {
-                console.error("no box!", box, "hit", hit);
+    selectObject(obj, add = false, face = -2, selectGroups = true) {
+        //early exit: no obj
+        if (!obj) {
+            console.error("can't select obj", obj);
+            return undefined;
+        }
+        //warning
+        if (obj.isKitBash && !selectGroups) {
+            console.warn("obj is a KitBash, selectGroups will be ignored", obj, selectGroups);
+        }
+        //create select context
+        let selectContext = this.createSelectContext(obj, face);
+        if (obj.isKitBash) {
+            selectContext.kitbash = obj;
+            let items = obj.items;
+            selectContext.furniture = items[0];
+            selectContext.box = getBox(items[0]);
+            selectContext.boxes = getBoxes(items);
+        }
+        else {
+            selectContext.furniture = obj;
+            let box = getBox(obj);
+            selectContext.box = box;
+            let group = obj.group;
+            if (group && selectGroups) {
+                selectContext.obj = group;
+                selectContext.kitbash = group;
+                selectContext.boxes = getBoxes(group.items);
+            }
+            else {
+                selectContext.boxes = [box];
             }
         }
-        add ??= false;
-        //
-        let select = box?.furniture;
-        if (!select) { return undefined; }
-        //create select context
-        let selectContext = this.createSelectContext(select, box);
-        selectContext.face = face;
         //select the context
         this.selector.select(selectContext, add);
-        //return the selected furniture
-        return select;
+        //return the selected context
+        return selectContext;
     }
 
     sortSelected() {
         //sort selected
         this.selector.sort((c1, c2) => (
-            c1.obj.validFaceIndex(c1.face) && !c2.obj.validFaceIndex(c2.face)) ? -1 : 0
+            c1.furniture.validFaceIndex(c1.face) && !c2.furniture.validFaceIndex(c2.face)) ? -1 : 0
         );
     }
 
-    createSelectContext(select, box) {
+    createSelectContext(select, face = -2) {
         return {
             obj: select,
-            box: box,
-            face: -2,
+            furniture: undefined,
+            kitbash: undefined,
+            box: undefined,
+            boxes: undefined,
+            face: face,
             offset: _zero.clone(),
         };
+    }
+
+    deselectObject(obj, deselectGroups = true) {
+        //early exit: no obj
+        if (!obj) {
+            console.error("can't deselect obj", obj);
+            return undefined;
+        }
+        //warning
+        if (obj.isKitBash && !deselectGroups) {
+            console.warn("obj is a KitBash, deselectGroups will be ignored", obj, deselectGroups);
+        }
+        //get select context
+        let context = this.getSelectContext(obj);
+        //Deselect
+        this.selector.deselect(context);
+        //Groups
+        if (!obj.isKitBash && context.kitbash && !deselectGroups) {
+            //select each piece individually,
+            //except for the clicked on object
+            context.kitbash.items.forEach(item => {
+                //don't select clicked on object
+                if (item == obj) { return; }
+                //select other kitbash pieces individually
+                this.selectObject(
+                    item,
+                    true,
+                    (item == context.furniture) ? context.face : undefined,
+                    false
+                );
+            })
+        }
+        //return the deselected context
+        return context;
     }
 
     updateCollectiveCenter() {
@@ -325,7 +374,13 @@ class Controller {
     }
 
     isSelected(obj) {
-        return this.selector.some(c => c.obj === obj);
+        return this.getSelectContext(obj) != undefined;
+    }
+
+    getSelectContext(obj) {
+        return this.selector.find(c => c.obj === obj)
+            || this.selector.find(c => c.furniture == obj)
+            || this.selector.find(c => c.obj.has?.(obj));
     }
 
     calculateSelectedOffsets() {
@@ -351,7 +406,7 @@ class Controller {
                 return;
             }
             //early exit: no face selected on this object
-            if (!context.obj.validFaceIndex(context.face)) {
+            if (!context.furniture.validFaceIndex(context.face)) {
                 return;
             }
             //

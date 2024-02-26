@@ -133,7 +133,7 @@ class FileManager {
                 return;
             }
             for (let furniture of furnitueObj.list) {
-                inflateFurniture(furniture);
+                inflateData(furniture);
                 //Run delegate
                 flm.onFurnitureUploaded.run(furniture);
             }

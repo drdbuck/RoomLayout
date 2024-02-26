@@ -77,7 +77,7 @@ class ControllerImageEdit {
 
     updateImage(context) {
         if (!context) { return; }
-        let furniture = context.obj;
+        let furniture = context.furniture;
         let faceIndex = context.face;
         if (!furniture.validFaceIndex(faceIndex)) { return; }
         let imageURL = furniture.getFace(faceIndex);

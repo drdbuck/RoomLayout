@@ -125,17 +125,21 @@ function hookupDelegates() {
         });
     });
     controllerEdit.selector.onSelectionGained.add(context => {
-        let box = context.box;
-        box.edge.visible = true;
+        context.boxes.forEach(box => {
+            box.edge.visible = true;
+            updateFace(box, -2);
+        })
         //
-        updateFace(box, context.face);
+        updateFace(context.box, context.face);
         registerUIDelegates(context.obj, true);
     });
     controllerEdit.selector.onSelectionLost.add(context => {
-        let box = context.box;
-        box.edge.visible = false;
+        context.boxes.forEach(box => {
+            box.edge.visible = false;
+            updateFace(box, -2);
+        })
         //
-        updateFace(box, -2);
+        updateFace(context.box, -2);
         registerUIDelegates(context.obj, false);
     });
 
@@ -169,22 +173,42 @@ function hookupDelegates() {
         let room = house.rooms[0];
         room.addFurniture(furniture);
         //Select new furniture
-        controllerEdit.selectObject(getBox(furniture), false, FACE_DEFAULT);
+        controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
     });
 
     //Upload new furniture
     flm.onFurnitureUploaded.add((furniture) => {
         //Data
-        inflateFurniture(furniture);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
         room.addFurniture(furniture);
         //Select new furniture
-        controllerEdit.selectObject(getBox(furniture), false);
+        controllerEdit.selectObject(furniture, false);
     });
 }
 
 function getBox(furniture) {
     return player.scene.children.find(box => box.furniture == furniture);
+}
+
+function getBoxes(furnitures) {
+    return player.scene.children.filter(box => furnitures.includes(box.furniture));
+}
+
+function inflateData(data) {
+    switch (true) {
+        //House
+        case !!data.rooms: inflateHouse(data); return;
+        //Room
+        case !!data.furnitures: inflateRoom(data); return;
+        //KitBash
+        case !!data._items: inflateKitBash(data); return;
+        //Furniture
+        case !!data._faces: inflateFurniture(data); return;
+        //Block
+        case !!data._scale: inflateBlock(data); return;
+        //Unknown
+        default: console.error("Data object of unknown type", data);
+    }
 }
 
 function exportFurniture() {
@@ -361,7 +385,7 @@ function uploadFace(image) {
     controllerEdit.selector.forEach(context => {
         let index = context.face;
         if (index == -2) { return; }
-        let furniture = context.obj;
+        let furniture = context.furniture;
         furniture.setFace(index, image.src);
     });
 };
@@ -469,27 +493,18 @@ function duplicateFurniture() {
     let selection = controllerEdit.selector.selection;
     controllerEdit.selector.clear();
     let room = house.rooms[0];//dirty: hardcoded which room to add to
-    let groups = [];
     //
     selection.forEach(c => {
         let f = c.obj;
         let newF = JSON.parse(JSON.stringify(f, stringify));
-        inflateFurniture(newF);
+        inflateData(newF);
         //Data
         room.addFurniture(newF);
-        //Groups
-        let groupIndex = room.groups.indexOf(room.groups.find(g => g.has(f)));
-        if (groupIndex >= 0) {
-            groups[groupIndex] ??= [];
-            groups[groupIndex].push(newF);
-        }
         //Select new furniture
-        controllerEdit.selectObject(getBox(newF), true);
+        controllerEdit.selectObject(newF, true);
         //make it easier to find the new duplicate in the scene
         let offset = new Vector3(0.5, 0, 0.5);
         offset.add(newF.position);
         newF.position = offset;
     });
-    //
-    groups.filter(g => g).forEach(g => room.group(g));
 }

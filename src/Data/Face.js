@@ -13,7 +13,7 @@ const stringifyFace = [
 
 const cornerUnset = new Vector2(-1, -1);
 
-class Face{
+class Face {
     constructor(imageBank, imageID) {
 
         this._imageURL = undefined;
@@ -48,7 +48,7 @@ class Face{
         this.onChanged.run(this._imageURL);
     }
 
-    get imageID(){
+    get imageID() {
         return this._imageID;
     }
     set imageID(imageID) {

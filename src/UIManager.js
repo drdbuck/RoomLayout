@@ -73,7 +73,7 @@ function updateFurnitureEditPanel(contexts) {
     _contexts = contexts ?? _contexts;
     contexts ??= _contexts;
     _furnitures = contexts?.map(c => c.obj);
-    _faces = contexts?.filter(c => c.obj.validFaceIndex(c.face)).map(c => c.face);
+    _faces = contexts?.filter(c => c.furniture.validFaceIndex(c.face)).map(c => c.face);
 
     //early exit: no contexts
     if (!_contexts) {
@@ -165,10 +165,10 @@ function updateFaceEditPanel(faces) {
     //divFaceDrop
     let usingImage = false;
     let divhtml = "<label>Error: This element couldn't be displayed</label>";
-    let faceContexts = _contexts.filter(c => c.obj.validFaceIndex(c.face));//dirty: using stored _contexts
+    let faceContexts = _contexts.filter(c => c.furniture.validFaceIndex(c.face));//dirty: using stored _contexts
     let imageURLs = faceContexts
         .map(c => {
-            let furniture = c.obj;
+            let furniture = c.furniture;
             return furniture.getFace(c.face);
         })
         .filter(url => url);
@@ -197,25 +197,25 @@ function updateFaceEditPanel(faces) {
         const maxSuggestions = 4;
         //last image
         _contexts.forEach(context => {//dirty: using _contexts
-            let f = context.obj;
+            let f = context.furniture;
             suggest.push(f.lastImage);
         });
         //image from other side
         _contexts.forEach(context => {//dirty: using _contexts
             if (context.face < 0) { return; }
-            let f = context.obj;
+            let f = context.furniture;
             let flipFace = context.face + ((context.face % 2 == 0) ? 1 : -1);
             let flipURL = f.getFace(flipFace);
             suggest.push(flipURL);
         });
         //default face image
         _contexts.forEach(context => {//dirty: using _contexts
-            let f = context.obj;
+            let f = context.furniture;
             suggest.push(f.defaultFace);
         });
         //images from other sides
         _contexts.forEach(context => {//dirty: using _contexts
-            let f = context.obj;
+            let f = context.furniture;
             f.faceList.forEach(face => suggest.push(face));
         });
         //make html img elements from suggested
@@ -227,7 +227,7 @@ function updateFaceEditPanel(faces) {
             //only get first few suggestions
             // .slice(0, maxSuggestions)
             //convert to html img element
-            //controllerEdit.selector.forEach(c => c.obj.setFace(c.face, url));
+            //controllerEdit.selector.forEach(c => c.furniture.setFace(c.face, url));
             .map(url => `<img src='${url}' class="selectableImage"
                 onclick="btnUseSuggestedImage(this.src);"
             />`)
@@ -244,7 +244,7 @@ function updateFaceEditPanel(faces) {
     $("divFaceDrop").innerHTML = divhtml;
     //
     if (usingImage) {
-        controllerImageEdit.updateImage(_contexts.find(c => c.obj.validFaceIndex(c.face)));//dirty: _contexts
+        controllerImageEdit.updateImage(_contexts.find(c => c.furniture.validFaceIndex(c.face)));//dirty: _contexts
     }
     $("divImageEdit").hidden = !usingImage;
 }
@@ -265,12 +265,12 @@ function btnFurnitureExport() {
 function btnGroup() {
     let room = house.rooms[0];
     //remove from existing
-    controllerEdit.selector.forEach(c => {
-        let f = c.obj;
-        room.groups.forEach(g => g.remove(f));
-    });
+    let furnitures = controllerEdit.selector.map(c => c.furniture);
+    furnitures.forEach(f => f.group?.remove(f));
     //add to new
-    room.group(controllerEdit.selector.map(c => c.obj));
+    let group = room.group(furnitures);
+    //select group
+    controllerEdit.selectObject(group, false);
 }
 
 function btnFaceEdit() {
@@ -283,16 +283,16 @@ function btnExitFaceEdit() {
 
 function btnUseSuggestedImage(imgURL) {
     controllerEdit.selector.forEach(c => {
-        if (!c.obj.validFaceIndex(c.face)) { return; }
-        let f = c.obj;
+        if (!c.furniture.validFaceIndex(c.face)) { return; }
+        let f = c.furniture;
         f.setFace(c.face, imgURL);
     });
 }
 
 function btnUseDefaultImage() {
     controllerEdit.selector.forEach(c => {
-        if (!c.obj.validFaceIndex(c.face)) { return; }
-        let f = c.obj;
+        if (!c.furniture.validFaceIndex(c.face)) { return; }
+        let f = c.furniture;
         f.setFace(c.face, f.defaultFace);
     });
 }
@@ -307,7 +307,7 @@ function btnFlipY() {
 
 function btnFlip(flipX, flipY) {
     controllerEdit.selector.forEach(c => {
-        let f = c.obj;
+        let f = c.furniture;
         let faceIndex = c.face;
         if (!f.validFaceIndex(faceIndex)) { return; }
         let imageURL = f.getFace(faceIndex);
@@ -325,7 +325,7 @@ function btnFlip(flipX, flipY) {
 
 function cropCanvasChanged(url) {
     controllerEdit.selector.forEach(c => {
-        let f = c.obj;
+        let f = c.furniture;
         let faceIndex = c.face;
         if (!f.validFaceIndex(faceIndex)) { return; }
         f.setFace(faceIndex, url);
@@ -338,8 +338,8 @@ function btnFaceCrop() {
 
 function btnFaceClear() {
     controllerEdit.selector.forEach(c => {
-        if (!c.obj.validFaceIndex(c.face)) { return; }
-        let f = c.obj;
+        if (!c.furniture.validFaceIndex(c.face)) { return; }
+        let f = c.furniture;
         f.setFace(c.face, undefined);
     });
 }

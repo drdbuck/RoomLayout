@@ -42,7 +42,12 @@ function constructRoom(room, scene) {
         scene.add(box);
     };
     const furnitureFunc = (furniture) => {
+        if (furniture.isKitBash) {
+            furniture.items.forEach(_furnitureFunc);
+        }
+        else {
             _furnitureFunc(furniture);
+        }
     };
     room.furnitures.forEach(furnitureFunc);
     room.onFurnitureAdded.add(furnitureFunc);
