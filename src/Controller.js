@@ -238,10 +238,10 @@ class Controller {
         }
         //Rotate
         else if (event.shiftKey) {
-            let onlyOne = this.selector.count == 1;
             this.selector.forEach(c => {
                 //Rotate object
-                this.setFurnitureAngle(c.obj, c.obj.angle + zoomDelta);
+                let deltaAngle = Math.round(zoomDelta) * 15;
+                this.setFurnitureAngle(c.obj, c.obj.angle + deltaAngle);
             });
         }
         //Altitude
