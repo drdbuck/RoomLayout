@@ -131,24 +131,4 @@ function inflateBlock(block) {
 }
 
 function backwardsCompatifyBlock(block) {
-    //Change: _width, _length, _height --> _scale
-    block._scale ??= _one.clone();
-    if (block._width) {
-        block._scale.x = block._width;
-        block._width = undefined;
-    }
-    if (block._length) {
-        block._scale.z = block._length;
-        block._length = undefined;
-    }
-    if (block._height) {
-        block._scale.y = block._height;
-        block._height = undefined;
-    }
-    //Change: add _angle
-    block._angle ??= 0;
-    //Change: add _name
-    block._name ??= "";
-    //Change: KitBash extends Block
-    block._position ??= _zero.clone();
 }

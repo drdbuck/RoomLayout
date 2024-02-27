@@ -116,11 +116,7 @@ function inflateRoom(room) {
         //Both
         furniture.room = room;
         //KitBash
-        if (furniture._items || furniture.indexs) {
-            //backwards compatify: kitbash refactor 1
-            if (furniture.indexs) {
-                furniture.itemFunc = index => room.furnitures[index];
-            }
+        if (furniture._items) {
             //inflate
             inflateKitBash(furniture);
             furniture.onItemAdded.add(room.bind_groupItemAdded);
@@ -135,25 +131,4 @@ function inflateRoom(room) {
 }
 
 function backwardsCompatifyRoom(room) {
-    //Change: add groups
-    // room.groups ??= [];
-    //Change: remove groups (kitbash refactor 1)
-    if (room.groups) {
-        let itemFunc = index => room.furnitures[index];
-        //Add each group
-        for (let group of room.groups) {
-            group._items = group.indexs.map(itemFunc);
-            room.furnitures.push(group);
-        }
-        //Remove each identified furniture from the furnitures list
-        let indexList = room.groups
-            .map(g => g.indexs)
-            .flat()
-            .removeDuplicates()
-            .sort();
-        room.furnitures = room.furnitures
-            .filter((f, i) => !indexList.includes(i));
-        //Remove groups variable
-        room.groups = undefined;
-    }
 }

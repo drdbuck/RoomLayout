@@ -99,14 +99,4 @@ function inflateFurniture(furniture) {
 }
 
 function backwardsCompatifyFurniture(furniture) {
-    //Change: imageURL --> faces[]
-    if (furniture.imageURL) {
-        furniture.faces ??= [];
-        furniture.faces.push(furniture.imageURL);
-        furniture.imageURL = undefined;
-    }
-    //Change: add defaultFace
-    furniture.defaultFace ??= furniture.faces[2] ?? furniture.faces[0];
-    //Change: faces[] -> _faces[]
-    furniture._faces ??= furniture.faces;
 }
