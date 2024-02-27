@@ -171,7 +171,7 @@ function updateFaceEditPanel(faces) {
             let furniture = c.furniture;
             return furniture.getFace(c.face);
         })
-        .filter(url => url);
+        .filter(url => url && url !== PIXEL_TRANSPARENT);
     //Images exist
     if (imageURLs.length > 0) {
         let onlyOne = imageURLs.length == 1;
