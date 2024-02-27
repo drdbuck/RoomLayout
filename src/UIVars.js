@@ -4,8 +4,6 @@ let stringifyUIVars = [
     "_editFaces",
 ];
 
-const PIXEL_TRANSPARENT = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAANSURBVBhXY2BgYGAAAAAFAAGKM+MAAAAAAElFTkSuQmCC';
-
 /**
  * Stores temporary variables that describe the current state of the UI
  * Might be saved out for the purposes of picking back up where the user last was in the previous session
