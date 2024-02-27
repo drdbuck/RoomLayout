@@ -81,7 +81,7 @@ class ControllerImageEdit {
         let faceIndex = context.face;
         if (!furniture.validFaceIndex(faceIndex)) { return; }
         let imageURL = furniture.getFace(faceIndex);
-        if (imageURL) {
+        if (isValidImage(imageURL)) {
             this.setImage(imageURL);
         }
         this.targetDimensions = furniture.getFaceDimensions(faceIndex);

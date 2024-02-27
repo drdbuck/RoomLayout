@@ -171,7 +171,7 @@ function updateFaceEditPanel(faces) {
             let furniture = c.furniture;
             return furniture.getFace(c.face);
         })
-        .filter(url => url && url !== PIXEL_TRANSPARENT);
+        .filter(url => isValidImage(url));
     //Images exist
     if (imageURLs.length > 0) {
         let onlyOne = imageURLs.length == 1;
@@ -221,7 +221,7 @@ function updateFaceEditPanel(faces) {
         //make html img elements from suggested
         let suggestStr = suggest
             //remove blanks
-            .filter(url => url)
+            .filter(url => isValidImage(url))
             //remove duplicates
             .removeDuplicates()
             //only get first few suggestions
