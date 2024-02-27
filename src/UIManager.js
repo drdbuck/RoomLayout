@@ -340,6 +340,6 @@ function btnFaceClear() {
     controllerEdit.selector.forEach(c => {
         if (!c.furniture.validFaceIndex(c.face)) { return; }
         let f = c.furniture;
-        f.setFace(c.face, undefined);
+        f.setFace(c.face, PIXEL_TRANSPARENT);
     });
 }
