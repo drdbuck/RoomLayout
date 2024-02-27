@@ -472,7 +472,7 @@ class Controller {
     }
 
     setFurnitureAngle(furniture, angle) {
-        furniture.angle = angle;
+        furniture.angle = loopAngle(angle);
     }
 
     getMouseWorld(mouse) {
