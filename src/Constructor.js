@@ -95,6 +95,10 @@ function createFloor(width = 11, length = 12, showTriangles = false) {
     //floor mesh
     const floor = new Mesh(floorGeometry, floorMaterial);
     floor.layers.set(objectMask);
+
+    //position
+    floor.position.y = -0.001;//needed to prevent artifacts with backs of faces on floor
+
     return floor;
 }
 
