@@ -261,7 +261,7 @@ function btnExitFurnitureEdit() {
 }
 
 function btnFurnitureExport() {
-    exportFurniture();
+    actionExportFurniture();
 }
 
 function btnGroup() {
