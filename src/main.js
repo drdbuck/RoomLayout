@@ -413,11 +413,11 @@ function updateFace(box, face) {
     }
 }
 
-function createMaterials(imageURLs, mincount = 6, defaultImageURL = undefined) {
+function createMaterials(imageURLs, mincount = 6, defaultImageURL = undefined, front = true) {
     let materials = imageURLs.map(
-        face => createMaterial(face)
+        face => createMaterial(face, front)
     );
-    let defaultMaterial = createMaterial(defaultImageURL) ?? materials[2] ?? materials[0];
+    let defaultMaterial = createMaterial(defaultImageURL, front) ?? materials[2] ?? materials[0];
     mincount = Math.max(mincount, materials.length);
     for (let i = 0; i < mincount; i++) {
         materials[i] ??= defaultMaterial;
@@ -425,7 +425,7 @@ function createMaterials(imageURLs, mincount = 6, defaultImageURL = undefined) {
     return materials;
 }
 
-function createMaterial(imageURL) {
+function createMaterial(imageURL, front = true) {
     if (!imageURL) {
         return undefined;
     }
@@ -438,7 +438,7 @@ function createMaterial(imageURL) {
     mat.forceSinglePass = true;
     mat.lightMapIntensity = 1;
     mat.reflectivity = 0;
-    mat.side = DoubleSide;
+    mat.side = (front) ? FrontSide : BackSide;
     //textures
     if (imageURL) {
         new TextureLoader().load(
@@ -448,6 +448,7 @@ function createMaterial(imageURL) {
                 mat.lightMap = texture;
                 mat.map = texture;
                 mat.transparent = imageHasTransparency(texture.source.data);
+                mat.alphaTest = 0.001;
                 mat.needsUpdate = true;
             }
         );

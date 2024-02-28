@@ -178,23 +178,32 @@ function constructFurniture(furniture) {
     updateScale(furniture.scale);
     updateAngle(furniture.angle);
 
+    //inside faces
+    let insideMesh = createInsideFaces(box, furniture);
+    box.attach(insideMesh);
+    box.insideMesh = insideMesh;
+
     //delegates
     furniture.onSizeChanged.add(updateScale);
     furniture.onPositionChanged.add(updatePosition);
     furniture.onAngleChanged.add(updateAngle);
     furniture.onFaceChanged.add((index, url) => {
         let material = createMaterial(url ?? furniture.defaultFace);
+        let materialBack = createMaterial(url ?? furniture.defaultFace, false);
+        let insideMaterials = box.insideMesh.material;
         //Set all faces with the default face
         if (index == FACE_DEFAULT) {
             for (let i = 0; i < boxMaterials.length; i++) {
                 if (!furniture.getFace(i)) {
                     boxMaterials[i] = material;
+                    insideMaterials[i] = materialBack;
                 }
             }
         }
         //Set just the one face that was changed
         else {
             boxMaterials[index] = material;
+            insideMaterials[index] = materialBack;
         }
     });
 
@@ -239,4 +248,20 @@ function createSelectHighlights(mesh) {
     select.rotation.copy(mesh.rotation);
 
     return select;
+}
+
+function createInsideFaces(mesh, furniture) {
+    //dirty: assumes a cube
+
+    const boxMaterials = createMaterials(furniture.faceList, 6, furniture.defaultFace, false);
+
+    //create mesh
+    const box = new Mesh(boxGeometry, boxMaterials);
+    box.layers.set(effectMask);
+
+    box.position.copy(mesh.position);
+    box.scale.copy(mesh.scale);
+    box.rotation.copy(mesh.rotation);
+
+    return box;
 }
