@@ -44,7 +44,7 @@ function constructMenuPanel(data, keyName) {
         </button>`;
     text += button;
     //menu panel
-    let menu = `<div id="${menuId}" hidden=true>`;
+    let menu = `<div id="${menuId}" class="menuPanel" hidden=true>`;
     for (const [key, value] of Object.entries(data)) {
         if (key == "title") { continue; }
         //

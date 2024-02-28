@@ -30,6 +30,28 @@ body {
     color: black;
 }
 
+.menuPanel {
+    position: absolute;
+    max-width: 300px;
+    min-width: 150px;
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.menuPanel button {
+    background-color: #1a1a1a;
+    color: white;
+    font-size: medium;
+    padding: 4px;
+    border: none;
+    text-align: left;
+}
+
+.menuPanel button:hover {
+    background-color: white;
+    color: black;
+}
+
 canvas {
     display: block;
     width: 100%;
