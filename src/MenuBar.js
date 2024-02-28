@@ -38,7 +38,7 @@ function constructMenuPanel(data, keyName) {
     let menuId = `div${menuName}`;
     //button
     let button = `<button id="${btnId}"
-        onclick="$('${menuId}').hidden = !$('${menuId}');"
+        onclick="$('${menuId}').hidden = !$('${menuId}').hidden;"
         >
             ${menuName}
         </button>`;
