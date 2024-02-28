@@ -89,6 +89,8 @@ function updateFurnitureEditPanel(contexts) {
 
     if (!anySelected) { return; }
 
+    $("hEditFurniture").innerHTML = `Edit ${(_contexts.every(c => c.obj.isKitBash)) ? "Group" : "Furniture"}`;
+
     //Name
     $("txtName").disabled = !(contexts.length == 1);
     updateFunc("txtName", f => f.name, false);
