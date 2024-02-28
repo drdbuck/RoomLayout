@@ -41,7 +41,11 @@ function constructMenuPanel(data, keyName) {
     let menuId = `div${menuName}`;
     //button
     let button = `<button id="${btnId}"
-        onclick="$('${menuId}').hidden = !$('${menuId}').hidden;"
+        onclick="
+            let menu = $('${menuId}');
+            menu.hidden = !menu.hidden;
+            alignMenu(this, menu);
+        "
         >
             ${menuName}
         </button>`;
@@ -60,6 +64,11 @@ function constructMenuPanel(data, keyName) {
     menu += `</div>`;
     //return
     return [button, menu];
+}
+
+function alignMenu(btn, menu) {
+    let left = btn.offsetLeft;
+    menu.style.left = left + 'px';
 }
 
 constructMenuBar("divMenuBar", "divMenuPanels", menuBarData);
