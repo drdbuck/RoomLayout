@@ -39,6 +39,7 @@ canvas {
 .popupPanel {
     color: white;
     position: absolute;
+    top: 43px;
     z-index: 10;
     padding: 3px;
     background-color: black;
@@ -155,12 +156,10 @@ canvas {
 /* Specific element styles */
 
 #divPanelEdit {
-    top: 10px;
     left: 10px;
 }
 
 #divFaceEdit {
-    top: 10px;
     right: 10px;
 }
 
