@@ -9,9 +9,11 @@ const menuBarData = {
     },
 };
 
-function constructMenuBar(id, data) {
+function constructMenuBar(id, idPanels, data) {
     let menuBar = $(id);
+    let menuBarPanels = $(idPanels);
     let text = "";
+    let textPanels = "";
     if (data.title) {
         let title = data.title;
         console.log("title", title);
@@ -20,15 +22,16 @@ function constructMenuBar(id, data) {
     //2024-02-27: copied from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
     for (const [key, value] of Object.entries(data)) {
         if (key == "title") { continue; }
-        let menu = constructMenuPanel(value, key);
-        text += menu + "&nbsp;";
+        let [button, menu] = constructMenuPanel(value, key);
+        text += button + "&nbsp;";
+        textPanels += menu;
     }
     //
     menuBar.innerHTML = text;
+    menuBarPanels.innerHTML = textPanels;
 }
 
 function constructMenuPanel(data, keyName) {
-    let text = "";
     let menuName = data.title ?? keyName;
     if (!menuName) {
         console.error("no menu name found for menu data!", data, menuName);
@@ -42,7 +45,6 @@ function constructMenuPanel(data, keyName) {
         >
             ${menuName}
         </button>`;
-    text += button;
     //menu panel
     let menu = `<div id="${menuId}" class="menuPanel" hidden=true>`;
     for (const [key, value] of Object.entries(data)) {
@@ -55,10 +57,9 @@ function constructMenuPanel(data, keyName) {
             </button>
             <br>`;
     }
-    // menu.splice(-4, 4);//remove trailing new line
     menu += `</div>`;
-    text += menu;
-    return text;
+    //return
+    return [button, menu];
 }
 
-constructMenuBar("divMenuBar", menuBarData);
+constructMenuBar("divMenuBar", "divMenuPanels", menuBarData);
