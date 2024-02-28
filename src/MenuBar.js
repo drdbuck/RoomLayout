@@ -5,30 +5,30 @@ const menuBarData = {
     file: {
         title: "File",
         "Import File": "alert('import file');",
-        export: "actionExportFurniture();",
+        "Export Furniture": "actionExportFurniture();",
     },
 };
 
 function constructMenuBar(id, idPanels, data) {
     let menuBar = $(id);
     let menuBarPanels = $(idPanels);
-    let text = "";
-    let textPanels = "";
+    let texts = [];
+    let textsPanels = [];
     if (data.title) {
         let title = data.title;
         console.log("title", title);
-        text += title + "&nbsp;";
+        texts.push(title + "&nbsp;");
     }
     //2024-02-27: copied from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
     for (const [key, value] of Object.entries(data)) {
         if (key == "title") { continue; }
         let [button, menu] = constructMenuPanel(value, key);
-        text += button + "&nbsp;";
-        textPanels += menu;
+        texts.push(button);
+        textsPanels.push(menu);
     }
     //
-    menuBar.innerHTML = text;
-    menuBarPanels.innerHTML = textPanels;
+    menuBar.innerHTML = texts.join("&nbsp;");
+    menuBarPanels.innerHTML = textsPanels.join("");
 }
 
 function constructMenuPanel(data, keyName) {
@@ -50,20 +50,21 @@ function constructMenuPanel(data, keyName) {
             ${menuName}
         </button>`;
     //menu panel
-    let menu = `<div id="${menuId}" class="menuPanel" hidden=true>`;
+    let menuarr = [];
+    menuarr.push(`<div id="${menuId}" class="menuPanel" hidden=true>`);
     for (const [key, value] of Object.entries(data)) {
         if (key == "title") { continue; }
         //
-        menu += `<button class="lineButton"
+        menuarr.push(`<button class="lineButton"
             onclick="${value}"
             >
             ${key}
             </button>
-            <br>`;
+            <br>`);
     }
-    menu += `</div>`;
+    menuarr.push(`</div>`);
     //return
-    return [button, menu];
+    return [button, menuarr.join("")];
 }
 
 function alignMenu(btn, menu) {
