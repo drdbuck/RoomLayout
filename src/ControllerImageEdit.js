@@ -12,7 +12,9 @@ class ControllerImageEdit {
         this.defaultTargetDimensions = new Vector2(5, 5);
         this.targetDimensions = this.defaultTargetDimensions.clone();
 
-        this.controlCorner;
+        this.control = {
+            corner: undefined,
+        };
 
         this.canvas.onmousedown = this.processMouseDown.bind(this);
         this.canvas.onmousemove = this.processMouseMove.bind(this);
@@ -116,9 +118,9 @@ class ControllerImageEdit {
         this.imageEdit.corners.forEach(c =>
             c.dist = Math.sqrt(Math.pow(c.x - mouse.x, 2) + Math.pow(c.y - mouse.y, 2))
         );
-        this.controlCorner = this.imageEdit.corners.reduce((a, b) => (a.dist < b.dist) ? a : b);
+        this.control.corner = this.imageEdit.corners.reduce((a, b) => (a.dist < b.dist) ? a : b);
         //find offset
-        this.offset = this.controlCorner.clone();
+        this.offset = this.control.corner.clone();
         this.offset.sub(mouse);
         this.mouseDown = true;
         uiVars.highlightSelectedFace = false;
@@ -127,7 +129,7 @@ class ControllerImageEdit {
         if (this.mouseDown) {
             let mouse = this.getMouseVector(e);
             mouse.add(this.offset);
-            this.controlCorner.copy(mouse);
+            this.control.corner.copy(mouse);
             this.update();
         }
     }
