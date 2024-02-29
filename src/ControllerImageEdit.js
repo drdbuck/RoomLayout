@@ -1,7 +1,7 @@
 "use strict";
 
 const HANDLE_SIZE = 5;
-const HANDLE_SELECT_RANGE = HANDLE_SIZE;
+const HANDLE_SELECT_RANGE = HANDLE_SIZE * 2;
 
 class ControllerImageEdit {
     constructor(canvas, uiColor) {
@@ -156,10 +156,11 @@ class ControllerImageEdit {
         this.offset = undefined;
         //select control corner
         let corners = this.imageEdit.cornerList;
+        const handleSelectRange = HANDLE_SELECT_RANGE * this.canvasFactor;
         corners.forEach(c =>
             c.dist = Math.sqrt(Math.pow(c.x - mouse.x, 2) + Math.pow(c.y - mouse.y, 2))
         );
-        corners = corners.filter(c => c.dist <= HANDLE_SELECT_RANGE);
+        corners = corners.filter(c => c.dist <= handleSelectRange);
         if (corners.length > 0) {
             this.control.corner = corners.reduce((a, b) => (a.dist < b.dist) ? a : b);
             //find offset
