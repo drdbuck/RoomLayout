@@ -1,6 +1,8 @@
 "use strict";
 
 const HANDLE_SIZE = 5;
+const HANDLE_SELECT_RANGE = HANDLE_SIZE;
+
 class ControllerImageEdit {
     constructor(canvas, uiColor) {
         this.canvas = canvas;
@@ -127,6 +129,20 @@ class ControllerImageEdit {
         else {
             //change cursor style
             this.selectCorners(mouse);
+            let cursor = CURSOR_AUTO;
+            switch (this.control.corner) {
+                case this.imageEdit.cornerLT:
+                case this.imageEdit.cornerRB:
+                    cursor = CURSOR_RESIZE_DIAGONAL_LEFT;
+                    break;
+                case this.imageEdit.cornerRT:
+                case this.imageEdit.cornerLB:
+                    cursor = CURSOR_RESIZE_DIAGONAL_RIGHT;
+                    break;
+                default:
+                    break;
+            }
+            this.changeCursor(cursor);
         }
     }
     processMouseUp(e) {
@@ -136,14 +152,20 @@ class ControllerImageEdit {
     }
 
     selectCorners(mouse) {
+        this.control.corner = undefined;
+        this.offset = undefined;
         //select control corner
-        this.imageEdit.corners.forEach(c =>
+        let corners = this.imageEdit.cornerList;
+        corners.forEach(c =>
             c.dist = Math.sqrt(Math.pow(c.x - mouse.x, 2) + Math.pow(c.y - mouse.y, 2))
         );
-        this.control.corner = this.imageEdit.corners.reduce((a, b) => (a.dist < b.dist) ? a : b);
-        //find offset
-        this.offset = this.control.corner.clone();
-        this.offset.sub(mouse);
+        corners = corners.filter(c => c.dist <= HANDLE_SELECT_RANGE);
+        if (corners.length > 0) {
+            this.control.corner = corners.reduce((a, b) => (a.dist < b.dist) ? a : b);
+            //find offset
+            this.offset = this.control.corner.clone();
+            this.offset.sub(mouse);
+        }
     }
 
     crop() {
@@ -152,5 +174,9 @@ class ControllerImageEdit {
             this.targetDimensions.y
         );
         this.onEditChanged.run(imageURL);
+    }
+
+    changeCursor(cursorStyle) {
+        this.canvas.style.cursor = cursorStyle;
     }
 }
