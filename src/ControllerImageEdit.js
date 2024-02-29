@@ -69,13 +69,22 @@ class ControllerImageEdit {
         ctx.lineTo(firstCorner.x, firstCorner.y);
         ctx.stroke();
         //Corners
-        let cornerSize = HANDLE_SIZE * this.canvasFactor;
+        let handleSize = HANDLE_SIZE * this.canvasFactor;
         this.imageEdit.corners.forEach(
             corner => ctx.fillRect(
-                corner.x - cornerSize / 2,
-                corner.y - cornerSize / 2,
-                cornerSize,
-                cornerSize
+                corner.x - handleSize / 2,
+                corner.y - handleSize / 2,
+                handleSize,
+                handleSize
+            )
+        );
+        //Midpoints
+        this.imageEdit.midPointList.forEach(
+            v => ctx.fillRect(
+                v.x - handleSize / 2,
+                v.y - handleSize / 2,
+                handleSize,
+                handleSize
             )
         );
     }

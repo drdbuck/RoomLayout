@@ -22,6 +22,17 @@ class ImageEdit {
         this.cornerLB = corners[3];
     }
 
+    get midPointList() {
+        return this.corners.map((c, i, arr) => {
+            let c2 = arr[(i + 1) % arr.length];
+            let m = c2.clone();
+            m.sub(c);
+            m.multiplyScalar(0.5);
+            m.add(c);
+            return m;
+        });
+    }
+
     setImage(img) {
         this.original = img;
         this.imgData = getImageData(this.original);
