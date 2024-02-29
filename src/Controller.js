@@ -179,12 +179,8 @@ class Controller {
         }
         else {
             this.mouse.over = this.getObjectAtMousePos();
-            if (this.mouse.over) {
-                this.changeCursor("move");
-            }
-            else {
-                this.changeCursor("auto");
-            }
+            let cursor = (this.mouse.over) ? CURSOR_MOVE : CURSOR_AUTO;
+            this.changeCursor(cursor);
         }
     }
 
