@@ -9,9 +9,10 @@ const ZOOM_MIN = 2;
 const ZOOM_MAX = 100;
 
 class Controller {
-    constructor(camera, scene) {
+    constructor(camera, scene, canvas) {
         this.camera = camera;
         this.scene = scene;
+        this.canvas = canvas;
         this.speed = 1;
         this.wheelMoveSpeed = 1;
         this.mouse = {
@@ -500,6 +501,6 @@ class Controller {
     }
 
     changeCursor(cursorStyle) {
-        $("cvsDisplay").style.cursor = cursorStyle;
+        this.canvas.style.cursor = cursorStyle;
     }
 }

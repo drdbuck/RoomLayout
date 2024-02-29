@@ -84,7 +84,8 @@ function init() {
         //Controller init
         controllerEdit = new Controller(
             player.camera,
-            player.scene
+            player.scene,
+            canvas
         );
 
         //ControllerFPS init
