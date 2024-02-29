@@ -1029,6 +1029,15 @@ class Vector2 {
 
 	}
 
+	midpointTo(v) {
+
+		return new Vector2(
+			(v.x + this.x) / 2,
+			(v.y + this.y) / 2
+		);
+
+	}
+
 	setLength( length ) {
 
 		return this.normalize().multiplyScalar( length );

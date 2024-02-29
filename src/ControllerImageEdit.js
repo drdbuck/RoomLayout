@@ -76,7 +76,7 @@ class ControllerImageEdit {
             //corners
             this.imageEdit.corners,
             //midpoints
-            this.imageEdit.midPointList
+            this.imageEdit.midpointList
         ].flat();
         handles.forEach(
             handle => ctx.fillRect(
@@ -149,6 +149,14 @@ class ControllerImageEdit {
                 case this.imageEdit.cornerLB:
                     cursor = CURSOR_RESIZE_DIAGONAL_RIGHT;
                     break;
+                case this.imageEdit.midpointT:
+                case this.imageEdit.midpointB:
+                    cursor = CURSOR_RESIZE_VERTICAL;
+                    break;
+                case this.imageEdit.midpointR:
+                case this.imageEdit.midpointL:
+                    cursor = CURSOR_RESIZE_HORIZONTAL;
+                    break;
                 default:
                     break;
             }
@@ -165,14 +173,14 @@ class ControllerImageEdit {
         this.control.corner = undefined;
         this.offset = undefined;
         //select control corner
-        let corners = this.imageEdit.cornerList;
+        let handles = this.imageEdit.handleList;
         const handleSelectRange = HANDLE_SELECT_RANGE * this.canvasFactor;
-        corners.forEach(c =>
+        handles.forEach(c =>
             c.dist = Math.sqrt(Math.pow(c.x - mouse.x, 2) + Math.pow(c.y - mouse.y, 2))
         );
-        corners = corners.filter(c => c.dist <= handleSelectRange);
-        if (corners.length > 0) {
-            this.control.corner = corners.reduce((a, b) => (a.dist < b.dist) ? a : b);
+        handles = handles.filter(c => c.dist <= handleSelectRange);
+        if (handles.length > 0) {
+            this.control.corner = handles.reduce((a, b) => (a.dist < b.dist) ? a : b);
             //find offset
             this.offset = this.control.corner.clone();
             this.offset.sub(mouse);

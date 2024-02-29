@@ -22,15 +22,22 @@ class ImageEdit {
         this.cornerLB = corners[3];
     }
 
-    get midPointList() {
-        return this.corners.map((c, i, arr) => {
-            let c2 = arr[(i + 1) % arr.length];
-            let m = c2.clone();
-            m.sub(c);
-            m.multiplyScalar(0.5);
-            m.add(c);
-            return m;
-        });
+    get midpointList() {
+        this._updateMidPoints();//TODO: make it so you dont have to update everytime its retrieved
+        return this.midpoints;
+    }
+
+    _updateMidPoints() {
+        this.midpointT = this.cornerLT.midpointTo(this.cornerRT);
+        this.midpointR = this.cornerRB.midpointTo(this.cornerRT);
+        this.midpointB = this.cornerLB.midpointTo(this.cornerRB);
+        this.midpointL = this.cornerLB.midpointTo(this.cornerLT);
+        this.midpoints = [this.midpointT, this.midpointR, this.midpointB, this.midpointL];
+    }
+
+    get handleList() {
+        this._updateMidPoints();//TODO: refactor so dont have to update every time
+        return [this.corners, this.midpoints].flat();
     }
 
     setImage(img) {
@@ -45,6 +52,8 @@ class ImageEdit {
         this.cornerRT = new Vector2(this.width, 0);
         this.cornerRB = new Vector2(this.width, this.height);
         this.corners = [this.cornerLT, this.cornerRT, this.cornerRB, this.cornerLB];
+        //
+        this._updateMidPoints();
     }
 
     getIndex(x, y, width) {
