@@ -332,6 +332,8 @@ function cropCanvasChanged(url) {
         if (!f.validFaceIndex(faceIndex)) { return; }
         f.setFace(faceIndex, url);
     });
+    //turn off face highlighting
+    uiVars.highlightSelectedFace = false;
 }
 
 function btnFaceCrop() {

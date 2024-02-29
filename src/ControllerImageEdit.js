@@ -1,5 +1,6 @@
 "use strict";
 
+const HANDLE_SIZE = 5;
 class ControllerImageEdit {
     constructor(canvas, uiColor) {
         this.canvas = canvas;
@@ -66,7 +67,7 @@ class ControllerImageEdit {
         ctx.lineTo(firstCorner.x, firstCorner.y);
         ctx.stroke();
         //Corners
-        let cornerSize = 5 * this.canvasFactor;
+        let cornerSize = HANDLE_SIZE * this.canvasFactor;
         this.imageEdit.corners.forEach(
             corner => ctx.fillRect(
                 corner.x - cornerSize / 2,
@@ -113,7 +114,28 @@ class ControllerImageEdit {
     processMouseDown(e) {
 
         let mouse = this.getMouseVector(e);
+        this.selectCorners(mouse);
+        this.mouseDown = true;
+    }
+    processMouseMove(e) {
+        let mouse = this.getMouseVector(e);
+        if (this.mouseDown) {
+            mouse.add(this.offset);
+            this.control.corner.copy(mouse);
+            this.update();
+        }
+        else {
+            //change cursor style
+            this.selectCorners(mouse);
+        }
+    }
+    processMouseUp(e) {
+        this.update();
+        // this.crop();
+        this.mouseDown = false;
+    }
 
+    selectCorners(mouse) {
         //select control corner
         this.imageEdit.corners.forEach(c =>
             c.dist = Math.sqrt(Math.pow(c.x - mouse.x, 2) + Math.pow(c.y - mouse.y, 2))
@@ -122,21 +144,6 @@ class ControllerImageEdit {
         //find offset
         this.offset = this.control.corner.clone();
         this.offset.sub(mouse);
-        this.mouseDown = true;
-        uiVars.highlightSelectedFace = false;
-    }
-    processMouseMove(e) {
-        if (this.mouseDown) {
-            let mouse = this.getMouseVector(e);
-            mouse.add(this.offset);
-            this.control.corner.copy(mouse);
-            this.update();
-        }
-    }
-    processMouseUp(e) {
-        this.update();
-        // this.crop();
-        this.mouseDown = false;
     }
 
     crop() {
