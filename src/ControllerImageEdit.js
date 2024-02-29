@@ -130,9 +130,11 @@ class ControllerImageEdit {
     processMouseMove(e) {
         let mouse = this.getMouseVector(e);
         if (this.mouseDown) {
+            if (this.control.corner) {
             mouse.add(this.offset);
             this.control.corner.copy(mouse);
             this.update();
+            }
         }
         else {
             //change cursor style
