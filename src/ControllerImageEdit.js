@@ -161,11 +161,15 @@ class ControllerImageEdit {
                     // rayDir = rayEnd.clone().sub(rayStart);
                     // rayDir.normalize();
                     // let medianLine = new Ray(rayStart, rayDir);
-                    let medianLine = new Line3(rayStart, rayEnd);
+                    let rayStart3 = new Vector3(rayStart.x, rayStart.y, 0);
+                    let rayEnd3 = new Vector3(rayEnd.x, rayEnd.y, 0);
+                    let medianLine = new Line3(rayStart3, rayEnd3);
 
                     //determine closest point on median line to posOffset
-                    let target = new Vector2();
-                    let point = medianLine.closestPointToPoint(posOffset, true, target);
+                    let target = new Vector3();
+                    let posOffset3 = new Vector3(posOffset.x, posOffset.y, 0);
+                    let point3 = medianLine.closestPointToPoint(posOffset3, true, target);
+                    let point = new Vector2(point3.x, point3.y);
 
                     //move median to that position
                     this.control.handle.copy(point);
