@@ -144,49 +144,28 @@ class ControllerImageEdit {
                     let posOffset = mouse.clone();
                     posOffset.add(this.offset);
 
-                    //get median line
-                    let rayStart = this.control.origHandle.clone();
-                    let rayEnd = this.control.stableCorners[0].midpointTo(this.control.stableCorners[1]);
-                    let rayDir = rayEnd.clone().sub(rayStart);
-
-                    //stretch median line to ends of image
-                    let width = this.imageEdit.width;
-                    let height = this.imageEdit.height;
-                    while (between(rayStart.x, 0, width) && between(rayStart.y, 0, height)) {
-                        rayStart.sub(rayDir);
-                    }
-                    while (between(rayEnd.x, 0, width) && between(rayEnd.y, 0, height)) {
-                        rayEnd.add(rayDir);
-                    }
-                    // rayDir = rayEnd.clone().sub(rayStart);
-                    // rayDir.normalize();
-                    // let medianLine = new Ray(rayStart, rayDir);
-                    let rayStart3 = new Vector3(rayStart.x, rayStart.y, 0);
-                    let rayEnd3 = new Vector3(rayEnd.x, rayEnd.y, 0);
-                    let medianLine = new Line3(rayStart3, rayEnd3);
-
                     //determine closest point on median line to posOffset
                     let target = new Vector3();
                     let posOffset3 = new Vector3(posOffset.x, posOffset.y, 0);
-                    let point3 = medianLine.closestPointToPoint(posOffset3, true, target);
+                    let point3 = this.control.medianLine.closestPointToPoint(posOffset3, true, target);
                     let point = new Vector2(point3.x, point3.y);
 
                     //move median to that position
-                    this.control.handle.copy(point);
+                    // this.control.handle.copy(point);
 
                     //determine location of corners
-                    let origTBar = new Line3(this.control.origCorners[0], this.control.origCorners[1]);
-                    let moveDir = this.control.handle.clone().sub(this.control.origHandle);
-                    let newTBar = new Line3(
-                        this.control.origCorners[0].clone().add(moveDir),
-                        this.control.origCorners[1].clone().add(moveDir)
-                    )
-                    let track1 = new Line3(this.control.stableCorners[0], this.control.origCorners[0]);
-                    let track2 = new Line3(this.control.stableCorners[1], this.control.origCorners[1]);
+                    // let origTBar = new Line3(this.control.origCorners[0].clone(), this.control.origCorners[1].clone());
+                    let moveDir = point.clone().sub(this.control.origHandle);
+                    // let newTBar = new Line3(
+                    //     this.control.origCorners[0].clone().add(moveDir),
+                    //     this.control.origCorners[1].clone().add(moveDir)
+                    // )
+                    // let track1 = new Line3(this.control.stableCorners[0], this.control.origCorners[0]);
+                    // let track2 = new Line3(this.control.stableCorners[1], this.control.origCorners[1]);
                     // this.control.corners[0].copy(intersectsLine(track1,newTBar));
                     // this.control.corners[1].copy(track2.intersects(newTBar));
-                    this.control.corners[0].add(moveDir);//temp
-                    this.control.corners[1].add(moveDir);//temp
+                    this.control.corners[0].copy(this.control.origCorners[0].clone().add(moveDir));//temp
+                    this.control.corners[1].copy(this.control.origCorners[1].clone().add(moveDir));//temp
 
                     //update
                     this.update();
@@ -232,6 +211,7 @@ class ControllerImageEdit {
                 this.control.isMidpoint = true;
 
                 this.control.origHandle = this.control.handle.clone();
+
                 //corners
                 this.control.corners = [];
                 this.control.stableCorners = [];
@@ -256,9 +236,32 @@ class ControllerImageEdit {
                         console.error("unknown midpoint!", this.control.handle);
                         break;
                 }
+
                 //orig corners
                 this.control.origCorners = this.control.corners
                     .map(c => copyObject(c, undefined, Vector2.prototype));
+
+                //median line
+                let rayStart = this.control.origHandle.clone();
+                let rayEnd = this.control.stableCorners[0].midpointTo(this.control.stableCorners[1]);
+                let rayDir = rayEnd.clone().sub(rayStart);
+
+                //stretch median line to ends of image
+                let width = this.imageEdit.width;
+                let height = this.imageEdit.height;
+                while (between(rayStart.x, 0, width) && between(rayStart.y, 0, height)) {
+                    rayStart.sub(rayDir);
+                }
+                while (between(rayEnd.x, 0, width) && between(rayEnd.y, 0, height)) {
+                    rayEnd.add(rayDir);
+                }
+                // rayDir = rayEnd.clone().sub(rayStart);
+                // rayDir.normalize();
+                // let medianLine = new Ray(rayStart, rayDir);
+                let rayStart3 = new Vector3(rayStart.x, rayStart.y, 0);
+                let rayEnd3 = new Vector3(rayEnd.x, rayEnd.y, 0);
+                let medianLine = new Line3(rayStart3, rayEnd3);
+                this.control.medianLine = medianLine;
             }
         }
     }
