@@ -88,6 +88,15 @@ class ControllerImageEdit {
                 handleSize
             )
         );
+
+        //Median line
+        if (this.control.medianLine) {
+            ctx.lineWidth = 0.5 * this.canvasFactor;
+            ctx.beginPath();
+            ctx.moveTo(this.control.medianLine.start.x, this.control.medianLine.start.y);
+            ctx.lineTo(this.control.medianLine.end.x, this.control.medianLine.end.y);
+            ctx.stroke();
+        }
     }
 
     updateImage(context) {
@@ -183,6 +192,7 @@ class ControllerImageEdit {
         }
     }
     processMouseUp(e) {
+        this.control.medianLine = undefined;
         this.update();
         // this.crop();
         this.mouseDown = false;
@@ -205,6 +215,7 @@ class ControllerImageEdit {
             this.offset.sub(mouse);
             this.control.isCorner = true;
             this.control.isMidpoint = false;
+            this.control.medianLine = undefined;
             //midpoint selection
             if (this.imageEdit.isMidpoint(this.control.handle)) {
                 this.control.isCorner = false;
