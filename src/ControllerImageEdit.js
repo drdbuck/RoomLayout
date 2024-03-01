@@ -16,7 +16,7 @@ class ControllerImageEdit {
         this.targetDimensions = this.defaultTargetDimensions.clone();
 
         this.control = {
-            corner: undefined,
+            handle: undefined,
         };
 
         this.canvas.onmousedown = this.processMouseDown.bind(this);
@@ -124,21 +124,21 @@ class ControllerImageEdit {
     processMouseDown(e) {
 
         let mouse = this.getMouseVector(e);
-        this.selectCorners(mouse);
+        this.selectHandles(mouse);
         this.mouseDown = true;
     }
     processMouseMove(e) {
         let mouse = this.getMouseVector(e);
         if (this.mouseDown) {
-            if (this.control.corner) {
+            if (this.control.handle) {
             mouse.add(this.offset);
-            this.control.corner.copy(mouse);
+            this.control.handle.copy(mouse);
             this.update();
             }
         }
         else {
             //change cursor style
-            this.selectCorners(mouse);
+            this.selectHandles(mouse);
             this.updateCursor();
         }
     }
@@ -148,10 +148,10 @@ class ControllerImageEdit {
         this.mouseDown = false;
     }
 
-    selectCorners(mouse) {
-        this.control.corner = undefined;
+    selectHandles(mouse) {
+        this.control.handle = undefined;
         this.offset = undefined;
-        //select control corner
+        //select control handle
         let handles = this.imageEdit.handleList;
         const handleSelectRange = HANDLE_SELECT_RANGE * this.canvasFactor;
         handles.forEach(c =>
@@ -159,9 +159,9 @@ class ControllerImageEdit {
         );
         handles = handles.filter(c => c.dist <= handleSelectRange);
         if (handles.length > 0) {
-            this.control.corner = handles.reduce((a, b) => (a.dist < b.dist) ? a : b);
+            this.control.handle = handles.reduce((a, b) => (a.dist < b.dist) ? a : b);
             //find offset
-            this.offset = this.control.corner.clone();
+            this.offset = this.control.handle.clone();
             this.offset.sub(mouse);
         }
     }
@@ -176,7 +176,7 @@ class ControllerImageEdit {
 
     updateCursor() {
         let cursor = CURSOR_AUTO;
-        switch (this.control.corner) {
+        switch (this.control.handle) {
             case this.imageEdit.cornerLT:
             case this.imageEdit.cornerRB:
                 cursor = CURSOR_RESIZE_DIAGONAL_LEFT;
