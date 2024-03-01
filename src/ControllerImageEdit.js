@@ -144,9 +144,9 @@ class ControllerImageEdit {
             if (this.control.handle) {
                 //Corner
                 if (this.control.isCorner) {
-            mouse.add(this.offset);
-            this.control.handle.copy(mouse);
-            this.update();
+                    mouse.add(this.offset);
+                    this.control.handle.copy(mouse);
+                    this.update();
                 }
                 //Midpoint
                 else if (this.control.isMidpoint) {
