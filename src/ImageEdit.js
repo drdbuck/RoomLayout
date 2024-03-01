@@ -48,6 +48,13 @@ class ImageEdit {
         return this.midpoints.includes(handle);
     }
 
+    checkPoints() {
+        this.corners.forEach(c => {
+            c.x = Math.clamp(c.x, 0, this.width);
+            c.y = Math.clamp(c.y, 0, this.height);
+        });
+    }
+
     setImage(img) {
         this.original = img;
         this.imgData = getImageData(this.original);

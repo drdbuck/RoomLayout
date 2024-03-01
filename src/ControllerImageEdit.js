@@ -176,6 +176,9 @@ class ControllerImageEdit {
                     this.control.corners[0].copy(this.control.origCorners[0].clone().add(moveDir));//temp
                     this.control.corners[1].copy(this.control.origCorners[1].clone().add(moveDir));//temp
 
+                    //make sure points are within bounds
+                    this.imageEdit.checkPoints();
+
                     //update
                     this.update();
                 }
