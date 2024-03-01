@@ -40,6 +40,14 @@ class ImageEdit {
         return [this.corners, this.midpoints].flat();
     }
 
+    isCorner(handle) {
+        return this.corners.includes(handle);
+    }
+
+    isMidpoint(handle) {
+        return this.midpoints.includes(handle);
+    }
+
     setImage(img) {
         this.original = img;
         this.imgData = getImageData(this.original);
