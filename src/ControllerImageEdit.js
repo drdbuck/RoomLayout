@@ -134,13 +134,13 @@ class ControllerImageEdit {
         if (this.mouseDown) {
             if (this.control.handle) {
                 //Corner
-                if (this.imageEdit.isCorner(this.control.handle)) {
+                if (this.control.isCorner) {
             mouse.add(this.offset);
             this.control.handle.copy(mouse);
             this.update();
                 }
                 //Midpoint
-                else if (this.imageEdit.isMidpoint(this.control.handle)) {
+                else if (this.control.isMidpoint) {
                     let posOffset = mouse.clone();
                     posOffset.add(this.offset);
 
@@ -224,8 +224,13 @@ class ControllerImageEdit {
             //find offset
             this.offset = this.control.handle.clone();
             this.offset.sub(mouse);
+            this.control.isCorner = true;
+            this.control.isMidpoint = false;
             //midpoint selection
             if (this.imageEdit.isMidpoint(this.control.handle)) {
+                this.control.isCorner = false;
+                this.control.isMidpoint = true;
+
                 this.control.origHandle = this.control.handle.clone();
                 //corners
                 this.control.corners = [];
