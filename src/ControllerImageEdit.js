@@ -139,28 +139,7 @@ class ControllerImageEdit {
         else {
             //change cursor style
             this.selectCorners(mouse);
-            let cursor = CURSOR_AUTO;
-            switch (this.control.corner) {
-                case this.imageEdit.cornerLT:
-                case this.imageEdit.cornerRB:
-                    cursor = CURSOR_RESIZE_DIAGONAL_LEFT;
-                    break;
-                case this.imageEdit.cornerRT:
-                case this.imageEdit.cornerLB:
-                    cursor = CURSOR_RESIZE_DIAGONAL_RIGHT;
-                    break;
-                case this.imageEdit.midpointT:
-                case this.imageEdit.midpointB:
-                    cursor = CURSOR_RESIZE_VERTICAL;
-                    break;
-                case this.imageEdit.midpointR:
-                case this.imageEdit.midpointL:
-                    cursor = CURSOR_RESIZE_HORIZONTAL;
-                    break;
-                default:
-                    break;
-            }
-            this.changeCursor(cursor);
+            this.updateCursor();
         }
     }
     processMouseUp(e) {
@@ -193,6 +172,31 @@ class ControllerImageEdit {
             this.targetDimensions.y
         );
         this.onEditChanged.run(imageURL);
+    }
+
+    updateCursor() {
+        let cursor = CURSOR_AUTO;
+        switch (this.control.corner) {
+            case this.imageEdit.cornerLT:
+            case this.imageEdit.cornerRB:
+                cursor = CURSOR_RESIZE_DIAGONAL_LEFT;
+                break;
+            case this.imageEdit.cornerRT:
+            case this.imageEdit.cornerLB:
+                cursor = CURSOR_RESIZE_DIAGONAL_RIGHT;
+                break;
+            case this.imageEdit.midpointT:
+            case this.imageEdit.midpointB:
+                cursor = CURSOR_RESIZE_VERTICAL;
+                break;
+            case this.imageEdit.midpointR:
+            case this.imageEdit.midpointL:
+                cursor = CURSOR_RESIZE_HORIZONTAL;
+                break;
+            default:
+                break;
+        }
+        this.changeCursor(cursor);
     }
 
     changeCursor(cursorStyle) {
