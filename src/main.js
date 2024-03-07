@@ -457,25 +457,3 @@ function createColorMaterial(color = 4687027, depth = true) {
         });
     return material;
 }
-
-
-function duplicateFurniture() {
-    const stringify = getDataStringify();
-    let selection = controllerEdit.selector.selection;
-    controllerEdit.selector.clear();
-    let room = house.rooms[0];//dirty: hardcoded which room to add to
-    //
-    selection.forEach(c => {
-        let f = c.obj;
-        let newF = JSON.parse(JSON.stringify(f, stringify));
-        inflateData(newF);
-        //Data
-        room.addFurniture(newF);
-        //Select new furniture
-        controllerEdit.selectObject(newF, true);
-        //make it easier to find the new duplicate in the scene
-        let offset = new Vector3(0.5, 0, 0.5);
-        offset.add(newF.position);
-        newF.position = offset;
-    });
-}

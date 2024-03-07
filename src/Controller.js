@@ -35,7 +35,7 @@ class Controller {
             switch (event.keyCode) {
                 //D key
                 case 68:
-                    duplicateFurniture();
+                    actionObjectsDuplicate();
                     event.preventDefault();
                     break;
             }
