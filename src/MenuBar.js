@@ -18,6 +18,8 @@ const menuBarData = {
     },
 };
 
+let menuIds = [];
+
 function constructMenuBar(id, idPanels, data) {
     let menuBar = $(id);
     let menuBarPanels = $(idPanels);
@@ -31,9 +33,11 @@ function constructMenuBar(id, idPanels, data) {
     //2024-02-27: copied from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
     for (const [key, value] of Object.entries(data)) {
         if (key == "title") { continue; }
-        let [button, menu] = constructMenuPanel(value, key);
+        let [button, menu, btnId, menuId] = constructMenuPanel(value, key);
         texts.push(button);
         textsPanels.push(menu);
+        // btnIds.push(btnId);
+        menuIds.push(menuId);
     }
     //
     menuBar.innerHTML = texts.join("&nbsp;");
@@ -51,9 +55,7 @@ function constructMenuPanel(data, keyName) {
     //button
     let button = `<button id="${btnId}"
         onclick="
-            let menu = $('${menuId}');
-            menu.hidden = !menu.hidden;
-            alignMenu(this, menu);
+            handleButtonClick(this, '${menuId}');
         "
         >
             ${menuName}
@@ -73,7 +75,17 @@ function constructMenuPanel(data, keyName) {
     }
     menuarr.push(`</div>`);
     //return
-    return [button, menuarr.join("")];
+    return [button, menuarr.join(""), btnId, menuId];
+}
+
+function handleButtonClick(btn, menuId) {
+    let menu = $(menuId);
+    let hidden = menu.hidden;
+    dismissMenuAll();
+    menu.hidden = !hidden;
+    if (!menu.hidden) {
+        alignMenu(btn, menu);
+    }
 }
 
 function alignMenu(btn, menu) {
@@ -81,4 +93,13 @@ function alignMenu(btn, menu) {
     menu.style.left = left + 'px';
 }
 
-constructMenuBar("divMenuBar", "divMenuPanels", menuBarData);
+function dismissMenuAll() {
+    menuIds.forEach(id => dismissMenu(id));
+}
+
+function dismissMenu(menu) {
+    if (isString(menu)) {
+        menu = $(menu);
+    }
+    menu.hidden = true;
+}

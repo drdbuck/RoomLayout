@@ -102,6 +102,8 @@ function init() {
         updateFurnitureEditPanel();
 
     });
+
+    constructMenuBar("divMenuBar", "divMenuPanels", menuBarData);
 }
 init();
 
