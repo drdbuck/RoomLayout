@@ -7,6 +7,10 @@ const menuBarData = {
         "Import File": "actionImportFurniture();",
         "Export Furniture": "actionExportFurniture();",
     },
+    edit: {
+        title: "Edit",
+        "Group Objects": "actionGroupObjects();",
+    },
 };
 
 function constructMenuBar(id, idPanels, data) {

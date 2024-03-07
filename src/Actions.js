@@ -51,3 +51,14 @@ function actionExportFurniture() {
         'data:application/txt'
     );
 }
+
+function actionGroupObjects() {
+    let room = house.rooms[0];
+    //remove from existing
+    let furnitures = controllerEdit.selector.map(c => c.furniture);
+    furnitures.forEach(f => f.group?.remove(f));
+    //add to new
+    let group = room.group(furnitures);
+    //select group
+    controllerEdit.selectObject(group, false);
+}
