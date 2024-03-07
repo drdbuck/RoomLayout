@@ -9,7 +9,7 @@ const menuBarData = {
     },
     edit: {
         title: "Edit",
-        "Group Objects": "actionGroupObjects();",
+        "Group Objects": "actionObjectsGroup();",
     },
     view: {
         title: "View",

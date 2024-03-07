@@ -52,7 +52,7 @@ function actionExportFurniture() {
     );
 }
 
-function actionGroupObjects() {
+function actionObjectsGroup() {
     let room = house.rooms[0];
     //remove from existing
     let furnitures = controllerEdit.selector.map(c => c.furniture);

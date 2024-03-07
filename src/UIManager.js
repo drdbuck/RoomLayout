@@ -262,7 +262,7 @@ function btnFurnitureExport() {
 }
 
 function btnGroup() {
-    actionGroupObjects();
+    actionObjectsGroup();
 }
 
 function btnFaceEdit() {
