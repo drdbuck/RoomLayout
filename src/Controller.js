@@ -64,13 +64,7 @@ class Controller {
                 moveCamera = true;
                 break;
             case 46://DEL key
-                let delList = this.selector.selection;
-                this.selector.clear();
-                delList.forEach(c => {
-                    let f = c.obj;
-                    f.room.removeFurniture(f);
-                    c.boxes.forEach(box => box.parent.remove(box));
-                });
+                actionObjectsDelete();
                 break;
             default: break;
         }

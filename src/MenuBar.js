@@ -10,6 +10,7 @@ const menuBarData = {
     edit: {
         title: "Edit",
         "Duplicate Objects": "actionObjectsDuplicate();",
+        "Delete Objects": "actionObjectsDelete();",
         "Group Objects": "actionObjectsGroup();",
     },
     view: {

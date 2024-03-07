@@ -73,6 +73,16 @@ function actionObjectsDuplicate() {
     });
 }
 
+function actionObjectsDelete() {
+    let delList = controllerEdit.selector.selection;
+    controllerEdit.selector.clear();
+    delList.forEach(c => {
+        let f = c.obj;
+        f.room.removeFurniture(f);
+        c.boxes.forEach(box => box.parent.remove(box));
+    });
+}
+
 function actionObjectsGroup() {
     let room = house.rooms[0];
     //remove from existing
