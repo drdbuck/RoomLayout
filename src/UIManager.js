@@ -75,16 +75,13 @@ function updateFurnitureEditPanel(contexts) {
     _furnitures = contexts?.map(c => c.obj);
     _faces = contexts?.filter(c => c.furniture.validFaceIndex(c.face)).map(c => c.face);
 
-    //early exit: no contexts
-    if (!_contexts) {
-        $("divPanelEdit").hidden = true;
-        $("divFaceEdit").hidden = true;
-        return;
-    }
+    //check if panel should be shown
+    let showPanel = uiVars.editObjects;
+    $("divPanelEdit").hidden = !showPanel;
+    if (!showPanel) { return; }
 
     //Update UI
     let anySelected = _contexts.length > 0;
-    $("divPanelEdit").hidden = !anySelected;
     updateFaceEditPanel();
 
     if (!anySelected) { return; }
@@ -137,7 +134,7 @@ function updateFaceEditPanel(faces) {
     faces = _faces;
 
     //
-    let showPanel = uiVars.editFaces && _faces?.length > 0;
+    let showPanel = uiVars.editFaces;
     $("divFaceEdit").hidden = !showPanel;
     if (!showPanel) { return; }
 
@@ -257,7 +254,7 @@ function updateFaceEditPanel(faces) {
 //
 
 function btnExitFurnitureEdit() {
-    controller.selector.clear();
+    uiVars.editObjects = false;
 }
 
 function btnFurnitureExport() {

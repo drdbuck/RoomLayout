@@ -128,10 +128,6 @@ class Controller {
                                     this.updateFaceSelection();
                                     this.runFaceDelegate();
                                 }
-                                //Exit mode
-                                else {
-                                    uiVars.editFaces = false;
-                                }
                             }
                         }
                     }

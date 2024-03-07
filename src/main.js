@@ -99,6 +99,8 @@ function init() {
         switchMode(true);
         switchView(true);
 
+        updateFurnitureEditPanel();
+
     });
 }
 init();
@@ -150,6 +152,7 @@ function hookupDelegates() {
     });
 
     //UI Vars
+    uiVars.onEditObjectsChanged.add(updateFurnitureEditPanel);
     uiVars.onEditFacesChanged.add((editFaces) => {
         uiVars.highlightSelectedFace = editFaces;
         //update face edit panel

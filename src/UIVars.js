@@ -1,7 +1,9 @@
 "use strict";
 
 let stringifyUIVars = [
+    "_editObjects",
     "_editFaces",
+    "_highlightSelectedFace",
 ];
 
 /**
@@ -10,12 +12,27 @@ let stringifyUIVars = [
  */
 class UIVars {
     constructor() {
-        this._editFaces = false;
+
+        this._editObjects = true;
+        this.onEditObjectsChanged = new Delegate("editObjects");
+
+        this._editFaces = true;
         this.onEditFacesChanged = new Delegate("editFaces");
 
         this._highlightSelectedFace = false;
         this.onHighlightSelectedFaceChanged = new Delegate("highSelectedFace");
 
+    }
+
+    get editObjects() {
+        return this._editObjects;
+    }
+    set editObjects(value) {
+        //enforce boolean
+        value = !!value;
+        //
+        this._editObjects = value;
+        this.onEditObjectsChanged.run(this._editObjects);
     }
 
     get editFaces() {
