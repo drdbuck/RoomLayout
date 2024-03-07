@@ -11,6 +11,11 @@ const menuBarData = {
         title: "Edit",
         "Group Objects": "actionGroupObjects();",
     },
+    view: {
+        title: "View",
+        "Object Edit Panel": "actionTogglePanelEditObject();",
+        "Face Edit Panel": "actionTogglePanelEditFace();",
+    },
 };
 
 function constructMenuBar(id, idPanels, data) {

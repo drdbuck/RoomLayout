@@ -62,3 +62,11 @@ function actionGroupObjects() {
     //select group
     controllerEdit.selectObject(group, false);
 }
+
+function actionTogglePanelEditObject() {
+    uiVars.editObjects = !uiVars.editObjects;
+}
+
+function actionTogglePanelEditFace() {
+    uiVars.editFaces = !uiVars.editFaces;
+}

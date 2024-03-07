@@ -266,7 +266,7 @@ function btnGroup() {
 }
 
 function btnFaceEdit() {
-    uiVars.editFaces = !uiVars.editFaces;
+    actionTogglePanelEditFace();
 }
 
 function btnExitFaceEdit() {
