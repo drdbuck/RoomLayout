@@ -1,5 +1,22 @@
 "use strict";
 
+function actionImportFurniture() {
+    //2024-03-06: copied from CardGenerator
+    //2024-03-03: copied from https://stackoverflow.com/a/56607553/2336212
+
+    var el = document.createElement("INPUT");
+    el.type = "file";
+    el.accept = acceptStringAllFiles;
+    el.multiple = true;
+
+    el.addEventListener('change', (event) => {
+        flm.handleFiles(el.files);
+    });
+
+    el.click(); // open
+
+}
+
 function actionExportFurniture() {
     let furnitures = controllerEdit.selector.map(context => context.obj);
     if (furnitures.length === 0) {

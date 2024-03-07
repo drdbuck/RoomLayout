@@ -4,7 +4,7 @@ const menuBarData = {
     title: "Room Plan 3D",
     file: {
         title: "File",
-        "Import File": "alert('import file');",
+        "Import File": "actionImportFurniture();",
         "Export Furniture": "actionExportFurniture();",
     },
 };

@@ -12,6 +12,10 @@ const textFileTypes = [
     "application/json",
     "frn",//furniture file extension
 ];
+const allFileTypes = [imageFileTypes, textFileTypes].flat();
+const acceptStringAllFiles = allFileTypes
+    .map(f => (f.includes("/")) ? f : `.${f}`)
+    .join(", ");
 
 class FileManager {
     constructor(dropPanel) {
