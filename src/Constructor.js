@@ -174,17 +174,26 @@ function constructFurniture(furniture) {
         box.scale.copy(scale);
         updatePosition();
     };
-    let updateAngle = (angle = 0) => {
-        box.rotation.y = MathUtils.degToRad(angle);
-    }
-    let updateRecline = (recline = 0) => {
-        box.rotation.x = -MathUtils.degToRad(recline);
+    let updateRotation = (angle = 0, recline = 0) => {
+        //rotate to default
+        box.rotation.x = 0;
+        box.rotation.y = 0;
+        box.rotation.z = 0;
+
+        //angle
+        let radAngle = MathUtils.degToRad(angle);
+        let axisAngle = new Vector3(0, 1, 0);
+        box.rotateOnAxis(axisAngle, radAngle);
+
+        //recline
+        let radRecline = -MathUtils.degToRad(recline);
+        let axisRecline = new Vector3(1, 0, 0);
+        box.rotateOnAxis(axisRecline, radRecline);
     }
 
     updatePosition(furniture.position);
     updateScale(furniture.scale);
-    updateAngle(furniture.angle);
-    updateRecline(furniture.recline);
+    updateRotation(furniture.angle, furniture.recline);
 
     //inside faces
     let insideMesh = createInsideFaces(box, furniture);
@@ -194,8 +203,8 @@ function constructFurniture(furniture) {
     //delegates
     furniture.onSizeChanged.add(updateScale);
     furniture.onPositionChanged.add(updatePosition);
-    furniture.onAngleChanged.add(updateAngle);
-    furniture.onReclineChanged.add(updateRecline);
+    furniture.onAngleChanged.add(() => updateRotation(furniture.angle, furniture.recline));
+    furniture.onReclineChanged.add(() => updateRotation(furniture.angle, furniture.recline));
     furniture.onFaceChanged.add((index, url) => {
         let material = createMaterial(url ?? furniture.defaultFace);
         let materialBack = createMaterial(url ?? furniture.defaultFace, false);
