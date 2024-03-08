@@ -5,6 +5,7 @@ let stringifyBlock = [
     "_scale",
     "_position",
     "_angle",
+    "_recline",
     "units",
 ];
 
@@ -20,9 +21,12 @@ class Block {
 
         this._angle = 0;
 
+        this._recline = 0;
+
         this.onSizeChanged = new Delegate("scale");
         this.onPositionChanged = new Delegate("position");
         this.onAngleChanged = new Delegate("angle");
+        this.onReclineChanged = new Delegate("recline");
     }
 
     get name() {
@@ -108,6 +112,15 @@ class Block {
         this._angle = value;
         this.onAngleChanged.run(this._angle);
     }
+
+    get recline() {
+        return this._recline;
+    }
+    set recline(value) {
+        value ||= 0;//NaN prevention
+        this._recline = value;
+        this.onReclineChanged.run(this._recline);
+    }
 }
 
 /**
@@ -119,6 +132,7 @@ function inflateBlock(block) {
         "onSizeChanged",
         "onPositionChanged",
         "onAngleChanged",
+        "onReclineChanged",
     ]
         .forEach(delkey => block[delkey] = new Delegate());
 
@@ -131,4 +145,6 @@ function inflateBlock(block) {
 }
 
 function backwardsCompatifyBlock(block) {
+    //Change: add _recline
+    block._recline ??= 0;
 }

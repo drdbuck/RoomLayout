@@ -462,6 +462,10 @@ class Controller {
         furniture.angle = loopAngle(angle);
     }
 
+    setFurnitureRecline(furniture, recline) {
+        furniture.recline = Math.clamp(recline, -90, 90);
+    }
+
     getMouseWorld(mouse) {
         //2023-12-21: copied from https://stackoverflow.com/a/13091694/2336212
         var vec = new Vector3();

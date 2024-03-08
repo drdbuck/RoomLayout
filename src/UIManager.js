@@ -54,6 +54,7 @@ function initUI() {
     onChangeFunc("txtPosY", (f, v) => controllerEdit.setFurniturePosition(f, f.position.setZ(v)));
     onChangeFunc("txtAltitude", (f, v) => controllerEdit.setFurnitureAltitude(f, v));
     onChangeFunc("txtAngle", (f, v) => controllerEdit.setFurnitureAngle(f, v), true, false);
+    onChangeFunc("txtRecline", (f, v) => controllerEdit.setFurnitureRecline(f, v), true, false);
 
 }
 
@@ -100,6 +101,7 @@ function updateFurnitureEditPanel(contexts) {
     updateFunc("txtPosY", f => f.position.z);
     updateFunc("txtAltitude", f => f.altitude);
     updateFunc("txtAngle", f => f.angle);
+    updateFunc("txtRecline", f => f.recline);
 
 
     $("btnFaceEdit").checked = uiVars.editFaces;

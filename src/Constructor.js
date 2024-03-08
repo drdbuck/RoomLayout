@@ -177,10 +177,14 @@ function constructFurniture(furniture) {
     let updateAngle = (angle = 0) => {
         box.rotation.y = MathUtils.degToRad(angle);
     }
+    let updateRecline = (recline = 0) => {
+        box.rotation.x = -MathUtils.degToRad(recline);
+    }
 
     updatePosition(furniture.position);
     updateScale(furniture.scale);
     updateAngle(furniture.angle);
+    updateRecline(furniture.recline);
 
     //inside faces
     let insideMesh = createInsideFaces(box, furniture);
@@ -191,6 +195,7 @@ function constructFurniture(furniture) {
     furniture.onSizeChanged.add(updateScale);
     furniture.onPositionChanged.add(updatePosition);
     furniture.onAngleChanged.add(updateAngle);
+    furniture.onReclineChanged.add(updateRecline);
     furniture.onFaceChanged.add((index, url) => {
         let material = createMaterial(url ?? furniture.defaultFace);
         let materialBack = createMaterial(url ?? furniture.defaultFace, false);
