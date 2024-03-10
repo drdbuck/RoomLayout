@@ -54,9 +54,9 @@ function initUI() {
     onChangeFunc("txtLengthRoom", rlist, (r, v) => r.length = v);
     onChangeFunc("txtHeightRoom", rlist, (r, v) => r.height = v);
     //Position
-    onChangeFunc("txtPosXRoom", rlist, (r, v) => r.position = r.position.setX(v));
-    onChangeFunc("txtPosYRoom", rlist, (r, v) => r.position = r.position.setZ(v));
-    onChangeFunc("txtAltitudeRoom", rlist, (r, v) => r.altitude = v);
+    // onChangeFunc("txtPosXRoom", rlist, (r, v) => r.position = r.position.setX(v));
+    // onChangeFunc("txtPosYRoom", rlist, (r, v) => r.position = r.position.setZ(v));
+    // onChangeFunc("txtAltitudeRoom", rlist, (r, v) => r.altitude = v);
 
     //FURNITURE
     let flist = controllerEdit?.selector;
@@ -95,9 +95,9 @@ function updateRoomEditPanel() {
     updateFunc("txtLengthRoom", rooms, r => r.length);
     updateFunc("txtHeightRoom", rooms, r => r.height);
     //Position
-    updateFunc("txtPosXRoom", rooms, r => r.position.x);
-    updateFunc("txtPosYRoom", rooms, r => r.position.z);
-    updateFunc("txtAltitudeRoom", rooms, r => r.altitude);
+    // updateFunc("txtPosXRoom", rooms, r => r.position.x);
+    // updateFunc("txtPosYRoom", rooms, r => r.position.z);
+    // updateFunc("txtAltitudeRoom", rooms, r => r.altitude);
 }
 
 function updateFurnitureEditPanel(contexts) {
