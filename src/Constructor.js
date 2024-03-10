@@ -25,15 +25,11 @@ function constructRoom(room, scene) {
     let floor = createFloor(room.width, room.length);
     scene.add(floor);
     //walls
+    let walls = [];
     for (let i = 0; i < 4; i++) {
         let length = (i % 2 == 0) ? room.width : room.length;
         let wall = createWall(length, room.height, i);
-        if (i % 2 == 0) {
-            wall.position.z = room.length / 2 * Math.sign(i - 1.5);
-        }
-        else {
-            wall.position.x = room.width / 2 * Math.sign(i - 1.5);
-        }
+        walls.push(wall);
         scene.add(wall);
     }
     //furniture
@@ -51,6 +47,28 @@ function constructRoom(room, scene) {
     };
     room.furnitures.forEach(furnitureFunc);
     room.onFurnitureAdded.add(furnitureFunc);
+
+    //delegates
+    let updateSize = (size) => {
+        //floor
+        floor.scale.x = size.x;
+        floor.scale.z = size.z;
+        //walls
+        walls.forEach((wall, i) => {
+            if (i % 2 == 0) {
+                wall.position.z = size.z / 2 * Math.sign(i - 1.5);
+                wall.scale.x = size.x;
+            }
+            else {
+                wall.position.x = size.x / 2 * Math.sign(i - 1.5);
+                wall.scale.z = size.z;
+            }
+            wall.position.y = size.y / 2;
+            wall.scale.y = size.y;
+        });
+    }
+    room.onSizeChanged.add(updateSize);
+    updateSize(room.scale);
 }
 
 function createFloor(width = 11, length = 12, showTriangles = false) {
@@ -61,8 +79,8 @@ function createFloor(width = 11, length = 12, showTriangles = false) {
     // floor
 
     let floorGeometry = new PlaneGeometry(
-        width,
-        length,
+        1,
+        1,
         Math.ceil(width * 2),
         Math.ceil(length * 2)
     );
@@ -110,8 +128,8 @@ function createWall(length = 11, height = 9, side = 0, showTriangles = false) {
     // wall
 
     let wallGeometry = new PlaneGeometry(
-        length,
-        height,
+        1,
+        1,
         Math.ceil(length * 2),
         Math.ceil(height * 2)
     );
