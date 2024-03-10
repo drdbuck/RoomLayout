@@ -20,7 +20,7 @@ const updateFunc = (id, func, float = true) => {
 function initUI() {
 
     //individual textbox listeners
-    const onChangeFunc = (id, func, float = true, allowFootNotation = true) => {
+    const onChangeFunc = (id, list, func, float = true, allowFootNotation = true) => {
         const txt = $(id);
         txt.onfocus = () => {
             txt.select();
@@ -38,29 +38,66 @@ function initUI() {
                 value = rawvalue;
             }
             if (value == undefined) { return; }
-            controllerEdit.selector.forEach(
-                context => func(context.obj, value)
+            list.forEach(
+                context => func(context.obj ?? context, value)
             );
         };
     };
+
+    //ROOM
+    let rlist = house.rooms;//dirty: hard-coding whole list
     //Name
-    onChangeFunc("txtName", (f, v) => f.name = v, false);
+    onChangeFunc("txtNameRoom", rlist, (r, v) => r.name = v, false);
     //Size
-    onChangeFunc("txtWidth", (f, v) => f.width = v);
-    onChangeFunc("txtLength", (f, v) => f.length = v);
-    onChangeFunc("txtHeight", (f, v) => f.height = v);
+    onChangeFunc("txtWidthRoom", rlist, (r, v) => r.width = v);
+    onChangeFunc("txtLengthRoom", rlist, (r, v) => r.length = v);
+    onChangeFunc("txtHeightRoom", rlist, (r, v) => r.height = v);
     //Position
-    onChangeFunc("txtPosX", (f, v) => controllerEdit.setFurniturePosition(f, f.position.setX(v)));
-    onChangeFunc("txtPosY", (f, v) => controllerEdit.setFurniturePosition(f, f.position.setZ(v)));
-    onChangeFunc("txtAltitude", (f, v) => controllerEdit.setFurnitureAltitude(f, v));
-    onChangeFunc("txtAngle", (f, v) => controllerEdit.setFurnitureAngle(f, v), true, false);
-    onChangeFunc("txtRecline", (f, v) => controllerEdit.setFurnitureRecline(f, v), true, false);
+    onChangeFunc("txtPosXRoom", rlist, (r, v) => r.position = r.position.setX(v));
+    onChangeFunc("txtPosYRoom", rlist, (r, v) => r.position = r.position.setZ(v));
+    onChangeFunc("txtAltitudeRoom", rlist, (r, v) => r.altitude = v);
+
+    //FURNITURE
+    let flist = controllerEdit.selector;
+    //Name
+    onChangeFunc("txtName", flist, (f, v) => f.name = v, false);
+    //Size
+    onChangeFunc("txtWidth", flist, (f, v) => f.width = v);
+    onChangeFunc("txtLength", flist, (f, v) => f.length = v);
+    onChangeFunc("txtHeight", flist, (f, v) => f.height = v);
+    //Position
+    onChangeFunc("txtPosX", flist, (f, v) => controllerEdit.setFurniturePosition(f, f.position.setX(v)));
+    onChangeFunc("txtPosY", flist, (f, v) => controllerEdit.setFurniturePosition(f, f.position.setZ(v)));
+    onChangeFunc("txtAltitude", flist, (f, v) => controllerEdit.setFurnitureAltitude(f, v));
+    onChangeFunc("txtAngle", flist, (f, v) => controllerEdit.setFurnitureAngle(f, v), true, false);
+    onChangeFunc("txtRecline", flist, (f, v) => controllerEdit.setFurnitureRecline(f, v), true, false);
 
 }
 
 //
 // ======= Update UI from data =======
 //
+
+function updateRoomEditPanel() {
+    let rooms = [...house.rooms];//dirty: hard-coding which room(s) to edit
+
+    //check if panel should be shown
+    let showPanel = uiVars.editRooms;
+    $("divPanelEditRoom").hidden = !showPanel;
+    if (!showPanel) { return; }
+
+    //Name
+    $("txtNameRoom").disabled = !(rooms.length == 1);
+    updateFunc("txtNameRoom", r => r.name, false);
+    //Size
+    updateFunc("txtWidthRoom", r => r.width);
+    updateFunc("txtLengthRoom", r => r.length);
+    updateFunc("txtHeightRoom", r => r.height);
+    //Position
+    updateFunc("txtPosXRoom", r => r.position.x);
+    updateFunc("txtPosYRoom", r => r.position.z);
+    updateFunc("txtAltitudeRoom", r => r.altitude);
+}
 
 function updateFurnitureEditPanel(contexts) {
     log("selected count:", controllerEdit.selector.count);
@@ -254,6 +291,10 @@ function updateFaceEditPanel(faces) {
 //
 // ======= UI Controls =======
 //
+
+function btnExitRoomEdit() {
+    uiVars.editRooms = false;
+}
 
 function btnExitFurnitureEdit() {
     uiVars.editObjects = false;

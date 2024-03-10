@@ -94,6 +94,10 @@ function actionObjectsGroup() {
     controllerEdit.selectObject(group, false);
 }
 
+function actionTogglePanelEditRoom() {
+    uiVars.editRooms = !uiVars.editRooms;
+}
+
 function actionTogglePanelEditObject() {
     uiVars.editObjects = !uiVars.editObjects;
 }

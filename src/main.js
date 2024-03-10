@@ -154,6 +154,7 @@ function hookupDelegates() {
     });
 
     //UI Vars
+    uiVars.onEditRoomsChanged.add(updateRoomEditPanel);
     uiVars.onEditObjectsChanged.add(updateFurnitureEditPanel);
     uiVars.onEditFacesChanged.add((editFaces) => {
         uiVars.highlightSelectedFace = editFaces;

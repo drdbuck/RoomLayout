@@ -28,6 +28,31 @@
         <!-- Three.js Canvas Container -->
         <div id="divCanvas" oncontextmenu="return false;"></div>
 
+        <!-- Room Edit Panel -->
+        <div id="divPanelEditRoom" class="popupPanel" hidden>
+            <button id="btnExitRoomEdit" class="exitButton" onclick="btnExitRoomEdit();">X</button>
+            <h1 id="hEditRoom">Edit Room</h1>
+            <!-- Name -->
+            <label id="lblNameRoom" for="txtNameRoom">Name</label><br>
+            <input type="text" id="txtNameRoom" title="Name" placeholder="name" default="room"/><br>
+            <!-- Size -->
+            <h2>Size</h2>
+            <label id="lblWidthRoom" for="txtWidthRoom">Width</label><br>
+            <input type="text" id="txtWidthRoom" title="Width" placeholder="width" default="11"/><br>
+            <label id="lblLengthRoom" for="txtLengthRoom">Length</label><br>
+            <input type="text" id="txtLengthRoom" title="Length" placeholder="length" default="12"/><br>
+            <label id="lblHeightRoom" for="txtHeightRoom">Height</label><br>
+            <input type="text" id="txtHeightRoom" title="Height" placeholder="height" default="9"/><br>
+            <!-- Position -->
+            <h2>Position</h2>
+            <label id="lblPosXRoom" for="txtPosXRoom">X</label><br>
+            <input type="text" id="txtPosXRoom" title="Position X" placeholder="x" default="0"/><br>
+            <label id="lblPosYRoom" for="txtPosYRoom">Y</label><br>
+            <input type="text" id="txtPosYRoom" title="Position Y" placeholder="y" default="0"/><br>
+            <label id="lblAltitudeRoom" for="txtAltitudeRoom">Altitude</label><br>
+            <input type="text" id="txtAltitudeRoom" title="Altitude" placeholder="altitude" default="0"/><br>
+        </div>
+
         <!-- Furniture Edit Panel -->
         <div id="divPanelEdit" class="popupPanel" hidden>
             <button id="btnExitFurnitureEdit" class="exitButton" onclick="btnExitFurnitureEdit();">X</button>

@@ -13,6 +13,9 @@ let stringifyUIVars = [
 class UIVars {
     constructor() {
 
+        this._editRooms = false;
+        this.onEditRoomsChanged = new Delegate("editRooms");
+
         this._editObjects = true;
         this.onEditObjectsChanged = new Delegate("editObjects");
 
@@ -22,6 +25,17 @@ class UIVars {
         this._highlightSelectedFace = false;
         this.onHighlightSelectedFaceChanged = new Delegate("highSelectedFace");
 
+    }
+
+    get editRooms() {
+        return this._editRooms;
+    }
+    set editRooms(value) {
+        //enforce boolean
+        value = !!value;
+        //
+        this._editRooms = value;
+        this.onEditRoomsChanged.run(this._editRooms);
     }
 
     get editObjects() {
