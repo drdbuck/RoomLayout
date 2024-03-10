@@ -6,11 +6,11 @@ let _faces = [];//dirty
 const reduceFunc = (a, b) => (a === b) ? a : undefined;
 const inequal = "---";
 const DIGITS_OF_PRECISION = 3;
-const updateFunc = (id, func, float = true) => {
+const updateFunc = (id, list, func, float = true) => {
     //early exit: this txt is active
     if (document.activeElement.id === id) { return; }
     //processing
-    let value = _furnitures.map(func).reduce(reduceFunc);
+    let value = list.map(func).reduce(reduceFunc);
     if (value && float) {
         value = Math.cut(value, DIGITS_OF_PRECISION);
     }
@@ -26,6 +26,7 @@ function initUI() {
             txt.select();
         }
         txt.onkeyup = () => {
+            list ??= controllerEdit.selector;
             const rawvalue = txt.value;
             let value = undefined;
             if (float) {
@@ -58,7 +59,7 @@ function initUI() {
     onChangeFunc("txtAltitudeRoom", rlist, (r, v) => r.altitude = v);
 
     //FURNITURE
-    let flist = controllerEdit.selector;
+    let flist = controllerEdit?.selector;
     //Name
     onChangeFunc("txtName", flist, (f, v) => f.name = v, false);
     //Size
@@ -88,15 +89,15 @@ function updateRoomEditPanel() {
 
     //Name
     $("txtNameRoom").disabled = !(rooms.length == 1);
-    updateFunc("txtNameRoom", r => r.name, false);
+    updateFunc("txtNameRoom", rooms, r => r.name, false);
     //Size
-    updateFunc("txtWidthRoom", r => r.width);
-    updateFunc("txtLengthRoom", r => r.length);
-    updateFunc("txtHeightRoom", r => r.height);
+    updateFunc("txtWidthRoom", rooms, r => r.width);
+    updateFunc("txtLengthRoom", rooms, r => r.length);
+    updateFunc("txtHeightRoom", rooms, r => r.height);
     //Position
-    updateFunc("txtPosXRoom", r => r.position.x);
-    updateFunc("txtPosYRoom", r => r.position.z);
-    updateFunc("txtAltitudeRoom", r => r.altitude);
+    updateFunc("txtPosXRoom", rooms, r => r.position.x);
+    updateFunc("txtPosYRoom", rooms, r => r.position.z);
+    updateFunc("txtAltitudeRoom", rooms, r => r.altitude);
 }
 
 function updateFurnitureEditPanel(contexts) {
@@ -126,19 +127,21 @@ function updateFurnitureEditPanel(contexts) {
 
     $("hEditFurniture").innerHTML = `Edit ${(_contexts.every(c => c.obj.isKitBash)) ? "Group" : "Furniture"}`;
 
+    let flist = _furnitures;
+
     //Name
     $("txtName").disabled = !(contexts.length == 1);
-    updateFunc("txtName", f => f.name, false);
+    updateFunc("txtName", flist, f => f.name, false);
     //Size
-    updateFunc("txtWidth", f => f.width);
-    updateFunc("txtLength", f => f.length);
-    updateFunc("txtHeight", f => f.height);
+    updateFunc("txtWidth", flist, f => f.width);
+    updateFunc("txtLength", flist, f => f.length);
+    updateFunc("txtHeight", flist, f => f.height);
     //Position
-    updateFunc("txtPosX", f => f.position.x);
-    updateFunc("txtPosY", f => f.position.z);
-    updateFunc("txtAltitude", f => f.altitude);
-    updateFunc("txtAngle", f => f.angle);
-    updateFunc("txtRecline", f => f.recline);
+    updateFunc("txtPosX", flist, f => f.position.x);
+    updateFunc("txtPosY", flist, f => f.position.z);
+    updateFunc("txtAltitude", flist, f => f.altitude);
+    updateFunc("txtAngle", flist, f => f.angle);
+    updateFunc("txtRecline", flist, f => f.recline);
 
 
     $("btnFaceEdit").checked = uiVars.editFaces;
