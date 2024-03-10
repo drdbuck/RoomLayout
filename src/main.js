@@ -49,8 +49,6 @@ function init() {
     window.onmouseup = input.processMouseUp.bind(input);
     window.onmousewheel = input.processMouseWheel.bind(input);
 
-
-    initUI();
     //Crop Canvas
     controllerImageEdit = new ControllerImageEdit($("cvsCrop"), "#73c9ff");
 
@@ -65,6 +63,9 @@ function init() {
     window.onbeforeunload = (ev) => {
         saveHouse(house);
     };
+
+    //UI
+    initUI();
 
     //Load empty scene
     let loader = new FileLoader();
