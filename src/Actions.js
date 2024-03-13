@@ -47,7 +47,7 @@ function actionExportFurniture() {
     //Download file
     window.download(
         json,
-        filename + '.frn',
+        filename + '.' + EXTENSION_FURNITURE,
         'data:application/txt'
     );
 }

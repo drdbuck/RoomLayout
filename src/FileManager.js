@@ -1,6 +1,7 @@
 "use strict";
 //2024-01-04: copied from CalendarJournal
 
+const EXTENSION_FURNITURE = "frn";//furniture file extension
 const imageFileTypes = [
     "image/png",
     "image/jpeg",
@@ -10,7 +11,7 @@ const imageFileTypes = [
 const textFileTypes = [
     "text/plain",
     "application/json",
-    "frn",//furniture file extension
+    EXTENSION_FURNITURE,
 ];
 const allFileTypes = [imageFileTypes, textFileTypes].flat();
 const acceptStringAllFiles = allFileTypes
@@ -114,7 +115,7 @@ class FileManager {
             return;
         }
         //
-        if (file.name.endsWith(".frn")) {
+        if (file.name.endsWith("." + EXTENSION_FURNITURE)) {
             this.uploadFurniture(file);
         }
         else if (file.name.endsWith(".json")) {
