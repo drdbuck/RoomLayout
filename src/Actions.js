@@ -52,6 +52,28 @@ function actionExportFurniture() {
     );
 }
 
+function actionExportRoom() {
+    let i = 0;
+    let room = house.rooms[i];//dirty: hard coding which room to download
+    if (!room) {
+        //Do nothing
+        return;
+    }
+    //Determine filename
+    let filename = room.name || `room${i + 1}`;
+    //make json
+    let json = JSON.stringify(
+        room,
+        getDataStringify()
+    );
+    //Download file
+    window.download(
+        json,
+        filename + '.' + EXTENSION_ROOM,
+        'data:application/txt'
+    );
+}
+
 function actionObjectsDuplicate() {
     const stringify = getDataStringify();
     let selection = controllerEdit.selector.selection;

@@ -6,6 +6,7 @@ const menuBarData = {
         title: "File",
         "Import File": "actionImportFurniture();",
         "Export Furniture": "actionExportFurniture();",
+        "Export Room": "actionExportRoom();",
     },
     edit: {
         title: "Edit",

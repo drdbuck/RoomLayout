@@ -2,6 +2,8 @@
 //2024-01-04: copied from CalendarJournal
 
 const EXTENSION_FURNITURE = "frn";//furniture file extension
+const EXTENSION_ROOM = "room";//room file extension
+
 const imageFileTypes = [
     "image/png",
     "image/jpeg",
@@ -12,6 +14,7 @@ const textFileTypes = [
     "text/plain",
     "application/json",
     EXTENSION_FURNITURE,
+    EXTENSION_ROOM,
 ];
 const allFileTypes = [imageFileTypes, textFileTypes].flat();
 const acceptStringAllFiles = allFileTypes
@@ -43,6 +46,7 @@ class FileManager {
         //Delegate initialization
         this.onImageUploaded = new Delegate();//param: image
         this.onFurnitureUploaded = new Delegate();//param: furniture
+        this.onRoomUploaded = new Delegate("room");
         this.onJsonUploaded = new Delegate();//param: json
     }
 
@@ -118,6 +122,9 @@ class FileManager {
         if (file.name.endsWith("." + EXTENSION_FURNITURE)) {
             this.uploadFurniture(file);
         }
+        else if (file.name.endsWith("." + EXTENSION_ROOM)) {
+            this.uploadRoom(file);
+        }
         else if (file.name.endsWith(".json")) {
             this.uploadJson(file);
         }
@@ -142,6 +149,23 @@ class FileManager {
                 //Run delegate
                 flm.onFurnitureUploaded.run(furniture);
             }
+        }
+    }
+
+    uploadRoom(file) {
+        const reader = new FileReader();
+        reader.readAsText(file);
+        const flm = this;
+        reader.onloadend = function () {
+            let json = reader.result;
+            let room = JSON.parse(json);
+            if (!room) {
+                console.error("Unable to parse room!", file.name, json);
+                return;
+            }
+            inflateData(room);
+            //Run delegate
+            flm.onRoomUploaded.run(room);
         }
     }
 

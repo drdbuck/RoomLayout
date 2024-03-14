@@ -192,6 +192,18 @@ function hookupDelegates() {
         //Select new furniture
         controllerEdit.selectObject(furniture, false);
     });
+
+    //Upload new room
+    flm.onRoomUploaded.add((room) => {
+        //TEMP: overwrite existing room
+        //TODO: add to room list (but currently we dont support multiple rooms)
+        if (!confirm("Overwrite existing room?")) { return; }
+        //Data
+        house.rooms[0] = room;//dirty: hardcoded which room to overwrite (i guess lol)
+        //objects
+        player.scene.children = [];
+        constructRoom(room, player.scene);
+    });
 }
 
 function getBox(furniture) {
