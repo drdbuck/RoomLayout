@@ -1,15 +1,5 @@
-import {
-	EventDispatcher,
-	MOUSE,
-	Quaternion,
-	Spherical,
-	TOUCH,
-	Vector2,
-	Vector3,
-	Plane,
-	Ray,
-	MathUtils
-} from 'three';
+"use strict";
+//2024-03-13: copied from https://github.com/mrdoob/three.js/blob/master/examples/jsm/controls/OrbitControls.js
 
 // OrbitControls performs orbiting, dollying (zooming), and panning.
 // Unlike TrackballControls, it maintains the "up" direction object.up (+Y by default).
@@ -18,10 +8,10 @@ import {
 //    Zoom - middle mouse, or mousewheel / touch: two-finger spread or squish
 //    Pan - right mouse, or left mouse + ctrl/meta/shiftKey, or arrow keys / touch: two-finger move
 
-const _changeEvent = { type: 'change' };
+const _changeEvent2 = { type: 'change' };
 const _startEvent = { type: 'start' };
 const _endEvent = { type: 'end' };
-const _ray = new Ray();
+const _rayO = new Ray();
 const _plane = new Plane();
 const TILT_LIMIT = Math.cos( 70 * MathUtils.DEG2RAD );
 
@@ -160,7 +150,7 @@ class OrbitControls extends EventDispatcher {
 			scope.object.zoom = scope.zoom0;
 
 			scope.object.updateProjectionMatrix();
-			scope.dispatchEvent( _changeEvent );
+			scope.dispatchEvent( _changeEvent2 );
 
 			scope.update();
 
@@ -358,19 +348,19 @@ class OrbitControls extends EventDispatcher {
 						} else {
 
 							// get the ray and translation plane to compute target
-							_ray.origin.copy( scope.object.position );
-							_ray.direction.set( 0, 0, - 1 ).transformDirection( scope.object.matrix );
+							_ray2.origin.copy( scope.object.position );
+							_rayO.direction.set( 0, 0, - 1 ).transformDirection( scope.object.matrix );
 
 							// if the camera is 20 degrees above the horizon then don't adjust the focus target to avoid
 							// extremely large values
-							if ( Math.abs( scope.object.up.dot( _ray.direction ) ) < TILT_LIMIT ) {
+							if ( Math.abs( scope.object.up.dot( _rayO.direction ) ) < TILT_LIMIT ) {
 
 								object.lookAt( scope.target );
 
 							} else {
 
 								_plane.setFromNormalAndCoplanarPoint( scope.object.up, scope.target );
-								_ray.intersectPlane( _plane, scope.target );
+								_rayO.intersectPlane( _plane, scope.target );
 
 							}
 
@@ -404,7 +394,7 @@ class OrbitControls extends EventDispatcher {
 					8 * ( 1 - lastQuaternion.dot( scope.object.quaternion ) ) > EPS ||
 					lastTargetPosition.distanceToSquared( scope.target ) > EPS ) {
 
-					scope.dispatchEvent( _changeEvent );
+					scope.dispatchEvent( _changeEvent2 );
 
 					lastPosition.copy( scope.object.position );
 					lastQuaternion.copy( scope.object.quaternion );
@@ -1528,5 +1518,3 @@ class OrbitControls extends EventDispatcher {
 	}
 
 }
-
-export { OrbitControls };
