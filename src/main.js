@@ -471,3 +471,8 @@ function createColorMaterial(color = 4687027, depth = true) {
         });
     return material;
 }
+
+//TEST
+function select() {
+    return controllerEdit.selector._selection[0];
+}
