@@ -436,6 +436,34 @@ class OrbitControls extends EventDispatcher {
 
 		};
 
+		this.lock = function () {
+
+			this.domElement.requestPointerLock();
+
+		}
+
+		this.unlock = function () {
+
+			this.domElement.ownerDocument.exitPointerLock();
+
+		}
+
+		this.connect = function () {
+
+			//this.domElement.ownerDocument.addEventListener( 'mousemove', this._onMouseMove );
+			this.domElement.ownerDocument.addEventListener('pointerlockchange', this._onPointerlockChange);
+			this.domElement.ownerDocument.addEventListener('pointerlockerror', this._onPointerlockError);
+
+		}
+
+		this.disconnect = function () {
+
+			//this.domElement.ownerDocument.removeEventListener( 'mousemove', this._onMouseMove );
+			this.domElement.ownerDocument.removeEventListener('pointerlockchange', this._onPointerlockChange);
+			this.domElement.ownerDocument.removeEventListener('pointerlockerror', this._onPointerlockError);
+
+		}
+
 		//
 		// internals
 		//
@@ -1208,6 +1236,7 @@ class OrbitControls extends EventDispatcher {
 			}
 
 		}
+		this._onMouseMove = onMouseMove;
 
 		function onMouseWheel( event ) {
 

@@ -12,7 +12,9 @@ class FirstPersonControls {
 		this.camera = camera;
 		this.domElement = domElement;
 
-		this.controls = new PointerLockControls(camera, domElement);
+		this.controlsPointerLock = new PointerLockControls(camera, domElement);
+		this.controlsOrbit = new OrbitControls(camera, domElement);
+		this.controls = this.controlsOrbit;
 
 		// API
 
