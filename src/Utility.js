@@ -297,6 +297,18 @@ function validateIndexBounds(value, max, name) {
 }
 
 const REGEXP_FLOAT = new RegExp("-?(([0-9]+.?[0-9]*)|([0-9]*.?[0-9]+))", "g");
+function regtest(value) {
+    //log("regexp test", REGEXP_FLOAT.test(value));
+    let parts = [];
+
+    let matches = value.matchAll(REGEXP_FLOAT);
+    for (let s of matches) {
+        parts.push(s);
+    }
+    return parts.map(a => a[0]).join("");
+    // return (REGEXP_FLOAT).test(txt);
+}
+
 function cleanInput(value, regexp = REGEXP_FLOAT) {
     let parts = [];
     let matches = value.matchAll(regexp);
@@ -319,14 +331,30 @@ function parseFloatInput(txt) {
 }
 
 function parseFootInchInput(txt) {
+    //style: 6'2"
     let regexpstr = REGEXP_FLOAT.source + "\' *" + REGEXP_FLOAT.source + "\"";
     txt = cleanInput(txt, new RegExp(regexpstr, "g"));
     let split = txt.split(/["']/);
     let f = parseFloat(split[0]) + (parseFloat(split[1]) / 12);
-    if (!isNumber(f)) {
-        f = undefined;
+    if (isNumber(f)) {
+        return f;
     }
-    return f;
+    //style: 6ft 2in
+    //style: 6ft. 2in.
+    return undefined;
+}
+function _parseFootInchInput(txt, foot, inch) {
+    let regexpStr = `${REGEXP_FLOAT.source}${foot} *${REGEXP_FLOAT.source}${inch}`;
+    txt = cleanInput(txt, new RegExp(regexpStr, "g"));
+    let split = txt.split(new RegExp(`(${foot})|(${inch})`, "g"));//dirty: regexp construction doesnt work
+
+    let f = parseFloat(split[0]) + (parseFloat(split[1]) / 12);
+    if (isNumber(f)) {
+        return f;
+    }
+    //style: 6ft 2in
+    //style: 6ft. 2in.
+    return undefined;
 }
 
 function log(...params) {
