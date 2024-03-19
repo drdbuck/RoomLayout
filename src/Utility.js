@@ -335,26 +335,38 @@ function parseFootInchInput(txt) {
     let unitInches = ["''", "\""];
     let unitFeet = ["'"];
     let unitList = [...unitInches, ...unitFeet];
-    let regexpstr = `(${REGEXP_FLOAT.source}(${unitList.join("|")}) *)+`;
+    let regexpstr = `(${REGEXP_FLOAT.source}(${unitList.join("|")})? *)+`;
     txt = cleanInput(txt, new RegExp(regexpstr, "g"));
-    let split = txt.split(" ");
-    let f = 0;
+    let split = txt.split(" ")
+        .map(s => s?.trim())
+        .filter(s => s);
+    let f;
     split.forEach(str => {
         //inches
         if (str.endsWith("\"")) {
             str = str.substring(0, str.length - 1);
+            f ??= 0;
             f += parseFloat(str) / 12;
             return;
         }
         if (str.endsWith("''")) {
             str = str.substring(0, str.length - 2);
+            f ??= 0;
             f += parseFloat(str) / 12;
             return;
         }
         //feet
         if (str.endsWith("'")) {
             str = str.substring(0, str.length - 1);
+            f ??= 0;
             f += parseFloat(str);
+            return;
+        }
+        //no recognized given units, assume feet
+        let f0 = parseFloatInput(str);
+        if (f0 != undefined) {
+            f ??= 0;
+            f += f0;
             return;
         }
     })

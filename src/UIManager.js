@@ -69,6 +69,7 @@ function initUI() {
                 const rawvalue = txt.value;
                 let dimensions = parseDimensions(rawvalue);
                 dimensions[obj.symbol] ??= dimensions.any;
+                dimensions.any = undefined;
                 _changeFunc(dimensions);
             };
         });
