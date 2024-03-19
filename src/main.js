@@ -286,6 +286,7 @@ function registerKeyBindings(edit = inEditMode, play = !inEditMode) {
         input.mouse.down.add(controllerFPS._onPointerDown);
         input.mouse.move.add(controllerFPS._onPointerMove);
         input.mouse.up.add(controllerFPS._onPointerUp);
+        input.mouse.wheel.add(controllerFPS._onMouseWheel);
 
         controller = controllerFPS;
     }

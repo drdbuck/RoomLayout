@@ -1066,7 +1066,7 @@ class OrbitControls extends EventDispatcher {
 
 		function onMouseWheel( event ) {
 
-			if ( scope.enabled === false || scope.enableZoom === false || state !== STATE.NONE ) return;
+			if ( scope.enabled === false || scope.enableZoom === false ) return;
 
 			event.preventDefault();
 
@@ -1077,6 +1077,7 @@ class OrbitControls extends EventDispatcher {
 			scope.dispatchEvent( _endEvent );
 
 		}
+		this._onMouseWheel = onMouseWheel;
 
 		function customWheelEvent( event ) {
 

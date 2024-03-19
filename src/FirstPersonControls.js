@@ -38,6 +38,7 @@ class FirstPersonControls {
 		this._onPointerMove = this.onPointerMove.bind(this);
 		this._onPointerDown = this.onPointerDown.bind(this);
 		this._onPointerUp = this.onPointerUp.bind(this);
+		this._onMouseWheel = this.onMouseWheel.bind(this);
 		this._onKeyDown = this.onKeyDown.bind(this);
 		this._onKeyUp = this.onKeyUp.bind(this);
 
@@ -72,6 +73,10 @@ class FirstPersonControls {
 		//locked
 		this.controls._onMouseMove(event);
 
+	}
+
+	onMouseWheel(state, event) {
+		this.controls._onMouseWheel(event);
 	}
 
 	onKeyDown(state, event) {
