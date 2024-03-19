@@ -1000,108 +1000,10 @@ class OrbitControls extends EventDispatcher {
 		// event handlers - FSM: listen for events and reset state
 		//
 
-		function onPointerDown( event ) {
-
-			if ( scope.enabled === false ) return;
-
-			if ( pointers.length === 0 ) {
-
-				scope.domElement.setPointerCapture( event.pointerId );
-
-			}
-
-			//
-
-			if ( isTrackingPointer( event ) ) return;
-
-			//
-
-			addPointer( event );
-
-			if ( event.pointerType === 'touch' ) {
-
-				onTouchStart( event );
-
-			} else {
-
-				onMouseDown( event );
-
-			}
-
-		}
-
-		function onPointerMove( event ) {
-
-			if ( scope.enabled === false ) return;
-
-			if ( event.pointerType === 'touch' ) {
-
-				onTouchMove( event );
-
-			} else {
-
-				onMouseMove( event );
-
-			}
-
-		}
-
-		function onPointerUp( event ) {
-
-			removePointer( event );
-
-			switch ( pointers.length ) {
-
-				case 0:
-
-					scope.domElement.releasePointerCapture( event.pointerId );
-
-					scope.dispatchEvent( _endEvent );
-
-					state = STATE.NONE;
-
-					break;
-
-				case 1:
-
-					const pointerId = pointers[ 0 ];
-					const position = pointerPositions[ pointerId ];
-
-					// minimal placeholder event - allows state correction on pointer-up
-					onTouchStart( { pointerId: pointerId, pageX: position.x, pageY: position.y } );
-
-					break;
-
-			}
-
-		}
-
 		function onMouseDown( event ) {
 
 			let mouseAction;
-
-			switch ( event.button ) {
-
-				case 0:
-
-					mouseAction = scope.mouseButtons.LEFT;
-					break;
-
-				case 1:
-
-					mouseAction = scope.mouseButtons.MIDDLE;
-					break;
-
-				case 2:
-
-					mouseAction = scope.mouseButtons.RIGHT;
-					break;
-
-				default:
-
-					mouseAction = - 1;
-
-			}
+			mouseAction = scope.mouseButtons.LEFT;
 
 			switch ( mouseAction ) {
 
@@ -1132,28 +1034,6 @@ class OrbitControls extends EventDispatcher {
 						handleMouseDownRotate( event );
 
 						state = STATE.ROTATE;
-
-					}
-
-					break;
-
-				case MOUSE.PAN:
-
-					if ( event.ctrlKey || event.metaKey || event.shiftKey ) {
-
-						if ( scope.enableRotate === false ) return;
-
-						handleMouseDownRotate( event );
-
-						state = STATE.ROTATE;
-
-					} else {
-
-						if ( scope.enablePan === false ) return;
-
-						handleMouseDownPan( event );
-
-						state = STATE.PAN;
 
 					}
 
@@ -1190,14 +1070,6 @@ class OrbitControls extends EventDispatcher {
 					if ( scope.enableZoom === false ) return;
 
 					handleMouseMoveDolly( event );
-
-					break;
-
-				case STATE.PAN:
-
-					if ( scope.enablePan === false ) return;
-
-					handleMouseMovePan( event );
 
 					break;
 
