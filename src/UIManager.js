@@ -45,7 +45,7 @@ function initUI() {
         };
     };
 
-    const onChangeFuncGroup = (list, ...paramObjs) => {
+    const onChangeFuncGroup = (list, onblur, ...paramObjs) => {
         paramObjs.flat();
         //
         const _changeFunc = (dimensions) => {
@@ -72,6 +72,10 @@ function initUI() {
                 dimensions.any = undefined;
                 _changeFunc(dimensions);
             };
+            txt.onblur = () => {
+                if (!list) { return; }
+                onblur();
+            };
         });
     }
 
@@ -82,6 +86,7 @@ function initUI() {
     //Size
     onChangeFuncGroup(
         rlist,
+        updateRoomEditPanel,
         { id: "txtWidthRoom", symbol: "w", func: (r, v) => r.width = v },
         { id: "txtLengthRoom", symbol: "l", func: (r, v) => r.length = v },
         { id: "txtHeightRoom", symbol: "h", func: (r, v) => r.height = v },
@@ -98,6 +103,7 @@ function initUI() {
     //Size
     onChangeFuncGroup(
         flist,
+        updateFurnitureEditPanel,
         { id: "txtWidth", symbol: "w", func: (f, v) => f.width = v },
         { id: "txtLength", symbol: "d", func: (f, v) => f.length = v },
         { id: "txtHeight", symbol: "h", func: (f, v) => f.height = v },
