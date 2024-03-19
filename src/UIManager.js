@@ -51,10 +51,11 @@ function initUI() {
         const _changeFunc = (dimensions) => {
             list ??= controllerEdit.selector;//dirty: hardcoding
             Object.keys(dimensions).forEach(d => {
-                let dobj = paramObjs.find(po => po.symbol == d);
                 let value = dimensions[d];
+                if (value == undefined) { return; }
+                let dfunc = paramObjs.find(po => po.symbol == d).func;
                 list.forEach(
-                    context => dobj.func(context.obj ?? context, value)
+                    context => dfunc(context.obj ?? context, value)
                 );
             });
         };
