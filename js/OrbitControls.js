@@ -989,6 +989,8 @@ class OrbitControls extends EventDispatcher {
 			let mouseAction;
 			mouseAction = scope.mouseButtons.LEFT;
 
+			this.target = controllerEdit.collectiveCenter;
+
 			switch ( mouseAction ) {
 
 				case MOUSE.DOLLY:

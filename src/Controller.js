@@ -22,6 +22,7 @@ class Controller {
         this.raycaster.layers.set(objectMask);
 
         this.selector = new Selector();
+        this.selector.onSelectionChanged.add(this.updateCollectiveCenter.bind(this));
 
         this.onFaceSelectionChanged = new Delegate("faces");
     }
@@ -350,13 +351,18 @@ class Controller {
 
     updateCollectiveCenter() {
         const count = this.selector.count;
-        if (count <= 0) { return; }
+        if (count <= 0) {
+            //TODO: use room's origin
+            this.collectiveCenter = _zero.clone().setY(house.rooms[0].height / 2);//dirty: hard coding what room to use
+            return;
+        }
         const avgFunc = (func) => this.selector.map(func).sum() / count;
         let collectiveCenter = new Vector3(
             avgFunc(c => c.obj.position.x),
             avgFunc(c => c.obj.position.y),
             avgFunc(c => c.obj.position.z),
         );
+        this.collectiveCenter = collectiveCenter;
         this.selector.forEach(c => c.collectiveCenter = collectiveCenter);
     }
 
