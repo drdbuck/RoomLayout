@@ -1052,6 +1052,7 @@ class OrbitControls extends EventDispatcher {
 			}
 
 		}
+		this._onMouseDown = onMouseDown;
 
 		function onMouseMove( event ) {
 
@@ -1077,6 +1078,17 @@ class OrbitControls extends EventDispatcher {
 
 		}
 		this._onMouseMove = onMouseMove;
+
+		function onMouseUp(event) {
+
+			// scope.domElement.releasePointerCapture( event.pointerId );
+
+			// scope.dispatchEvent( _endEvent );
+
+			state = STATE.NONE;
+
+		}
+		this._onMouseUp = onMouseUp;
 
 		function onMouseWheel( event ) {
 

@@ -311,6 +311,7 @@ function registerKeyBindings(edit = inEditMode, play = !inEditMode) {
     input.mouse.down.add((s, e) => {
         if (!inOverhead && s.mouse.rmbDown) {
             switchMode(false);
+            controller._onPointerDown(s, e);
         }
     });
     input.mouse.up.add((s, e) => {

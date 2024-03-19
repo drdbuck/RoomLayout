@@ -48,7 +48,7 @@ class FirstPersonControls {
 		if (active) {
 			this.controls.lock();
 			this.controls.connect();
-			this._onPointerMove();
+			// this._onPointerMove(); //for pointer lock controls
 		}
 		else {
 			this.controls.unlock();
@@ -57,11 +57,11 @@ class FirstPersonControls {
 	}
 
 	onPointerDown(state, event) {
-		return;
+		this.controls._onMouseDown(event);
 	}
 
 	onPointerUp(state, event) {
-		return;
+		this.controls._onMouseUp(event);
 	}
 
 	onPointerMove(state, event) {
