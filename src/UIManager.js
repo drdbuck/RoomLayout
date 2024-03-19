@@ -45,14 +45,45 @@ function initUI() {
         };
     };
 
+    const onChangeFuncGroup = (list, ...paramObjs) => {
+        paramObjs.flat();
+        //
+        const _changeFunc = (dimensions) => {
+            list ??= controllerEdit.selector;//dirty: hardcoding
+            Object.keys(dimensions).forEach(d => {
+                let dobj = paramObjs.find(po => po.symbol == d);
+                let value = dimensions[d];
+                list.forEach(
+                    context => dobj.func(context.obj ?? context, value)
+                );
+            });
+        };
+        //
+        paramObjs.forEach(obj => {
+            const txt = $(obj.id);
+            txt.onfocus = () => {
+                txt.select();
+            }
+            txt.onkeyup = () => {
+                const rawvalue = txt.value;
+                let dimensions = parseDimensions(rawvalue);
+                dimensions[obj.symbol] ??= dimensions.any;
+                _changeFunc(dimensions);
+            };
+        });
+    }
+
     //ROOM
     let rlist = house.rooms;//dirty: hard-coding whole list
     //Name
     onChangeFunc("txtNameRoom", rlist, (r, v) => r.name = v, false);
     //Size
-    onChangeFunc("txtWidthRoom", rlist, (r, v) => r.width = v);
-    onChangeFunc("txtLengthRoom", rlist, (r, v) => r.length = v);
-    onChangeFunc("txtHeightRoom", rlist, (r, v) => r.height = v);
+    onChangeFuncGroup(
+        rlist,
+        { id: "txtWidthRoom", symbol: "w", func: (r, v) => r.width = v },
+        { id: "txtLengthRoom", symbol: "l", func: (r, v) => r.length = v },
+        { id: "txtHeightRoom", symbol: "h", func: (r, v) => r.height = v },
+    );
     //Position
     // onChangeFunc("txtPosXRoom", rlist, (r, v) => r.position = r.position.setX(v));
     // onChangeFunc("txtPosYRoom", rlist, (r, v) => r.position = r.position.setZ(v));
@@ -63,9 +94,12 @@ function initUI() {
     //Name
     onChangeFunc("txtName", flist, (f, v) => f.name = v, false);
     //Size
-    onChangeFunc("txtWidth", flist, (f, v) => f.width = v);
-    onChangeFunc("txtLength", flist, (f, v) => f.length = v);
-    onChangeFunc("txtHeight", flist, (f, v) => f.height = v);
+    onChangeFuncGroup(
+        flist,
+        { id: "txtWidth", symbol: "w", func: (f, v) => f.width = v },
+        { id: "txtLength", symbol: "d", func: (f, v) => f.length = v },
+        { id: "txtHeight", symbol: "h", func: (f, v) => f.height = v },
+    );
     //Position
     onChangeFunc("txtPosX", flist, (f, v) => controllerEdit.setFurniturePosition(f, f.position.setX(v)));
     onChangeFunc("txtPosY", flist, (f, v) => controllerEdit.setFurniturePosition(f, f.position.setZ(v)));
