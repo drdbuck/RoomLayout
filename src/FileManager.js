@@ -32,10 +32,11 @@ class FileManager {
 
         //Prevent default drag behaviors
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
-        ['dragenter', 'dragover', 'dragleave', 'drop', 'paste'].forEach(eventName => {
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropPanel.addEventListener(eventName, _preventDefaults, false);
             document.body.addEventListener(eventName, _preventDefaults, false);
         })
+        dropPanel.addEventListener("paste", _preventDefaults, false);
 
         //drop event handlers
         dropPanel.addEventListener('drop', _handleDrop, false);

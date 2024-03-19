@@ -1,7 +1,7 @@
 "use strict";
 
 let body = $("body");
-let flm = new FileManager(body);
+let flm = new FileManager($("divCanvas"));
 flm.onImageUploaded.add((image) => log("image uploaded!", image.name));
 
 const uiVars = new UIVars();
