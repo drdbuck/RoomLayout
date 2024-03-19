@@ -182,6 +182,8 @@ function hookupDelegates() {
         room.addFurniture(furniture);
         //Select new furniture
         controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
+        //focus field
+        $("txtWidth").focus();
     });
 
     //Upload new furniture
