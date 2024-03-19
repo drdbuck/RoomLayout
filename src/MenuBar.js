@@ -25,6 +25,10 @@ const menuBarData = {
 
 let menuIds = [];
 
+let menuBarState = {
+    anyOpen: false,
+}
+
 function constructMenuBar(id, idPanels, data) {
     let menuBar = $(id);
     let menuBarPanels = $(idPanels);
@@ -45,7 +49,7 @@ function constructMenuBar(id, idPanels, data) {
         menuIds.push(menuId);
     }
     //
-    menuBar.innerHTML = texts.join("&nbsp;");
+    menuBar.innerHTML = texts.join("");
     menuBarPanels.innerHTML = textsPanels.join("");
 }
 
@@ -59,9 +63,8 @@ function constructMenuPanel(data, keyName) {
     let menuId = `div${menuName}`;
     //button
     let button = `<button id="${btnId}"
-        onclick="
-            handleButtonClick(this, '${menuId}');
-        "
+        onclick="handleButtonClick(this, '${menuId}');"
+        onmouseover="handleMouseOver(this, '${menuId}');"
         >
             ${menuName}
         </button>`;
@@ -84,12 +87,23 @@ function constructMenuPanel(data, keyName) {
 }
 
 function handleButtonClick(btn, menuId) {
+    showMenuSingle(btn, menuId);
+}
+
+function handleMouseOver(btn, menuId) {
+    if (menuBarData.anyOpen) {
+        showMenuSingle(btn, menuId, true);
+    }
+}
+
+function showMenuSingle(btn, menuId, show) {
     let menu = $(menuId);
-    let hidden = menu.hidden;
+    show ??= menu.hidden;//default: toggle
     dismissMenuAll();
-    menu.hidden = !hidden;
-    if (!menu.hidden) {
+    menu.hidden = !show;
+    if (show) {
         alignMenu(btn, menu);
+        menuBarData.anyOpen = true;
     }
 }
 
@@ -100,6 +114,7 @@ function alignMenu(btn, menu) {
 
 function dismissMenuAll() {
     menuIds.forEach(id => dismissMenu(id));
+    menuBarData.anyOpen = false;
 }
 
 function dismissMenu(menu) {
