@@ -121,20 +121,6 @@ class OrbitControls extends EventDispatcher {
 
 		};
 
-		this.listenToKeyEvents = function ( domElement ) {
-
-			domElement.addEventListener( 'keydown', onKeyDown );
-			this._domElementKeyEvents = domElement;
-
-		};
-
-		this.stopListenToKeyEvents = function () {
-
-			this._domElementKeyEvents.removeEventListener( 'keydown', onKeyDown );
-			this._domElementKeyEvents = null;
-
-		};
-
 		this.saveState = function () {
 
 			scope.target0.copy( scope.target );
@@ -412,22 +398,10 @@ class OrbitControls extends EventDispatcher {
 
 		this.dispose = function () {
 
-			scope.domElement.removeEventListener( 'contextmenu', onContextMenu );
-
-			scope.domElement.removeEventListener( 'pointerdown', onPointerDown );
-			scope.domElement.removeEventListener( 'pointercancel', onPointerUp );
-			scope.domElement.removeEventListener( 'wheel', onMouseWheel );
-
-			scope.domElement.removeEventListener( 'pointermove', onPointerMove );
-			scope.domElement.removeEventListener( 'pointerup', onPointerUp );
-
 			const document = scope.domElement.getRootNode(); // offscreen canvas compatibility
-
-			document.removeEventListener( 'keydown', interceptControlDown, { capture: true } );
 
 			if ( scope._domElementKeyEvents !== null ) {
 
-				scope._domElementKeyEvents.removeEventListener( 'keydown', onKeyDown );
 				scope._domElementKeyEvents = null;
 
 			}
@@ -1034,9 +1008,6 @@ class OrbitControls extends EventDispatcher {
 
 				scope.domElement.setPointerCapture( event.pointerId );
 
-				scope.domElement.addEventListener( 'pointermove', onPointerMove );
-				scope.domElement.addEventListener( 'pointerup', onPointerUp );
-
 			}
 
 			//
@@ -1084,9 +1055,6 @@ class OrbitControls extends EventDispatcher {
 				case 0:
 
 					scope.domElement.releasePointerCapture( event.pointerId );
-
-					scope.domElement.removeEventListener( 'pointermove', onPointerMove );
-					scope.domElement.removeEventListener( 'pointerup', onPointerUp );
 
 					scope.dispatchEvent( _endEvent );
 
@@ -1286,36 +1254,6 @@ class OrbitControls extends EventDispatcher {
 
 		}
 
-		function interceptControlDown( event ) {
-
-			if ( event.key === 'Control' ) {
-
-				controlActive = true;
-
-
-				const document = scope.domElement.getRootNode(); // offscreen canvas compatibility
-
-				document.addEventListener( 'keyup', interceptControlUp, { passive: true, capture: true } );
-
-			}
-
-		}
-
-		function interceptControlUp( event ) {
-
-			if ( event.key === 'Control' ) {
-
-				controlActive = false;
-
-
-				const document = scope.domElement.getRootNode(); // offscreen canvas compatibility
-
-				document.removeEventListener( 'keyup', interceptControlUp, { passive: true, capture: true } );
-
-			}
-
-		}
-
 		function onKeyDown( event ) {
 
 			if ( scope.enabled === false || scope.enablePan === false ) return;
@@ -1462,14 +1400,6 @@ class OrbitControls extends EventDispatcher {
 
 		}
 
-		function onContextMenu( event ) {
-
-			if ( scope.enabled === false ) return;
-
-			event.preventDefault();
-
-		}
-
 		function addPointer( event ) {
 
 			pointers.push( event.pointerId );
@@ -1530,15 +1460,7 @@ class OrbitControls extends EventDispatcher {
 
 		//
 
-		scope.domElement.addEventListener( 'contextmenu', onContextMenu );
-
-		scope.domElement.addEventListener( 'pointerdown', onPointerDown );
-		scope.domElement.addEventListener( 'pointercancel', onPointerUp );
-		scope.domElement.addEventListener( 'wheel', onMouseWheel, { passive: false } );
-
 		const document = scope.domElement.getRootNode(); // offscreen canvas compatibility
-
-		document.addEventListener( 'keydown', interceptControlDown, { passive: true, capture: true } );
 
 		// force an update at start
 
