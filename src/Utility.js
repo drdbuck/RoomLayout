@@ -324,7 +324,7 @@ function parseFloatInput(txt) {
         txt = cleanInput(txt, REGEXP_FLOAT);
         f = parseFloat(txt);
         if (!isNumber(f)) {
-            f = undefined;
+            return undefined;
         }
     }
     return f;
@@ -332,10 +332,32 @@ function parseFloatInput(txt) {
 
 function parseFootInchInput(txt) {
     //style: 6'2"
-    let regexpstr = REGEXP_FLOAT.source + "\' *" + REGEXP_FLOAT.source + "\"";
+    let unitInches = ["''", "\""];
+    let unitFeet = ["'"];
+    let unitList = [...unitInches, ...unitFeet];
+    let regexpstr = `(${REGEXP_FLOAT.source}(${unitList.join("|")}) *)+`;
     txt = cleanInput(txt, new RegExp(regexpstr, "g"));
-    let split = txt.split(/["']/);
-    let f = parseFloat(split[0]) + (parseFloat(split[1]) / 12);
+    let split = txt.split(" ");
+    let f = 0;
+    split.forEach(str => {
+        //inches
+        if (str.endsWith("\"")) {
+            str = str.substring(0, str.length - 1);
+            f += parseFloat(str) / 12;
+            return;
+        }
+        if (str.endsWith("''")) {
+            str = str.substring(0, str.length - 2);
+            f += parseFloat(str) / 12;
+            return;
+        }
+        //feet
+        if (str.endsWith("'")) {
+            str = str.substring(0, str.length - 1);
+            f += parseFloat(str);
+            return;
+        }
+    })
     if (isNumber(f)) {
         return f;
     }
@@ -355,6 +377,33 @@ function _parseFootInchInput(txt, foot, inch) {
     //style: 6ft 2in
     //style: 6ft. 2in.
     return undefined;
+}
+
+function parseDimensions(txt) {
+    let tokens = txt.split(" ");
+    let dimensions = {};
+    let lastMeasurement = 0;
+    for (let i = 0; i < tokens.length; i++) {
+        let token = tokens[i];
+        //measurement
+        let f = parseFloatInput(token);
+        if (f != undefined) {
+            lastMeasurement += parseFootInchInput(token);
+        }
+        //dimension
+        else {
+            let ltoken = token.toLowerCase();
+            if (["w", "h", "d"].includes(ltoken)) {
+                dimensions[ltoken] = lastMeasurement;
+                lastMeasurement = 0;
+            }
+        }
+    }
+    if (lastMeasurement > 0) {
+        dimensions["any"] = lastMeasurement;
+        lastMeasurement = 0;
+    }
+    return dimensions;
 }
 
 function log(...params) {
