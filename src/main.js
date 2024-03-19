@@ -171,14 +171,14 @@ function hookupDelegates() {
     //Upload image to new box / existing face
     flm.onImageUploaded.add((image) => {
         //upload face instead of editing faces
-        if (uiVars.editFaces) {
+        if (uiVars.editFaces && controllerEdit.selector.count > 0) {
             uploadFace(image);
             return;
         }
         //Data
         let furniture = new Furniture(image.src);
         furniture.name = image.name;
-        let room = house.rooms[0];
+        let room = house.rooms[0];//dirty: hardcoded which room to add to
         room.addFurniture(furniture);
         //Select new furniture
         controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
