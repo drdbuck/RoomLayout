@@ -74,6 +74,15 @@ function actionExportRoom() {
     );
 }
 
+function actionObjectCreateBlank() {
+    let furniture = new Furniture(PIXEL_WHITE);
+    furniture.name = "blank";
+    let room = house.rooms[0];//dirty: hardcoded which room to add to
+    room.addFurniture(furniture);
+    //Select new furniture
+    controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
+}
+
 function actionObjectsDuplicate() {
     const stringify = getDataStringify();
     let selection = controllerEdit.selector.selection;

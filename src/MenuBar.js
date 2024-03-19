@@ -10,6 +10,7 @@ const menuBarData = {
     },
     edit: {
         title: "Edit",
+        "Create Blank": "actionObjectCreateBlank();",
         "Duplicate Objects": "actionObjectsDuplicate();",
         "Delete Objects": "actionObjectsDelete();",
         "Group Objects": "actionObjectsGroup();",
