@@ -39,6 +39,16 @@ class Controller {
                     actionObjectsDuplicate();
                     event.preventDefault();
                     break;
+                //Y key
+                case 89:
+                    actionRedo();
+                    event.preventDefault();
+                    break;
+                //Z key
+                case 90:
+                    actionUndo();
+                    event.preventDefault();
+                    break;
             }
             return;
         }
