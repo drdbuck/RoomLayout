@@ -59,6 +59,7 @@ function init() {
         let room = new Room();
         house.addRoom(room);
     }
+    uiVars.giveUids(house);
     //Save
     //2024-01-09: copied from SyllableSight
     window.onbeforeunload = (ev) => {
@@ -182,6 +183,7 @@ function hookupDelegates() {
         //Data
         let furniture = new Furniture(image.src);
         furniture.name = image.name;
+        uiVars.giveUids(furniture);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
         room.addFurniture(furniture);
         //Select new furniture
@@ -193,6 +195,7 @@ function hookupDelegates() {
     //Upload new furniture
     flm.onFurnitureUploaded.add((furniture) => {
         //Data
+        uiVars.giveUids(furniture);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
         room.addFurniture(furniture);
         //Select new furniture
@@ -205,6 +208,7 @@ function hookupDelegates() {
         //TODO: add to room list (but currently we dont support multiple rooms)
         if (!confirm("Overwrite existing room?")) { return; }
         //Data
+        uiVars.giveUids(room);
         house.rooms[0] = room;//dirty: hardcoded which room to overwrite (i guess lol)
         //objects
         player.scene.children = [];

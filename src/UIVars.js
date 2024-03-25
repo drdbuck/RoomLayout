@@ -25,6 +25,10 @@ class UIVars {
         this._highlightSelectedFace = false;
         this.onHighlightSelectedFaceChanged = new Delegate("highSelectedFace");
 
+        ///
+
+        this.nextUid = 1;
+
     }
 
     get editRooms() {
@@ -69,5 +73,20 @@ class UIVars {
         //
         this._highlightSelectedFace = value;
         this.onHighlightSelectedFaceChanged.run(this._highlightSelectedFace);
+    }
+
+    giveUids(obj) {
+        //give uid
+        if (!obj.uid) {
+            obj.uid = this.nextUid;
+            this.nextUid++;
+        }
+        //check for more objects
+        //if house
+        obj.rooms?.forEach(room => this.giveUids(room));
+        //if room
+        obj.furnitures?.forEach(furniture => this.giveUids(furniture));
+        //if kitbash
+        obj.items?.forEach(item => this.giveUids(item));
     }
 }

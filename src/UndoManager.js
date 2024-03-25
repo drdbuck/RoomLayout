@@ -4,7 +4,7 @@ class UndoManager {
     constructor() {
         this._undoSystem = new UndoSystem(
             () => house,
-            getDataStringify(),
+            getDataStringify().concat(["uid"]),
             (obj) => {
                 house = obj;
                 inflateData(house);
