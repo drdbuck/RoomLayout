@@ -367,6 +367,8 @@ function btnUseSuggestedImage(imgURL) {
         let f = c.furniture;
         f.setFace(c.face, imgURL);
     });
+    //record undo
+    undoMan.recordUndo();
 }
 
 function btnUseDefaultImage() {
@@ -375,6 +377,8 @@ function btnUseDefaultImage() {
         let f = c.furniture;
         f.setFace(c.face, f.defaultFace);
     });
+    //record undo
+    undoMan.recordUndo();
 }
 
 function btnFlipX() {
@@ -401,6 +405,8 @@ function btnFlip(flipX, flipY) {
             f.setFace(faceIndex, url);
         }
     });
+    //record undo
+    undoMan.recordUndo();
 }
 
 function cropCanvasChanged(url) {
@@ -416,6 +422,8 @@ function cropCanvasChanged(url) {
 
 function btnFaceCrop() {
     controllerImageEdit.crop();
+    //record undo
+    undoMan.recordUndo();
 }
 
 function btnFaceClear() {
@@ -424,4 +432,6 @@ function btnFaceClear() {
         let f = c.furniture;
         f.setFace(c.face, PIXEL_TRANSPARENT);
     });
+    //record undo
+    undoMan.recordUndo();
 }
