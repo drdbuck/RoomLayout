@@ -6,8 +6,8 @@ class UndoManager {
             () => house,
             getDataStringify(),
             (obj) => {
-                house = inflateData(obj);
-                console.log("house", house);
+                house = obj;
+                inflateData(house);
                 let scene = construct(house);
                 player.setScene(scene);
             }
