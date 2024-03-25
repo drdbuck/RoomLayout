@@ -6,6 +6,7 @@ class UndoManager {
             () => house,
             getDataStringify().concat(["uid"]),
             (obj) => {
+                controllerEdit.selector.clear();
                 house = obj;
                 inflateData(house);
                 let scene = construct(house);
