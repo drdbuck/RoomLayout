@@ -179,9 +179,13 @@ function createImage(name, url) {
 
 const PIXEL_TRANSPARENT = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAANSURBVBhXY2BgYGAAAAAFAAGKM+MAAAAAAElFTkSuQmCC';
 const PIXEL_WHITE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAAMSURBVBhXY/j//z8ABf4C/qc1gYQAAAAASUVORK5CYII=';
+const LIST_PIXEL = [
+    PIXEL_TRANSPARENT,
+    PIXEL_WHITE,
+]
 
 function isValidImage(imageURL) {
-    return imageURL && imageURL !== PIXEL_TRANSPARENT;
+    return imageURL && !LIST_PIXEL.includes(imageURL);
 }
 
 const tempCanvas = document.createElement("canvas");
