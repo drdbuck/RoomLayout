@@ -137,20 +137,26 @@ function hookupDelegates() {
     });
     controllerEdit.selector.onSelectionGained.add(context => {
         context.boxes.forEach(box => {
+            if (!box) { return; }
             box.edge.visible = true;
             updateFace(box, -2);
         })
         //
+        if (context.box) {
         updateFace(context.box, context.face);
+        }
         registerUIDelegates(context.obj, true);
     });
     controllerEdit.selector.onSelectionLost.add(context => {
         context.boxes.forEach(box => {
+            if (!box) { return; }
             box.edge.visible = false;
             updateFace(box, -2);
         })
         //
+        if (context.box) {
         updateFace(context.box, -2);
+        }
         registerUIDelegates(context.obj, false);
     });
 

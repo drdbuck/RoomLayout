@@ -89,4 +89,32 @@ class UIVars {
         //if kitbash
         obj.items?.forEach(item => this.giveUids(item));
     }
+
+    findUid(obj, uid) {
+        if (obj.uid == uid) {
+            return obj;
+        }
+        //
+        let retobj;
+        //house
+        retobj = obj.rooms
+            ?.map(room => this.findUid(room))
+            .filter(room => room)
+            .at(0);
+        if (retobj) { return retobj; }
+        //room
+        retobj = obj.furnitures
+            ?.map(furniture => this.findUid(furniture))
+            .filter(furniture => furniture)
+            .at(0);
+        if (retobj) { return retobj; }
+        //kitbash
+        retobj = obj.items
+            ?.map(item => this.findUid(item))
+            .filter(item => item)
+            .at(0);
+        if (retobj) { return retobj; }
+        //not found
+        return undefined;
+    }
 }

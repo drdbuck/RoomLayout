@@ -102,6 +102,24 @@ class Selector {
     }
 
     /**
+     * Keep only the selected items that make the given filterFunc return true
+     * @param {(obj: any) => boolean} filterFunc
+     */
+    filter(filterFunc) {
+        this._selection = this._selection.filter(c => {
+            let pass = filterFunc(c);
+            if (pass) {
+                return true;
+            }
+            else {
+                this.onSelectionLost.run(c);
+                return false;
+            }
+        })
+        this.onSelectionChanged.run(this._selection);
+    }
+
+    /**
      * Deselect all the selected items
      */
     clear() {
