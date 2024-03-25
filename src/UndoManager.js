@@ -11,28 +11,36 @@ class UndoManager {
                 let scene = construct(house);
                 player.setScene(scene);
                 //re-hook up selection
+                setTimeout(() => {
+                    return false;
+                let contexts = [];
                 controllerEdit.selector.forEach(c => {
+                    let context = {};
                     if (c.obj) {
                         let uid = c.obj.id;
                         let obj = uiVars.findUid(house, uid);
-                        c.obj = obj;
-                        c.box = getBox(obj);
+                        context.obj = obj;
+                        context.box = getBox(obj);
                     }
                     if (c.furniture) {
                         let uid = c.furniture.id;
                         let obj = uiVars.findUid(house, uid);
-                        c.furniture = obj;
-                        c.box = getBox(obj);
+                        context.furniture = obj;
+                        context.box = getBox(obj);
                     }
                     if (c.kitbash) {
                         let uid = c.kitbash.id;
                         let obj = uiVars.findUid(house, uid);
-                        c.kitbash = obj;
-                        c.boxes = getBoxes(obj.items);
+                        context.kitbash = obj;
+                        context.boxes = getBoxes(obj.items);
                     }
+                    context.boxes ??= [context.box];
+                    context.face = c.face;
+                    contexts.push(context);
                 });
-                //remove contexts that can't be found
-                controllerEdit.selector.filter(c => c.obj);
+                controllerEdit.selector.clear();
+                    controllerEdit.selector.selectAll(contexts);
+                }, 1000);//dirty: using timeout instead of listening for async func to finish (waiting for construct edge to return)
             }
         );
     }
