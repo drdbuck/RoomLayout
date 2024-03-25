@@ -10,6 +10,8 @@ const menuBarData = {
     },
     edit: {
         title: "Edit",
+        "Undo": "actionUndo();",
+        "Redo": "actionRedo();",
         "Create Blank": "actionObjectCreateBlank();",
         "Duplicate Objects": "actionObjectsDuplicate();",
         "Delete Objects": "actionObjectsDelete();",

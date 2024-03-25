@@ -8,6 +8,7 @@ const uiVars = new UIVars();
 
 let player;
 let input;
+let undoMan;
 let controller;
 let controllerEdit;
 let controllerFPS;
@@ -63,6 +64,9 @@ function init() {
     window.onbeforeunload = (ev) => {
         saveHouse(house);
     };
+
+    //Undo
+    undoMan = new UndoManager();
 
     //UI
     initUI();

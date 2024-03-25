@@ -11,6 +11,8 @@ function actionImportFurniture() {
 
     el.addEventListener('change', (event) => {
         flm.handleFiles(el.files);
+        //record undo
+        undoMan.recordUndo();
     });
 
     el.click(); // open
@@ -74,6 +76,14 @@ function actionExportRoom() {
     );
 }
 
+function actionUndo() {
+    undoMan.undo();
+}
+
+function actionRedo() {
+    undoMan.redo();
+}
+
 function actionObjectCreateBlank() {
     let furniture = new Furniture(PIXEL_WHITE);
     furniture.name = "blank";
@@ -83,6 +93,8 @@ function actionObjectCreateBlank() {
     controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
     //focus field
     $("txtWidth").focus();
+    //record undo
+    undoMan.recordUndo();
 }
 
 function actionObjectsDuplicate() {
@@ -104,6 +116,8 @@ function actionObjectsDuplicate() {
         offset.add(newF.position);
         newF.position = offset;
     });
+    //record undo
+    undoMan.recordUndo();
 }
 
 function actionObjectsDelete() {
@@ -114,6 +128,8 @@ function actionObjectsDelete() {
         f.room.removeFurniture(f);
         c.boxes.forEach(box => box.parent.remove(box));
     });
+    //record undo
+    undoMan.recordUndo();
 }
 
 function actionObjectsGroup() {
@@ -125,6 +141,8 @@ function actionObjectsGroup() {
     let group = room.group(furnitures);
     //select group
     controllerEdit.selectObject(group, false);
+    //record undo
+    undoMan.recordUndo();
 }
 
 function actionTogglePanelEditRoom() {
