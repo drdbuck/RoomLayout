@@ -98,19 +98,19 @@ class UIVars {
         let retobj;
         //house
         retobj = obj.rooms
-            ?.map(room => this.findUid(room))
+            ?.map(room => this.findUid(room, uid))
             .filter(room => room)
             .at(0);
         if (retobj) { return retobj; }
         //room
         retobj = obj.furnitures
-            ?.map(furniture => this.findUid(furniture))
+            ?.map(furniture => this.findUid(furniture, uid))
             .filter(furniture => furniture)
             .at(0);
         if (retobj) { return retobj; }
         //kitbash
         retobj = obj.items
-            ?.map(item => this.findUid(item))
+            ?.map(item => this.findUid(item, uid))
             .filter(item => item)
             .at(0);
         if (retobj) { return retobj; }

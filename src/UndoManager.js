@@ -19,19 +19,19 @@ class UndoManager {
                 controllerEdit.selector.forEach(c => {
                     let context = {};
                     if (c.obj) {
-                        let uid = c.obj.id;
+                        let uid = c.obj.uid;
                         let obj = uiVars.findUid(house, uid);
                         context.obj = obj;
                         context.box = getBox(obj);
                     }
                     if (c.furniture) {
-                        let uid = c.furniture.id;
+                        let uid = c.furniture.uid;
                         let obj = uiVars.findUid(house, uid);
                         context.furniture = obj;
                         context.box = getBox(obj);
                     }
                     if (c.kitbash) {
-                        let uid = c.kitbash.id;
+                        let uid = c.kitbash.uid;
                         let obj = uiVars.findUid(house, uid);
                         context.kitbash = obj;
                         context.boxes = getBoxes(obj.items);
