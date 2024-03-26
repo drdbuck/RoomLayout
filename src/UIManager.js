@@ -21,13 +21,21 @@ function initUI() {
 
     //individual textbox listeners
     const onChangeFunc = (id, list, func, float = true, allowFootNotation = true) => {
+        let txtChanged = false;
+        let prevValue;
         const txt = $(id);
         txt.onfocus = () => {
             txt.select();
+            txtChanged = false;
+            prevValue = txt.value;
         }
         txt.onkeyup = () => {
             list ??= controllerEdit.selector;
             const rawvalue = txt.value;
+            if (rawvalue != prevValue) {
+                prevValue = rawvalue;
+                txtChanged = true;
+            }
             let value = undefined;
             if (float) {
                 if (allowFootNotation) {
@@ -43,6 +51,12 @@ function initUI() {
                 context => func(context.obj ?? context, value)
             );
         };
+        txt.onblur = () => {
+            if (txtChanged) {
+                //record undo
+                undoMan.recordUndo();
+            }
+        }
     };
 
     const onChangeFuncGroup = (list, onblur, ...paramObjs) => {
@@ -61,12 +75,18 @@ function initUI() {
         };
         //
         paramObjs.forEach(obj => {
+            let txtChanged = false;
+            let prevValue;
             const txt = $(obj.id);
             txt.onfocus = () => {
                 txt.select();
             }
             txt.onkeyup = () => {
                 const rawvalue = txt.value;
+                if (rawvalue != prevValue) {
+                    prevValue = rawvalue;
+                    txtChanged = true;
+                }
                 let dimensions = parseDimensions(rawvalue);
                 dimensions[obj.symbol] ??= dimensions.any;
                 dimensions.any = undefined;
@@ -74,6 +94,10 @@ function initUI() {
             };
             txt.onblur = () => {
                 if (!list) { return; }
+                if (txtChanged) {
+                    //record undo
+                    undoMan.recordUndo();
+                }
                 onblur();
             };
         });
