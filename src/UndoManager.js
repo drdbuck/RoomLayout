@@ -8,9 +8,10 @@ class UndoManager {
             (obj) => {
                 controllerEdit.selector.clear();
                 house = obj;
-                inflateData(house);
+                inflateHouse(house);
                 let scene = construct(house);
                 player.setScene(scene);
+                controllerEdit.scene = scene;
                 //re-hook up selection
                 setTimeout(() => {
                     return false;
