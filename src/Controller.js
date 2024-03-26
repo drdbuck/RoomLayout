@@ -188,7 +188,13 @@ class Controller {
     processMouseUp(state, event) {
         if (!state.mouse.lmbDown) {
             //select face
-            if (!state.mouse.wasDragged) {
+            if (state.mouse.wasDragged) {
+                if (this.selector.count > 0) {
+                    //record undo
+                    undoMan.recordUndo();
+                }
+            }
+            else{
                 let targetHit = this.getObjectHitAtMousePos();
                 let target = targetHit?.object?.furniture;
                 //if an object was clicked on
@@ -227,12 +233,14 @@ class Controller {
 
     processMouseWheel(state, event) {
         let zoomDelta = state.mouse.wheelDelta * this.wheelMoveSpeed / 100;
-        //Camera zoom
+        //Altitude
         if (state.mouse.lmbDown || event.altKey) {
             this.selector.forEach(c => {
                 let furniture = c.obj;
                 this.setFurnitureAltitude(furniture, furniture.altitude + zoomDelta);
             });
+            //record undo
+            undoMan.recordUndo();
         }
         //Rotate
         else if (event.shiftKey) {
@@ -241,8 +249,10 @@ class Controller {
                 let deltaAngle = Math.round(zoomDelta) * 15;
                 this.setFurnitureAngle(c.obj, c.obj.angle + deltaAngle);
             });
+            //record undo
+            undoMan.recordUndo();
         }
-        //Altitude
+        //Camera zoom
         else {
             this.camera.position.y = Math.clamp(
                 this.camera.position.y + zoomDelta,
