@@ -35,7 +35,11 @@ class UndoSystem {
     }
 
     _goToState(index) {
+        let prevIndex = this.index;
         this.index = Math.clamp(index, 0, this.stateList.length - 1);
+        //
+        if (this.index == prevIndex) { return; }
+        //
         let state = this.stateList[this.index];
         let obj = JSON.parse(state);
         this.retrieveFunc(obj);
