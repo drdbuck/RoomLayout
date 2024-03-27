@@ -5,7 +5,11 @@ let stringifyUIVars = [
     "_editObjects",
     "_editFaces",
     "_highlightSelectedFace",
+    "_view",
 ];
+
+const VIEW_OVERHEAD = 1;
+const VIEW_FIRSTPERSON = 2;
 
 /**
  * Stores temporary variables that describe the current state of the UI
@@ -25,6 +29,9 @@ class UIVars {
 
         this._highlightSelectedFace = false;
         this.onHighlightSelectedFaceChanged = new Delegate("highSelectedFace");
+
+        this._view = VIEW_OVERHEAD;
+        this.onViewChanged = new Delegate("view");
 
         ///
 
@@ -78,6 +85,25 @@ class UIVars {
         this.onHighlightSelectedFaceChanged.run(this._highlightSelectedFace);
     }
 
+    get view() {
+        return this._view;
+    }
+    set view(value) {
+        if (![VIEW_OVERHEAD, VIEW_FIRSTPERSON].includes(value)) {
+            console.error("unknown view!", value);
+            return;
+        }
+        //
+        this._view = value;
+        this.onViewChanged.run(this._view);
+    }
+    get viewInOverhead() {
+        return this.view == VIEW_OVERHEAD;
+    }
+    set viewInOverhead(value = !this.viewInOverhead) {
+        this.view = (value) ? VIEW_OVERHEAD : VIEW_FIRSTPERSON;
+    }
+
     giveUids(obj) {
         //give uid
         if (!obj.uid) {
@@ -122,7 +148,7 @@ class UIVars {
     }
 }
 
-function inflateUIVars(uiVars){
+function inflateUIVars(uiVars) {
     inflateObject(
         uiVars,
         UIVars.prototype,
@@ -131,6 +157,7 @@ function inflateUIVars(uiVars){
             "onEditObjectsChanged",
             "onEditFacesChanged",
             "onHighlightSelectedFaceChanged",
+            "onViewChanged",
         ]
     );
 }

@@ -25,6 +25,9 @@ const effectMask = 1;
 const viewOverhead = new View(new Vector3(0, 10, 0), new Quaternion(-0.7, 0, 0, 0.7));
 const viewImmersive = new View(new Vector3(0, 5, 0), new Quaternion(0, 0, 0, 1));
 let view = viewOverhead;
+const views = [];
+views[VIEW_OVERHEAD] = viewOverhead;
+views[VIEW_FIRSTPERSON] = viewImmersive;
 
 const _up = new Vector3(0, 1, 0);
 
@@ -106,7 +109,7 @@ function init() {
         hookupDelegates();
 
         switchMode(true);
-        switchView(true);
+        uiVars.view = uiVars.view;//trigger delegate w/o changing anything
 
         //Update UI
         updateFurnitureEditPanel();
@@ -175,6 +178,12 @@ function hookupDelegates() {
     });
     uiVars.onHighlightSelectedFaceChanged.add((highlightSelectedFace) => {
         controller.updateFaceSelection();
+    });
+    uiVars.onViewChanged.add((v) => {
+        view = views[v];
+        //Position camera
+        player.camera.quaternion.copy(view.quaternion);
+        player.camera.position.copy(view.position);
     });
 
     //File Manager
@@ -327,8 +336,8 @@ function registerKeyBindings(edit = inEditMode, play = !inEditMode) {
             case 9:
             //space
             case 32:
-                switchView(!inOverhead);
-                if (inOverhead) {
+                uiVars.viewInOverhead = !uiVars.viewInOverhead;
+                if (uiVars.viewInOverhead) {
                     switchMode(true);
                 }
                 e.preventDefault();
@@ -336,7 +345,7 @@ function registerKeyBindings(edit = inEditMode, play = !inEditMode) {
         }
     });
     input.mouse.down.add((s, e) => {
-        if (!inOverhead && s.mouse.rmbDown) {
+        if (!uiVars.viewInOverhead && s.mouse.rmbDown) {
             switchMode(false);
             controller._onPointerDown(s, e);
         }
@@ -369,17 +378,6 @@ function switchMode(editMode = !inEditMode) {
     //Simulate
     simulate(!editMode);
 };
-
-let inOverhead = true;
-function switchView(overhead = !inOverhead) {
-    inOverhead = overhead;
-    view = (overhead)
-        ? viewOverhead
-        : viewImmersive;
-    //Position camera
-    player.camera.quaternion.copy(view.quaternion);
-    player.camera.position.copy(view.position);
-}
 
 function getDataStringify() {
     return [
