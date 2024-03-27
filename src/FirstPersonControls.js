@@ -73,6 +73,12 @@ class FirstPersonControls {
 		//locked
 		this.controls._onMouseMove(event);
 
+		//Update view
+		const obj = this.controls.getObject();
+		const view = uiVars.view;
+		view.position = obj.position;
+		view.quaternion = obj.quaternion;
+
 	}
 
 	onMouseWheel(state, event) {

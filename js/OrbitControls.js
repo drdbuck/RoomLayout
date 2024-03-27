@@ -396,6 +396,12 @@ class OrbitControls extends EventDispatcher {
 
 		}();
 
+		this.getObject = () => {
+
+			return this.object;
+
+		}
+
 		this.dispose = function () {
 
 			const document = scope.domElement.getRootNode(); // offscreen canvas compatibility
