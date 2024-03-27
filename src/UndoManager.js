@@ -6,17 +6,17 @@ class UndoManager {
             () => house,
             getDataStringify().concat(["uid"]),
             (obj) => {
+                let selection = controllerEdit.selector.selection;
                 controllerEdit.selector.clear();
+                //
                 house = obj;
                 inflateHouse(house);
                 let scene = construct(house);
                 player.setScene(scene);
                 controllerEdit.scene = scene;
                 //re-hook up selection
-                setTimeout(() => {
-                    return false;
                 let contexts = [];
-                controllerEdit.selector.forEach(c => {
+                selection.forEach(c => {
                     let context = {};
                     if (c.obj) {
                         let uid = c.obj.uid;
@@ -40,9 +40,7 @@ class UndoManager {
                     context.face = c.face;
                     contexts.push(context);
                 });
-                controllerEdit.selector.clear();
                     controllerEdit.selector.selectAll(contexts);
-                }, 1000);//dirty: using timeout instead of listening for async func to finish (waiting for construct edge to return)
             }
         );
     }
