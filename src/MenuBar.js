@@ -67,12 +67,15 @@ function constructMenuPanel(data, keyName) {
     let button = `<button id="${btnId}"
         onclick="handleButtonClick(this, '${menuId}');"
         onmouseover="handleMouseOver(this, '${menuId}');"
+        onmouseleave="handleMouseLeave('${btnId}', '${menuId}', event);"
         >
             ${menuName}
         </button>`;
     //menu panel
     let menuarr = [];
-    menuarr.push(`<div id="${menuId}" class="menuPanel" hidden=true>`);
+    menuarr.push(`<div id="${menuId}" class="menuPanel" hidden=true
+        onmouseleave="handleMouseLeave('${btnId}', '${menuId}', event);"
+        >`);
     for (const [key, value] of Object.entries(data)) {
         if (key == "title") { continue; }
         //
@@ -95,6 +98,16 @@ function handleButtonClick(btn, menuId) {
 function handleMouseOver(btn, menuId) {
     if (menuBarData.anyOpen) {
         showMenuSingle(btn, menuId, true);
+    }
+}
+
+function handleMouseLeave(btnId, menuId, event) {
+    const allowedIds = [btnId, menuId, "divMenuBar", "divMenuPanels"];
+    if (!allowedIds.includes(event.toElement?.id)
+        && !allowedIds.includes(event.toElement?.parentElement?.id)
+    ) {
+        dismissMenu(menuId);
+        menuBarData.anyOpen = false;
     }
 }
 
