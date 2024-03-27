@@ -4,7 +4,7 @@ let body = $("body");
 let flm = new FileManager($("divCanvas"));
 flm.onImageUploaded.add((image) => log("image uploaded!", image.name));
 
-const uiVars = new UIVars();
+let uiVars;
 
 let player;
 let input;
@@ -59,11 +59,14 @@ function init() {
         let room = new Room();
         house.addRoom(room);
     }
+    uiVars = loadUIVars();
     uiVars.giveUids(house);
+
     //Save
     //2024-01-09: copied from SyllableSight
     window.onbeforeunload = (ev) => {
         saveHouse(house);
+        saveUIVars(uiVars);
     };
 
     //UI

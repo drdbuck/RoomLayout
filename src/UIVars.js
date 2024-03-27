@@ -1,6 +1,7 @@
 "use strict";
 
 let stringifyUIVars = [
+    "_editRooms",
     "_editObjects",
     "_editFaces",
     "_highlightSelectedFace",
@@ -119,4 +120,17 @@ class UIVars {
         //not found
         return undefined;
     }
+}
+
+function inflateUIVars(uiVars){
+    inflateObject(
+        uiVars,
+        UIVars.prototype,
+        [
+            "onEditRoomsChanged",
+            "onEditObjectsChanged",
+            "onEditFacesChanged",
+            "onHighlightSelectedFaceChanged",
+        ]
+    );
 }
