@@ -22,6 +22,7 @@ const edgeMaterial = new LineBasicMaterial({
 });
 const objectMask = 0;
 const effectMask = 1;
+let inEditMode = true;
 
 const _up = new Vector3(0, 1, 0);
 
@@ -69,20 +70,25 @@ function init() {
     //UI
     initUI();
 
-    //Load empty scene
-    let loader = new FileLoader();
-    loader.load('app.json', (text) => {
-
-        player.load(JSON.parse(text));
-        player.play();
+    //Player
+        player.load();
 
         //Camera
-        player.camera.layers.enable(objectMask);
-        player.camera.layers.enable(effectMask);
+        let camera =  new PerspectiveCamera(50, 1.4183266932270917, 0.01, 1000);
+        camera.zoom = 1;
+        camera.focus = 10;
+        camera.filmGauge = 35;
+        camera.filmOffset = 0;
+        camera.layers.enable(objectMask);
+        camera.layers.enable(effectMask);
+        player.setCamera(camera);
 
         //Load scene
         let scene = construct(house);
         player.setScene(scene);
+
+        //
+        player.play();
 
         //Controller init
         controllerEdit = new Controller(
@@ -110,8 +116,7 @@ function init() {
         updateFaceEditPanel();
         updateRoomEditPanel();
 
-    });
-
+    //Menu
     constructMenuBar("divMenuBar", "divMenuPanels", menuBarData);
 }
 init();
@@ -259,43 +264,6 @@ function inflateData(data) {
     }
 }
 
-//
-let looping = false;
-let lastTime = 0;
-function loop(now) {
-    if (!looping) { return; }
-
-    if (!(lastTime > 0)) {
-        lastTime = now;
-    }
-    if (!(now > 0)) {
-        now = lastTime;
-    }
-    let delta = now - lastTime;
-    if (!(delta > 0)) {
-        delta = 0;
-    }
-    delta /= 1000;
-    controllerFPS.update(delta);
-
-    window.requestAnimationFrame(loop);
-
-    lastTime = now;
-}
-
-function simulate(on) {
-    if (on) {
-        if (!looping) {
-            lastTime = 0;
-            looping = true;
-            loop();
-        }
-    }
-    else {
-        looping = false;
-    }
-};
-
 function registerKeyBindings(edit = inEditMode, play = !inEditMode) {
     input.clearAllDelegates();
 
@@ -355,7 +323,6 @@ function registerKeyBindings(edit = inEditMode, play = !inEditMode) {
     // })
 };
 
-let inEditMode = true;
 function switchMode(editMode = !inEditMode) {
     inEditMode = editMode;
     //deactivate prev controller
@@ -369,7 +336,6 @@ function switchMode(editMode = !inEditMode) {
     //
     registerKeyBindings(editMode, !editMode);
     //Simulate
-    simulate(!editMode);
 };
 
 function getDataStringify() {

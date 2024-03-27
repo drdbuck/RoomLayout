@@ -24,7 +24,9 @@ var APP = {
 
 		this.load = function (json) {
 
-			var project = json.project;
+			json ??= {};
+
+			var project = json.project ?? {};
 
 			if (project.vr !== undefined)
 				renderer.xr.enabled = project.vr;
@@ -40,7 +42,9 @@ var APP = {
 			if (json.scene) {
 				this.setScene(loader.parse(json.scene));
 			}
-			this.setCamera(loader.parse(json.camera));
+			if (json.camera) {
+				this.setCamera(loader.parse(json.camera));
+			}
 
 			events = {
 				init: [],
