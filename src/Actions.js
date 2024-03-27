@@ -145,6 +145,14 @@ function actionObjectsGroup() {
     undoMan.recordUndo();
 }
 
+function actionViewOverhead() {
+    uiVars.viewId = VIEW_OVERHEAD;
+}
+
+function actionViewImmersive() {
+    uiVars.viewId = VIEW_FIRSTPERSON;
+}
+
 function actionTogglePanelEditRoom() {
     uiVars.editRooms = !uiVars.editRooms;
 }

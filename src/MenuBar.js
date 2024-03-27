@@ -19,6 +19,8 @@ const menuBarData = {
     },
     view: {
         title: "View",
+        "Overhead View": "actionViewOverhead();",
+        "Immersive View": "actionViewImmersive();",
         "Room Edit Panel": "actionTogglePanelEditRoom();",
         "Furniture Edit Panel": "actionTogglePanelEditObject();",
         "Face Edit Panel": "actionTogglePanelEditFace();",
