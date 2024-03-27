@@ -50,14 +50,17 @@ class UndoManager {
     }
 
     recordUndo() {
+        if (!uiVars.undoEnabled) { return; }//TEMP: while the undo system is still not optimized
         this._undoSystem.recordUndo();
     }
 
     undo() {
+        if (!uiVars.undoEnabled) { return; }//TEMP: while the undo system is still not optimized
         this._undoSystem.undo();
     }
 
     redo() {
+        if (!uiVars.undoEnabled) { return; }//TEMP: while the undo system is still not optimized
         this._undoSystem.redo();
     }
 

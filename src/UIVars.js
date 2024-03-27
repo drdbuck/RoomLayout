@@ -29,6 +29,8 @@ class UIVars {
 
         this.nextUid = 1;
 
+        this.undoEnabled = true;
+
     }
 
     get editRooms() {
