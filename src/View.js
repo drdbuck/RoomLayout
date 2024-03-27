@@ -29,6 +29,6 @@ class View {
 function inflateView(view) {
     inflateObject(view, View.prototype);
 
-    inflateObject(view._position, Vector2.prototype);
+    inflateObject(view._position, Vector3.prototype);
     view._quaternion = new Quaternion(...view._quaternion);//convert from stored array to quaternion
 }
