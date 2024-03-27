@@ -66,9 +66,6 @@ function init() {
         saveHouse(house);
     };
 
-    //Undo
-    undoMan = new UndoManager();
-
     //UI
     initUI();
 
@@ -99,6 +96,9 @@ function init() {
             player.camera,
             player.dom
         );
+
+        //Undo
+        undoMan = new UndoManager();
 
         hookupDelegates();
 
