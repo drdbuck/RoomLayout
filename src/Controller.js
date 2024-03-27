@@ -82,7 +82,7 @@ class Controller {
         //if move the camera,
         if (moveCamera) {
             //save position
-            view.position = this.camera.position;
+            uiVars.view.position = this.camera.position;
         }
     }
 

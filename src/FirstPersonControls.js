@@ -140,7 +140,7 @@ class FirstPersonControls {
 		this.object.quaternion.copy(this.camera.quaternion);
 		this.object.rotation.x = 0;
 		this.object.rotation.z = 0;
-		view.quaternion = this.camera.quaternion;
+		uiVars.view.quaternion = this.camera.quaternion;
 
 		return this;
 
@@ -171,8 +171,8 @@ class FirstPersonControls {
 		const obj = this.controls.getObject();
 		obj.position.y += (this.velocity.y * delta); // new behavior
 
-		view.position = obj.position;
-		view.quaternion = obj.quaternion;
+		uiVars.view.position = obj.position;
+		uiVars.view.quaternion = obj.quaternion;
 
 	}
 

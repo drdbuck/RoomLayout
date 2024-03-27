@@ -27,7 +27,7 @@ function loadHouse() {
 function saveUIVars(uiVars) {
     let json = uiVars;
     if (!isString(json)) {
-        json = JSON.stringify(uiVars, stringifyUIVars);
+        json = JSON.stringify(uiVars, getDataStringifyUIVars());
     }
     localStorage.setItem(uiVarsSaveKey, json);
 }

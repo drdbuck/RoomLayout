@@ -22,12 +22,6 @@ const edgeMaterial = new LineBasicMaterial({
 });
 const objectMask = 0;
 const effectMask = 1;
-const viewOverhead = new View(new Vector3(0, 10, 0), new Quaternion(-0.7, 0, 0, 0.7));
-const viewImmersive = new View(new Vector3(0, 5, 0), new Quaternion(0, 0, 0, 1));
-let view = viewOverhead;
-const views = [];
-views[VIEW_OVERHEAD] = viewOverhead;
-views[VIEW_FIRSTPERSON] = viewImmersive;
 
 const _up = new Vector3(0, 1, 0);
 
@@ -109,7 +103,7 @@ function init() {
         hookupDelegates();
 
         switchMode(true);
-        uiVars.view = uiVars.view;//trigger delegate w/o changing anything
+        uiVars.viewId = uiVars.viewId;//trigger delegate w/o changing anything
 
         //Update UI
         updateFurnitureEditPanel();
@@ -179,8 +173,7 @@ function hookupDelegates() {
     uiVars.onHighlightSelectedFaceChanged.add((highlightSelectedFace) => {
         controller.updateFaceSelection();
     });
-    uiVars.onViewChanged.add((v) => {
-        view = views[v];
+    uiVars.onViewIdChanged.add((viewId, view) => {
         //Position camera
         player.camera.quaternion.copy(view.quaternion);
         player.camera.position.copy(view.position);

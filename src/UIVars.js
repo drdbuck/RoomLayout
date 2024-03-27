@@ -5,11 +5,14 @@ let stringifyUIVars = [
     "_editObjects",
     "_editFaces",
     "_highlightSelectedFace",
-    "_view",
+    "_viewId",
+    "_views",
 ];
 
-const VIEW_OVERHEAD = 1;
-const VIEW_FIRSTPERSON = 2;
+const VIEW_OVERHEAD = 0;
+const VIEW_FIRSTPERSON = 1;
+const viewOverhead = new View(new Vector3(0, 10, 0), new Quaternion(-0.7, 0, 0, 0.7));
+const viewImmersive = new View(new Vector3(0, 5, 0), new Quaternion(0, 0, 0, 1));
 
 /**
  * Stores temporary variables that describe the current state of the UI
@@ -30,8 +33,13 @@ class UIVars {
         this._highlightSelectedFace = false;
         this.onHighlightSelectedFaceChanged = new Delegate("highSelectedFace");
 
-        this._view = VIEW_OVERHEAD;
-        this.onViewChanged = new Delegate("view");
+        //View
+        this._views = [];
+        this._views[VIEW_OVERHEAD] = viewOverhead;
+        this._views[VIEW_FIRSTPERSON] = viewImmersive;
+        this._viewId = VIEW_OVERHEAD;
+        this._view = this._views[this._viewId];
+        this.onViewIdChanged = new Delegate("viewId", "view");
 
         ///
 
@@ -88,20 +96,24 @@ class UIVars {
     get view() {
         return this._view;
     }
-    set view(value) {
-        if (![VIEW_OVERHEAD, VIEW_FIRSTPERSON].includes(value)) {
-            console.error("unknown view!", value);
+    get viewId() {
+        return this._viewId;
+    }
+    set viewId(value) {
+        if (!this._views[value]) {
+            console.error("unknown viewId!", value);
             return;
         }
         //
-        this._view = value;
-        this.onViewChanged.run(this._view);
+        this._viewId = value;
+        this._view = this._views[this._viewId];
+        this.onViewIdChanged.run(this._viewId, this._view);
     }
     get viewInOverhead() {
-        return this.view == VIEW_OVERHEAD;
+        return this.viewId == VIEW_OVERHEAD;
     }
     set viewInOverhead(value = !this.viewInOverhead) {
-        this.view = (value) ? VIEW_OVERHEAD : VIEW_FIRSTPERSON;
+        this.viewId = (value) ? VIEW_OVERHEAD : VIEW_FIRSTPERSON;
     }
 
     giveUids(obj) {
@@ -157,7 +169,19 @@ function inflateUIVars(uiVars) {
             "onEditObjectsChanged",
             "onEditFacesChanged",
             "onHighlightSelectedFaceChanged",
-            "onViewChanged",
+            "onViewIdChanged",
         ]
     );
+
+    uiVars._views.forEach(view => {
+        inflateView(view);
+    })
+}
+
+function getDataStringifyUIVars() {
+    return [
+        stringifyUIVars,
+        stringifyView,
+        stringifyVector3,
+    ].flat();
 }
