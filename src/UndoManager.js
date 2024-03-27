@@ -24,6 +24,9 @@ class UndoManager {
                         context.obj = obj;
                         context.box = getBox(obj);
                     }
+                    if (!context.obj) {
+                        return;
+                    }
                     if (c.furniture) {
                         let uid = c.furniture.uid;
                         let obj = uiVars.findUid(house, uid);
