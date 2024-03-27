@@ -79,10 +79,10 @@ canvas {
     position: absolute;
     top: 43px;
     z-index: 10;
-    padding: 3px;
+    padding: 10px;
     background-color: black;
     font-size: 14px;
-    width: 230px;
+    width: 170px;
 }
 
 .popupPanel h1 {
@@ -186,15 +186,17 @@ canvas {
     position: absolute;
     z-index: 11;
     background-color: black;
-    top: 1px;
-    right: 1px;
+    top: 0px;
+    right: 0px;
     border: none !important;
+    width: 25px;
+    height: 25px;
 }
 
 /* Specific element styles */
 
 #divPanelEditRoom {
-    left: 260px;
+    left: 210px;
 }
 
 #divPanelEdit {
@@ -203,6 +205,7 @@ canvas {
 
 #divFaceEdit {
     right: 10px;
+    width: 230px;
 }
 
 #spnFaceName {
