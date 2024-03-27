@@ -108,7 +108,10 @@ function init() {
         switchMode(true);
         switchView(true);
 
+        //Update UI
         updateFurnitureEditPanel();
+        updateFaceEditPanel();
+        updateRoomEditPanel();
 
     });
 

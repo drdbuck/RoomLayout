@@ -20,7 +20,7 @@ const menuBarData = {
     view: {
         title: "View",
         "Room Edit Panel": "actionTogglePanelEditRoom();",
-        "Object Edit Panel": "actionTogglePanelEditObject();",
+        "Furniture Edit Panel": "actionTogglePanelEditObject();",
         "Face Edit Panel": "actionTogglePanelEditFace();",
     },
 };
