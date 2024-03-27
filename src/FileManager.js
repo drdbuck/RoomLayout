@@ -60,7 +60,7 @@ class FileManager {
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
         let dt = e.dataTransfer;
         let files = dt.files;
-        this.handleFiles(files);
+        this.handleFiles(files, () => undoMan.recordUndo());
     }
     handlePaste(event) {
         //2024-02-13: copied from https://stackoverflow.com/a/51586232/2336212
@@ -72,28 +72,36 @@ class FileManager {
                 files.push(blob);
             }
         }
-        this.handleFiles(files);
+        this.handleFiles(files, () => undoMan.recordUndo());
     }
 
-    handleFiles(files) {
+    handleFiles(files, callback) {
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
         files = [...files];
+        let filesLeft = files.length;
+        let callbackFunc = () => {
+            filesLeft--;
+            if (filesLeft <= 0) {
+                callback();
+            }
+        }
         files.forEach((file) => {
             let fileType = file.type;
             let fileExtension = file.name.split(".").at(-1);
             if (imageFileTypes.includes(fileType)) {
-                this.uploadImage(file);
+                this.uploadImage(file, callbackFunc);
             }
             else if (textFileTypes.includes(fileType) || textFileTypes.includes(fileExtension)) {
-                this.handleTextFile(file);
+                this.handleTextFile(file, callbackFunc);
             }
             else {
                 console.warn("Unknown file type:", fileType, "filename:", file.name, "extension", fileExtension);
+                callbackFunc();
             }
         });
     }
 
-    uploadImage(file) {
+    uploadImage(file, callback) {
         let reader = new FileReader();
         console.log("uploadImage", file);
         reader.readAsDataURL(file);
@@ -102,6 +110,7 @@ class FileManager {
             // log("result,", progressEvent);
             let imageURL = progressEvent.currentTarget.result;
             _uploadImage(file, imageURL);
+            callback();
         };
     }
     _uploadImage(file, imageURL) {
@@ -113,28 +122,30 @@ class FileManager {
         this.onImageUploaded.run(image);
     }
 
-    handleTextFile(file) {
+    handleTextFile(file, callback) {
         //early exit: invalid filename
         if (!file.name) {
             console.error("file does not have a name!", file);
+            callback();
             return;
         }
         //
         if (file.name.endsWith("." + EXTENSION_FURNITURE)) {
-            this.uploadFurniture(file);
+            this.uploadFurniture(file, callback);
         }
         else if (file.name.endsWith("." + EXTENSION_ROOM)) {
-            this.uploadRoom(file);
+            this.uploadRoom(file, callback);
         }
         else if (file.name.endsWith(".json")) {
-            this.uploadJson(file);
+            this.uploadJson(file, callback);
         }
         else {
             console.warn("Not implemented: handling text file:", file.name, file.type);
+            callback();
         }
     }
 
-    uploadFurniture(file) {
+    uploadFurniture(file, callback) {
         const reader = new FileReader();
         reader.readAsText(file);
         const flm = this;
@@ -143,6 +154,7 @@ class FileManager {
             let furnitueObj = JSON.parse(json);
             if (!furnitueObj) {
                 console.error("Unable to parse furniture list!", file.name, json);
+                callback();
                 return;
             }
             for (let furniture of furnitueObj.list) {
@@ -150,10 +162,11 @@ class FileManager {
                 //Run delegate
                 flm.onFurnitureUploaded.run(furniture);
             }
+            callback();
         }
     }
 
-    uploadRoom(file) {
+    uploadRoom(file, callback) {
         const reader = new FileReader();
         reader.readAsText(file);
         const flm = this;
@@ -162,21 +175,24 @@ class FileManager {
             let room = JSON.parse(json);
             if (!room) {
                 console.error("Unable to parse room!", file.name, json);
+                callback();
                 return;
             }
             inflateData(room);
             //Run delegate
             flm.onRoomUploaded.run(room);
+            callback();
         }
     }
 
-    uploadJson(file) {
+    uploadJson(file, callback) {
         let reader = new FileReader();
         reader.readAsText(file);
         reader.onloadend = function () {
             let json = reader.result;
             //Run delegate
             this.onJsonUploaded.run(json);
+            callback();
         }
     }
 }
