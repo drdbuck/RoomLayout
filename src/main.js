@@ -188,6 +188,11 @@ function hookupDelegates() {
         room.addFurniture(furniture);
         //Select new furniture
         controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
+        //Position new furniture
+        let point = controllerEdit.getHitAtMousePos()?.point;
+        if (point) {
+            furniture.position = point;
+        }
         //focus field
         $("txtWidth").focus();
     });
@@ -200,6 +205,11 @@ function hookupDelegates() {
         room.addFurniture(furniture);
         //Select new furniture
         controllerEdit.selectObject(furniture, false);
+        //Position new furniture
+        let point = controllerEdit.getHitAtMousePos()?.point;
+        if (point) {
+            furniture.position = point;
+        }
     });
 
     //Upload new room
