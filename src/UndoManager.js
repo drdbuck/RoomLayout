@@ -65,6 +65,7 @@ class UndoManager {
                     }
                     context.boxes ??= [context.box];
                     context.face = c.face;
+                    context.offset = new Vector2();
                     contexts.push(context);
                 });
                 controllerEdit.selector.selectAll(contexts);
