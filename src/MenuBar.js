@@ -1,5 +1,8 @@
 "use strict";
 
+//keyboard shortcuts: % ctrl, # shift, & alt, _ no modifiers
+//examples: %z (ctrl-z), %#f (ctrl-shift-f), &p (alt-p), _b (b)
+const keyTest = /([%#&]+|_)[a-z0-9]+/;
 const menuBarData = {
     title: "Room Plan 3D",
     file: {
@@ -10,12 +13,12 @@ const menuBarData = {
     },
     edit: {
         title: "Edit",
-        "Undo": "actionUndo();",
-        "Redo": "actionRedo();",
-        "Create Blank": "actionObjectCreateBlank();",
-        "Duplicate Objects": "actionObjectsDuplicate();",
-        "Delete Objects": "actionObjectsDelete();",
-        "Group Objects": "actionObjectsGroup();",
+        "Undo %z": "actionUndo();",
+        "Redo %y": "actionRedo();",
+        "Create Blank %n": "actionObjectCreateBlank();",
+        "Duplicate Objects %d": "actionObjectsDuplicate();",
+        "Delete Objects _del": "actionObjectsDelete();",
+        "Group Objects %g": "actionObjectsGroup();",
     },
     view: {
         title: "View",
@@ -81,10 +84,35 @@ function constructMenuPanel(data, keyName) {
     for (const [key, value] of Object.entries(data)) {
         if (key == "title") { continue; }
         //
+        let keys = [];
+        let buttonName = key.split(" ")
+            .map(seg => {
+                if (keyTest.test(seg)) {
+                    keys.push({
+                        ctrl: seg.includes("%"),
+                        shift: seg.includes("#"),
+                        alt: seg.includes("&"),
+                        keyOnly: seg.includes("_"),
+                        key: seg.match(/[a-z0-9]+/)[0],
+                    });
+                    console.log(keys.at(-1));
+                    return "";
+                }
+                return seg;
+            })
+            .filter(seg => seg)
+            .concat(keys.map(key =>
+                `<span class="keyReminder">
+                    ${(key.ctrl) ? "CTRL+" : ""}${(key.shift) ? "SHIFT+" : ""}${(key.alt) ? "ALT+" : ""}${key.key.toUpperCase()}
+                </span>`
+            ))
+            .join(" ");
+        //
         menuarr.push(`<button class="lineButton"
             onclick="${value}"
+            keys="${JSON.stringify(keys)}"
             >
-            ${key}
+            ${buttonName}
             </button>
             <br>`);
     }
