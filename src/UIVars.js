@@ -67,7 +67,8 @@ class UIVars {
     }
     init2(root){
         this.selector.selectAll(
-            this._selection.map(c => {
+            this._selection
+                .map(c => {
                 let context = {
                     obj: this.findUid(root, c.oId),
                     furniture: this.findUid(root, c.fId),
@@ -75,13 +76,17 @@ class UIVars {
                     face: c.face,
                     offset: _zero.clone(),
                 };
+                if (!context.obj) { return; }
                 context.box = getBox(context.furniture ?? context.kitbash.items?.[0] ?? context.obj);
                 context.boxes = getBoxes(context.kitbash?.items);
                 if (context.boxes.length == 0) {
                     context.boxes = [context.box];
                 }
+                if (!context.box) { return; }
+                if (!context.boxes) { return; }
                 return context;
             })
+                .filter(c => c)
         );
     }
 

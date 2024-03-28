@@ -55,7 +55,7 @@ class UndoManager {
                         let uid = c.uid_furniture;
                         let obj = uiVars.findUid(house, uid);
                         context.furniture = obj;
-                        context.box = getBox(obj);
+                        context.box = getBox(obj) ?? context.box;
                     }
                     if (c.uid_kitbash) {
                         let uid = c.uid_kitbash;
@@ -64,6 +64,12 @@ class UndoManager {
                         context.boxes = getBoxes(obj.items);
                     }
                     context.boxes ??= [context.box];
+                    if (!context.box) {
+                        return;
+                    }
+                    if (!(context.boxes?.length > 0)) {
+                        return;
+                    }
                     context.face = c.face;
                     context.offset = new Vector2();
                     contexts.push(context);

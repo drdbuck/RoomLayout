@@ -253,7 +253,7 @@ function getBox(furniture) {
 
 function getBoxes(furnitures) {
     if (!(furnitures?.length > 0)) { return []; }
-    return player.scene.children.filter(box => furnitures.includes(box.furniture));
+    return player.scene.children.filter(box => box.furniture && furnitures.includes(box.furniture))
 }
 
 function inflateData(data) {
