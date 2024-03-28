@@ -50,6 +50,7 @@ function initUI() {
             list.forEach(
                 context => func(context.obj ?? context, value)
             );
+            player.animate();
         };
         txt.onblur = () => {
             if (txtChanged) {
@@ -72,6 +73,7 @@ function initUI() {
                     context => dfunc(context.obj ?? context, value)
                 );
             });
+            player.animate();
         };
         //
         paramObjs.forEach(obj => {
