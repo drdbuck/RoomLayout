@@ -17,7 +17,7 @@ const menuBarData = {
         title: "Edit",
         "Undo %z": "actionUndo();",
         "Redo %y": "actionRedo();",
-        "Create Blank %n": "actionObjectCreateBlank();",
+        "Create Blank %b": "actionObjectCreateBlank();",
         "Duplicate Objects %d": "actionObjectsDuplicate();",
         "Delete Objects _delete": "actionObjectsDelete();",
         "Group Objects %g": "actionObjectsGroup();",
@@ -96,7 +96,6 @@ function constructMenuPanel(data, keyName) {
                         alt: seg.includes("&"),
                         keyOnly: seg.includes("_"),
                         key: seg.match(/[a-z0-9]+/)[0],
-                    console.log(keys.at(-1));
                         action: value,
                     };
                     keys.push(key);
