@@ -58,7 +58,6 @@ function init() {
         house.addRoom(room);
     }
     uiVars = loadUIVars();
-    uiVars.giveUids(house);
 
     //Save
     //2024-01-09: copied from SyllableSight
@@ -112,6 +111,7 @@ function init() {
         uiVars.viewId = uiVars.viewId;//trigger delegate w/o changing anything
 
         uiVars.init2(house);
+        uiVars.giveUids(house);
 
         //Update UI
         updateFurnitureEditPanel();
