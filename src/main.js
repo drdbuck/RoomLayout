@@ -111,6 +111,8 @@ function init() {
         switchMode(true);
         uiVars.viewId = uiVars.viewId;//trigger delegate w/o changing anything
 
+        uiVars.init2(house);
+
         //Update UI
         updateFurnitureEditPanel();
         updateFaceEditPanel();
@@ -246,6 +248,7 @@ function getBox(furniture) {
 }
 
 function getBoxes(furnitures) {
+    if (!(furnitures?.length > 0)) { return []; }
     return player.scene.children.filter(box => furnitures.includes(box.furniture));
 }
 

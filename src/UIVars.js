@@ -7,6 +7,12 @@ let stringifyUIVars = [
     "_highlightSelectedFace",
     "_viewId",
     "_views",
+    //
+    "_selection",
+    "oId",
+    "fId",
+    "kbId",
+    "face",
 ];
 
 const VIEW_OVERHEAD = 0;
@@ -56,6 +62,25 @@ class UIVars {
     }
     init() {
         this.selector = new Selector();
+    }
+    init2(root){
+        this.selector.selectAll(
+            this._selection.map(c => {
+                let context = {
+                    obj: this.findUid(root, c.oId),
+                    furniture: this.findUid(root, c.fId),
+                    kitbash: this.findUid(root, c.kbId),
+                    face: c.face,
+                    offset: _zero.clone(),
+                };
+                context.box = getBox(context.furniture ?? context.kitbash.items?.[0] ?? context.obj);
+                context.boxes = getBoxes(context.kitbash?.items);
+                if (context.boxes.length == 0) {
+                    context.boxes = [context.box];
+                }
+                return context;
+            })
+        );
     }
 
     get editRooms() {
@@ -166,6 +191,17 @@ class UIVars {
         if (retobj) { return retobj; }
         //not found
         return undefined;
+    }
+
+    prepareForSave() {
+        this._selection = this.selector.map(c => {
+            return {
+                oId: c.obj.uid,
+                fId: c.furniture?.uid,
+                kbId: c.kitbash?.uid,
+                face: c.face,
+            };
+        });
     }
 }
 

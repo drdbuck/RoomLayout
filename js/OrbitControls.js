@@ -995,7 +995,7 @@ class OrbitControls extends EventDispatcher {
 			let mouseAction;
 			mouseAction = scope.mouseButtons.LEFT;
 
-			this.target = controllerEdit.collectiveCenter;
+			this.target = controllerEdit.collectiveCenter ?? _zero.clone();
 
 			switch ( mouseAction ) {
 

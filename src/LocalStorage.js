@@ -7,7 +7,7 @@ function saveHouse(house) {
     let json = house;
     if (!isString(json)) {
         house.prepareForSave();
-        json = JSON.stringify(house, getDataStringify());
+        json = JSON.stringify(house, getDataStringify().concat("uid"));
     }
     localStorage.setItem(houseSaveKey, json);
 }
@@ -27,6 +27,7 @@ function loadHouse() {
 function saveUIVars(uiVars) {
     let json = uiVars;
     if (!isString(json)) {
+        uiVars.prepareForSave();
         json = JSON.stringify(uiVars, getDataStringifyUIVars());
     }
     localStorage.setItem(uiVarsSaveKey, json);
