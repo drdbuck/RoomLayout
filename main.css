@@ -60,12 +60,21 @@ body {
     font-size: medium;
     padding: 4px;
     border: none;
-    text-align: left;
+    text-align: justify;
+    display: flex;
+    justify-content: space-between;
 }
 
 .menuPanel button:hover {
     background-color: white;
     color: black;
+}
+
+.keyReminder{
+    font-style: italic;
+    color:rgb(152, 152, 152);
+    font-size: small;
+    margin-left: 15px;
 }
 
 canvas {
