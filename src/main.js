@@ -103,9 +103,6 @@ function init() {
             player.dom
         );
 
-        //Undo
-        undoMan = new UndoManager();
-
         hookupDelegates();
 
         switchMode(true);
@@ -113,6 +110,9 @@ function init() {
 
         uiVars.init2(house);
         uiVars.giveUids(house);
+
+        //Undo
+        undoMan = new UndoManager();
 
         //Update UI
         updateFurnitureEditPanel();
