@@ -53,14 +53,16 @@ class UIVars {
 
         ///
 
-        this.nextUid = 1;
-
-        this.undoEnabled = true;
 
         this.init();
 
     }
     init() {
+
+        this.nextUid = 1;
+
+        this.undoEnabled = true;
+
         this.selector = new Selector();
     }
     init2(root){
