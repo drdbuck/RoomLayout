@@ -87,7 +87,7 @@ function init() {
         player.setScene(scene);
 
         //
-        player.play();
+        // player.play();
 
         //Controller init
         controllerEdit = new Controller(
@@ -120,6 +120,9 @@ function init() {
 
     //Menu
     constructMenuBar("divMenuBar", "divMenuPanels", menuBarData);
+
+
+    player.animate();
 }
 init();
 

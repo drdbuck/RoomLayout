@@ -60,10 +60,14 @@ class FirstPersonControls {
 
 	onPointerDown(state, event) {
 		this.controls._onMouseDown(event);
+
+        player.animate();
 	}
 
 	onPointerUp(state, event) {
 		this.controls._onMouseUp(event);
+
+        player.animate();
 	}
 
 	onPointerMove(state, event) {
@@ -79,10 +83,14 @@ class FirstPersonControls {
 		view.position = obj.position;
 		view.quaternion = obj.quaternion;
 
+        player.animate();
+
 	}
 
 	onMouseWheel(state, event) {
 		this.controls._onMouseWheel(event);
+
+        player.animate();
 	}
 
 	onKeyDown(state, event) {

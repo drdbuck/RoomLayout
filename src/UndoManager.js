@@ -76,6 +76,9 @@ class UndoManager {
     recordUndo() {
         if (!uiVars.undoEnabled) { return; }//TEMP: while the undo system is still not optimized
         this._undoSystem.recordUndo();
+
+        //
+        player.animate();//dirty: this doesn't belong here
     }
 
     undo() {

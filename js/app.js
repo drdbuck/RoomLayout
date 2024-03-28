@@ -8,6 +8,7 @@ var APP = {
 			}
 		);
 		renderer.setPixelRatio(window.devicePixelRatio); // TODO: Use player.setPixelRatio()
+		this.renderer = renderer;
 
 		var loader = new ObjectLoader();
 		var camera, scene;
@@ -181,6 +182,7 @@ var APP = {
 			prevTime = time;
 
 		}
+		this.animate = animate;
 
 		this.play = function () {
 

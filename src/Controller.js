@@ -80,6 +80,8 @@ class Controller {
         if (moveCamera) {
             //save position
             uiVars.view.position = this.camera.position;
+
+        player.animate();
         }
     }
 
@@ -166,6 +168,7 @@ class Controller {
         else {
             uiVars.selector.clear();
         }
+        player.animate();
     }
 
     processMouseMove(state, event) {
@@ -180,6 +183,7 @@ class Controller {
             let cursor = (this.mouse.over) ? CURSOR_MOVE : CURSOR_AUTO;
             this.changeCursor(cursor);
         }
+        player.animate();
     }
 
     processMouseUp(state, event) {
@@ -226,6 +230,7 @@ class Controller {
             this.mouse.targetY = 0;
             this.clearSelectedOffsets();
         }
+        player.animate();
     }
 
     processMouseWheel(state, event) {
@@ -257,6 +262,7 @@ class Controller {
                 ZOOM_MAX
             );
         }
+        player.animate();
     }
 
     getHitAtMousePos(findFunc = (rch) => true) {
