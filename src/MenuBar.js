@@ -3,6 +3,8 @@
 //keyboard shortcuts: % ctrl, # shift, & alt, _ no modifiers
 //examples: %z (ctrl-z), %#f (ctrl-shift-f), &p (alt-p), _b (b)
 const keyTest = /([%#&]+|_)[a-z0-9]+/;
+const menuKeys = [];
+
 const menuBarData = {
     title: "Room Plan 3D",
     file: {
@@ -17,7 +19,7 @@ const menuBarData = {
         "Redo %y": "actionRedo();",
         "Create Blank %n": "actionObjectCreateBlank();",
         "Duplicate Objects %d": "actionObjectsDuplicate();",
-        "Delete Objects _del": "actionObjectsDelete();",
+        "Delete Objects _delete": "actionObjectsDelete();",
         "Group Objects %g": "actionObjectsGroup();",
     },
     view: {
@@ -88,14 +90,17 @@ function constructMenuPanel(data, keyName) {
         let buttonName = key.split(" ")
             .map(seg => {
                 if (keyTest.test(seg)) {
-                    keys.push({
+                    let key ={
                         ctrl: seg.includes("%"),
                         shift: seg.includes("#"),
                         alt: seg.includes("&"),
                         keyOnly: seg.includes("_"),
                         key: seg.match(/[a-z0-9]+/)[0],
-                    });
                     console.log(keys.at(-1));
+                        action: value,
+                    };
+                    keys.push(key);
+                    menuKeys.push(key);
                     return "";
                 }
                 return seg;

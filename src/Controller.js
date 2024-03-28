@@ -29,24 +29,22 @@ class Controller {
     }
 
     processInput(state, event) {
-        if (event.ctrlKey) {
-            switch (event.keyCode) {
-                //D key
-                case 68:
-                    actionObjectsDuplicate();
-                    event.preventDefault();
-                    break;
-                //Y key
-                case 89:
-                    actionRedo();
-                    event.preventDefault();
-                    break;
-                //Z key
-                case 90:
-                    actionUndo();
-                    event.preventDefault();
-                    break;
-            }
+        let key = menuKeys.find(key =>
+            key.key.toLowerCase() == event.key.toLowerCase()
+            && key.ctrl == event.ctrlKey
+            && key.shift == event.shiftKey
+            && key.alt == event.altKey
+        );
+        if (key) {
+            //limit it to only calling action methods (for more security)
+            if (!(/action[a-zA-Z0-9]*\(\);/.test(key.action))) { return; }
+            //call the action method
+            new Function(key.action)();
+            //don't do other actions with this input
+            event.preventDefault();
+            event.stopPropagation();
+            //update
+            player.animate();
             return;
         }
         let moveCamera = false;
@@ -70,9 +68,6 @@ class Controller {
             case 39://Right Arrow
                 this.camera.position.x += this.speed;
                 moveCamera = true;
-                break;
-            case 46://DEL key
-                actionObjectsDelete();
                 break;
             default: break;
         }
