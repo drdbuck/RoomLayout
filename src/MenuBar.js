@@ -90,7 +90,7 @@ function constructMenuPanel(data, keyName) {
         let buttonName = key.split(" ")
             .map(seg => {
                 if (keyTest.test(seg)) {
-                    let key ={
+                    let key = {
                         ctrl: seg.includes("%"),
                         shift: seg.includes("#"),
                         alt: seg.includes("&"),

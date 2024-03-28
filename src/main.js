@@ -71,53 +71,53 @@ function init() {
     initUI();
 
     //Player
-        player.load();
+    player.load();
 
-        //Camera
-        let camera =  new PerspectiveCamera(50, 1.4183266932270917, 0.01, 1000);
-        camera.zoom = 1;
-        camera.focus = 10;
-        camera.filmGauge = 35;
-        camera.filmOffset = 0;
-        camera.layers.enable(objectMask);
-        camera.layers.enable(effectMask);
-        player.setCamera(camera);
+    //Camera
+    let camera = new PerspectiveCamera(50, 1.4183266932270917, 0.01, 1000);
+    camera.zoom = 1;
+    camera.focus = 10;
+    camera.filmGauge = 35;
+    camera.filmOffset = 0;
+    camera.layers.enable(objectMask);
+    camera.layers.enable(effectMask);
+    player.setCamera(camera);
 
-        //Load scene
-        let scene = construct(house);
-        player.setScene(scene);
+    //Load scene
+    let scene = construct(house);
+    player.setScene(scene);
 
-        //
-        // player.play();
+    //
+    // player.play();
 
-        //Controller init
-        controllerEdit = new Controller(
-            player.camera,
-            player.scene,
-            canvas
-        );
+    //Controller init
+    controllerEdit = new Controller(
+        player.camera,
+        player.scene,
+        canvas
+    );
 
-        //ControllerFPS init
-        controllerFPS = new FirstPersonControls(
-            player.camera,
-            player.dom
-        );
+    //ControllerFPS init
+    controllerFPS = new FirstPersonControls(
+        player.camera,
+        player.dom
+    );
 
-        hookupDelegates();
+    hookupDelegates();
 
-        switchMode(true);
-        uiVars.viewId = uiVars.viewId;//trigger delegate w/o changing anything
+    switchMode(true);
+    uiVars.viewId = uiVars.viewId;//trigger delegate w/o changing anything
 
-        uiVars.init2(house);
-        uiVars.giveUids(house);
+    uiVars.init2(house);
+    uiVars.giveUids(house);
 
-        //Undo
-        undoMan = new UndoManager();
+    //Undo
+    undoMan = new UndoManager();
 
-        //Update UI
-        updateFurnitureEditPanel();
-        updateFaceEditPanel();
-        updateRoomEditPanel();
+    //Update UI
+    updateFurnitureEditPanel();
+    updateFaceEditPanel();
+    updateRoomEditPanel();
 
     //Menu
     constructMenuBar("divMenuBar", "divMenuPanels", menuBarData);

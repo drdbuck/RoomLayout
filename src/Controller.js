@@ -76,7 +76,7 @@ class Controller {
             //save position
             uiVars.view.position = this.camera.position;
 
-        player.animate();
+            player.animate();
         }
     }
 
@@ -190,7 +190,7 @@ class Controller {
                     undoMan.recordUndo();
                 }
             }
-            else{
+            else {
                 let targetHit = this.getObjectHitAtMousePos();
                 let target = targetHit?.object?.furniture;
                 //if an object was clicked on
