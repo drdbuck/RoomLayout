@@ -23,6 +23,7 @@ const edgeMaterial = new LineBasicMaterial({
 const objectMask = 0;
 const effectMask = 1;
 let inEditMode = true;
+let knownMaterials = [];//used to cache existing materials for use later
 
 const _up = new Vector3(0, 1, 0);
 
@@ -406,6 +407,11 @@ function createMaterial(imageURL, front = true) {
     if (!imageURL) {
         return undefined;
     }
+    //search for existing material (efficiency)
+    let matObj = knownMaterials.find(matObj => matObj.imageURL == imageURL && matObj.front == front);
+    if (matObj) {
+        return matObj.material;
+    }
     //material
     let mat = new MeshLambertMaterial();
     //settings
@@ -430,6 +436,12 @@ function createMaterial(imageURL, front = true) {
             }
         );
     }
+    //register this material
+    knownMaterials.push({
+        imageURL: imageURL,
+        front: front,
+        material: mat,
+    });
     //return
     return mat;
 }
