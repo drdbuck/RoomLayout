@@ -41,12 +41,21 @@ class UIVars {
         this._view = this._views[this._viewId];
         this.onViewIdChanged = new Delegate("viewId", "view");
 
+        //
+        // this.selector = new Selector();
+        this._selection = [];
+
         ///
 
         this.nextUid = 1;
 
         this.undoEnabled = true;
 
+        this.init();
+
+    }
+    init() {
+        this.selector = new Selector();
     }
 
     get editRooms() {
@@ -176,6 +185,8 @@ function inflateUIVars(uiVars) {
     uiVars._views.forEach(view => {
         inflateView(view);
     })
+
+    uiVars.init();
 }
 
 function getDataStringifyUIVars() {

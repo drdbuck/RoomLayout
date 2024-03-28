@@ -30,7 +30,7 @@ function initUI() {
             prevValue = txt.value;
         }
         txt.onkeyup = () => {
-            list ??= controllerEdit.selector;
+            list ??= uiVars.selector;
             const rawvalue = txt.value;
             if (rawvalue != prevValue) {
                 prevValue = rawvalue;
@@ -63,7 +63,7 @@ function initUI() {
         paramObjs.flat();
         //
         const _changeFunc = (dimensions) => {
-            list ??= controllerEdit.selector;//dirty: hardcoding
+            list ??= uiVars.selector;//dirty: hardcoding
             Object.keys(dimensions).forEach(d => {
                 let value = dimensions[d];
                 if (value == undefined) { return; }
@@ -167,7 +167,7 @@ function updateRoomEditPanel() {
 }
 
 function updateFurnitureEditPanel(contexts) {
-    log("selected count:", controllerEdit.selector.count);
+    log("selected count:", uiVars.selector.count);
 
     //only accept array input
     if (!Array.isArray(contexts)) {
@@ -334,7 +334,7 @@ function updateFaceEditPanel(faces) {
             //only get first few suggestions
             // .slice(0, maxSuggestions)
             //convert to html img element
-            //controllerEdit.selector.forEach(c => c.furniture.setFace(c.face, url));
+            //uiVars.selector.forEach(c => c.furniture.setFace(c.face, url));
             .map(url => `<img src='${url}' class="selectableImage"
                 onclick="btnUseSuggestedImage(this.src);"
             />`)
@@ -386,7 +386,7 @@ function btnExitFaceEdit() {
 }
 
 function btnUseSuggestedImage(imgURL) {
-    controllerEdit.selector.forEach(c => {
+    uiVars.selector.forEach(c => {
         if (!c.furniture.validFaceIndex(c.face)) { return; }
         let f = c.furniture;
         f.setFace(c.face, imgURL);
@@ -396,7 +396,7 @@ function btnUseSuggestedImage(imgURL) {
 }
 
 function btnUseDefaultImage() {
-    controllerEdit.selector.forEach(c => {
+    uiVars.selector.forEach(c => {
         if (!c.furniture.validFaceIndex(c.face)) { return; }
         let f = c.furniture;
         f.setFace(c.face, f.defaultFace);
@@ -414,7 +414,7 @@ function btnFlipY() {
 }
 
 function btnFlip(flipX, flipY) {
-    controllerEdit.selector.forEach(c => {
+    uiVars.selector.forEach(c => {
         let f = c.furniture;
         let faceIndex = c.face;
         if (!f.validFaceIndex(faceIndex)) { return; }
@@ -434,7 +434,7 @@ function btnFlip(flipX, flipY) {
 }
 
 function cropCanvasChanged(url) {
-    controllerEdit.selector.forEach(c => {
+    uiVars.selector.forEach(c => {
         let f = c.furniture;
         let faceIndex = c.face;
         if (!f.validFaceIndex(faceIndex)) { return; }
@@ -451,7 +451,7 @@ function btnFaceCrop() {
 }
 
 function btnFaceClear() {
-    controllerEdit.selector.forEach(c => {
+    uiVars.selector.forEach(c => {
         if (!c.furniture.validFaceIndex(c.face)) { return; }
         let f = c.furniture;
         f.setFace(c.face, PIXEL_TRANSPARENT);

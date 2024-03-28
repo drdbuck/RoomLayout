@@ -18,7 +18,7 @@ class UndoManager {
             () => {
                 return {
                     root: house,//can't call it "house" because of circular references
-                    selection: controllerEdit.selector.selection.map(c => {
+                    selection: uiVars.selector.selection.map(c => {
                         return {
                             uid_obj: c.obj.uid,
                             uid_furniture: c.furniture?.uid,
@@ -31,7 +31,7 @@ class UndoManager {
             getDataStringify().concat(stringifyUndo),
             (obj) => {
                 let selection = obj.selection;
-                controllerEdit.selector.clear();
+                uiVars.selector.clear();
                 //
                 house = obj.root;
                 inflateHouse(house);
@@ -68,7 +68,7 @@ class UndoManager {
                     context.offset = new Vector2();
                     contexts.push(context);
                 });
-                controllerEdit.selector.selectAll(contexts);
+                uiVars.selector.selectAll(contexts);
             }
         );
     }

@@ -133,7 +133,9 @@ function hookupDelegates() {
             uiVars.highlightSelectedFace = true;
         }
     });
-    controllerEdit.selector.onSelectionChanged.add(contexts => {
+    uiVars.selector.onSelectionChanged.add(contexts => {
+        controllerEdit.updateCollectiveCenter(contexts);
+        //
         updateFurnitureEditPanel(contexts);
         if (uiVars.editFaces) {
             uiVars.highlightSelectedFace = true;
@@ -143,7 +145,7 @@ function hookupDelegates() {
             updateFace(c.box, c.face);
         });
     });
-    controllerEdit.selector.onSelectionGained.add(context => {
+    uiVars.selector.onSelectionGained.add(context => {
         context.boxes.forEach(box => {
             box.edge.visible = true;
             updateFace(box, -2);
@@ -152,7 +154,7 @@ function hookupDelegates() {
         updateFace(context.box, context.face);
         registerUIDelegates(context.obj, true);
     });
-    controllerEdit.selector.onSelectionLost.add(context => {
+    uiVars.selector.onSelectionLost.add(context => {
         context.boxes.forEach(box => {
             box.edge.visible = false;
             updateFace(box, -2);
@@ -189,7 +191,7 @@ function hookupDelegates() {
     //Upload image to new box / existing face
     flm.onImageUploaded.add((image) => {
         //upload face instead of editing faces
-        if (uiVars.editFaces && controllerEdit.selector.count > 0) {
+        if (uiVars.editFaces && uiVars.selector.count > 0) {
             uploadFace(image);
             return;
         }
@@ -351,7 +353,7 @@ function getDataStringify() {
 }
 
 function uploadFace(image) {
-    controllerEdit.selector.forEach(context => {
+    uiVars.selector.forEach(context => {
         let index = context.face;
         if (index == -2) { return; }
         let furniture = context.furniture;
@@ -459,5 +461,5 @@ function createColorMaterial(color = 4687027, depth = true) {
 
 //TEST
 function select() {
-    return controllerEdit.selector._selection[0];
+    return uiVars.selector._selection[0];
 }

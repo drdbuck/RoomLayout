@@ -20,7 +20,7 @@ function actionImportFurniture() {
 }
 
 function actionExportFurniture() {
-    let furnitures = controllerEdit.selector.map(context => context.obj);
+    let furnitures = uiVars.selector.map(context => context.obj);
     if (furnitures.length === 0) {
         //Do nothing
         return;
@@ -99,8 +99,8 @@ function actionObjectCreateBlank() {
 
 function actionObjectsDuplicate() {
     const stringify = getDataStringify();
-    let selection = controllerEdit.selector.selection;
-    controllerEdit.selector.clear();
+    let selection = uiVars.selector.selection;
+    uiVars.selector.clear();
     let room = house.rooms[0];//dirty: hardcoded which room to add to
     //
     selection.forEach(c => {
@@ -121,8 +121,8 @@ function actionObjectsDuplicate() {
 }
 
 function actionObjectsDelete() {
-    let delList = controllerEdit.selector.selection;
-    controllerEdit.selector.clear();
+    let delList = uiVars.selector.selection;
+    uiVars.selector.clear();
     delList.forEach(c => {
         let f = c.obj;
         f.room.removeFurniture(f);
@@ -135,7 +135,7 @@ function actionObjectsDelete() {
 function actionObjectsGroup() {
     let room = house.rooms[0];
     //remove from existing
-    let furnitures = controllerEdit.selector.map(c => c.furniture);
+    let furnitures = uiVars.selector.map(c => c.furniture);
     furnitures.forEach(f => f.group?.remove(f));
     //add to new
     let group = room.group(furnitures);

@@ -21,9 +21,6 @@ class Controller {
         this.raycaster = new Raycaster();
         this.raycaster.layers.set(objectMask);
 
-        this.selector = new Selector();
-        this.selector.onSelectionChanged.add(this.updateCollectiveCenter.bind(this));
-
         this.onFaceSelectionChanged = new Delegate("faces");
     }
 
@@ -120,12 +117,12 @@ class Controller {
                         this.deselectObject(target, !onlySelectButton);
                         //check if there's no other face selected now
                         if (uiVars.editFaces) {
-                            if (!this.selector.some(c => c.furniture.validFaceIndex(c.face))) {
+                            if (!uiVars.selector.some(c => c.furniture.validFaceIndex(c.face))) {
                                 let stayInFaceEditModeWhenDeselectLastFace = false;//TODO: make this a user setting
                                 //Select other face
                                 if (stayInFaceEditModeWhenDeselectLastFace) {
                                     let prevFace = context.face;
-                                    let newContext = this.selector.first;
+                                    let newContext = uiVars.selector.first;
                                     if (!newContext.furniture.validFaceIndex(prevFace)) {
                                         prevFace = 2;
                                     }
@@ -148,7 +145,7 @@ class Controller {
                 let anyPieceSingleSelected = false;
                 if (target.group) {
                     let items = target.group.items;
-                    anyPieceSingleSelected = this.selector.some(c => items.includes(c.obj));
+                    anyPieceSingleSelected = uiVars.selector.some(c => items.includes(c.obj));
                 }
                 //select object
                 this.selectObject(
@@ -167,14 +164,14 @@ class Controller {
         }
         //if no object was clicked on
         else {
-            this.selector.clear();
+            uiVars.selector.clear();
         }
     }
 
     processMouseMove(state, event) {
         this.processMouseInput(event);
         if (state.mouse.lmbDown) {
-            if (this.selector.count > 0) {
+            if (uiVars.selector.count > 0) {
                 this.moveObject();
             }
         }
@@ -189,7 +186,7 @@ class Controller {
         if (!state.mouse.lmbDown) {
             //select face
             if (state.mouse.wasDragged) {
-                if (this.selector.count > 0) {
+                if (uiVars.selector.count > 0) {
                     //record undo
                     undoMan.recordUndo();
                 }
@@ -211,7 +208,7 @@ class Controller {
                         else {
                             //deselect all other faces
                             if (!this.multiselectButton) {
-                                this.selector.forEach(c => c.face = -2);
+                                uiVars.selector.forEach(c => c.face = -2);
                             }
                             //select target face
                             context.face = targetFace;
@@ -235,7 +232,7 @@ class Controller {
         let zoomDelta = state.mouse.wheelDelta * this.wheelMoveSpeed / 100;
         //Altitude
         if (state.mouse.lmbDown || event.altKey) {
-            this.selector.forEach(c => {
+            uiVars.selector.forEach(c => {
                 let furniture = c.obj;
                 this.setFurnitureAltitude(furniture, furniture.altitude + zoomDelta);
             });
@@ -244,7 +241,7 @@ class Controller {
         }
         //Rotate
         else if (event.shiftKey) {
-            this.selector.forEach(c => {
+            uiVars.selector.forEach(c => {
                 //Rotate object
                 let deltaAngle = Math.round(zoomDelta) * 15;
                 this.setFurnitureAngle(c.obj, c.obj.angle + deltaAngle);
@@ -311,14 +308,14 @@ class Controller {
             }
         }
         //select the context
-        this.selector.select(selectContext, add);
+        uiVars.selector.select(selectContext, add);
         //return the selected context
         return selectContext;
     }
 
     sortSelected() {
         //sort selected
-        this.selector.sort((c1, c2) => (
+        uiVars.selector.sort((c1, c2) => (
             c1.furniture.validFaceIndex(c1.face) && !c2.furniture.validFaceIndex(c2.face)) ? -1 : 0
         );
     }
@@ -348,7 +345,7 @@ class Controller {
         //get select context
         let context = this.getSelectContext(obj);
         //Deselect
-        this.selector.deselect(context);
+        uiVars.selector.deselect(context);
         //Groups
         if (!obj.isKitBash && context.kitbash && !deselectGroups) {
             //select each piece individually,
@@ -370,20 +367,20 @@ class Controller {
     }
 
     updateCollectiveCenter() {
-        const count = this.selector.count;
+        const count = uiVars.selector.count;
         if (count <= 0) {
             //TODO: use room's origin
             this.collectiveCenter = _zero.clone().setY(house.rooms[0].height / 2);//dirty: hard coding what room to use
             return;
         }
-        const avgFunc = (func) => this.selector.map(func).sum() / count;
+        const avgFunc = (func) => uiVars.selector.map(func).sum() / count;
         let collectiveCenter = new Vector3(
             avgFunc(c => c.obj.position.x),
             avgFunc(c => c.obj.position.y),
             avgFunc(c => c.obj.position.z),
         );
         this.collectiveCenter = collectiveCenter;
-        this.selector.forEach(c => c.collectiveCenter = collectiveCenter);
+        uiVars.selector.forEach(c => c.collectiveCenter = collectiveCenter);
     }
 
     isSelected(obj) {
@@ -391,14 +388,14 @@ class Controller {
     }
 
     getSelectContext(obj) {
-        return this.selector.find(c => c.obj === obj)
-            || this.selector.find(c => c.furniture == obj)
-            || this.selector.find(c => c.obj.has?.(obj));
+        return uiVars.selector.find(c => c.obj === obj)
+            || uiVars.selector.find(c => c.furniture == obj)
+            || uiVars.selector.find(c => c.obj.has?.(obj));
     }
 
     calculateSelectedOffsets() {
         let mouseWorld = this.getMouseWorld(this.mouse);
-        this.selector.forEach(context => {
+        uiVars.selector.forEach(context => {
             let select = context.obj;
             let origPos = new Vector3(select.position);
             let offset = origPos.sub(mouseWorld);
@@ -407,12 +404,12 @@ class Controller {
     }
 
     clearSelectedOffsets() {
-        this.selector.forEach(context => context.offset.copy(_zero));
+        uiVars.selector.forEach(context => context.offset.copy(_zero));
     }
 
     selectNextFace(dir) {
         const min = 0;
-        this.selector.forEach(context => {
+        uiVars.selector.forEach(context => {
             //early exit: deselect faces
             if (dir == undefined) {
                 context.face = -2;
@@ -446,20 +443,20 @@ class Controller {
     }
 
     updateFaceSelection() {
-        this.selector.forEach(c => {
+        uiVars.selector.forEach(c => {
             updateFace(c.box, c.face);
         });
     }
 
     runFaceDelegate() {
-        this.onFaceSelectionChanged.run(this.selector.map(c => c.face));
+        this.onFaceSelectionChanged.run(uiVars.selector.map(c => c.face));
     }
 
 
     moveObject() {
         let mouseWorld = this.getMouseWorld(this.mouse);
         let pos = new Vector3();
-        this.selector.forEach(context => {
+        uiVars.selector.forEach(context => {
             let item = context.obj;
             pos.copy(mouseWorld);
             pos = pos.add(context.offset);
