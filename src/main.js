@@ -52,13 +52,12 @@ function init() {
     //Crop Canvas
     controllerImageEdit = new ControllerImageEdit($("cvsCrop"), "#73c9ff");
 
-    //Load
+    //Load House
     house = loadHouse();
     if (house.rooms.length == 0) {
         let room = new Room();
         house.addRoom(room);
     }
-    uiVars = loadUIVars();
 
     //Save
     //2024-01-09: copied from SyllableSight
@@ -66,9 +65,6 @@ function init() {
         saveHouse(house);
         saveUIVars(uiVars);
     };
-
-    //UI
-    initUI();
 
     //Player
     player.load();
@@ -87,6 +83,9 @@ function init() {
     let scene = construct(house);
     player.setScene(scene);
 
+    //UIVars
+    uiVars = loadUIVars();
+
     //
     // player.play();
 
@@ -103,27 +102,27 @@ function init() {
         player.dom
     );
 
-    hookupDelegates();
-
-    switchMode(true);
-    uiVars.viewId = uiVars.viewId;//trigger delegate w/o changing anything
-
-    uiVars.init2(house);
-    uiVars.giveUids(house);
-
     //Undo
     undoMan = new UndoManager();
+
+    //UI
+    initUI();
+
+    //Menu
+    constructMenuBar("divMenuBar", "divMenuPanels", menuBarData);
+
+    //Delegates
+    hookupDelegates();
+
+    //Update scene
+    switchMode(true);
+    uiVars.viewId = uiVars.viewId;//trigger delegate w/o changing anything
+    player.animate();
 
     //Update UI
     updateFurnitureEditPanel();
     updateFaceEditPanel();
     updateRoomEditPanel();
-
-    //Menu
-    constructMenuBar("divMenuBar", "divMenuPanels", menuBarData);
-
-
-    player.animate();
 }
 init();
 

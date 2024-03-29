@@ -59,13 +59,10 @@ class UIVars {
     }
     init() {
 
-        this.nextUid = 1;
-
         this.undoEnabled = true;
 
         this.selector = new Selector();
-    }
-    init2(root) {
+        const root = house;//dirty: hardcoded
         this.selector.selectAll(
             this._selection
                 .map(c => {
@@ -88,6 +85,10 @@ class UIVars {
                 })
                 .filter(c => c)
         );
+
+        //init uids
+        this.nextUid = 1;
+        this.giveUids(root);
     }
 
     get editRooms() {
