@@ -114,7 +114,6 @@ function constructMenuPanel(data, keyName) {
         //
         menuarr.push(`<button class="lineButton"
             onclick="${value}"
-            keys="${JSON.stringify(keys)}"
             >
             ${buttonName}
             </button>
