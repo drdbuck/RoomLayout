@@ -78,10 +78,12 @@ function actionExportRoom() {
 
 function actionUndo() {
     undoMan.undo();
+    player.animate();
 }
 
 function actionRedo() {
     undoMan.redo();
+    player.animate();
 }
 
 function actionObjectCreateBlank() {
@@ -154,10 +156,12 @@ function actionObjectsGroup() {
 
 function actionViewOverhead() {
     uiVars.viewId = VIEW_OVERHEAD;
+    player.animate();
 }
 
 function actionViewImmersive() {
     uiVars.viewId = VIEW_FIRSTPERSON;
+    player.animate();
 }
 
 function actionTogglePanelEditRoom() {
