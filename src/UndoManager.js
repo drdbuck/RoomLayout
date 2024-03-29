@@ -152,16 +152,16 @@ class UndoManager {
         if (obj.imageIds) {
             obj._faces = obj.imageIds.map(id => this._retrieveImageURL(id));
         }
-        if (obj.defaultImageId) {
+        if (obj.defaultImageId != undefined) {
             obj.defaultFace = this._retrieveImageURL(obj.defaultImageId);
         }
         //check for more objects
         //if house
-        obj.rooms?.forEach(room => this._injectImageIds(room));
+        obj.rooms?.forEach(room => this._inflateImageIds(room));
         //if room
-        obj.furnitures?.forEach(furniture => this._injectImageIds(furniture));
+        obj.furnitures?.forEach(furniture => this._inflateImageIds(furniture));
         //if kitbash
-        obj.items?.forEach(item => this._injectImageIds(item));
+        obj.items?.forEach(item => this._inflateImageIds(item));
     }
 
 }
