@@ -91,6 +91,11 @@ function actionObjectCreateBlank() {
     room.addFurniture(furniture);
     //Select new furniture
     controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
+    //Position new furniture
+    let point = controllerEdit.getHitAtMousePos()?.point;
+    if (point) {
+        furniture.position = point;
+    }
     //focus field
     $("txtWidth").focus();
     //record undo
