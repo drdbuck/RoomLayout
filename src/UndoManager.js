@@ -27,6 +27,10 @@ class UndoManager {
             getDataStringify(),
             stringifyUndo
         ].flat(Infinity);
+        [
+            "_faces",
+            "defaultFace",
+        ].forEach(attr => stringify.remove(attr));
 
         //UndoSystem()
         const undoManager = this;
