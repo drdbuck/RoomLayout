@@ -120,8 +120,8 @@ function init() {
     player.animate();
 
     //Update UI
-    updateFurnitureEditPanel();
-    updateFaceEditPanel();
+    updateFurnitureEditPanel(uiVars.selector.selection);
+    updateFaceEditPanel(uiVars.selector.map(c=>c.face));
     updateRoomEditPanel();
 }
 init();
