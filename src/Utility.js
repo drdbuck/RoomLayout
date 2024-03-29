@@ -269,6 +269,9 @@ function inflateObject(obj, prototype, delegates = []) {
 
 function getMemorySize(json) {
     if (!json) return 0;
+    if (!isString(json)) {
+        json = JSON.stringify(json);
+    }
     let size = json.length;
     return size;
 }
