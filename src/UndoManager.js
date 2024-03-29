@@ -2,6 +2,8 @@
 
 const stringifyUndo = [
     "uid",
+    "imageIds",
+    "defaultImageId",
     //undo state
     "root",
     "selection",
@@ -14,10 +16,17 @@ const stringifyUndo = [
 
 class UndoManager {
     constructor() {
+
+        //store imageURLs separately so they don't take up space in the undo state
+        this.imageURLs = [];
+        //UndoSystem()
+        const undoManager = this;
         this._undoSystem = new UndoSystem(
             () => {
+                const root = house;
+                undoManager._injectImageIds(root);
                 return {
-                    root: house,//can't call it "house" because of circular references
+                    root: root,//can't call it "house" because of circular references
                     selection: uiVars.selector.selection.map(c => {
                         return {
                             uid_obj: c.obj.uid,
@@ -97,4 +106,27 @@ class UndoManager {
         this._undoSystem.redo();
     }
 
+    _recordImageURL(imageURL) {
+        if (!this.imageURLs.includes(imageURL)) {
+            this.imageURLs.push(imageURL);
+        }
+        let index = this.imageURLs.indexOf(imageURL);
+        return index;
+    }
+    _injectImageIds(obj) {
+        //inject image id
+        if (obj._faces) {
+            obj.imageIds = obj._faces.map(f => this._recordImageURL(f));
+        }
+        if (obj.defaultFace) {
+            obj.defaultImageId = this._recordImageURL(obj.defaultFace);
+        }
+        //check for more objects
+        //if house
+        obj.rooms?.forEach(room => this._injectImageIds(room));
+        //if room
+        obj.furnitures?.forEach(furniture => this._injectImageIds(furniture));
+        //if kitbash
+        obj.items?.forEach(item => this._injectImageIds(item));
+    }
 }
