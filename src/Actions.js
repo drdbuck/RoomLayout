@@ -96,8 +96,8 @@ function actionObjectCreateBlank() {
     if (point) {
         furniture.position = point;
     }
-    //focus field
-    $("txtWidth").focus();
+    // //focus field
+    // $("txtWidth").focus();
     //record undo
     undoMan.recordUndo();
 }

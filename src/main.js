@@ -213,8 +213,8 @@ function hookupDelegates() {
         if (point) {
             furniture.position = point;
         }
-        //focus field
-        $("txtWidth").focus();
+        // //focus field
+        // $("txtWidth").focus();
     });
 
     //Upload new furniture
