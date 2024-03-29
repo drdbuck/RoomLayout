@@ -19,6 +19,15 @@ class UndoManager {
 
         //store imageURLs separately so they don't take up space in the undo state
         this.imageURLs = [];
+
+        //init undo system
+
+        //make stringify variable for undo system
+        let stringify = [
+            getDataStringify(),
+            stringifyUndo
+        ].flat(Infinity);
+
         //UndoSystem()
         const undoManager = this;
         this._undoSystem = new UndoSystem(
@@ -37,13 +46,14 @@ class UndoManager {
                     }),
                 };
             },
-            getDataStringify().concat(stringifyUndo),
+            stringify,
             (obj) => {
                 let selection = obj.selection;
                 uiVars.selector.clear();
                 //
                 house = obj.root;
                 inflateHouse(house);
+                undoManager._inflateImageIds(house);
                 let scene = construct(house);
                 player.setScene(scene);
                 controllerEdit.scene = scene;
@@ -113,6 +123,10 @@ class UndoManager {
         let index = this.imageURLs.indexOf(imageURL);
         return index;
     }
+    _retrieveImageURL(index) {
+        return this.imageURLs[index];
+    }
+
     _injectImageIds(obj) {
         //inject image id
         if (obj._faces) {
@@ -129,4 +143,21 @@ class UndoManager {
         //if kitbash
         obj.items?.forEach(item => this._injectImageIds(item));
     }
+    _inflateImageIds(obj) {
+        //inflate image id
+        if (obj.imageIds) {
+            obj._faces = obj.imageIds.map(id => this._retrieveImageURL(id));
+        }
+        if (obj.defaultImageId) {
+            obj.defaultFace = this._retrieveImageURL(obj.defaultImageId);
+        }
+        //check for more objects
+        //if house
+        obj.rooms?.forEach(room => this._injectImageIds(room));
+        //if room
+        obj.furnitures?.forEach(furniture => this._injectImageIds(furniture));
+        //if kitbash
+        obj.items?.forEach(item => this._injectImageIds(item));
+    }
+
 }
