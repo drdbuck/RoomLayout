@@ -139,6 +139,8 @@ function actionObjectsGroup() {
     furnitures.forEach(f => f.group?.remove(f));
     //add to new
     let group = room.group(furnitures);
+    //early exit: group wasn't made (ex: if there was only one object)
+    if (!group) { return; }
     //select group
     controllerEdit.selectObject(group, false);
     //record undo
