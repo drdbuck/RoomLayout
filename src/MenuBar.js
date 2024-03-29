@@ -9,14 +9,18 @@ const menuBarData = {
     title: "Room Plan 3D",
     file: {
         title: "File",
+        "Import": "---",
         "Import File": "actionImportFurniture();",
+        "Export": "---",
         "Export Furniture": "actionExportFurniture();",
         "Export Room": "actionExportRoom();",
     },
     edit: {
         title: "Edit",
+        "Undo": "---",
         "Undo %z": "actionUndo();",
         "Redo %y": "actionRedo();",
+        "Edit": "---",
         "Create Blank %b": "actionObjectCreateBlank();",
         "Duplicate Objects %d": "actionObjectsDuplicate();",
         "Delete Objects _delete": "actionObjectsDelete();",
@@ -24,10 +28,12 @@ const menuBarData = {
     },
     view: {
         title: "View",
+        "View": "---",
         "Overhead View": "actionViewOverhead();",
         "Immersive View": "actionViewImmersive();",
-        "Room Edit Panel": "actionTogglePanelEditRoom();",
+        "Panels": "---",
         "Furniture Edit Panel": "actionTogglePanelEditObject();",
+        "Room Edit Panel": "actionTogglePanelEditRoom();",
         "Face Edit Panel": "actionTogglePanelEditFace();",
     },
 };
@@ -84,8 +90,20 @@ function constructMenuPanel(data, keyName) {
         onmouseleave="handleMouseLeave('${btnId}', '${menuId}', event);"
         >`);
     for (const [key, value] of Object.entries(data)) {
+        //early exit: title
         if (key == "title") { continue; }
-        //
+
+        //line break
+        if (/^\-+$/.test(value)) {//"---"
+            menuarr.push(`
+                <div class="linebreak">
+                    ${key}
+                </div>
+            `);
+            continue;
+        }
+
+        //button
         let keys = [];
         let buttonName = key.split(" ")
             .map(seg => {
@@ -117,7 +135,7 @@ function constructMenuPanel(data, keyName) {
             >
             ${buttonName}
             </button>
-            <br>`);
+            `);
     }
     menuarr.push(`</div>`);
     //return
