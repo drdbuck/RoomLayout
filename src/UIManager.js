@@ -19,6 +19,9 @@ const updateFunc = (id, list, func, float = true) => {
 
 function initUI() {
 
+    //title
+    document.title = `${APP_NAME} v${VERSION}`;
+
     //individual textbox listeners
     const onChangeFunc = (id, list, func, float = true, allowFootNotation = true) => {
         let txtChanged = false;

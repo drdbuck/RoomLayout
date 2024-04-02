@@ -4,6 +4,10 @@
 // These are system-wide constants that don't really belong in any one file
 //
 
+//App Info
+const VERSION = "0.040";
+const APP_NAME = "Room Plan 3D";
+
 //Cursor Styles
 const CURSOR_AUTO = "auto";
 const CURSOR_MOVE = "move";

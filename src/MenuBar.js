@@ -6,7 +6,7 @@ const keyTest = /([%#&]+|_)[a-z0-9]+/;
 const menuKeys = [];
 
 const menuBarData = {
-    title: "Room Plan 3D",
+    title: APP_NAME,
     file: {
         title: "File",
         "Import": "---",
