@@ -361,6 +361,7 @@ function updateFaceEditPanel(faces) {
     }
     $("divImageEdit").hidden = !showFaceEdit;
     $("btnPanelFaceEdit").hidden = !usingImage;
+    $("btnFaceClear").hidden = !(usingImage && _contexts.find(c => c.furniture.validFaceIndex(c.face))?.face >= 0);//dirty: _contexts
 }
 
 
@@ -398,6 +399,7 @@ function btnUseSuggestedImage(imgURL) {
         let f = c.furniture;
         f.setFace(c.face, imgURL);
     });
+    updateFaceEditPanel();
     //record undo
     undoMan.recordUndo();
 }
@@ -463,6 +465,9 @@ function btnFaceClear() {
         let f = c.furniture;
         f.setFace(c.face, PIXEL_TRANSPARENT);
     });
+    uiVars.viewPanelFaceEdit = false;
+    updateFaceEditPanel();
+    player.animate();
     //record undo
     undoMan.recordUndo();
 }

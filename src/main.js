@@ -137,6 +137,7 @@ function hookupDelegates() {
             uiVars.viewPanelFaceEdit = false;
             updateFaceEditPanel(faces);
             uiVars.highlightSelectedFace = true;
+            player.animate();
         }
     });
     uiVars.selector.onSelectionChanged.add(contexts => {
