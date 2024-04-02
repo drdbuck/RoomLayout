@@ -173,5 +173,5 @@ function actionTogglePanelEditObject() {
 }
 
 function actionTogglePanelEditFace() {
-    uiVars.editFaces = !uiVars.editFaces;
+    uiVars.viewPanelFace = !uiVars.viewPanelFace;
 }

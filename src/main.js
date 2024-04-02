@@ -133,7 +133,7 @@ function hookupDelegates() {
 
     //Controller Edit
     controllerEdit.onFaceSelectionChanged.add(faces => {
-        if (uiVars.editFaces) {
+        if (uiVars.viewPanelFace) {
             updateFaceEditPanel(faces);
             uiVars.highlightSelectedFace = true;
         }
@@ -142,7 +142,7 @@ function hookupDelegates() {
         controllerEdit.updateCollectiveCenter(contexts);
         //
         updateFurnitureEditPanel(contexts);
-        if (uiVars.editFaces) {
+        if (uiVars.viewPanelFace) {
             uiVars.highlightSelectedFace = true;
         }
         //Update selected faces
@@ -177,8 +177,8 @@ function hookupDelegates() {
     //UI Vars
     uiVars.onEditRoomsChanged.add(updateRoomEditPanel);
     uiVars.onEditObjectsChanged.add(updateFurnitureEditPanel);
-    uiVars.onEditFacesChanged.add((editFaces) => {
-        uiVars.highlightSelectedFace = editFaces;
+    uiVars.onViewPanelFaceChanged.add((viewPanelFace) => {
+        uiVars.highlightSelectedFace = viewPanelFace;
         //update face edit panel
         updateFaceEditPanel();
     });
@@ -196,7 +196,7 @@ function hookupDelegates() {
     //Upload image to new box / existing face
     flm.onImageUploaded.add((image) => {
         //upload face instead of editing faces
-        if (uiVars.editFaces && uiVars.selector.count > 0) {
+        if (uiVars.viewPanelFace && uiVars.selector.count > 0) {
             uploadFace(image);
             return;
         }

@@ -104,7 +104,7 @@ class Controller {
                 //if multiselect button is down (ctrl, shift)
                 if (this.multiselectButton) {
                     //select face
-                    if (uiVars.editFaces && context.face != targetFace) {
+                    if (uiVars.viewPanelFace && context.face != targetFace) {
                         context.face = targetFace;
                         this.updateFaceSelection();
                         this.runFaceDelegate();
@@ -113,7 +113,7 @@ class Controller {
                     else {
                         this.deselectObject(target, !onlySelectButton);
                         //check if there's no other face selected now
-                        if (uiVars.editFaces) {
+                        if (uiVars.viewPanelFace) {
                             if (!uiVars.selector.some(c => c.furniture.validFaceIndex(c.face))) {
                                 let stayInFaceEditModeWhenDeselectLastFace = false;//TODO: make this a user setting
                                 //Select other face
@@ -211,7 +211,7 @@ class Controller {
                             }
                             //select target face
                             context.face = targetFace;
-                            if (uiVars.editFaces) {
+                            if (uiVars.viewPanelFace) {
                                 this.updateFaceSelection();
                                 this.runFaceDelegate();
                                 //sort selected

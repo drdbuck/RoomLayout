@@ -212,7 +212,7 @@ function updateFurnitureEditPanel(contexts) {
     updateFunc("txtRecline", flist, f => f.recline);
 
 
-    $("btnFaceEdit").checked = uiVars.editFaces;
+    $("btnFaceEdit").checked = uiVars.viewPanelFace;
 
     //
 }
@@ -244,7 +244,7 @@ function updateFaceEditPanel(faces) {
     faces = _faces;
 
     //
-    let showPanel = uiVars.editFaces;
+    let showPanel = uiVars.viewPanelFace;
     $("divFaceEdit").hidden = !showPanel;
     if (!showPanel) { return; }
 
@@ -384,7 +384,7 @@ function btnFaceEdit() {
 }
 
 function btnExitFaceEdit() {
-    uiVars.editFaces = false;
+    uiVars.viewPanelFace = false;
 }
 
 function btnUseSuggestedImage(imgURL) {
