@@ -381,7 +381,7 @@ function btnGroup() {
 }
 
 function btnFaceEdit() {
-    actionTogglePanelEditFace();
+    actionTogglePanelFaceView();
 }
 
 function btnExitFaceEdit() {
