@@ -175,3 +175,6 @@ function actionTogglePanelEditObject() {
 function actionTogglePanelFaceView() {
     uiVars.viewPanelFace = !uiVars.viewPanelFace;
 }
+function actionTogglePanelFaceEdit() {
+    uiVars.viewPanelFaceEdit = !uiVars.viewPanelFaceEdit;
+}

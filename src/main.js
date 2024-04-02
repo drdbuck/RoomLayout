@@ -134,6 +134,7 @@ function hookupDelegates() {
     //Controller Edit
     controllerEdit.onFaceSelectionChanged.add(faces => {
         if (uiVars.viewPanelFace) {
+            uiVars.viewPanelFaceEdit = false;
             updateFaceEditPanel(faces);
             uiVars.highlightSelectedFace = true;
         }
@@ -179,6 +180,16 @@ function hookupDelegates() {
     uiVars.onEditObjectsChanged.add(updateFurnitureEditPanel);
     uiVars.onViewPanelFaceChanged.add((viewPanelFace) => {
         uiVars.highlightSelectedFace = viewPanelFace;
+        if (!viewPanelFace) {
+            uiVars.viewPanelFaceEdit = false;
+        }
+        //update face edit panel
+        updateFaceEditPanel();
+    });
+    uiVars.onViewPanelFaceEditChanged.add((viewPanelFaceEdit) => {
+        if (viewPanelFaceEdit && !uiVars.viewPanelFace) {
+            uiVars.viewPanelFace = true;
+        }
         //update face edit panel
         updateFaceEditPanel();
     });

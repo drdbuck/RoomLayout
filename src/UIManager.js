@@ -357,6 +357,7 @@ function updateFaceEditPanel(faces) {
         controllerImageEdit.updateImage(_contexts.find(c => c.furniture.validFaceIndex(c.face)));//dirty: _contexts
     }
     $("divImageEdit").hidden = !showFaceEdit;
+    $("btnPanelFaceEdit").hidden = !usingImage;
 }
 
 

@@ -35,6 +35,7 @@ const menuBarData = {
         "Furniture Edit Panel": "actionTogglePanelEditObject();",
         "Room Edit Panel": "actionTogglePanelEditRoom();",
         "Face View Panel": "actionTogglePanelFaceView();",
+        "Face Edit Panel": "actionTogglePanelFaceEdit();",
     },
 };
 

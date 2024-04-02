@@ -36,7 +36,7 @@ class UIVars {
 
         this._viewPanelFace = true;
         this.onViewPanelFaceChanged = new Delegate("viewPanelFace");
-        this._viewPanelFaceEdit = true;
+        this._viewPanelFaceEdit = false;
         this.onViewPanelFaceEditChanged = new Delegate("viewPanelFaceEdit");
 
         this._highlightSelectedFace = false;

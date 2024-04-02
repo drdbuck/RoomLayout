@@ -82,7 +82,7 @@
             <input type="text" id="txtRecline" title="Recline" placeholder="recline" default="0"/><br>
 
             <br>
-            <button id="btnFaceEdit" class="lineButton" onclick="btnFaceEdit();">Edit Faces</button>
+            <button id="btnFaceEdit" class="lineButton" onclick="btnFaceEdit();">View Faces</button>
             <button id="btnGroup" class="lineButton" onclick="btnGroup();">Group</button>
             <button id="btnFurnitureDuplicate" class="lineButton" onclick="actionObjectsDuplicate();">Duplicate</button>
             <button id="btnFurnitureExport" class="lineButton" onclick="btnFurnitureExport();">Export</button>
@@ -91,7 +91,7 @@
         <!-- Face Edit Panel -->
         <div id="divFaceEdit" class="popupPanel" hidden>
             <button id="btnExitFaceEdit" class="exitButton" onclick="btnExitFaceEdit();">X</button>
-            <h1>Edit Faces</h1>
+            <h1>Faces</h1>
             <label id="lblFaceName">Face</label><br>
             <button id="btnChangeFace" class="arrowButton" onclick="controller.selectNextFace(-1);"><</button>
             <span id="spnFaceName">No Face Selected</span>
@@ -101,6 +101,8 @@
             <div id="divFaceDrop" class="dropArea">
                 Drop face image here
             </div>
+            <button id="btnPanelFaceEdit" class="lineButton" onclick="actionTogglePanelFaceEdit();">Edit Face</button>
+
             <br>
             <div id="divImageEdit" class="buttonPanel">
                 <label>Image Edit Options</label>
