@@ -4,6 +4,7 @@ let stringifyUIVars = [
     "_editRooms",
     "_editObjects",
     "_viewPanelFace",
+    "_viewPanelFaceEdit",
     "_highlightSelectedFace",
     "_viewId",
     "_views",
@@ -35,6 +36,8 @@ class UIVars {
 
         this._viewPanelFace = true;
         this.onViewPanelFaceChanged = new Delegate("viewPanelFace");
+        this._viewPanelFaceEdit = true;
+        this.onViewPanelFaceEditChanged = new Delegate("viewPanelFaceEdit");
 
         this._highlightSelectedFace = false;
         this.onHighlightSelectedFaceChanged = new Delegate("highSelectedFace");
@@ -122,6 +125,16 @@ class UIVars {
         //
         this._viewPanelFace = value;
         this.onViewPanelFaceChanged.run(this._viewPanelFace);
+    }
+    get viewPanelFaceEdit() {
+        return this._viewPanelFaceEdit;
+    }
+    set viewPanelFaceEdit(value) {
+        //enforce boolean
+        value = !!value;
+        //
+        this._viewPanelFaceEdit = value;
+        this.onViewPanelFaceEditChanged.run(this._viewPanelFaceEdit);
     }
 
     get highlightSelectedFace() {
@@ -221,6 +234,7 @@ function inflateUIVars(uiVars) {
             "onEditRoomsChanged",
             "onEditObjectsChanged",
             "onViewPanelFaceChanged",
+            "onViewPanelFaceEditChanged",
             "onHighlightSelectedFaceChanged",
             "onViewIdChanged",
         ]

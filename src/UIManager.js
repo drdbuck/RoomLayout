@@ -352,10 +352,11 @@ function updateFaceEditPanel(faces) {
     }
     $("divFaceDrop").innerHTML = divhtml;
     //
-    if (usingImage) {
+    let showFaceEdit = usingImage && uiVars.viewPanelFaceEdit;
+    if (showFaceEdit) {
         controllerImageEdit.updateImage(_contexts.find(c => c.furniture.validFaceIndex(c.face)));//dirty: _contexts
     }
-    $("divImageEdit").hidden = !usingImage;
+    $("divImageEdit").hidden = !showFaceEdit;
 }
 
 
