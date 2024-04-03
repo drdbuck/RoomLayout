@@ -27,8 +27,16 @@ const menuBarData = {
             listen: ["select"],
             update: "menuUpdateObjectsDuplicate(_);",
         },
-        "Delete Objects _delete": "actionObjectsDelete();",
-        "Group Objects %g": "actionObjectsGroup();",
+        "Delete Objects _delete": {
+            action: "actionObjectsDelete();",
+            listen: ["select"],
+            update: "menuUpdateObjectsDelete(_);",
+        },
+        "Group Objects %g": {
+            action: "actionObjectsGroup();",
+            listen: ["select"],
+            update: "menuUpdateObjectsGroup(_);",
+        },
     },
     view: {
         title: "View",
