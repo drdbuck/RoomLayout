@@ -101,6 +101,11 @@ class UndoManager {
                 uiVars.selector.selectAll(contexts);
             }
         );
+
+        //Delegates
+        this.onUndo = new Delegate();
+        this.onRedo = new Delegate();
+        this.onRecordUndo = new Delegate();
     }
 
     recordUndo() {
@@ -109,16 +114,26 @@ class UndoManager {
 
         //
         player.animate();//dirty: this doesn't belong here
+        this.onRecordUndo.run();
     }
 
     undo() {
         if (!uiVars.undoEnabled) { return; }//TEMP: while the undo system is still not optimized
         this._undoSystem.undo();
+        this.onUndo.run();
     }
 
     redo() {
         if (!uiVars.undoEnabled) { return; }//TEMP: while the undo system is still not optimized
         this._undoSystem.redo();
+        this.onRedo.run();
+    }
+
+    get stateIndex() {
+        return this._undoSystem.index;
+    }
+    get stateCount() {
+        return this._undoSystem.stateList.length;
     }
 
     _recordImageURL(imageURL) {

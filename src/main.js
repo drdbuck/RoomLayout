@@ -265,21 +265,28 @@ function hookupDelegatesMenu() {
         //get function
         const funcText = value.join(" ");
         //limit it to only calling menuUpate methods (for more security)
-        if (!(/^(menuUpdate[a-zA-Z0-9]*\(\'btn[a-zA-Z0-9]+\'(, *[a-zA-Z0-9]*)?\); ?)+$/.test(funcText))) {
+        if (!(/^(menuUpdate[a-zA-Z0-9]*\(\'btn[a-zA-Z0-9]+\'(, *\-?[a-zA-Z0-9]*)?\); ?)+$/.test(funcText))) {
             return;
         }
         //make the func
         const updateFunc = new Function(funcText);
 
-        //get event
-        let event;
+        //get events
+        let events = [];
         switch (key) {
-            case "select": event = uiVars.selector.onSelectionChanged; break;
+            case "select": events = [uiVars.selector.onSelectionChanged]; break;
+            case "undo": events = [
+                undoMan.onUndo,
+                undoMan.onRedo,
+                undoMan.onRecordUndo
+            ]; break;
             default: console.warn("event not registered", key);
         }
 
         //hookup them up
-        event?.add(updateFunc);
+        events.forEach(event => {
+            event.add(updateFunc);
+        })
 
         //call the update func (for initial state)
         updateFunc();

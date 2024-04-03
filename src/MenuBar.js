@@ -18,8 +18,16 @@ const menuBarData = {
     edit: {
         title: "Edit",
         "Undo": "---",
-        "Undo %z": "actionUndo();",
-        "Redo %y": "actionRedo();",
+        "Undo %z": {
+            action: "actionUndo();",
+            listen: ["undo"],
+            update: "menuUpdateUndo(_);",
+        },
+        "Redo %y": {
+            action: "actionRedo();",
+            listen: ["undo"],
+            update: "menuUpdateRedo(_);",
+        },
         "Edit": "---",
         "Create Blank %b": "actionObjectCreateBlank();",
         "Duplicate Objects %d": {
