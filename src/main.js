@@ -113,6 +113,7 @@ function init() {
 
     //Delegates
     hookupDelegates();
+    hookupDelegatesMenu();
 
     //Update scene
     switchMode(true);
@@ -255,6 +256,24 @@ function hookupDelegates() {
         //objects
         player.scene.children = [];
         constructRoom(room, player.scene);
+    });
+}
+
+function hookupDelegatesMenu() {
+    Object.entries(menuListeners).forEach(([key, value]) => {
+
+        //get function
+        const updateFunc = new Function(value.join(" "));
+
+        //get event
+        let event;
+        switch (key) {
+            case "select": event = uiVars.selector.onSelectionChanged; break;
+            default: console.warn("event not registered", key);
+        }
+
+        //hookup them up
+        event?.add(updateFunc);
     });
 }
 

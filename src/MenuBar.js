@@ -22,7 +22,11 @@ const menuBarData = {
         "Redo %y": "actionRedo();",
         "Edit": "---",
         "Create Blank %b": "actionObjectCreateBlank();",
-        "Duplicate Objects %d": "actionObjectsDuplicate();",
+        "Duplicate Objects %d": {
+            action: "actionObjectsDuplicate();",
+            listen: ["select"],
+            update: "menuUpdateObjectsDuplicate(_);",
+        },
         "Delete Objects _delete": "actionObjectsDelete();",
         "Group Objects %g": "actionObjectsGroup();",
     },
@@ -44,6 +48,8 @@ let menuIds = [];
 let menuBarState = {
     anyOpen: false,
 }
+
+let menuListeners = {};//{"select": ["menuUpdateObjectsDuplicate();"]}
 
 function constructMenuBar(id, idPanels, data) {
     let menuBar = $(id);
@@ -105,8 +111,18 @@ function constructMenuPanel(data, keyName) {
         }
 
         //button
+        let action = value;
+        let listen;
+        let update;
+        if (!isString(action)) {
+            //assume obj
+            listen = action.listen;
+            update = action.update;
+            action = action.action;
+        }
         let keys = [];
-        let buttonName = key.split(" ")
+        let buttonNameSegs = [];
+        let buttonLabel = key.split(" ")
             .map(seg => {
                 if (keyTest.test(seg)) {
                     let key = {
@@ -115,12 +131,13 @@ function constructMenuPanel(data, keyName) {
                         alt: seg.includes("&"),
                         keyOnly: seg.includes("_"),
                         key: seg.match(/[a-z0-9]+/)[0],
-                        action: value,
+                        action: action,
                     };
                     keys.push(key);
                     menuKeys.push(key);
                     return "";
                 }
+                buttonNameSegs.push(seg);
                 return seg;
             })
             .filter(seg => seg)
@@ -130,11 +147,18 @@ function constructMenuPanel(data, keyName) {
                 </span>`
             ))
             .join(" ");
+        let buttonName = buttonNameSegs.join("");
+        let menubtnId = `btn${buttonName}`;
+        if (listen && update) {
+            update = update.replaceAll("_", `'${menubtnId}'`);
+            menuListeners[listen] ??= [];
+            menuListeners[listen].push(update);
+        }
         //
-        menuarr.push(`<button class="lineButton"
-            onclick="${value}"
+        menuarr.push(`<button id="${menubtnId}" class="lineButton"
+            onclick="${action}"
             >
-            ${buttonName}
+            ${buttonLabel}
             </button>
             `);
     }
