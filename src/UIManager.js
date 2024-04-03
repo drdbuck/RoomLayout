@@ -441,8 +441,6 @@ function btnFlip(flipX, flipY) {
             player.animate();
         }
     });
-    updateFaceEditPanel();
-    player.animate();
     //record undo
     undoMan.recordUndo();
 }
@@ -471,10 +469,8 @@ function btnRotate(degrees) {
             player.animate();
         }
     });
-    updateFaceEditPanel();//
-    player.animate();
-    //record undo//
-    undoMan.recordUndo();//
+    //record undo
+    undoMan.recordUndo();
 }//
 
 function cropCanvasChanged(url) {
@@ -490,6 +486,8 @@ function cropCanvasChanged(url) {
 
 function btnFaceCrop() {
     controllerImageEdit.crop();
+    updateFaceEditPanel();
+    player.animate();//needed?
     //record undo
     undoMan.recordUndo();
 }
