@@ -436,8 +436,12 @@ function btnFlip(flipX, flipY) {
             controllerImageEdit.boomerangCorners();
             let url = img.src;
             f.setFace(faceIndex, url);
+            updateFaceEditPanel();
+            player.animate();
         }
     });
+    updateFaceEditPanel();
+    player.animate();
     //record undo
     undoMan.recordUndo();
 }
@@ -463,9 +467,11 @@ function btnRotate(degrees) {
             let url = img.src;
             f.setFace(faceIndex, url);
             updateFaceEditPanel();
+            player.animate();
         }
     });
     updateFaceEditPanel();//
+    player.animate();
     //record undo//
     undoMan.recordUndo();//
 }//

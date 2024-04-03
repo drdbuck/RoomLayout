@@ -444,6 +444,7 @@ function createMaterial(imageURL, front = true) {
                 mat.transparent = imageHasTransparency(texture.source.data);
                 mat.alphaTest = 0.001;
                 mat.needsUpdate = true;
+                player.animate();
             }
         );
     }
