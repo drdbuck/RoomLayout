@@ -233,6 +233,21 @@ function flipImage(img, flipX, flipY) {
     newImage.src = canvas.toDataURL();
     return newImage;
 }
+function rotateImage(img, degrees) {
+    let canvas = tempCanvas;
+    canvas.width = img.height;
+    canvas.height = img.width;
+    let ctx = tempCTX;
+    //2024-01-30: copied from https://stackoverflow.com/a/42856641/2336212
+    ctx.save();  // save the current canvas state
+    ctx.rotate(toRadians(degrees));
+    ctx.drawImage(img, 0, 0);
+    ctx.restore(); // restore the state as it was when this function was called
+    //
+    let newImage = new Image();
+    newImage.src = canvas.toDataURL();
+    return newImage;
+}
 
 function copy(obj) {
     return JSON.parse(JSON.stringify(obj));

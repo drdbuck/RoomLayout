@@ -15,11 +15,7 @@ class ImageEdit {
     }
     set cornerList(corners) {
         this.corners = corners;
-        //dirty: relies on corner order set in setImage()
-        this.cornerLT = corners[0];
-        this.cornerRT = corners[1];
-        this.cornerRB = corners[2];
-        this.cornerLB = corners[3];
+        this._listToCorners();
     }
 
     get midpointList() {
@@ -38,6 +34,16 @@ class ImageEdit {
     get handleList() {
         this._updateMidPoints();//TODO: refactor so dont have to update every time
         return [this.corners, this.midpoints].flat();
+    }
+
+    _cornersToList() {
+        this.corners = [this.cornerLT, this.cornerRT, this.cornerRB, this.cornerLB];
+    }
+    _listToCorners() {
+        this.cornerLT = this.corners[0];
+        this.cornerRT = this.corners[1];
+        this.cornerRB = this.corners[2];
+        this.cornerLB = this.corners[3];
     }
 
     isCorner(handle) {
@@ -66,7 +72,7 @@ class ImageEdit {
         this.cornerLB = new Vector2(0, this.height);
         this.cornerRT = new Vector2(this.width, 0);
         this.cornerRB = new Vector2(this.width, this.height);
-        this.corners = [this.cornerLT, this.cornerRT, this.cornerRB, this.cornerLB];
+        this._cornersToList();
         //
         this._updateMidPoints();
     }
@@ -205,7 +211,44 @@ class ImageEdit {
             this.cornerRT = this.cornerRB;
             this.cornerRB = swapR;
         }
-        this.corners = [this.cornerLT, this.cornerRT, this.cornerRB, this.cornerLB];
+        this._cornersToList();
+    }
+
+    rotate(degrees) {
+        if (!(degrees % 90 == 0)) {
+            console.error("degrees must be a multiple of 90!", degrees);
+            return;
+        }
+        const width = this.width;
+        const height = this.height;
+        const centerOld = new Vector2(width / 2, height / 2);
+        const centerNew = new Vector2(height / 2, width / 2);
+        const rotationCount = ((360 + degrees) % 360) / 90;//make sure its positive
+        const rotatePoint = (v) => {
+            let v2 = new Vector2(v.y, v.x);
+            if (Math.sign(v.x) == Math.sign(v.y)) {
+                v2.y *= -1;
+            }
+            else {
+                v2.x *= -1;
+            }
+            return v2;
+        };
+        //
+        let newCorners = this.corners
+            //rotate vectors
+            .map(corner => {
+                let cv = corner.clone();
+                cv.sub(centerOld);
+                for (let i = 0; i < rotationCount; i++) {
+                    rotatePoint(cv);
+                }
+                cv.add(centerNew);
+                return cv;
+            })
+            //switch corners
+            .map((c, i, arr) => arr[(i + rotationCount) % arr.length]);
+        this.cornerList = newCorners;
     }
 
 }

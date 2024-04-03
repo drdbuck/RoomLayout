@@ -442,6 +442,34 @@ function btnFlip(flipX, flipY) {
     undoMan.recordUndo();
 }
 
+function btnRotateLeft() {
+    btnRotate(-90);
+}
+function btnRotateRight() {
+    btnRotate(90);
+}
+function btnRotate(degrees) {
+    uiVars.selector.forEach(c => {
+        let f = c.furniture;
+        let faceIndex = c.face;
+        if (!f.validFaceIndex(faceIndex)) { return; }
+        let imageURL = f.getFace(faceIndex);
+        let img = new Image();
+        img.src = imageURL;
+        img.onload = () => {
+            img = rotateImage(img, degrees);
+            controllerImageEdit.imageEdit.rotate(degrees);//dirty: directly accessing protected member imageEdit
+            controllerImageEdit.boomerangCorners();
+            let url = img.src;
+            f.setFace(faceIndex, url);
+            updateFaceEditPanel();
+        }
+    });
+    updateFaceEditPanel();//
+    //record undo//
+    undoMan.recordUndo();//
+}//
+
 function cropCanvasChanged(url) {
     uiVars.selector.forEach(c => {
         let f = c.furniture;
