@@ -322,6 +322,7 @@ class Controller {
     }
 
     createSelectContext(select, face = -2) {
+        //2024-03-26: REMINDER: when you add a new variable here, you may also need to add it to stringifyUndo[]
         return {
             obj: select,
             furniture: undefined,

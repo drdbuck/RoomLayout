@@ -8,6 +8,7 @@ const stringifyUndo = [
     "root",
     "selection",
     //select context
+    //REMINDER: variables added here need to be set in the parameter passed into the UndoSystem constructor
     "uid_obj",
     "uid_furniture",
     "uid_kitbash",
