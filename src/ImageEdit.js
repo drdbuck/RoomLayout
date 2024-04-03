@@ -225,14 +225,7 @@ class ImageEdit {
         const centerNew = new Vector2(height / 2, width / 2);
         const rotationCount = ((360 + degrees) % 360) / 90;//make sure its positive
         const rotatePoint = (v) => {
-            let v2 = new Vector2(v.y, v.x);
-            if (Math.sign(v.x) == Math.sign(v.y)) {
-                v2.y *= -1;
-            }
-            else {
-                v2.x *= -1;
-            }
-            return v2;
+            return new Vector2(-v.y, v.x);
         };
         //
         let newCorners = this.corners
@@ -241,7 +234,7 @@ class ImageEdit {
                 let cv = corner.clone();
                 cv.sub(centerOld);
                 for (let i = 0; i < rotationCount; i++) {
-                    rotatePoint(cv);
+                    cv = rotatePoint(cv);
                 }
                 cv.add(centerNew);
                 return cv;
