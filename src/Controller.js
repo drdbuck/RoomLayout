@@ -37,7 +37,7 @@ class Controller {
         );
         if (key) {
             //limit it to only calling action methods (for more security)
-            if (!(/action[a-zA-Z0-9]*\(\);/.test(key.action))) { return; }
+            if (!(/^action[a-zA-Z0-9]*\(\);$/.test(key.action))) { return; }
             //call the action method
             new Function(key.action)();
             //don't do other actions with this input

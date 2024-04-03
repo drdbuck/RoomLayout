@@ -263,7 +263,13 @@ function hookupDelegatesMenu() {
     Object.entries(menuListeners).forEach(([key, value]) => {
 
         //get function
-        const updateFunc = new Function(value.join(" "));
+        const funcText = value.join(" ");
+        //limit it to only calling menuUpate methods (for more security)
+        if (!(/^(menuUpdate[a-zA-Z0-9]*\(\'btn[a-zA-Z0-9]+\'\); ?)+$/.test(funcText))) {
+            return;
+        }
+        //make the func
+        const updateFunc = new Function(funcText);
 
         //get event
         let event;

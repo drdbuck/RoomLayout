@@ -120,6 +120,7 @@ function constructMenuPanel(data, keyName) {
             update = action.update;
             action = action.action;
         }
+        action = action.trim();
         let keys = [];
         let buttonNameSegs = [];
         let buttonLabel = key.split(" ")
