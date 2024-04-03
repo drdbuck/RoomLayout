@@ -274,6 +274,9 @@ function hookupDelegatesMenu() {
 
         //hookup them up
         event?.add(updateFunc);
+
+        //call the update func (for initial state)
+        updateFunc();
     });
 }
 
