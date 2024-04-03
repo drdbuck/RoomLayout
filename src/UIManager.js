@@ -399,6 +399,7 @@ function btnUseSuggestedImage(imgURL) {
         let f = c.furniture;
         f.setFace(c.face, imgURL);
     });
+    uiVars.viewPanelFaceEdit = true;
     updateFaceEditPanel();
     //record undo
     undoMan.recordUndo();

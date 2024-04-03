@@ -234,14 +234,19 @@ function flipImage(img, flipX, flipY) {
     return newImage;
 }
 function rotateImage(img, degrees) {
+    if (!Math.abs(degrees) == 90) {
+        console.error("degrees must be 90 or -90!", degrees);
+        return img;
+    }
     let canvas = tempCanvas;
     canvas.width = img.height;
     canvas.height = img.width;
     let ctx = tempCTX;
     //2024-01-30: copied from https://stackoverflow.com/a/42856641/2336212
     ctx.save();  // save the current canvas state
+    ctx.translate(canvas.width/2, canvas.height/2);
     ctx.rotate(toRadians(degrees));
-    ctx.drawImage(img, 0, 0);
+    ctx.drawImage(img, -img.width/2, -img.height/2);
     ctx.restore(); // restore the state as it was when this function was called
     //
     let newImage = new Image();
