@@ -12,7 +12,11 @@ const menuBarData = {
         "Import": "---",
         "Import File": "actionImportFurniture();",
         "Export": "---",
-        "Export Furniture": "actionExportFurniture();",
+        "Export Furniture": {
+            action: "actionExportFurniture();",
+            listen: ["select"],
+            update: "menuUpdateSelectMinimum(_);",
+        },
         "Export Room": "actionExportRoom();",
     },
     edit: {
