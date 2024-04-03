@@ -25,17 +25,17 @@ const menuBarData = {
         "Duplicate Objects %d": {
             action: "actionObjectsDuplicate();",
             listen: ["select"],
-            update: "menuUpdateObjectsDuplicate(_);",
+            update: "menuUpdateSelectMinimum(_);",
         },
         "Delete Objects _delete": {
             action: "actionObjectsDelete();",
             listen: ["select"],
-            update: "menuUpdateObjectsDelete(_);",
+            update: "menuUpdateSelectMinimum(_);",
         },
         "Group Objects %g": {
             action: "actionObjectsGroup();",
             listen: ["select"],
-            update: "menuUpdateObjectsGroup(_);",
+            update: "menuUpdateSelectMinimum(_, 2);",
         },
     },
     view: {

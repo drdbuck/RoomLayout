@@ -265,7 +265,7 @@ function hookupDelegatesMenu() {
         //get function
         const funcText = value.join(" ");
         //limit it to only calling menuUpate methods (for more security)
-        if (!(/^(menuUpdate[a-zA-Z0-9]*\(\'btn[a-zA-Z0-9]+\'\); ?)+$/.test(funcText))) {
+        if (!(/^(menuUpdate[a-zA-Z0-9]*\(\'btn[a-zA-Z0-9]+\'(, *[a-zA-Z0-9]*)?\); ?)+$/.test(funcText))) {
             return;
         }
         //make the func

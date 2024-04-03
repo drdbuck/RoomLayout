@@ -1,19 +1,7 @@
 "use strict";
 
-function menuUpdateObjectsDuplicate(btnId) {
+function menuUpdateSelectMinimum(btnId, min = 1) {
     let btn = $(btnId);
-    let enabled = uiVars.selector.count > 0;
-    btn.disabled = !enabled;
-}
-
-function menuUpdateObjectsDelete(btnId) {
-    let btn = $(btnId);
-    let enabled = uiVars.selector.count > 0;
-    btn.disabled = !enabled;
-}
-
-function menuUpdateObjectsGroup(btnId) {
-    let btn = $(btnId);
-    let enabled = uiVars.selector.count > 1;
+    let enabled = uiVars.selector.count >= min;
     btn.disabled = !enabled;
 }
