@@ -280,6 +280,9 @@ function hookupDelegatesMenu() {
                 undoMan.onRedo,
                 undoMan.onRecordUndo
             ]; break;
+            case "group": events = [
+                //TODO: onGroup() and onUngroup() events
+            ]; break;
             default: console.warn("event not registered", key);
         }
 

@@ -153,6 +153,15 @@ function actionObjectsGroup() {
     //record undo
     undoMan.recordUndo();
 }
+function actionObjectsUngroup() {
+    //remove from existing
+    let furnitures = uiVars.selector.map(c => c.furniture);
+    furnitures.forEach(f => f.group?.remove(f));
+    //
+    uiVars.selector.clear();
+    //record undo
+    undoMan.recordUndo();
+}
 
 function actionViewOverhead() {
     uiVars.viewId = VIEW_OVERHEAD;

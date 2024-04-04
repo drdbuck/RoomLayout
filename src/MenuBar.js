@@ -49,6 +49,11 @@ const menuBarData = {
             listen: ["select"],
             update: "menuUpdateSelectMinimum(_, 2);",
         },
+        "Ungroup Objects %#g": {
+            action: "actionObjectsUngroup();",
+            listen: ["select", "group"],
+            update: "menuUpdateObjectsUngroup(_);",
+        },
     },
     view: {
         title: "View",
