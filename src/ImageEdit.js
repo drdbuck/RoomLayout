@@ -6,6 +6,9 @@ class ImageEdit {
             this.setImage(img);
         }
         //
+        //this canvas is for utility purposes only!
+        //it is volatile and not meant for storing any image
+        //use this.imgData for getting the stored image
         this.canvas = document.createElement("canvas");
         this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
     }
@@ -153,7 +156,7 @@ class ImageEdit {
 
     convertToResolution(width, height) {
         //defaults
-        width ??= Math.max(this.cornerLT.distanceTo(this.cornerRT), this.cornerLB.distanceTo(cornerRB));
+        width ??= Math.max(this.cornerLT.distanceTo(this.cornerRT), this.cornerLB.distanceTo(this.cornerRB));
         height ??= Math.max(this.cornerLT.distanceTo(this.cornerLB), this.cornerRT.distanceTo(this.cornerRB));
         //
         const canvas = this.canvas;
@@ -177,9 +180,11 @@ class ImageEdit {
     setTransparent() {
         const canvas = this.canvas;
         const ctx = this.ctx;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
         const width = Math.max(this.cornerLT.distanceTo(this.cornerRT), this.cornerLB.distanceTo(this.cornerRB));
         const height = Math.max(this.cornerLT.distanceTo(this.cornerLB), this.cornerRT.distanceTo(this.cornerRB));
-        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const imgData = this.imgData;
         const blankPixel = new Uint8ClampedArray(0, 0, 0, 0);
         for (let i = 0; i < width; i++) {// "<=" ?
             for (let j = 0; j < height; j++) {// "<=" ?

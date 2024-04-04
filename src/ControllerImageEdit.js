@@ -289,10 +289,7 @@ class ControllerImageEdit {
     }
 
     erase() {
-        let imageURL = this.imageEdit.setTransparent(
-            this.targetDimensions.x,
-            this.targetDimensions.y
-        );
+        let imageURL = this.imageEdit.setTransparent();
         this.onEditChanged.run(imageURL);
     }
 
