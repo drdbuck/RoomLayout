@@ -24,6 +24,9 @@ function constructRoom(room, scene) {
     //floor
     let floor = createFloor(room.width, room.length);
     scene.add(floor);
+    //ceil
+    let ceil = createCeiling(room.width, room.length, room.height);
+    scene.add(ceil);
     //walls
     let walls = [];
     for (let i = 0; i < 4; i++) {
@@ -53,6 +56,9 @@ function constructRoom(room, scene) {
         //floor
         floor.scale.x = size.x;
         floor.scale.z = size.z;
+        //ceil
+        ceil.scale.x = size.x;
+        ceil.scale.z = size.z;
         //walls
         walls.forEach((wall, i) => {
             if (i % 2 == 0) {
@@ -118,6 +124,55 @@ function createFloor(width = 11, length = 12, showTriangles = false) {
     floor.position.y = -0.001;//needed to prevent artifacts with backs of faces on floor
 
     return floor;
+}
+function createCeiling(width = 11, length = 12, height = 9, showTriangles = false) {
+    //2024-01-07: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
+
+    const color = new Color();
+
+    // ceil
+
+    let ceilGeometry = new PlaneGeometry(
+        1,
+        1,
+        Math.ceil(width * 2),
+        Math.ceil(length * 2)
+    );
+    ceilGeometry.rotateX( Math.PI / 2);
+
+    //color triangles
+
+    let position = ceilGeometry.attributes.position;
+
+    if (showTriangles) {
+        ceilGeometry = ceilGeometry.toNonIndexed(); // ensure each face has unique vertices
+        position = ceilGeometry.attributes.position;
+    }
+
+    const colorsCeil = [];
+
+    for (let i = 0, l = position.count; i < l; i++) {
+
+        let shade = Math.random() * 0.05 + 0.5;
+        color.setRGB(shade, shade, shade, SRGBColorSpace);
+        colorsCeil.push(color.r, color.g, color.b);
+
+    }
+
+    ceilGeometry.setAttribute('color', new Float32BufferAttribute(colorsCeil, 3));
+
+    //ceil material
+    const ceilMaterial = new MeshBasicMaterial({ vertexColors: true });
+
+    //ceil mesh
+    const ceil = new Mesh(ceilGeometry, ceilMaterial);
+    ceil.layers.set(objectMask);
+
+    //position
+    ceil.position.y = height
+        + 0.001;//needed to prevent artifacts with backs of faces on ceil
+
+    return ceil;
 }
 
 function createWall(length = 11, height = 9, side = 0, showTriangles = false) {
