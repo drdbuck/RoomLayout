@@ -492,6 +492,14 @@ function btnFaceCrop() {
     undoMan.recordUndo();
 }
 
+function btnFaceErase() {
+    controllerImageEdit.erase();
+    updateFaceEditPanel();
+    player.animate();//needed?
+    //record undo
+    undoMan.recordUndo();
+}
+
 function btnFaceClear() {
     uiVars.selector.forEach(c => {
         if (!c.furniture.validFaceIndex(c.face)) { return; }

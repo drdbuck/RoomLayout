@@ -288,6 +288,14 @@ class ControllerImageEdit {
         this.onEditChanged.run(imageURL);
     }
 
+    erase() {
+        let imageURL = this.imageEdit.setTransparent(
+            this.targetDimensions.x,
+            this.targetDimensions.y
+        );
+        this.onEditChanged.run(imageURL);
+    }
+
     updateCursor() {
         let cursor = CURSOR_AUTO;
         switch (this.control.handle) {

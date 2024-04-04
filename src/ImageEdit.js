@@ -174,6 +174,25 @@ class ImageEdit {
         return canvas.toDataURL();
     }
 
+    setTransparent() {
+        const canvas = this.canvas;
+        const ctx = this.ctx;
+        const width = Math.max(this.cornerLT.distanceTo(this.cornerRT), this.cornerLB.distanceTo(this.cornerRB));
+        const height = Math.max(this.cornerLT.distanceTo(this.cornerLB), this.cornerRT.distanceTo(this.cornerRB));
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const blankPixel = new Uint8ClampedArray(0, 0, 0, 0);
+        for (let i = 0; i < width; i++) {// "<=" ?
+            for (let j = 0; j < height; j++) {// "<=" ?
+                const pt = this.pullVector(i / width, j / height);
+                pt.x = Math.round(pt.x);
+                pt.y = Math.round(pt.y);
+                this.pushPixel(imgData, blankPixel, pt.x, pt.y);
+            }
+        }
+        ctx.putImageData(imgData, 0, 0);
+        return canvas.toDataURL();
+    }
+
     pushPixel(imgData, pixel, x, y) {
         let index = this.getIndex(x, y, imgData.width);
         for (let i = 0; i < 4; i++) {
