@@ -177,8 +177,11 @@ function constructMenuPanel(data, keyName) {
         let menubtnId = `btn${buttonName}`;
         if (listen && update) {
             update = update.replaceAll("_", `'${menubtnId}'`);
-            menuListeners[listen] ??= [];
-            menuListeners[listen].push(update);
+            listen = [listen].flat(Infinity);
+            listen.forEach(l => {
+                menuListeners[l] ??= [];
+                menuListeners[l].push(update);
+            });
         }
         //
         menuarr.push(`<button id="${menubtnId}" class="lineButton"
