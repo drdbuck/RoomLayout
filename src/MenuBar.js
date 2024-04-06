@@ -159,18 +159,17 @@ function constructMenuPanel(data, keyName) {
                         action: action,
                     };
                     keys.push(key);
-                    menuKeys.push(key);
                 }
                 else {
                 buttonNameSegs.push(seg);
                 }
         });
-        let keyString = keys.map(key =>`
-                    ${(key.ctrl) ? "CTRL+" : ""}${(key.shift) ? "SHIFT+" : ""}${(key.alt) ? "ALT+" : ""}${key.key.toUpperCase()}
-        `)
+        menuKeys.concat(keys);
+        let keyString = keys.map(key =>
+                    `${(key.ctrl) ? "CTRL+" : ""}${(key.shift) ? "SHIFT+" : ""}${(key.alt) ? "ALT+" : ""}${key.key.toUpperCase()}`
+        )
             .join(", ");
-        let buttonName = buttonNameSegs.join("");
-        let menubtnId = `btn${buttonName}`;
+        let menubtnId = `btn${buttonNameSegs.join("")}`;
         if (listen && update) {
             update = update.replaceAll("_", `'${menubtnId}'`);
             listen = [listen].flat(Infinity);
@@ -180,8 +179,9 @@ function constructMenuPanel(data, keyName) {
             });
         }
         //
-        menuarr.push(`<button id="${menubtnId}" class="lineButton"
-            onclick="${action}"
+        menuarr.push(`
+            <button id="${menubtnId}" class="lineButton"
+                onclick="${action}"
             >
                 <span id="${menubtnId}_label" >${buttonNameSegs.join(" ")}</span>
                 <span class="keyReminder">${keyString}</span>
