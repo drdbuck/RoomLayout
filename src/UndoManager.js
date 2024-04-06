@@ -108,9 +108,13 @@ class UndoManager {
         this.onRecordUndo = new Delegate();
     }
 
-    recordUndo() {
+    /**
+     * Records the current state into the undo stream
+     * @param {string} changeName A label for what changed (ex: "create object")
+     */
+    recordUndo(changeName) {
         if (!uiVars.undoEnabled) { return; }//TEMP: while the undo system is still not optimized
-        this._undoSystem.recordUndo();
+        this._undoSystem.recordUndo(changeName);
 
         //
         player.animate();//dirty: this doesn't belong here

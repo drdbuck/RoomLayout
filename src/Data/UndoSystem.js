@@ -17,11 +17,11 @@ class UndoSystem {
         this.recordUndo();
     }
 
-    recordUndo() {
+    recordUndo(changeName) {
         let obj = this.recordFunc();
-        let json = JSON.stringify(obj, this.stringify);
+        let state = new UndoState(obj, this.stringify, changeName);
         this.index++;
-        this.stateList[this.index] = json;
+        this.stateList[this.index] = state;
         //remove any states after this index
         this.stateList.length = this.index + 1;
     }
@@ -41,7 +41,7 @@ class UndoSystem {
         if (this.index == prevIndex) { return; }
         //
         let state = this.stateList[this.index];
-        let obj = JSON.parse(state);
+        let obj = state.obj;
         this.retrieveFunc(obj);
     }
 }
