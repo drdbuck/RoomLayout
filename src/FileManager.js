@@ -60,7 +60,7 @@ class FileManager {
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
         let dt = e.dataTransfer;
         let files = dt.files;
-        this.handleFiles(files, () => undoMan.recordUndo());
+        this.handleFiles(files, () => undoMan.recordUndo("import file"));
     }
     handlePaste(event) {
         //2024-02-13: copied from https://stackoverflow.com/a/51586232/2336212
@@ -72,7 +72,7 @@ class FileManager {
                 files.push(blob);
             }
         }
-        this.handleFiles(files, () => undoMan.recordUndo());
+        this.handleFiles(files, () => undoMan.recordUndo("paste file"));
     }
 
     handleFiles(files, callback) {

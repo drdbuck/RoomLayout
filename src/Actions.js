@@ -12,7 +12,7 @@ function actionImportFurniture() {
     el.addEventListener('change', (event) => {
         flm.handleFiles(el.files);
         //record undo
-        undoMan.recordUndo();
+        undoMan.recordUndo("import furniture");
     });
 
     el.click(); // open
@@ -101,7 +101,7 @@ function actionObjectCreateBlank() {
     // //focus field
     // $("txtWidth").focus();
     //record undo
-    undoMan.recordUndo();
+    undoMan.recordUndo("create blank object");
 }
 
 function actionObjectsDuplicate() {
@@ -124,7 +124,7 @@ function actionObjectsDuplicate() {
         newF.position = offset;
     });
     //record undo
-    undoMan.recordUndo();
+    undoMan.recordUndo("duplicate object");
 }
 
 function actionObjectsDelete() {
@@ -136,7 +136,7 @@ function actionObjectsDelete() {
         c.boxes.forEach(box => box.parent.remove(box));
     });
     //record undo
-    undoMan.recordUndo();
+    undoMan.recordUndo("delete object");
 }
 
 function actionObjectsGroup() {
@@ -151,7 +151,7 @@ function actionObjectsGroup() {
     //select group
     controllerEdit.selectObject(group, false);
     //record undo
-    undoMan.recordUndo();
+    undoMan.recordUndo("group objects");
 }
 function actionObjectsUngroup() {
     //remove from existing
@@ -160,7 +160,7 @@ function actionObjectsUngroup() {
     //
     uiVars.selector.clear();
     //record undo
-    undoMan.recordUndo();
+    undoMan.recordUndo("ungroup object");
 }
 
 function actionViewOverhead() {

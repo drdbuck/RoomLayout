@@ -187,7 +187,7 @@ class Controller {
             if (state.mouse.wasDragged) {
                 if (uiVars.selector.count > 0) {
                     //record undo
-                    undoMan.recordUndo();
+                    undoMan.recordUndo("move object");
                 }
             }
             else {
@@ -237,7 +237,7 @@ class Controller {
                 this.setFurnitureAltitude(furniture, furniture.altitude + zoomDelta);
             });
             //record undo
-            undoMan.recordUndo();
+            undoMan.recordUndo("change object altitude");
         }
         //Rotate
         else if (event.shiftKey) {
@@ -247,7 +247,7 @@ class Controller {
                 this.setFurnitureAngle(c.obj, c.obj.angle + deltaAngle);
             });
             //record undo
-            undoMan.recordUndo();
+            undoMan.recordUndo("change object angle");
         }
         //Camera zoom
         else {

@@ -58,7 +58,7 @@ function initUI() {
         txt.onblur = () => {
             if (txtChanged) {
                 //record undo
-                undoMan.recordUndo();
+                undoMan.recordUndo("change object attribute");
             }
         }
     };
@@ -101,7 +101,7 @@ function initUI() {
                 if (!list) { return; }
                 if (txtChanged) {
                     //record undo
-                    undoMan.recordUndo();
+                    undoMan.recordUndo("change object attribute");
                 }
                 onblur();
             };
@@ -402,7 +402,7 @@ function btnUseSuggestedImage(imgURL) {
     uiVars.viewPanelFaceEdit = true;
     updateFaceEditPanel();
     //record undo
-    undoMan.recordUndo();
+    undoMan.recordUndo("use suggested image");
 }
 
 function btnUseDefaultImage() {
@@ -412,7 +412,7 @@ function btnUseDefaultImage() {
         f.setFace(c.face, f.defaultFace);
     });
     //record undo
-    undoMan.recordUndo();
+    undoMan.recordUndo("use default image");
 }
 
 function btnFlipX() {
@@ -442,7 +442,7 @@ function btnFlip(flipX, flipY) {
         }
     });
     //record undo
-    undoMan.recordUndo();
+    undoMan.recordUndo("flip image");
 }
 
 function btnRotateLeft() {
@@ -470,7 +470,7 @@ function btnRotate(degrees) {
         }
     });
     //record undo
-    undoMan.recordUndo();
+    undoMan.recordUndo("rotate image");
 }//
 
 function cropCanvasChanged(url) {
@@ -489,7 +489,7 @@ function btnFaceCrop() {
     updateFaceEditPanel();
     player.animate();//needed?
     //record undo
-    undoMan.recordUndo();
+    undoMan.recordUndo("crop image");
 }
 
 function btnFaceErase() {
@@ -497,7 +497,7 @@ function btnFaceErase() {
     updateFaceEditPanel();
     player.animate();//needed?
     //record undo
-    undoMan.recordUndo();
+    undoMan.recordUndo("erase image");
 }
 
 function btnFaceClear() {
@@ -510,5 +510,5 @@ function btnFaceClear() {
     updateFaceEditPanel();
     player.animate();
     //record undo
-    undoMan.recordUndo();
+    undoMan.recordUndo("clear image");
 }
