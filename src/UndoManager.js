@@ -139,6 +139,10 @@ class UndoManager {
     get stateCount() {
         return this._undoSystem.stateList.length;
     }
+    getStateLabel(offset = 0) {
+        let index = this._undoSystem.index + offset;
+        return this._undoSystem.stateList[index]?.changeName ?? "";
+    }
 
     _recordImageURL(imageURL) {
         if (!this.imageURLs.includes(imageURL)) {
