@@ -45,7 +45,7 @@ class SelectContext {
         return this.box && this.boxes?.length > 0;
     }
 
-    inflate() {
+    inflate(uiVars = uiVars) {
         if (this.uid_obj) {
             let uid = this.uid_obj;
             let obj = uiVars.findUid(house, uid);
@@ -70,7 +70,7 @@ class SelectContext {
     }
 }
 
-function inflateSelectContext(context){
+function inflateSelectContext(context, uiVars){
     inflateObject(context, SelectContext.prototype);
-    return context.inflate();
+    return context.inflate(uiVars);
 }

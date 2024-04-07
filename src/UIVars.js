@@ -64,7 +64,7 @@ class UIVars {
         const root = house;//dirty: hardcoded
         this.selector.selectAll(
             this._selection
-                .filter(c => inflateSelectContext(c))
+                .filter(c => inflateSelectContext(c, this))
         );
 
         //init uids
