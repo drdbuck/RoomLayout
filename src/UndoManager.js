@@ -53,7 +53,7 @@ class UndoManager {
                 player.setScene(scene);
                 controllerEdit.scene = scene;
                 //re-hook up selection
-                let contexts = selection.filter(c => inflateSelectContext(c));
+                let contexts = selection.filter(c => inflateSelectContext(c, uiVars));
                 uiVars.selector.selectAll(contexts);
             }
         );

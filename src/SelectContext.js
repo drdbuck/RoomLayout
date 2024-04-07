@@ -30,22 +30,15 @@ class SelectContext {
     }
 
     grabBoxes() {
-        if (this.obj) {
-            this.box = getBox(this.obj);
+        this.box = getBox(this.furniture ?? this.kitbash?.items[0] ?? this.obj);
+        this.boxes = getBoxes(this.kitbash?.items);
+        if (this.boxes.length == 0) {
+            this.boxes = [this.box];
         }
-        if (this.furniture) {
-            this.box = getBox(this.furniture) ?? this.box;
-        }
-        if (this.kitbash) {
-            this.boxes = getBoxes(this.kitbash.items);
-        }
-        this.box ??= this.boxes?.[0];
-        this.boxes ??= [this.box];
-
-        return this.box && this.boxes?.length > 0;
+        return this.box && this.boxes.length > 0;
     }
 
-    inflate(uiVars = uiVars) {
+    inflate(uiVars) {
         if (this.uid_obj) {
             let uid = this.uid_obj;
             let obj = uiVars.findUid(house, uid);
