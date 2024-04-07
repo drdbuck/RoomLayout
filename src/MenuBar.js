@@ -164,7 +164,7 @@ function constructMenuPanel(data, keyName) {
                 buttonNameSegs.push(seg);
                 }
         });
-        menuKeys.concat(keys);
+        menuKeys.push(...keys);
         let keyString = keys.map(key =>
                     `${(key.ctrl) ? "CTRL+" : ""}${(key.shift) ? "SHIFT+" : ""}${(key.alt) ? "ALT+" : ""}${key.key.toUpperCase()}`
         )
