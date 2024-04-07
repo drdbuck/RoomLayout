@@ -206,6 +206,10 @@ function hookupDelegates() {
 
     //Undo System
     const onUndoFunc = (state) => {
+        if (state.corners) {
+            controllerImageEdit.imageEdit.cornerList = state.corners;
+            controllerImageEdit.boomerangCorners();
+        }
     }
     undoMan.onUndo.add((state) => onUndoFunc(undoMan.getState(1)));
     undoMan.onRedo.add(onUndoFunc);

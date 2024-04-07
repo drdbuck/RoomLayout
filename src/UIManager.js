@@ -485,11 +485,13 @@ function cropCanvasChanged(url) {
 }
 
 function btnFaceCrop() {
+    let corners = [...controllerImageEdit.imageEdit.cornerList];
     controllerImageEdit.crop();
     updateFaceEditPanel();
     player.animate();//needed?
     //record undo
-    undoMan.recordUndo("crop image");
+    let undoState = undoMan.recordUndo("crop image");
+    undoState.corners = corners;
 }
 
 function btnFaceErase() {
