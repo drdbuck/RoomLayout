@@ -118,6 +118,13 @@ function init() {
     //Update scene
     switchMode(true);
     uiVars.viewId = uiVars.viewId;//trigger delegate w/o changing anything
+    uiVars.selector.forEach(c => {
+        c.boxes.forEach(box => {
+            box.edge.visible = true;
+            updateFace(box, -2);
+        })
+        updateFace(c.box, c.face);
+    });
     player.animate();
 
     //Update UI
