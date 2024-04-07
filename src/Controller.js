@@ -286,28 +286,21 @@ class Controller {
             console.warn("obj is a KitBash, selectGroups will be ignored", obj, selectGroups);
         }
         //create select context
-        let selectContext = this.createSelectContext(obj, face);
+        let selectContext = new SelectContext(obj, face);
         if (obj.isKitBash) {
             selectContext.kitbash = obj;
             let items = obj.items;
             selectContext.furniture = items[0];
-            selectContext.box = getBox(items[0]);
-            selectContext.boxes = getBoxes(items);
         }
         else {
             selectContext.furniture = obj;
-            let box = getBox(obj);
-            selectContext.box = box;
             let group = obj.group;
             if (group && selectGroups) {
                 selectContext.obj = group;
                 selectContext.kitbash = group;
-                selectContext.boxes = getBoxes(group.items);
-            }
-            else {
-                selectContext.boxes = [box];
             }
         }
+        selectContext.grabInfo();
         //select the context
         uiVars.selector.select(selectContext, add);
         //return the selected context
@@ -319,19 +312,6 @@ class Controller {
         uiVars.selector.sort((c1, c2) => (
             c1.furniture.validFaceIndex(c1.face) && !c2.furniture.validFaceIndex(c2.face)) ? -1 : 0
         );
-    }
-
-    createSelectContext(select, face = -2) {
-        //2024-03-26: REMINDER: when you add a new variable here, you may also need to add it to stringifyUndo[]
-        return {
-            obj: select,
-            furniture: undefined,
-            kitbash: undefined,
-            box: undefined,
-            boxes: undefined,
-            face: face,
-            offset: _zero.clone(),
-        };
     }
 
     deselectObject(obj, deselectGroups = true) {

@@ -7,12 +7,6 @@ const stringifyUndo = [
     //undo state
     "root",
     "selection",
-    //select context
-    //REMINDER: variables added here need to be set in the parameter passed into the UndoSystem constructor
-    "uid_obj",
-    "uid_furniture",
-    "uid_kitbash",
-    "face",
 ];
 
 class UndoManager {
@@ -24,14 +18,17 @@ class UndoManager {
         //init undo system
 
         //make stringify variable for undo system
-        let stringify = [
-            getDataStringify(),
-            stringifyUndo
-        ].flat(Infinity);
-        [
+        let exclude = [
             "_faces",
             "defaultFace",
-        ].forEach(attr => stringify.remove(attr));
+        ];
+        let stringify = [
+            getDataStringify(),
+            stringifyUndo,
+            stringifySelectContext,
+        ]
+            .flat(Infinity)
+            .filter(str => !exclude.includes(str));
 
         //UndoSystem()
         const undoManager = this;
@@ -41,14 +38,7 @@ class UndoManager {
                 undoManager._injectImageIds(root);
                 return {
                     root: root,//can't call it "house" because of circular references
-                    selection: uiVars.selector.selection.map(c => {
-                        return {
-                            uid_obj: c.obj.uid,
-                            uid_furniture: c.furniture?.uid,
-                            uid_kitbash: c.kitbash?.uid,
-                            face: c.face,
-                        };
-                    }),
+                    selection: uiVars.selector.selection,
                 };
             },
             stringify,
@@ -63,41 +53,7 @@ class UndoManager {
                 player.setScene(scene);
                 controllerEdit.scene = scene;
                 //re-hook up selection
-                let contexts = [];
-                selection.forEach(c => {
-                    let context = {};
-                    if (c.uid_obj) {
-                        let uid = c.uid_obj;
-                        let obj = uiVars.findUid(house, uid);
-                        context.obj = obj;
-                        context.box = getBox(obj);
-                    }
-                    if (!context.obj) {
-                        return;
-                    }
-                    if (c.uid_furniture) {
-                        let uid = c.uid_furniture;
-                        let obj = uiVars.findUid(house, uid);
-                        context.furniture = obj;
-                        context.box = getBox(obj) ?? context.box;
-                    }
-                    if (c.uid_kitbash) {
-                        let uid = c.uid_kitbash;
-                        let obj = uiVars.findUid(house, uid);
-                        context.kitbash = obj;
-                        context.boxes = getBoxes(obj.items);
-                    }
-                    context.boxes ??= [context.box];
-                    if (!context.box) {
-                        return;
-                    }
-                    if (!(context.boxes?.length > 0)) {
-                        return;
-                    }
-                    context.face = c.face;
-                    context.offset = new Vector2();
-                    contexts.push(context);
-                });
+                let contexts = selection.filter(c => inflateSelectContext(c));
                 uiVars.selector.selectAll(contexts);
             }
         );
