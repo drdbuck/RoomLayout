@@ -204,6 +204,12 @@ function hookupDelegates() {
         player.camera.position.copy(view.position);
     });
 
+    //Undo System
+    const onUndoFunc = (state) => {
+    }
+    undoMan.onUndo.add((state) => onUndoFunc(undoMan.getState(1)));
+    undoMan.onRedo.add(onUndoFunc);
+
     //File Manager
 
     //Upload image to new box / existing face

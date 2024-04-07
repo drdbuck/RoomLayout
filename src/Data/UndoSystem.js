@@ -24,6 +24,8 @@ class UndoSystem {
         this.stateList[this.index] = state;
         //remove any states after this index
         this.stateList.length = this.index + 1;
+
+        return state;
     }
 
     undo() {
@@ -43,5 +45,9 @@ class UndoSystem {
         let state = this.stateList[this.index];
         let obj = state.obj;
         this.retrieveFunc(obj);
+    }
+
+    get state() {
+        return this.stateList[this.index];
     }
 }

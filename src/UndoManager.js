@@ -59,8 +59,8 @@ class UndoManager {
         );
 
         //Delegates
-        this.onUndo = new Delegate();
-        this.onRedo = new Delegate();
+        this.onUndo = new Delegate("undoState");
+        this.onRedo = new Delegate("undoState");
         this.onRecordUndo = new Delegate();
     }
 
@@ -70,23 +70,24 @@ class UndoManager {
      */
     recordUndo(changeName) {
         if (!uiVars.undoEnabled) { return; }//TEMP: while the undo system is still not optimized
-        this._undoSystem.recordUndo(changeName);
+        let undoState = this._undoSystem.recordUndo(changeName);
 
         //
         player.animate();//dirty: this doesn't belong here
         this.onRecordUndo.run();
+        return undoState;
     }
 
     undo() {
         if (!uiVars.undoEnabled) { return; }//TEMP: while the undo system is still not optimized
         this._undoSystem.undo();
-        this.onUndo.run();
+        this.onUndo.run(this._undoSystem.state);
     }
 
     redo() {
         if (!uiVars.undoEnabled) { return; }//TEMP: while the undo system is still not optimized
         this._undoSystem.redo();
-        this.onRedo.run();
+        this.onRedo.run(this._undoSystem.state);
     }
 
     get stateIndex() {
@@ -94,6 +95,10 @@ class UndoManager {
     }
     get stateCount() {
         return this._undoSystem.stateList.length;
+    }
+    getState(offset = 0) {
+        let index = this._undoSystem.index + offset;
+        return this._undoSystem.stateList[index];
     }
     getStateLabel(offset = 0) {
         let index = this._undoSystem.index + offset;
