@@ -10,10 +10,6 @@ let stringifyUIVars = [
     "_views",
     //
     "_selection",
-    "oId",
-    "fId",
-    "kbId",
-    "face",
 ];
 
 const VIEW_OVERHEAD = 0;
@@ -68,25 +64,7 @@ class UIVars {
         const root = house;//dirty: hardcoded
         this.selector.selectAll(
             this._selection
-                .map(c => {
-                    let context = {
-                        obj: this.findUid(root, c.oId),
-                        furniture: this.findUid(root, c.fId),
-                        kitbash: this.findUid(root, c.kbId),
-                        face: c.face,
-                        offset: _zero.clone(),
-                    };
-                    if (!context.obj) { return; }
-                    context.box = getBox(context.furniture ?? context.kitbash.items?.[0] ?? context.obj);
-                    context.boxes = getBoxes(context.kitbash?.items);
-                    if (context.boxes.length == 0) {
-                        context.boxes = [context.box];
-                    }
-                    if (!context.box) { return; }
-                    if (!context.boxes) { return; }
-                    return context;
-                })
-                .filter(c => c)
+                .filter(c => inflateSelectContext(c))
         );
 
         //init uids
@@ -215,14 +193,7 @@ class UIVars {
     }
 
     prepareForSave() {
-        this._selection = this.selector.map(c => {
-            return {
-                oId: c.obj.uid,
-                fId: c.furniture?.uid,
-                kbId: c.kitbash?.uid,
-                face: c.face,
-            };
-        });
+        this._selection = this.selector.selection;
     }
 }
 
@@ -252,5 +223,6 @@ function getDataStringifyUIVars() {
         stringifyUIVars,
         stringifyView,
         stringifyVector3,
+        stringifySelectContext,
     ].flat();
 }
