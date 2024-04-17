@@ -156,24 +156,24 @@ function constructMenuPanel(data, keyName) {
         let keys = [];
         let buttonNameSegs = [];
         key.split(" ").forEach(seg => {
-                if (keyTest.test(seg)) {
-                    let key = {
-                        ctrl: seg.includes("%"),
-                        shift: seg.includes("#"),
-                        alt: seg.includes("&"),
-                        keyOnly: seg.includes("_"),
-                        key: seg.match(/[a-z0-9]+/)[0],
-                        action: action,
-                    };
-                    keys.push(key);
-                }
-                else {
+            if (keyTest.test(seg)) {
+                let key = {
+                    ctrl: seg.includes("%"),
+                    shift: seg.includes("#"),
+                    alt: seg.includes("&"),
+                    keyOnly: seg.includes("_"),
+                    key: seg.match(/[a-z0-9]+/)[0],
+                    action: action,
+                };
+                keys.push(key);
+            }
+            else {
                 buttonNameSegs.push(seg);
-                }
+            }
         });
         menuKeys.push(...keys);
         let keyString = keys.map(key =>
-                    `${(key.ctrl) ? "CTRL+" : ""}${(key.shift) ? "SHIFT+" : ""}${(key.alt) ? "ALT+" : ""}${key.key.toUpperCase()}`
+            `${(key.ctrl) ? "CTRL+" : ""}${(key.shift) ? "SHIFT+" : ""}${(key.alt) ? "ALT+" : ""}${key.key.toUpperCase()}`
         )
             .join(", ");
         let menubtnId = `btn${buttonNameSegs.join("")}`;

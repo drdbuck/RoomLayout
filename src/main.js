@@ -129,7 +129,7 @@ function init() {
 
     //Update UI
     updateFurnitureEditPanel(uiVars.selector.selection);
-    updateFaceEditPanel(uiVars.selector.map(c=>c.face));
+    updateFaceEditPanel(uiVars.selector.map(c => c.face));
     updateRoomEditPanel();
 }
 init();
@@ -295,7 +295,7 @@ function hookupDelegatesMenu() {
             case "undo": events = [
                 undoMan.onUndo,
                 undoMan.onRedo,
-                undoMan.onRecordUndo
+                undoMan.onRecordUndo,
             ]; break;
             case "group": events = [
                 //TODO: onGroup() and onUngroup() events
@@ -306,7 +306,7 @@ function hookupDelegatesMenu() {
         //hookup them up
         events.forEach(event => {
             event.add(updateFunc);
-        })
+        });
 
         //call the update func (for initial state)
         updateFunc();
