@@ -245,6 +245,12 @@ function constructFurniture(furniture) {
     };
     let updateScale = (scale) => {
         box.scale.copy(scale);
+        //need to make it small but nonzero so it can be detected by raycast
+        let minFunc = (dim) => Math.max(dim, 0.0001);
+        box.scale.x = minFunc(box.scale.x);
+        box.scale.y = minFunc(box.scale.y);
+        box.scale.z = minFunc(box.scale.z);
+        //
         updatePosition();
     };
     let updateRotation = (angle = 0, recline = 0) => {
