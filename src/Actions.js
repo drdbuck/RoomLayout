@@ -87,46 +87,32 @@ function actionRedo() {
 }
 
 function actionObjectCreateBlank() {
-    let furniture = new Furniture(PIXEL_WHITE);
-    furniture.name = "blank";
-    let room = house.rooms[0];//dirty: hardcoded which room to add to
-    room.addFurniture(furniture);
-    //Select new furniture
-    controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
-    //Position new furniture
-    let point = controllerEdit.getHitAtMousePos()?.point;
-    if (point) {
-        furniture.position = point;
-    }
-    // //focus field
-    // $("txtWidth").focus();
-    //record undo
-    undoMan.recordUndo("create blank object");
+    _actionObjectCreate(
+        "blank",
+        "create blank object"
+    );
 }
 
 function actionObjectCreateBlankFlatWall() {
-    let furniture = new Furniture(PIXEL_WHITE);
-    furniture.name = "blank wall";
-    furniture.depth = 0;
-    let room = house.rooms[0];//dirty: hardcoded which room to add to
-    room.addFurniture(furniture);
-    //Select new furniture
-    controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
-    //Position new furniture
-    let point = controllerEdit.getHitAtMousePos()?.point;
-    if (point) {
-        furniture.position = point;
-    }
-    // //focus field
-    // $("txtWidth").focus();
-    //record undo
-    undoMan.recordUndo("create blank flat wall object");
+    _actionObjectCreate(
+        "blank wall",
+        "create blank flat wall object",
+        (f) => f.depth = 0
+    );
 }
 
 function actionObjectCreateBlankFlatFloor() {
+    _actionObjectCreate(
+        "blank floor",
+        "create blank flat floor object",
+        (f) => f.height = 0
+    );
+}
+
+function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
     let furniture = new Furniture(PIXEL_WHITE);
-    furniture.name = "blank floor";
-    furniture.height = 0;
+    furniture.name = objName;
+    processFunc(furniture);
     let room = house.rooms[0];//dirty: hardcoded which room to add to
     room.addFurniture(furniture);
     //Select new furniture
@@ -139,7 +125,7 @@ function actionObjectCreateBlankFlatFloor() {
     // //focus field
     // $("txtWidth").focus();
     //record undo
-    undoMan.recordUndo("create blank flat floor object");
+    undoMan.recordUndo(undoMsg);
 }
 
 function actionObjectsDuplicate() {
