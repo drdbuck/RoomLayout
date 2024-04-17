@@ -34,6 +34,8 @@ const menuBarData = {
         },
         "Edit": "---",
         "Create Blank %b": "actionObjectCreateBlank();",
+        "Create Flat Wall Blank %#b": "actionObjectCreateBlankFlatWall();",
+        "Create Flat Floor Blank %&b": "actionObjectCreateBlankFlatFloor();",
         "Duplicate Objects %d": {
             action: "actionObjectsDuplicate();",
             listen: ["select"],

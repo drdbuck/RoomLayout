@@ -104,6 +104,44 @@ function actionObjectCreateBlank() {
     undoMan.recordUndo("create blank object");
 }
 
+function actionObjectCreateBlankFlatWall() {
+    let furniture = new Furniture(PIXEL_WHITE);
+    furniture.name = "blank wall";
+    furniture.depth = 0;
+    let room = house.rooms[0];//dirty: hardcoded which room to add to
+    room.addFurniture(furniture);
+    //Select new furniture
+    controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
+    //Position new furniture
+    let point = controllerEdit.getHitAtMousePos()?.point;
+    if (point) {
+        furniture.position = point;
+    }
+    // //focus field
+    // $("txtWidth").focus();
+    //record undo
+    undoMan.recordUndo("create blank flat wall object");
+}
+
+function actionObjectCreateBlankFlatFloor() {
+    let furniture = new Furniture(PIXEL_WHITE);
+    furniture.name = "blank floor";
+    furniture.height = 0;
+    let room = house.rooms[0];//dirty: hardcoded which room to add to
+    room.addFurniture(furniture);
+    //Select new furniture
+    controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
+    //Position new furniture
+    let point = controllerEdit.getHitAtMousePos()?.point;
+    if (point) {
+        furniture.position = point;
+    }
+    // //focus field
+    // $("txtWidth").focus();
+    //record undo
+    undoMan.recordUndo("create blank flat floor object");
+}
+
 function actionObjectsDuplicate() {
     const stringify = getDataStringify();
     let selection = uiVars.selector.selection;
