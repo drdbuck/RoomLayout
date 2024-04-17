@@ -32,10 +32,6 @@ const menuBarData = {
             listen: ["undo"],
             update: "menuUpdateRedo(_);",
         },
-        "Create": "---",
-        "Create Blank %b": "actionObjectCreateBlank();",
-        "Create Flat Wall Blank %#b": "actionObjectCreateBlankFlatWall();",
-        "Create Flat Floor Blank %&b": "actionObjectCreateBlankFlatFloor();",
         "Edit": "---",
         "Duplicate Objects %d": {
             action: "actionObjectsDuplicate();",
@@ -57,6 +53,13 @@ const menuBarData = {
             listen: ["select", "group"],
             update: "menuUpdateObjectsUngroup(_);",
         },
+    },
+    create: {
+        title: "Create",
+        "Blank": "---",
+        "Create Blank %b": "actionObjectCreateBlank();",
+        "Create Flat Wall Blank %#b": "actionObjectCreateBlankFlatWall();",
+        "Create Flat Floor Blank %&b": "actionObjectCreateBlankFlatFloor();",
     },
     view: {
         title: "View",
