@@ -92,7 +92,7 @@ function initUI() {
                     prevValue = rawvalue;
                     txtChanged = true;
                 }
-                let dimensions = parseDimensions(rawvalue);
+                let dimensions = parseDimensions(rawvalue, 1);
                 dimensions[obj.symbol] ??= dimensions.any;
                 dimensions.any = undefined;
                 _changeFunc(dimensions);

@@ -419,15 +419,22 @@ function _parseFootInchInput(txt, foot, inch) {
     return undefined;
 }
 
-function parseDimensions(txt) {
+/**
+ *
+ * @param {string} txt A string like `6'2" W 72" H 2' D`
+ * @param {number} zerosAllowed How many of the dimensions are allowed to be zero
+ * @returns An object like {w:6.17, h:6, d:2, any:1}
+ */
+function parseDimensions(txt, zerosAllowed = 0) {
     let tokens = txt.split(" ");
     let dimensions = {};
-    let lastMeasurement = 0;
+    let lastMeasurement = undefined;
     for (let i = 0; i < tokens.length; i++) {
         let token = tokens[i];
         //measurement
         let f = parseFloatInput(token);
         if (f != undefined) {
+            lastMeasurement ??= 0;
             lastMeasurement += parseFootInchInput(token);
         }
         //dimension
@@ -435,14 +442,30 @@ function parseDimensions(txt) {
             let ltoken = token.toLowerCase();
             if (["w", "h", "d"].includes(ltoken)) {
                 dimensions[ltoken] = lastMeasurement;
-                lastMeasurement = 0;
+                lastMeasurement = undefined;
             }
         }
     }
-    if (lastMeasurement > 0) {
+    if (lastMeasurement >= 0) {
         dimensions["any"] = lastMeasurement;
-        lastMeasurement = 0;
+        lastMeasurement = undefined;
     }
+    //
+    let zerosFound = 0;
+    Object.entries(dimensions).forEach(([key, value], i) => {
+        if (value == 0) {
+            if (zerosFound < zerosAllowed) {
+                //do nothing, all good
+            }
+            else {
+                //fix it
+                value = 1;
+                dimensions[key] = value;
+            }
+            zerosFound++;
+        }
+    });
+    //
     return dimensions;
 }
 
