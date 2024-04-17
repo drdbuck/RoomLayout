@@ -403,6 +403,10 @@ class Controller {
             }
             //
             const max = context.box.material.length - 1;
+            let validFace = false;
+            let loopProtect = 100;//to prevent infinite loops
+            while (!validFace && loopProtect > 0) {
+                loopProtect--;
             //Cycle from default
             if (context.face == FACE_DEFAULT) {
                 if (dir > 0) {
@@ -418,6 +422,10 @@ class Controller {
                 if (!between(context.face, min, max)) {
                     context.face = FACE_DEFAULT;
                 }
+            }
+                //check for valid face
+                let faceDim = context.furniture.getFaceDimensions(context.face);
+                validFace = context.face === FACE_DEFAULT || (faceDim.x > 0 && faceDim.y > 0);
             }
         });
         this.updateFaceSelection();
