@@ -60,6 +60,7 @@ const menuBarData = {
         "Create Blank %b": "actionObjectCreateBlank();",
         "Create Flat Wall Blank %#b": "actionObjectCreateBlankFlatWall();",
         "Create Flat Floor Blank %&b": "actionObjectCreateBlankFlatFloor();",
+        "Create Skirt Blank #b": "actionObjectsCreateSkirt();",
     },
     view: {
         title: "View",

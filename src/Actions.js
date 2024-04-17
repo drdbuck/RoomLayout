@@ -128,6 +128,39 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
     undoMan.recordUndo(undoMsg);
 }
 
+function actionObjectsCreateSkirt() {
+    let furnitures = [];
+    const count = 4;
+    for (let i = 0; i < count; i++) {
+        let furniture = new Furniture(PIXEL_WHITE);
+        furniture.name = `skirt wall ${i + 1}/${count}`;
+        furniture.depth = 0;
+        furniture.angle = i * 90;
+        furniture.position = new Vector3(
+            (i % 2 == 0)
+                ? 0
+                : 0.5 * -Math.sign(i - 1.5),
+            0,
+            (i % 2 == 0)
+                ? 0.5 * -Math.sign(i - 1.5)
+                : 0
+        );//dirty: assumes 4 sides
+        furnitures.push(furniture);
+    }
+    //Group
+    let room = house.rooms[0];//dirty: hardcoded which room to add to
+    let group = room.group(furnitures);
+    //Select new furniture
+    controllerEdit.selectObject(group, false, undefined, true);
+    //Position new furniture
+    let point = controllerEdit.getHitAtMousePos()?.point;
+    if (point) {
+        group.position = point;
+    }
+    //record undo
+    undoMan.recordUndo("create blank skirt object");
+}
+
 function actionObjectsDuplicate() {
     const stringify = getDataStringify();
     let selection = uiVars.selector.selection;
