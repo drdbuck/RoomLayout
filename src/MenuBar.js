@@ -32,10 +32,11 @@ const menuBarData = {
             listen: ["undo"],
             update: "menuUpdateRedo(_);",
         },
-        "Edit": "---",
+        "Create": "---",
         "Create Blank %b": "actionObjectCreateBlank();",
         "Create Flat Wall Blank %#b": "actionObjectCreateBlankFlatWall();",
         "Create Flat Floor Blank %&b": "actionObjectCreateBlankFlatFloor();",
+        "Edit": "---",
         "Duplicate Objects %d": {
             action: "actionObjectsDuplicate();",
             listen: ["select"],
