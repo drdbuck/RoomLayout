@@ -236,38 +236,48 @@ function constructFurniture(furniture) {
 
     box.furniture = furniture;
 
+    //holder
+    //essentially make the anchor point of data furniture object to be bottom center,
+    //while the 3D object's anchor point is still true center
+    const holder = new Group();
+    holder.layers.set(effectMask);
+    holder.scale.copy(_one);
+    holder.position.copy(box.position);
+    holder.position.y = box.position.y - (box.scale.y/2);
+    holder.attach(box);
+
     //update functions
     let updatePosition = (pos = furniture.position) => {
-        box.position.copy(pos);
-        //essentially make the anchor point of data furniture object to be bottom center,
-        //while the 3D object's anchor point is still true center
-        box.position.y += box.scale.y / 2;
+        holder.position.copy(pos);
     };
     let updateScale = (scale) => {
-        box.scale.copy(scale);
+        holder.scale.copy(scale);
         //need to make it small but nonzero so it can be detected by raycast
         let minFunc = (dim) => Math.max(dim, 0.0001);
-        box.scale.x = minFunc(box.scale.x);
-        box.scale.y = minFunc(box.scale.y);
-        box.scale.z = minFunc(box.scale.z);
+        holder.scale.x = minFunc(box.scale.x);
+        holder.scale.y = minFunc(box.scale.y);
+        holder.scale.z = minFunc(box.scale.z);
         //
-        updatePosition();
+        // updatePosition();
     };
     let updateRotation = (angle = 0, recline = 0) => {
         //rotate to default
-        box.rotation.x = 0;
-        box.rotation.y = 0;
-        box.rotation.z = 0;
+        holder.rotation.x = 0;
+        holder.rotation.y = 0;
+        holder.rotation.z = 0;
 
         //angle
         let radAngle = MathUtils.degToRad(angle);
         let axisAngle = new Vector3(0, 1, 0);
-        box.rotateOnAxis(axisAngle, radAngle);
+        holder.rotateOnAxis(axisAngle, radAngle);
 
         //recline
         let radRecline = -MathUtils.degToRad(recline);
         let axisRecline = new Vector3(1, 0, 0);
-        box.rotateOnAxis(axisRecline, radRecline);
+        holder.rotateOnAxis(axisRecline, radRecline);
+
+        //
+        // updatePosition();
     }
 
     updatePosition(furniture.position);
@@ -316,7 +326,7 @@ function constructFurniture(furniture) {
     box.attach(select);
     select.visible = false;
 
-    return box;
+    return holder;
 }
 
 function createEdgeHighlights(mesh) {

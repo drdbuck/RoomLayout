@@ -314,12 +314,18 @@ function hookupDelegatesMenu() {
 }
 
 function getBox(furniture) {
-    return player.scene.children.find(box => box.furniture == furniture);
+    return player.scene.children
+        .map(c => c?.children?.[0])
+        .filter(c => c)
+        .find(box => box.furniture == furniture);
 }
 
 function getBoxes(furnitures) {
     if (!(furnitures?.length > 0)) { return []; }
-    return player.scene.children.filter(box => box.furniture && furnitures.includes(box.furniture))
+    return player.scene.children
+        .map(c => c?.children?.[0])
+        .filter(c => c)
+        .filter(box => box.furniture && furnitures.includes(box.furniture))
 }
 
 function inflateData(data) {
