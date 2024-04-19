@@ -244,7 +244,7 @@ function constructFurniture(furniture) {
     holder.scale.copy(_one);
     holder.position.copy(box.position);
     holder.position.y = box.position.y - (box.scale.y/2);
-    holder.attach(box);
+    holder.add(box);
 
     //update functions
     let updatePosition = (pos = furniture.position) => {
@@ -280,14 +280,12 @@ function constructFurniture(furniture) {
         // updatePosition();
     }
 
-    updatePosition(furniture.position);
-    updateScale(furniture.scale);
-    updateRotation(furniture.angle, furniture.recline);
 
     //inside faces
     let insideMesh = createInsideFaces(box, furniture);
     box.attach(insideMesh);
     box.insideMesh = insideMesh;
+    insideMesh.position.copy(_zero);
 
     //delegates
     furniture.onSizeChanged.add(updateScale);
@@ -319,12 +317,19 @@ function constructFurniture(furniture) {
     box.edge = edge;
     box.attach(edge);
     edge.visible = false;
+    edge.position.copy(_zero);
 
     //select highlights
     let select = createSelectHighlights(box);
     box.select = select;
     box.attach(select);
     select.visible = false;
+    select.position.copy(_zero);
+
+    //init with update functions
+    updatePosition(furniture.position);
+    updateScale(furniture.scale);
+    updateRotation(furniture.angle, furniture.recline);
 
     return holder;
 }
