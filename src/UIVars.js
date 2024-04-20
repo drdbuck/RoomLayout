@@ -69,6 +69,7 @@ class UIVars {
 
         //init uids
         this.nextUid = 1;
+        this.clearUids(root);
         this.giveUids(root);
     }
 
@@ -147,6 +148,18 @@ class UIVars {
     }
     set viewInOverhead(value = !this.viewInOverhead) {
         this.viewId = (value) ? VIEW_OVERHEAD : VIEW_FIRSTPERSON;
+    }
+
+    clearUids(obj) {
+        //give uid
+        obj.uid = undefined;
+        //check for more objects
+        //if house
+        obj.rooms?.forEach(room => this.clearUids(room));
+        //if room
+        obj.furnitures?.forEach(furniture => this.clearUids(furniture));
+        //if kitbash
+        obj.items?.forEach(item => this.clearUids(item));
     }
 
     giveUids(obj) {
