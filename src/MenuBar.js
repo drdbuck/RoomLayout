@@ -23,7 +23,11 @@ const menuBarData = {
         title: "Select",
         "Select All %a": "actionSelectAll();",
         "Select None _escape": "actionSelectNone();",
-        "Select Components": "actionSelectPieces();",
+        "Select Components": {
+            action: "actionSelectPieces();",
+            listen: ["select", "group"],
+            update: "menuUpdateGroupSelected(_);",
+        },
     },
     edit: {
         title: "Edit",
@@ -57,7 +61,7 @@ const menuBarData = {
         "Ungroup Objects %#g": {
             action: "actionObjectsUngroup();",
             listen: ["select", "group"],
-            update: "menuUpdateObjectsUngroup(_);",
+            update: "menuUpdateGroupSelected(_);",
         },
     },
     create: {

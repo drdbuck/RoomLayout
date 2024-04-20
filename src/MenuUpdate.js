@@ -14,6 +14,14 @@ function menuUpdateSelectMinimum(btnId, min = 1) {
     return _updateEnabled(btnId, uiVars.selector.count >= min);
 }
 
+function menuUpdateGroupSelected(btnId, min = 1) {
+    let minEnabled = menuUpdateSelectMinimum(btnId);
+    _updateEnabled(
+        btnId,
+        minEnabled && uiVars.selector.some(c => c.kitbash || c.obj.isKitBash)
+    );
+}
+
 //
 //
 //
@@ -33,12 +41,4 @@ function menuUpdateRedo(btnId) {
     let lbl = $(`${btnId}_label`);
     let changeName = undoMan.getStateLabel(1);
     lbl.innerHTML = `Redo ${changeName}`;
-}
-
-function menuUpdateObjectsUngroup(btnId) {
-    let minEnabled = menuUpdateSelectMinimum(btnId);
-    _updateEnabled(
-        btnId,
-        minEnabled && uiVars.selector.some(c => c.kitbash || c.obj.isKitBash)
-    );
 }
