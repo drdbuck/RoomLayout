@@ -244,7 +244,7 @@ function constructFurniture(furniture) {
     holder.scale.copy(_one);
     holder.position.copy(box.position);
     holder.position.y = box.position.y - (box.scale.y/2);
-    holder.add(box);
+    holder.attach(box);
 
     //update functions
     let updatePosition = (pos = furniture.position) => {
@@ -254,9 +254,9 @@ function constructFurniture(furniture) {
         holder.scale.copy(scale);
         //need to make it small but nonzero so it can be detected by raycast
         let minFunc = (dim) => Math.max(dim, 0.0001);
-        holder.scale.x = minFunc(box.scale.x);
-        holder.scale.y = minFunc(box.scale.y);
-        holder.scale.z = minFunc(box.scale.z);
+        holder.scale.x = minFunc(holder.scale.x);
+        holder.scale.y = minFunc(holder.scale.y);
+        holder.scale.z = minFunc(holder.scale.z);
         //
         // updatePosition();
     };
