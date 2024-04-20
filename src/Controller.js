@@ -226,6 +226,7 @@ class Controller {
             this.clearSelectedOffsets();
         }
         player.animate();
+        this.updateCollectiveCenter();
     }
 
     processMouseWheel(state, event) {

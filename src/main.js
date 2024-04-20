@@ -149,7 +149,7 @@ function hookupDelegates() {
         }
     });
     uiVars.selector.onSelectionChanged.add(contexts => {
-        controllerEdit.updateCollectiveCenter(contexts);
+        controllerEdit.updateCollectiveCenter();
         //
         updateFurnitureEditPanel(contexts);
         if (uiVars.viewPanelFace) {
