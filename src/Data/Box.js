@@ -1,6 +1,6 @@
 "use strict";
 
-let stringifyFurniture = [
+let stringifyBox = [
     "_faces",
     "defaultFace",
 ];
@@ -88,15 +88,15 @@ class Box extends Block {
     }
 }
 
-function inflateFurniture(furniture) {
+function inflateBox(furniture) {
 
     let inflated = inflateObject(furniture, Box.prototype, ["onFaceChanged"]);
     if (!inflated) { return; }
     inflateBlock(furniture);
 
-    backwardsCompatifyFurniture(furniture);
+    backwardsCompatifyBox(furniture);
 
 }
 
-function backwardsCompatifyFurniture(furniture) {
+function backwardsCompatifyBox(furniture) {
 }

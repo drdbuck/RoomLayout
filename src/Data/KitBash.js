@@ -284,7 +284,7 @@ function inflateKitBash(kitbash) {
     for (let item of kitbash._items) {
         item.room = kitbash.room;
         item.group = kitbash;
-        inflateFurniture(item);
+        inflateBox(item);
         //register delegate
         item.onFaceChanged.add(kitbash.bind_FaceChanged);
     }

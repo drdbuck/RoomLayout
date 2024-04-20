@@ -46,7 +46,7 @@ class FileManager {
 
         //Delegate initialization
         this.onImageUploaded = new Delegate();//param: image
-        this.onFurnitureUploaded = new Delegate();//param: furniture
+        this.onBoxUploaded = new Delegate();//param: furniture
         this.onRoomUploaded = new Delegate("room");
         this.onJsonUploaded = new Delegate();//param: json
     }
@@ -131,7 +131,7 @@ class FileManager {
         }
         //
         if (file.name.endsWith("." + EXTENSION_FURNITURE)) {
-            this.uploadFurniture(file, callback);
+            this.uploadBox(file, callback);
         }
         else if (file.name.endsWith("." + EXTENSION_ROOM)) {
             this.uploadRoom(file, callback);
@@ -145,7 +145,7 @@ class FileManager {
         }
     }
 
-    uploadFurniture(file, callback) {
+    uploadBox(file, callback) {
         const reader = new FileReader();
         reader.readAsText(file);
         const flm = this;
@@ -160,7 +160,7 @@ class FileManager {
             for (let furniture of furnitueObj.list) {
                 inflateData(furniture);
                 //Run delegate
-                flm.onFurnitureUploaded.run(furniture);
+                flm.onBoxUploaded.run(furniture);
             }
             callback();
         }

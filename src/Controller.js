@@ -251,7 +251,7 @@ class Controller {
         if (state.mouse.lmbDown || event.altKey) {
             uiVars.selector.forEach(c => {
                 let furniture = c.obj;
-                this.setFurnitureAltitude(furniture, furniture.altitude + zoomDelta);
+                this.setBoxAltitude(furniture, furniture.altitude + zoomDelta);
             });
             //record undo
             undoMan.recordUndo("change object altitude");
@@ -261,7 +261,7 @@ class Controller {
             uiVars.selector.forEach(c => {
                 //Rotate object
                 let deltaAngle = Math.round(zoomDelta) * 15;
-                this.setFurnitureAngle(c.obj, c.obj.angle + deltaAngle);
+                this.setBoxAngle(c.obj, c.obj.angle + deltaAngle);
             });
             //record undo
             undoMan.recordUndo("change object angle");
@@ -489,11 +489,11 @@ class Controller {
             let item = context.obj;
             pos.copy(mouseWorld);
             pos = pos.add(context.offset);
-            this.setFurniturePosition(item, pos);
+            this.setBoxPosition(item, pos);
         });
     }
 
-    setFurniturePosition(furniture, position) {
+    setBoxPosition(furniture, position) {
         let min = furniture.room.min;
         let max = furniture.room.max;
         position.x = Math.clamp(position.x, min.x, max.x);
@@ -502,7 +502,7 @@ class Controller {
         furniture.position = position;
     }
 
-    setFurnitureAltitude(furniture, altitude) {
+    setBoxAltitude(furniture, altitude) {
         furniture.altitude = Math.clamp(
             altitude,
             furniture.room.min.y,
@@ -510,11 +510,11 @@ class Controller {
         );
     }
 
-    setFurnitureAngle(furniture, angle) {
+    setBoxAngle(furniture, angle) {
         furniture.angle = loopAngle(angle);
     }
 
-    setFurnitureRecline(furniture, recline) {
+    setBoxRecline(furniture, recline) {
         furniture.recline = Math.clamp(recline, -90, 90);
     }
 

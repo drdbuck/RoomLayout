@@ -132,17 +132,17 @@ function initUI() {
     //Size
     onChangeFuncGroup(
         flist,
-        updateFurnitureEditPanel,
+        updateBoxEditPanel,
         { id: "txtWidth", symbol: "w", func: (f, v) => f.width = v },
         { id: "txtLength", symbol: "d", func: (f, v) => f.length = v },
         { id: "txtHeight", symbol: "h", func: (f, v) => f.height = v },
     );
     //Position
-    onChangeFunc("txtPosX", flist, (f, v) => controllerEdit.setFurniturePosition(f, f.position.setX(v)));
-    onChangeFunc("txtPosY", flist, (f, v) => controllerEdit.setFurniturePosition(f, f.position.setZ(v)));
-    onChangeFunc("txtAltitude", flist, (f, v) => controllerEdit.setFurnitureAltitude(f, v));
-    onChangeFunc("txtAngle", flist, (f, v) => controllerEdit.setFurnitureAngle(f, v), true, false);
-    onChangeFunc("txtRecline", flist, (f, v) => controllerEdit.setFurnitureRecline(f, v), true, false);
+    onChangeFunc("txtPosX", flist, (f, v) => controllerEdit.setBoxPosition(f, f.position.setX(v)));
+    onChangeFunc("txtPosY", flist, (f, v) => controllerEdit.setBoxPosition(f, f.position.setZ(v)));
+    onChangeFunc("txtAltitude", flist, (f, v) => controllerEdit.setBoxAltitude(f, v));
+    onChangeFunc("txtAngle", flist, (f, v) => controllerEdit.setBoxAngle(f, v), true, false);
+    onChangeFunc("txtRecline", flist, (f, v) => controllerEdit.setBoxRecline(f, v), true, false);
 
 }
 
@@ -171,7 +171,7 @@ function updateRoomEditPanel() {
     // updateFunc("txtAltitudeRoom", rooms, r => r.altitude);
 }
 
-function updateFurnitureEditPanel(contexts) {
+function updateBoxEditPanel(contexts) {
     log("selected count:", uiVars.selector.count);
 
     //only accept array input
@@ -196,7 +196,7 @@ function updateFurnitureEditPanel(contexts) {
 
     if (!anySelected) { return; }
 
-    $("hEditFurniture").innerHTML = `Edit ${(_contexts.every(c => c.obj.isKitBash)) ? "Group" : "Box"}`;
+    $("hEditBox").innerHTML = `Edit ${(_contexts.every(c => c.obj.isKitBash)) ? "Group" : "Box"}`;
 
     let flist = _furnitures;
 
@@ -222,16 +222,16 @@ function updateFurnitureEditPanel(contexts) {
 
 function registerUIDelegates(furniture, register) {
     if (register) {
-        furniture.onSizeChanged.add(updateFurnitureEditPanel);
-        furniture.onPositionChanged.add(updateFurnitureEditPanel);
-        furniture.onAngleChanged.add(updateFurnitureEditPanel);
+        furniture.onSizeChanged.add(updateBoxEditPanel);
+        furniture.onPositionChanged.add(updateBoxEditPanel);
+        furniture.onAngleChanged.add(updateBoxEditPanel);
         furniture.onFaceChanged.add(updateFaceEditPanel);
     }
     else {
         if (!furniture.onSizeChanged) { return; }
-        furniture.onSizeChanged.remove(updateFurnitureEditPanel);
-        furniture.onPositionChanged.remove(updateFurnitureEditPanel);
-        furniture.onAngleChanged.remove(updateFurnitureEditPanel);
+        furniture.onSizeChanged.remove(updateBoxEditPanel);
+        furniture.onPositionChanged.remove(updateBoxEditPanel);
+        furniture.onAngleChanged.remove(updateBoxEditPanel);
         furniture.onFaceChanged.remove(updateFaceEditPanel);
     }
 }
@@ -383,12 +383,12 @@ function btnExitRoomEdit() {
     uiVars.editRooms = false;
 }
 
-function btnExitFurnitureEdit() {
+function btnExitBoxEdit() {
     uiVars.editObjects = false;
 }
 
-function btnFurnitureExport() {
-    actionExportFurniture();
+function btnBoxExport() {
+    actionExportBox();
 }
 
 function btnGroup() {

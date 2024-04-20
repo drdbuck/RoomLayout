@@ -10,15 +10,15 @@ class Room extends Block {
 
         this.furnitures = [];
 
-        this.onFurnitureAdded = new Delegate("furniture");
-        this.onFurnitureRemoved = new Delegate("furniture");
-        this.onFurnituresChanged = new Delegate("furnitures");
+        this.onBoxAdded = new Delegate("furniture");
+        this.onBoxRemoved = new Delegate("furniture");
+        this.onBoxsChanged = new Delegate("furnitures");
 
         this.bind_groupItemAdded = this._groupItemAdded.bind(this);
         this.bind_groupItemRemoved = this._groupItemRemoved.bind(this);
     }
 
-    addFurniture(furniture) {
+    addBox(furniture) {
         //early exit: invalid furniture
         if (!furniture) { return; }
         //
@@ -33,12 +33,12 @@ class Room extends Block {
                 furniture.onItemAdded.add(this.bind_groupItemAdded);
                 furniture.onItemRemoved.add(this.bind_groupItemRemoved);
             }
-            this.onFurnitureAdded.run(furniture);
-            this.onFurnituresChanged.run([...this.furnitures]);
+            this.onBoxAdded.run(furniture);
+            this.onBoxsChanged.run([...this.furnitures]);
         }
     }
 
-    removeFurniture(furniture) {
+    removeBox(furniture) {
         if (furniture?.room == this) {
             furniture.room = undefined;
             if (furniture.isKitBash) {
@@ -52,8 +52,8 @@ class Room extends Block {
                 furniture.onItemRemoved.remove(this.bind_groupItemRemoved);
             }
             //delegates
-            this.onFurnitureRemoved.run(furniture);
-            this.onFurnituresChanged.run([...this.furnitures]);
+            this.onBoxRemoved.run(furniture);
+            this.onBoxsChanged.run([...this.furnitures]);
         }
     }
 
@@ -62,7 +62,7 @@ class Room extends Block {
         if (!(furnitures.length >= 2)) { return; }
         //
         let group = new KitBash(furnitures);
-        this.addFurniture(group);
+        this.addBox(group);
         //remove furnitures from list
         furnitures.forEach(f => this._groupItemAdded(f));
         //
@@ -97,9 +97,9 @@ function inflateRoom(room) {
         room,
         Room.prototype,
         [
-            "onFurnitureAdded",
-            "onFurnitureRemoved",
-            "onFurnituresChanged",
+            "onBoxAdded",
+            "onBoxRemoved",
+            "onBoxsChanged",
         ]);
     if (!inflated) { return; }
     inflateBlock(room);
@@ -124,7 +124,7 @@ function inflateRoom(room) {
         }
         //Box
         else {
-            inflateFurniture(furniture);
+            inflateBox(furniture);
         }
     }
 

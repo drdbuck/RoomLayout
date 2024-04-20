@@ -10,10 +10,10 @@ const menuBarData = {
     file: {
         title: "File",
         "Import": "---",
-        "Import File": "actionImportFurniture();",
+        "Import File": "actionImportBox();",
         "Export": "---",
         "Export Box": {
-            action: "actionExportFurniture();",
+            action: "actionExportBox();",
             listen: ["select"],
             update: "menuUpdateSelectMinimum(_);",
         },

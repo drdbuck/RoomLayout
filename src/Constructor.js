@@ -37,7 +37,7 @@ function constructRoom(room, scene) {
     }
     //furniture
     const _furnitureFunc = (furniture) => {
-        let box = constructFurniture(furniture);
+        let box = constructBox(furniture);
         scene.add(box);
     };
     const furnitureFunc = (furniture) => {
@@ -49,7 +49,7 @@ function constructRoom(room, scene) {
         }
     };
     room.furnitures.forEach(furnitureFunc);
-    room.onFurnitureAdded.add(furnitureFunc);
+    room.onBoxAdded.add(furnitureFunc);
 
     //delegates
     let updateSize = (size) => {
@@ -221,7 +221,7 @@ function createWall(length = 11, height = 9, side = 0, showTriangles = false) {
     return wall;
 }
 
-function constructFurniture(furniture) {
+function constructBox(furniture) {
     //2024-01-09: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 
     //create material

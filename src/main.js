@@ -128,7 +128,7 @@ function init() {
     player.animate();
 
     //Update UI
-    updateFurnitureEditPanel(uiVars.selector.selection);
+    updateBoxEditPanel(uiVars.selector.selection);
     updateFaceEditPanel(uiVars.selector.map(c => c.face));
     updateRoomEditPanel();
 }
@@ -151,7 +151,7 @@ function hookupDelegates() {
     uiVars.selector.onSelectionChanged.add(contexts => {
         controllerEdit.updateCollectiveCenter();
         //
-        updateFurnitureEditPanel(contexts);
+        updateBoxEditPanel(contexts);
         if (uiVars.viewPanelFace) {
             uiVars.highlightSelectedFace = true;
         }
@@ -186,7 +186,7 @@ function hookupDelegates() {
 
     //UI Vars
     uiVars.onEditRoomsChanged.add(updateRoomEditPanel);
-    uiVars.onEditObjectsChanged.add(updateFurnitureEditPanel);
+    uiVars.onEditObjectsChanged.add(updateBoxEditPanel);
     uiVars.onViewPanelFaceChanged.add((viewPanelFace) => {
         uiVars.highlightSelectedFace = viewPanelFace;
         if (!viewPanelFace) {
@@ -235,7 +235,7 @@ function hookupDelegates() {
         furniture.name = image.name;
         uiVars.giveUids(furniture);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
-        room.addFurniture(furniture);
+        room.addBox(furniture);
         //Select new furniture
         controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
         //Position new furniture
@@ -248,11 +248,11 @@ function hookupDelegates() {
     });
 
     //Upload new furniture
-    flm.onFurnitureUploaded.add((furniture) => {
+    flm.onBoxUploaded.add((furniture) => {
         //Data
         uiVars.giveUids(furniture);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
-        room.addFurniture(furniture);
+        room.addBox(furniture);
         //Select new furniture
         controllerEdit.selectObject(furniture, false);
         //Position new furniture
@@ -337,7 +337,7 @@ function inflateData(data) {
         //KitBash
         case !!data._items: inflateKitBash(data); return;
         //Box
-        case !!data._faces: inflateFurniture(data); return;
+        case !!data._faces: inflateBox(data); return;
         //Block
         case !!data._scale: inflateBlock(data); return;
         //Unknown
@@ -424,7 +424,7 @@ function getDataStringify() {
         stringifyHouse,
         stringifyBlock,
         stringifyRoom,
-        stringifyFurniture,
+        stringifyBox,
         stringifyKitBash,
         //
         stringifyVector3,

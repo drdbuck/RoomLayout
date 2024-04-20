@@ -1,6 +1,6 @@
 "use strict";
 
-function actionImportFurniture() {
+function actionImportBox() {
     //2024-03-06: copied from CardGenerator
     //2024-03-03: copied from https://stackoverflow.com/a/56607553/2336212
 
@@ -19,7 +19,7 @@ function actionImportFurniture() {
 
 }
 
-function actionExportFurniture() {
+function actionExportBox() {
     let furnitures = uiVars.selector.map(context => context.obj);
     if (furnitures.length === 0) {
         //Do nothing
@@ -147,7 +147,7 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
     furniture.name = objName;
     processFunc(furniture);
     let room = house.rooms[0];//dirty: hardcoded which room to add to
-    room.addFurniture(furniture);
+    room.addBox(furniture);
     //Select new furniture
     controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
     //Position new furniture
@@ -205,7 +205,7 @@ function actionObjectsDuplicate() {
         let newF = JSON.parse(JSON.stringify(f, stringify));
         inflateData(newF);
         //Data
-        room.addFurniture(newF);
+        room.addBox(newF);
         //Select new furniture
         controllerEdit.selectObject(newF, true);
         //make it easier to find the new duplicate in the scene
@@ -222,7 +222,7 @@ function actionObjectsDelete() {
     uiVars.selector.clear();
     delList.forEach(c => {
         let f = c.obj;
-        f.room.removeFurniture(f);
+        f.room.removeBox(f);
         c.boxes.forEach(box => box.parent.remove(box));
     });
     //record undo
