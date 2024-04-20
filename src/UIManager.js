@@ -228,6 +228,7 @@ function registerUIDelegates(furniture, register) {
         furniture.onFaceChanged.add(updateFaceEditPanel);
     }
     else {
+        if (!furniture.onSizeChanged) { return; }
         furniture.onSizeChanged.remove(updateFurnitureEditPanel);
         furniture.onPositionChanged.remove(updateFurnitureEditPanel);
         furniture.onAngleChanged.remove(updateFurnitureEditPanel);
@@ -367,7 +368,10 @@ function updateFaceEditPanel(faces) {
     }
     $("divImageEdit").hidden = !showFaceEdit;
     $("btnPanelFaceEdit").hidden = !usingImage;
-    $("btnFaceClear").hidden = !(usingImage && _contexts.find(c => c.furniture.validFaceIndex(c.face))?.face >= 0);//dirty: _contexts
+    $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.furniture._faces[c.face] != PIXEL_TRANSPARENT)
+        || usingImage && _contexts.find(c => c.furniture.validFaceIndex(c.face))?.face >= 0
+    );//dirty: _contexts
+    $("btnFaceClear").innerHTML = (usingImage) ? "Clear Face" : "Make Transparent";
 }
 
 
