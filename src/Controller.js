@@ -198,6 +198,19 @@ class Controller {
                     //if the object is selected
                     let context = this.getSelectContext(target);
                     if (context) {
+                        let faceChanged = false;
+                        //if its part of group, select this one
+                        if (context.furniture != target) {
+                            //unhighlight prev face
+                            let prevFace = context.face;
+                            context.face = -2;
+                            this.updateFaceSelection();
+                            context.face = prevFace;
+                            //select this box as the target
+                            context.furniture = target;
+                            context.grabInfo();
+                            faceChanged = true;
+                        }
                         //determine if face is already selected
                         let targetFace = targetHit.face.materialIndex;
                         let alreadySelected = context.face == targetFace;
@@ -211,6 +224,9 @@ class Controller {
                             }
                             //select target face
                             context.face = targetFace;
+                            faceChanged = true;
+                        }
+                        if (faceChanged) {
                             if (uiVars.viewPanelFace) {
                                 this.updateFaceSelection();
                                 this.runFaceDelegate();
