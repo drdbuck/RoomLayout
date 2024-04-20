@@ -23,6 +23,7 @@ const menuBarData = {
         title: "Select",
         "Select All %a": "actionSelectAll();",
         "Select None _escape": "actionSelectNone();",
+        "Select Components": "actionSelectPieces();",
     },
     edit: {
         title: "Edit",

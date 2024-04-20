@@ -88,6 +88,26 @@ function actionSelectNone() {
     uiVars.selector.clear();
     player.animate();
 }
+function actionSelectPieces() {
+    let selection = uiVars.selector.selection;
+    selection = selection.map(c => {
+        if (c.obj.isKitBash) {
+            return c.obj.items.map(f => {
+                let sc = new SelectContext(f);
+                sc.furniture = f;
+                sc.grabInfo();
+                return sc;
+            });
+        }
+        else {
+            return c;
+        }
+    })
+        .flat(Infinity);
+    uiVars.selector.clear();
+    uiVars.selector.selectAll(selection);
+    player.animate();
+}
 
 function actionUndo() {
     undoMan.undo();
