@@ -24,6 +24,7 @@ class ControllerImageEdit {
         this.canvas.onmousedown = this.processMouseDown.bind(this);
         this.canvas.onmousemove = this.processMouseMove.bind(this);
         this.canvas.onmouseup = this.processMouseUp.bind(this);
+        this.canvas.onmouseleave = this.processMouseLeave.bind(this);
 
         this.onEditChanged = new Delegate("imageURL");
     }
@@ -195,9 +196,14 @@ class ControllerImageEdit {
         }
     }
     processMouseUp(e) {
-        this.control.medianLine = undefined;
-        this.update();
+        this.releaseHandles();
         // this.crop();
+        this.update();
+        this.mouseDown = false;
+    }
+    processMouseLeave(e) {
+        this.releaseHandles();
+        this.update();
         this.mouseDown = false;
     }
 
@@ -278,6 +284,10 @@ class ControllerImageEdit {
                 this.control.medianLine = medianLine;
             }
         }
+    }
+    releaseHandles() {
+        this.control.medianLine = undefined;
+        this.control.handle = undefined;
     }
 
     crop() {
