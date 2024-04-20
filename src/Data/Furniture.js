@@ -7,7 +7,7 @@ let stringifyFurniture = [
 
 const FACE_DEFAULT = -1;
 
-class Furniture extends Block {
+class Box extends Block {
     constructor(imageURL, width = 1, length = 1, height = 1) {
         super(new Vector3(width, height, length));
 
@@ -90,7 +90,7 @@ class Furniture extends Block {
 
 function inflateFurniture(furniture) {
 
-    let inflated = inflateObject(furniture, Furniture.prototype, ["onFaceChanged"]);
+    let inflated = inflateObject(furniture, Box.prototype, ["onFaceChanged"]);
     if (!inflated) { return; }
     inflateBlock(furniture);
 

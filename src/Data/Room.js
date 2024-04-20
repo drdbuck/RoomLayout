@@ -111,7 +111,7 @@ function inflateRoom(room) {
     //Backwards Compatify
     backwardsCompatifyRoom(room);
 
-    //Furniture
+    //Box
     for (let furniture of room.furnitures) {
         //Both
         furniture.room = room;
@@ -122,7 +122,7 @@ function inflateRoom(room) {
             furniture.onItemAdded.add(room.bind_groupItemAdded);
             furniture.onItemRemoved.add(room.bind_groupItemRemoved);
         }
-        //Furniture
+        //Box
         else {
             inflateFurniture(furniture);
         }

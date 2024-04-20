@@ -231,7 +231,7 @@ function hookupDelegates() {
             return;
         }
         //Data
-        let furniture = new Furniture(image.src);
+        let furniture = new Box(image.src);
         furniture.name = image.name;
         uiVars.giveUids(furniture);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
@@ -336,7 +336,7 @@ function inflateData(data) {
         case !!data.furnitures: inflateRoom(data); return;
         //KitBash
         case !!data._items: inflateKitBash(data); return;
-        //Furniture
+        //Box
         case !!data._faces: inflateFurniture(data); return;
         //Block
         case !!data._scale: inflateBlock(data); return;

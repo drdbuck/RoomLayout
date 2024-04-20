@@ -12,7 +12,7 @@ const menuBarData = {
         "Import": "---",
         "Import File": "actionImportFurniture();",
         "Export": "---",
-        "Export Furniture": {
+        "Export Box": {
             action: "actionExportFurniture();",
             listen: ["select"],
             update: "menuUpdateSelectMinimum(_);",
@@ -78,7 +78,7 @@ const menuBarData = {
         "Overhead View": "actionViewOverhead();",
         "Immersive View": "actionViewImmersive();",
         "Panels": "---",
-        "Furniture Edit Panel": "actionTogglePanelEditObject();",
+        "Box Edit Panel": "actionTogglePanelEditObject();",
         "Room Edit Panel": "actionTogglePanelEditRoom();",
         "Face View Panel": "actionTogglePanelFaceView();",
         "Face Edit Panel": "actionTogglePanelFaceEdit();",

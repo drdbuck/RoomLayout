@@ -143,7 +143,7 @@ function actionObjectCreateBlankFlatFloor() {
 }
 
 function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
-    let furniture = new Furniture(PIXEL_WHITE);
+    let furniture = new Box(PIXEL_WHITE);
     furniture.name = objName;
     processFunc(furniture);
     let room = house.rooms[0];//dirty: hardcoded which room to add to
@@ -165,7 +165,7 @@ function actionObjectsCreateSkirt() {
     let furnitures = [];
     const count = 4;
     for (let i = 0; i < count; i++) {
-        let furniture = new Furniture(PIXEL_WHITE);
+        let furniture = new Box(PIXEL_WHITE);
         furniture.name = `skirt wall ${i + 1}/${count}`;
         furniture.depth = 0;
         furniture.angle = i * 90;
