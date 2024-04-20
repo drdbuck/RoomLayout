@@ -19,6 +19,11 @@ const menuBarData = {
         },
         "Export Room": "actionExportRoom();",
     },
+    select: {
+        title: "Select",
+        "Select All %a": "actionSelectAll();",
+        "Select None _escape": "actionSelectNone();",
+    },
     edit: {
         title: "Edit",
         "Undo": "---",

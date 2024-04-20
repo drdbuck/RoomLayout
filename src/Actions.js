@@ -76,6 +76,19 @@ function actionExportRoom() {
     );
 }
 
+function actionSelectAll() {
+    let room = house.rooms[0];//dirty: hard-coded room
+    uiVars.selector.clear();
+    room.furnitures.forEach(f => {
+        controllerEdit.selectObject(f, true, -2, true);
+    });
+    player.animate();
+}
+function actionSelectNone() {
+    uiVars.selector.clear();
+    player.animate();
+}
+
 function actionUndo() {
     undoMan.undo();
     player.animate();
