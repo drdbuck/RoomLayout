@@ -1,25 +1,34 @@
 "use strict";
 
-function menuUpdateSelectMinimum(btnId, min = 1) {
+function _updateEnabled(btnId, enabled) {
     let btn = $(btnId);
-    let enabled = uiVars.selector.count >= min;
     btn.disabled = !enabled;
     return enabled;
 }
 
+//
+//
+//
+
+function menuUpdateSelectMinimum(btnId, min = 1) {
+    return _updateEnabled(btnId, uiVars.selector.count >= min);
+}
+
+//
+//
+//
+
 function menuUpdateUndo(btnId) {
-    let btn = $(btnId);
-    let enabled = undoMan.stateIndex > 0;
-    btn.disabled = !enabled;
+    //btn
+    _updateEnabled(btnId, undoMan.stateIndex > 0);
+    //lbl
     let lbl = $(`${btnId}_label`);
     let changeName = undoMan.getStateLabel();
     lbl.innerHTML = `Undo ${changeName}`;
 }
 function menuUpdateRedo(btnId) {
     //btn
-    let btn = $(btnId);
-    let enabled = undoMan.stateIndex < undoMan.stateCount - 1;
-    btn.disabled = !enabled;
+    _updateEnabled(btnId, undoMan.stateIndex < undoMan.stateCount - 1);
     //lbl
     let lbl = $(`${btnId}_label`);
     let changeName = undoMan.getStateLabel(1);
@@ -28,7 +37,8 @@ function menuUpdateRedo(btnId) {
 
 function menuUpdateObjectsUngroup(btnId) {
     let minEnabled = menuUpdateSelectMinimum(btnId);
-    let btn = $(btnId);
-    let enabled = minEnabled && uiVars.selector.some(c => c.kitbash || c.obj.isKitBash);
-    btn.disabled = !enabled;
+    _updateEnabled(
+        btnId,
+        minEnabled && uiVars.selector.some(c => c.kitbash || c.obj.isKitBash)
+    );
 }
