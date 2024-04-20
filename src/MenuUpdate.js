@@ -6,6 +6,11 @@ function _updateEnabled(btnId, enabled) {
     return enabled;
 }
 
+function _updateLabel(btnId, text) {
+    let lbl = $(`${btnId}_label`);
+    lbl.innerHTML = text;
+}
+
 //
 //
 //
@@ -30,15 +35,13 @@ function menuUpdateUndo(btnId) {
     //btn
     _updateEnabled(btnId, undoMan.stateIndex > 0);
     //lbl
-    let lbl = $(`${btnId}_label`);
     let changeName = undoMan.getStateLabel();
-    lbl.innerHTML = `Undo ${changeName}`;
+    _updateLabel(btnId, `Undo ${changeName}`);
 }
 function menuUpdateRedo(btnId) {
     //btn
     _updateEnabled(btnId, undoMan.stateIndex < undoMan.stateCount - 1);
     //lbl
-    let lbl = $(`${btnId}_label`);
     let changeName = undoMan.getStateLabel(1);
-    lbl.innerHTML = `Redo ${changeName}`;
+    _updateLabel(btnId, `Redo ${changeName}`);
 }
