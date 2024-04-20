@@ -85,6 +85,16 @@ class KitBash extends Block {
         return this._items.includes(item);
     }
 
+    indexOf(item) {
+        return this._items.indexOf(item);
+    }
+
+    nextItem(item) {
+        let index = this._items.indexOf(item);
+        if (!(index >= 0)) { return undefined; }
+        return this._items[(index + 1) % this._items.length];
+    }
+
     //Position
     get position() {
         let pos = new Vector3();

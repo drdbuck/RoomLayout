@@ -437,7 +437,27 @@ class Controller {
             else {
                 context.face += dir;
                 if (!between(context.face, min, max)) {
+                    //group
+                    if (context.obj.isKitBash) {
+                        //unhighlight prev face
+                        let prevFace = context.face;
+                        context.face = -2;
+                        this.updateFaceSelection();
+                        context.face = prevFace;
+                        //select next object
+                        let group = context.obj;
+                        let nextF = group.nextItem(context.furniture, dir);
+                        let indexF = group.indexOf(nextF);
+                        context.face = (dir > 0)
+                            ? (indexF == 0) ? FACE_DEFAULT : min
+                            : context.face = (indexF == group.count - 1) ? FACE_DEFAULT : max;
+                        context.furniture = nextF;
+                        context.grabInfo();
+                    }
+                    //just box
+                    else {
                     context.face = FACE_DEFAULT;
+                    }
                 }
             }
                 //check for valid face
