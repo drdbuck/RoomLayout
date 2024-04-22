@@ -46,7 +46,7 @@ class FileManager {
 
         //Delegate initialization
         this.onImageUploaded = new Delegate();//param: image
-        this.onBoxUploaded = new Delegate();//param: box
+        this.onFurnitureUploaded = new Delegate();//param: box
         this.onRoomUploaded = new Delegate("room");
         this.onJsonUploaded = new Delegate();//param: json
     }
@@ -160,7 +160,7 @@ class FileManager {
             for (let box of furnitueObj.list) {
                 inflateData(box);
                 //Run delegate
-                flm.onBoxUploaded.run(box);
+                flm.onFurnitureUploaded.run(box);
             }
             callback();
         }

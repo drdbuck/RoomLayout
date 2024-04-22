@@ -248,7 +248,7 @@ function hookupDelegates() {
     });
 
     //Upload new box
-    flm.onBoxUploaded.add((box) => {
+    flm.onFurnitureUploaded.add((box) => {
         //Data
         uiVars.giveUids(box);
         let room = house.rooms[0];//dirty: hardcoded which room to add to

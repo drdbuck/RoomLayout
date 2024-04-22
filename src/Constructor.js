@@ -49,7 +49,7 @@ function constructRoom(room, scene) {
         }
     };
     room.furnitures.forEach(boxFunc);
-    room.onBoxAdded.add(boxFunc);
+    room.onFurnitureAdded.add(boxFunc);
 
     //delegates
     let updateSize = (size) => {

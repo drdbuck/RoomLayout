@@ -10,9 +10,9 @@ class Room extends Block {
 
         this.furnitures = [];
 
-        this.onBoxAdded = new Delegate("box");
-        this.onBoxRemoved = new Delegate("box");
-        this.onBoxsChanged = new Delegate("furnitures");
+        this.onFurnitureAdded = new Delegate("box");
+        this.onFurnitureRemoved = new Delegate("box");
+        this.onFurnituresChanged = new Delegate("furnitures");
 
         this.bind_groupItemAdded = this._groupItemAdded.bind(this);
         this.bind_groupItemRemoved = this._groupItemRemoved.bind(this);
@@ -33,8 +33,8 @@ class Room extends Block {
                 box.onItemAdded.add(this.bind_groupItemAdded);
                 box.onItemRemoved.add(this.bind_groupItemRemoved);
             }
-            this.onBoxAdded.run(box);
-            this.onBoxsChanged.run([...this.furnitures]);
+            this.onFurnitureAdded.run(box);
+            this.onFurnituresChanged.run([...this.furnitures]);
         }
     }
 
@@ -52,8 +52,8 @@ class Room extends Block {
                 box.onItemRemoved.remove(this.bind_groupItemRemoved);
             }
             //delegates
-            this.onBoxRemoved.run(box);
-            this.onBoxsChanged.run([...this.furnitures]);
+            this.onFurnitureRemoved.run(box);
+            this.onFurnituresChanged.run([...this.furnitures]);
         }
     }
 
@@ -97,9 +97,9 @@ function inflateRoom(room) {
         room,
         Room.prototype,
         [
-            "onBoxAdded",
-            "onBoxRemoved",
-            "onBoxsChanged",
+            "onFurnitureAdded",
+            "onFurnitureRemoved",
+            "onFurnituresChanged",
         ]);
     if (!inflated) { return; }
     inflateBlock(room);
