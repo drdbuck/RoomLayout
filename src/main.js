@@ -320,12 +320,12 @@ function getBox(box) {
         .find(mesh => mesh.box == box);
 }
 
-function getBoxes(boxes) {
-    if (!(boxes?.length > 0)) { return []; }
+function getBoxes(furnitures) {
+    if (!(furnitures?.length > 0)) { return []; }
     return player.scene.children
         .map(c => c?.children?.[0])
         .filter(c => c)
-        .filter(mesh => mesh.box && boxes.includes(mesh.box))
+        .filter(mesh => mesh.box && furnitures.includes(mesh.box))
 }
 
 function inflateData(data) {
@@ -333,7 +333,7 @@ function inflateData(data) {
         //House
         case !!data.rooms: inflateHouse(data); return;
         //Room
-        case !!data.boxes: inflateRoom(data); return;
+        case !!data.furnitures: inflateRoom(data); return;
         //KitBash
         case !!data._items: inflateKitBash(data); return;
         //Box

@@ -48,7 +48,7 @@ function constructRoom(room, scene) {
             _boxFunc(box);
         }
     };
-    room.boxes.forEach(boxFunc);
+    room.furnitures.forEach(boxFunc);
     room.onBoxAdded.add(boxFunc);
 
     //delegates
