@@ -21,6 +21,11 @@ class Room extends Block {
     addFurniture(box) {
         //early exit: invalid box
         if (!box) { return; }
+        //early exit: lonely box
+        if (!box.isKitBash) {
+            this.group([box]);
+            return;
+        }
         //
         box.room = this;
         if (box.isKitBash) {
