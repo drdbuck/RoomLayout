@@ -1,6 +1,6 @@
 "use strict";
 
-class UndoState{
+class UndoState {
     constructor(obj, stringify, changeName = "") {
         this.json = JSON.stringify(obj, stringify);
         this.changeName = changeName;

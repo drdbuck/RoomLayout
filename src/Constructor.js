@@ -138,7 +138,7 @@ function createCeiling(width = 11, length = 12, height = 9, showTriangles = fals
         Math.ceil(width * 2),
         Math.ceil(length * 2)
     );
-    ceilGeometry.rotateX( Math.PI / 2);
+    ceilGeometry.rotateX(Math.PI / 2);
 
     //color triangles
 
@@ -243,7 +243,7 @@ function constructBox(box) {
     holder.layers.set(effectMask);
     holder.scale.copy(_one);
     holder.position.copy(mesh.position);
-    holder.position.y = mesh.position.y - (mesh.scale.y/2);
+    holder.position.y = mesh.position.y - (mesh.scale.y / 2);
     holder.attach(mesh);
 
     //update functions

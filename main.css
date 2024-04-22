@@ -70,11 +70,11 @@ body {
     color: black;
 }
 
-.menuPanel button:disabled{
+.menuPanel button:disabled {
     background-color: #1a1a1a;
     color: rgb(152, 152, 152);
 }
-.menuPanel button:disabled:hover{
+.menuPanel button:disabled:hover {
     background-color: #1a1a1a;
     color: rgb(152, 152, 152);
 }

@@ -5,7 +5,7 @@ const stringifySelectContext = [
     "uid_box",
     "uid_kitbash",
     "face",
-]
+];
 
 class SelectContext {
     constructor(select, face = -2) {
@@ -63,7 +63,7 @@ class SelectContext {
     }
 }
 
-function inflateSelectContext(context, uiVars){
+function inflateSelectContext(context, uiVars) {
     inflateObject(context, SelectContext.prototype);
     return context.inflate(uiVars);
 }

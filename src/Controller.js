@@ -424,44 +424,44 @@ class Controller {
             let loopProtect = 100;//to prevent infinite loops
             while (!validFace && loopProtect > 0) {
                 loopProtect--;
-            //Cycle from default
-            if (context.face == FACE_DEFAULT) {
-                if (dir > 0) {
-                    context.face = min;
-                }
-                else if (dir < 0) {
-                    context.face = max;
-                }
-            }
-            //Cycle normally
-            else {
-                context.face += dir;
-                if (!between(context.face, min, max)) {
-                    //group
-                    if (context.obj.isKitBash) {
-                        //unhighlight prev face
-                        let prevFace = context.face;
-                        context.face = -2;
-                        this.updateFaceSelection();
-                        context.face = prevFace;
-                        //select next object
-                        let group = context.obj;
-                        let nextF = group.nextItem(context.box, dir);
-                        let indexF = group.indexOf(nextF);
-                        context.face = FACE_DEFAULT;
-                        //TODO: put this back in after group refactor is complete
-                        // context.face = (dir > 0)
-                        //     ? (indexF == 0) ? FACE_DEFAULT : min
-                        //     : context.face = (indexF == group.count - 1) ? FACE_DEFAULT : max;
-                        context.box = nextF;
-                        context.grabInfo();
+                //Cycle from default
+                if (context.face == FACE_DEFAULT) {
+                    if (dir > 0) {
+                        context.face = min;
                     }
-                    //just mesh
-                    else {
-                    context.face = FACE_DEFAULT;
+                    else if (dir < 0) {
+                        context.face = max;
                     }
                 }
-            }
+                //Cycle normally
+                else {
+                    context.face += dir;
+                    if (!between(context.face, min, max)) {
+                        //group
+                        if (context.obj.isKitBash) {
+                            //unhighlight prev face
+                            let prevFace = context.face;
+                            context.face = -2;
+                            this.updateFaceSelection();
+                            context.face = prevFace;
+                            //select next object
+                            let group = context.obj;
+                            let nextF = group.nextItem(context.box, dir);
+                            let indexF = group.indexOf(nextF);
+                            context.face = FACE_DEFAULT;
+                            //TODO: put this back in after group refactor is complete
+                            // context.face = (dir > 0)
+                            //     ? (indexF == 0) ? FACE_DEFAULT : min
+                            //     : context.face = (indexF == group.count - 1) ? FACE_DEFAULT : max;
+                            context.box = nextF;
+                            context.grabInfo();
+                        }
+                        //just mesh
+                        else {
+                            context.face = FACE_DEFAULT;
+                        }
+                    }
+                }
                 //check for valid face
                 let faceDim = context.box.getFaceDimensions(context.face);
                 validFace = context.face === FACE_DEFAULT || (faceDim.x > 0 && faceDim.y > 0);
