@@ -119,11 +119,11 @@ function init() {
     switchMode(true);
     uiVars.viewId = uiVars.viewId;//trigger delegate w/o changing anything
     uiVars.selector.forEach(c => {
-        c.boxes.forEach(box => {
-            box.edge.visible = true;
-            updateFace(box, -2);
+        c.meshes.forEach(mesh => {
+            mesh.edge.visible = true;
+            updateFace(mesh, -2);
         })
-        updateFace(c.box, c.face);
+        updateFace(c.mesh, c.face);
     });
     player.animate();
 
@@ -157,25 +157,25 @@ function hookupDelegates() {
         }
         //Update selected faces
         contexts.forEach(c => {
-            updateFace(c.box, c.face);
+            updateFace(c.mesh, c.face);
         });
     });
     uiVars.selector.onSelectionGained.add(context => {
-        context.boxes.forEach(box => {
-            box.edge.visible = true;
-            updateFace(box, -2);
+        context.meshes.forEach(mesh => {
+            mesh.edge.visible = true;
+            updateFace(mesh, -2);
         })
         //
-        updateFace(context.box, context.face);
+        updateFace(context.mesh, context.face);
         registerUIDelegates(context.obj, true);
     });
     uiVars.selector.onSelectionLost.add(context => {
-        context.boxes.forEach(box => {
-            box.edge.visible = false;
-            updateFace(box, -2);
+        context.meshes.forEach(mesh => {
+            mesh.edge.visible = false;
+            updateFace(mesh, -2);
         })
         //
-        updateFace(context.box, -2);
+        updateFace(context.mesh, -2);
         registerUIDelegates(context.obj, false);
     });
 
@@ -223,7 +223,7 @@ function hookupDelegates() {
 
     //File Manager
 
-    //Upload image to new box / existing face
+    //Upload image to new mesh / existing face
     flm.onImageUploaded.add((image) => {
         //upload face instead of editing faces
         if (uiVars.viewPanelFace && uiVars.selector.count > 0) {
@@ -317,7 +317,7 @@ function getBox(furniture) {
     return player.scene.children
         .map(c => c?.children?.[0])
         .filter(c => c)
-        .find(box => box.furniture == furniture);
+        .find(mesh => mesh.furniture == furniture);
 }
 
 function getBoxes(furnitures) {
@@ -325,7 +325,7 @@ function getBoxes(furnitures) {
     return player.scene.children
         .map(c => c?.children?.[0])
         .filter(c => c)
-        .filter(box => box.furniture && furnitures.includes(box.furniture))
+        .filter(mesh => mesh.furniture && furnitures.includes(mesh.furniture))
 }
 
 function inflateData(data) {
@@ -440,9 +440,9 @@ function uploadFace(image) {
     });
 };
 
-function updateFace(box, face) {
-    let edge = box.edge;
-    let select = box.select;
+function updateFace(mesh, face) {
+    let edge = mesh.edge;
+    let select = mesh.select;
 
     //unhighlight face
     edge.renderOrder = 0;
@@ -453,7 +453,7 @@ function updateFace(box, face) {
     if (!uiVars.highlightSelectedFace) { return; }
 
     //highlighting faces turned on
-    let faceCount = box.material.length;
+    let faceCount = mesh.material.length;
     if (face >= 0 && face < faceCount) {
         //highlight face
         select.material = new Array(faceCount);

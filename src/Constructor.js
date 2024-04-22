@@ -6,7 +6,7 @@ const SIDE_BACK = 2;
 const SIDE_RIGHT = 3;
 
 //create geometry
-const boxGeometry = new BoxGeometry().toNonIndexed();
+const meshGeometry = new BoxGeometry().toNonIndexed();
 
 //Constructs scene objects from data objects
 
@@ -37,8 +37,8 @@ function constructRoom(room, scene) {
     }
     //furniture
     const _furnitureFunc = (furniture) => {
-        let box = constructBox(furniture);
-        scene.add(box);
+        let mesh = constructBox(furniture);
+        scene.add(mesh);
     };
     const furnitureFunc = (furniture) => {
         if (furniture.isKitBash) {
@@ -225,16 +225,16 @@ function constructBox(furniture) {
     //2024-01-09: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 
     //create material
-    const boxMaterials = createMaterials(furniture.faceList, 6, furniture.defaultFace);
+    const meshMaterials = createMaterials(furniture.faceList, 6, furniture.defaultFace);
 
     //create mesh
-    const box = new Mesh(boxGeometry, boxMaterials);
-    box.layers.set(objectMask);
+    const mesh = new Mesh(meshGeometry, meshMaterials);
+    mesh.layers.set(objectMask);
 
-    box.userData ??= {};
-    box.userData.selectable = true;
+    mesh.userData ??= {};
+    mesh.userData.selectable = true;
 
-    box.furniture = furniture;
+    mesh.furniture = furniture;
 
     //holder
     //essentially make the anchor point of data furniture object to be bottom center,
@@ -242,9 +242,9 @@ function constructBox(furniture) {
     const holder = new Group();
     holder.layers.set(effectMask);
     holder.scale.copy(_one);
-    holder.position.copy(box.position);
-    holder.position.y = box.position.y - (box.scale.y/2);
-    holder.attach(box);
+    holder.position.copy(mesh.position);
+    holder.position.y = mesh.position.y - (mesh.scale.y/2);
+    holder.attach(mesh);
 
     //update functions
     let updatePosition = (pos = furniture.position) => {
@@ -282,9 +282,9 @@ function constructBox(furniture) {
 
 
     //inside faces
-    let insideMesh = createInsideFaces(box, furniture);
-    box.attach(insideMesh);
-    box.insideMesh = insideMesh;
+    let insideMesh = createInsideFaces(mesh, furniture);
+    mesh.attach(insideMesh);
+    mesh.insideMesh = insideMesh;
     insideMesh.position.copy(_zero);
 
     //delegates
@@ -295,34 +295,34 @@ function constructBox(furniture) {
     furniture.onFaceChanged.add((index, url) => {
         let material = createMaterial(url ?? furniture.defaultFace);
         let materialBack = createMaterial(url ?? furniture.defaultFace, false);
-        let insideMaterials = box.insideMesh.material;
+        let insideMaterials = mesh.insideMesh.material;
         //Set all faces with the default face
         if (index == FACE_DEFAULT) {
-            for (let i = 0; i < boxMaterials.length; i++) {
+            for (let i = 0; i < meshMaterials.length; i++) {
                 if (!furniture.getFace(i)) {
-                    boxMaterials[i] = material;
+                    meshMaterials[i] = material;
                     insideMaterials[i] = materialBack;
                 }
             }
         }
         //Set just the one face that was changed
         else {
-            boxMaterials[index] = material;
+            meshMaterials[index] = material;
             insideMaterials[index] = materialBack;
         }
     });
 
     //edge highlights
-    let edge = createEdgeHighlights(box);
-    box.edge = edge;
-    box.attach(edge);
+    let edge = createEdgeHighlights(mesh);
+    mesh.edge = edge;
+    mesh.attach(edge);
     edge.visible = false;
     edge.position.copy(_zero);
 
     //select highlights
-    let select = createSelectHighlights(box);
-    box.select = select;
-    box.attach(select);
+    let select = createSelectHighlights(mesh);
+    mesh.select = select;
+    mesh.attach(select);
     select.visible = false;
     select.position.copy(_zero);
 
@@ -365,15 +365,15 @@ function createSelectHighlights(mesh) {
 function createInsideFaces(mesh, furniture) {
     //dirty: assumes a cube
 
-    const boxMaterials = createMaterials(furniture.faceList, 6, furniture.defaultFace, false);
+    const meshMaterials = createMaterials(furniture.faceList, 6, furniture.defaultFace, false);
 
     //create mesh
-    const box = new Mesh(boxGeometry, boxMaterials);
-    box.layers.set(effectMask);
+    const mesh = new Mesh(meshGeometry, meshMaterials);
+    mesh.layers.set(effectMask);
 
-    box.position.copy(mesh.position);
-    box.scale.copy(mesh.scale);
-    box.rotation.copy(mesh.rotation);
+    mesh.position.copy(mesh.position);
+    mesh.scale.copy(mesh.scale);
+    mesh.rotation.copy(mesh.rotation);
 
-    return box;
+    return mesh;
 }

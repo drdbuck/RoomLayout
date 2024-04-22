@@ -206,7 +206,7 @@ class Controller {
                             context.face = -2;
                             this.updateFaceSelection();
                             context.face = prevFace;
-                            //select this box as the target
+                            //select this mesh as the target
                             context.furniture = target;
                             context.grabInfo();
                             faceChanged = true;
@@ -419,7 +419,7 @@ class Controller {
                 return;
             }
             //
-            const max = context.box.material.length - 1;
+            const max = context.mesh.material.length - 1;
             let validFace = false;
             let loopProtect = 100;//to prevent infinite loops
             while (!validFace && loopProtect > 0) {
@@ -456,7 +456,7 @@ class Controller {
                         context.furniture = nextF;
                         context.grabInfo();
                     }
-                    //just box
+                    //just mesh
                     else {
                     context.face = FACE_DEFAULT;
                     }
@@ -473,7 +473,7 @@ class Controller {
 
     updateFaceSelection() {
         uiVars.selector.forEach(c => {
-            updateFace(c.box, c.face);
+            updateFace(c.mesh, c.face);
         });
     }
 

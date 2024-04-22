@@ -22,7 +22,7 @@ function initUI() {
     //title
     document.title = `${APP_NAME} v${VERSION}`;
 
-    //individual textbox listeners
+    //individual textmesh listeners
     const onChangeFunc = (id, list, func, float = true, allowFootNotation = true) => {
         let txtChanged = false;
         let prevValue;
@@ -331,7 +331,7 @@ function updateFaceEditPanel(faces) {
             let f = context.furniture;
             f.faceList.forEach(face => suggest.push(face));
         });
-        //images from other boxes in same group
+        //images from other meshes in same group
         _contexts.forEach(context => {//dirty: using _contexts
             context.furniture.group?.items.forEach(item => {
                 item.faceList.forEach(face => suggest.push(face));

@@ -12,8 +12,8 @@ class SelectContext {
         this.obj = select;
         this.furniture = undefined;
         this.kitbash = undefined;
-        this.box = undefined;
-        this.boxes = undefined;
+        this.mesh = undefined;
+        this.meshes = undefined;
         this.face = face;
         this.offset = _zero.clone();
     }
@@ -30,12 +30,12 @@ class SelectContext {
     }
 
     grabBoxes() {
-        this.box = getBox(this.furniture ?? this.kitbash?.items[0] ?? this.obj);
-        this.boxes = getBoxes(this.kitbash?.items);
-        if (this.boxes.length == 0) {
-            this.boxes = [this.box];
+        this.mesh = getBox(this.furniture ?? this.kitbash?.items[0] ?? this.obj);
+        this.meshes = getBoxes(this.kitbash?.items);
+        if (this.meshes.length == 0) {
+            this.meshes = [this.mesh];
         }
-        return this.box && this.boxes.length > 0;
+        return this.mesh && this.meshes.length > 0;
     }
 
     inflate(uiVars) {
@@ -57,9 +57,9 @@ class SelectContext {
         //
         this.offset = _zero.clone();
         //
-        let boxesGrabbed = this.grabBoxes();
+        let meshesGrabbed = this.grabBoxes();
         //
-        return this.obj && boxesGrabbed;
+        return this.obj && meshesGrabbed;
     }
 }
 

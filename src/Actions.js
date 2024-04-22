@@ -223,7 +223,7 @@ function actionObjectsDelete() {
     delList.forEach(c => {
         let f = c.obj;
         f.room.removeBox(f);
-        c.boxes.forEach(box => box.parent.remove(box));
+        c.meshes.forEach(mesh => mesh.parent.remove(mesh));
     });
     //record undo
     undoMan.recordUndo("delete object");
