@@ -128,7 +128,7 @@ class UndoManager {
         //if house
         obj.rooms?.forEach(room => this._injectImageIds(room));
         //if room
-        obj.boxs?.forEach(box => this._injectImageIds(box));
+        obj.boxes?.forEach(box => this._injectImageIds(box));
         //if kitbash
         obj.items?.forEach(item => this._injectImageIds(item));
     }
@@ -144,7 +144,7 @@ class UndoManager {
         //if house
         obj.rooms?.forEach(room => this._inflateImageIds(room));
         //if room
-        obj.boxs?.forEach(box => this._inflateImageIds(box));
+        obj.boxes?.forEach(box => this._inflateImageIds(box));
         //if kitbash
         obj.items?.forEach(item => this._inflateImageIds(item));
     }

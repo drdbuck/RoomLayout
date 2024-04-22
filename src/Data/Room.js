@@ -1,18 +1,18 @@
 "use strict";
 
 let stringifyRoom = [
-    "boxs",
+    "boxes",
 ];
 
 class Room extends Block {
     constructor(width = 11, length = 12, height = 9) {
         super(new Vector3(width, height, length));
 
-        this.boxs = [];
+        this.boxes = [];
 
         this.onBoxAdded = new Delegate("box");
         this.onBoxRemoved = new Delegate("box");
-        this.onBoxsChanged = new Delegate("boxs");
+        this.onBoxsChanged = new Delegate("boxes");
 
         this.bind_groupItemAdded = this._groupItemAdded.bind(this);
         this.bind_groupItemRemoved = this._groupItemRemoved.bind(this);
@@ -27,14 +27,14 @@ class Room extends Block {
             box.items.forEach(item => item.room = this);
         }
         //
-        if (!this.boxs.includes(box)) {
-            this.boxs.push(box);
+        if (!this.boxes.includes(box)) {
+            this.boxes.push(box);
             if (box.isKitBash) {
                 box.onItemAdded.add(this.bind_groupItemAdded);
                 box.onItemRemoved.add(this.bind_groupItemRemoved);
             }
             this.onBoxAdded.run(box);
-            this.onBoxsChanged.run([...this.boxs]);
+            this.onBoxsChanged.run([...this.boxes]);
         }
     }
 
@@ -45,7 +45,7 @@ class Room extends Block {
                 box.items.forEach(item => item.room = undefined);
             }
         }
-        let removed = this.boxs.remove(box);
+        let removed = this.boxes.remove(box);
         if (removed) {
             if (box.isKitBash) {
                 box.onItemAdded.remove(this.bind_groupItemAdded);
@@ -53,32 +53,32 @@ class Room extends Block {
             }
             //delegates
             this.onBoxRemoved.run(box);
-            this.onBoxsChanged.run([...this.boxs]);
+            this.onBoxsChanged.run([...this.boxes]);
         }
     }
 
-    group(boxs) {
+    group(boxes) {
         //early exit: not enough box to make a group
-        if (!(boxs.length >= 2)) { return; }
+        if (!(boxes.length >= 2)) { return; }
         //
-        let group = new KitBash(boxs);
+        let group = new KitBash(boxes);
         this.addBox(group);
-        //remove boxs from list
-        boxs.forEach(f => this._groupItemAdded(f));
+        //remove boxes from list
+        boxes.forEach(f => this._groupItemAdded(f));
         //
         return group;
     }
 
     _groupItemAdded(item) {
-        if (this.boxs.includes(item)) {
-            this.boxs.remove(item);
+        if (this.boxes.includes(item)) {
+            this.boxes.remove(item);
             //don't call delegates here
             //bc the item is still in the room, just organized differently
         }
     }
     _groupItemRemoved(item) {
-        if (!this.boxs.includes(item)) {
-            this.boxs.push(item);
+        if (!this.boxes.includes(item)) {
+            this.boxes.push(item);
             //don't call delegates here
             //bc the item is still in the room, just organized differently
         }
@@ -87,7 +87,7 @@ class Room extends Block {
     prepareForSave() {
         const room = this;
         //remove empty groups
-        this.boxs = this.boxs.filter(f => !f.isKitBash || f.items.length > 0);
+        this.boxes = this.boxes.filter(f => !f.isKitBash || f.items.length > 0);
     }
 }
 
@@ -112,7 +112,7 @@ function inflateRoom(room) {
     backwardsCompatifyRoom(room);
 
     //Box
-    for (let box of room.boxs) {
+    for (let box of room.boxes) {
         //Both
         box.room = room;
         //KitBash

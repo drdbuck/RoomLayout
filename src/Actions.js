@@ -20,18 +20,18 @@ function actionImportBox() {
 }
 
 function actionExportBox() {
-    let boxs = uiVars.selector.map(context => context.obj);
-    if (boxs.length === 0) {
+    let boxes = uiVars.selector.map(context => context.obj);
+    if (boxes.length === 0) {
         //Do nothing
         return;
     }
     //Init savable object
     let listObj = {};
-    listObj.list = boxs;
+    listObj.list = boxes;
     //Determine filename
     let filename = "";
-    for (let i = 0; i < boxs.length; i++) {
-        let name = boxs[i].name;
+    for (let i = 0; i < boxes.length; i++) {
+        let name = boxes[i].name;
         if (!isEmpty(name)) {
             filename += name + ", ";
             break;
@@ -79,7 +79,7 @@ function actionExportRoom() {
 function actionSelectAll() {
     let room = house.rooms[0];//dirty: hard-coded room
     uiVars.selector.clear();
-    room.boxs.forEach(f => {
+    room.boxes.forEach(f => {
         controllerEdit.selectObject(f, true, -2, true);
     });
     player.animate();
@@ -162,7 +162,7 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
 }
 
 function actionObjectsCreateSkirt() {
-    let boxs = [];
+    let boxes = [];
     const count = 4;
     for (let i = 0; i < count; i++) {
         let box = new Box(PIXEL_WHITE);
@@ -178,11 +178,11 @@ function actionObjectsCreateSkirt() {
                 ? 0.5 * -Math.sign(i - 1.5)
                 : 0
         );//dirty: assumes 4 sides
-        boxs.push(box);
+        boxes.push(box);
     }
     //Group
     let room = house.rooms[0];//dirty: hardcoded which room to add to
-    let group = room.group(boxs);
+    let group = room.group(boxes);
     //Select new box
     controllerEdit.selectObject(group, false, undefined, true);
     //Position new box
@@ -232,10 +232,10 @@ function actionObjectsDelete() {
 function actionObjectsGroup() {
     let room = house.rooms[0];
     //remove from existing
-    let boxs = uiVars.selector.map(c => c.box);
-    boxs.forEach(f => f.group?.remove(f));
+    let boxes = uiVars.selector.map(c => c.box);
+    boxes.forEach(f => f.group?.remove(f));
     //add to new
-    let group = room.group(boxs);
+    let group = room.group(boxes);
     //early exit: group wasn't made (ex: if there was only one object)
     if (!group) { return; }
     //select group
@@ -245,8 +245,8 @@ function actionObjectsGroup() {
 }
 function actionObjectsUngroup() {
     //remove from existing
-    let boxs = uiVars.selector.map(c => c.box);
-    boxs.forEach(f => f.group?.remove(f));
+    let boxes = uiVars.selector.map(c => c.box);
+    boxes.forEach(f => f.group?.remove(f));
     //
     uiVars.selector.clear();
     //record undo
