@@ -35,21 +35,21 @@ function constructRoom(room, scene) {
         walls.push(wall);
         scene.add(wall);
     }
-    //furniture
-    const _furnitureFunc = (furniture) => {
-        let mesh = constructBox(furniture);
+    //box
+    const _boxFunc = (box) => {
+        let mesh = constructBox(box);
         scene.add(mesh);
     };
-    const furnitureFunc = (furniture) => {
-        if (furniture.isKitBash) {
-            furniture.items.forEach(_furnitureFunc);
+    const boxFunc = (box) => {
+        if (box.isKitBash) {
+            box.items.forEach(_boxFunc);
         }
         else {
-            _furnitureFunc(furniture);
+            _boxFunc(box);
         }
     };
-    room.furnitures.forEach(furnitureFunc);
-    room.onBoxAdded.add(furnitureFunc);
+    room.boxs.forEach(boxFunc);
+    room.onBoxAdded.add(boxFunc);
 
     //delegates
     let updateSize = (size) => {
@@ -221,11 +221,11 @@ function createWall(length = 11, height = 9, side = 0, showTriangles = false) {
     return wall;
 }
 
-function constructBox(furniture) {
+function constructBox(box) {
     //2024-01-09: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 
     //create material
-    const meshMaterials = createMaterials(furniture.faceList, 6, furniture.defaultFace);
+    const meshMaterials = createMaterials(box.faceList, 6, box.defaultFace);
 
     //create mesh
     const mesh = new Mesh(meshGeometry, meshMaterials);
@@ -234,10 +234,10 @@ function constructBox(furniture) {
     mesh.userData ??= {};
     mesh.userData.selectable = true;
 
-    mesh.furniture = furniture;
+    mesh.box = box;
 
     //holder
-    //essentially make the anchor point of data furniture object to be bottom center,
+    //essentially make the anchor point of data box object to be bottom center,
     //while the 3D object's anchor point is still true center
     const holder = new Group();
     holder.layers.set(effectMask);
@@ -247,7 +247,7 @@ function constructBox(furniture) {
     holder.attach(mesh);
 
     //update functions
-    let updatePosition = (pos = furniture.position) => {
+    let updatePosition = (pos = box.position) => {
         holder.position.copy(pos);
     };
     let updateScale = (scale) => {
@@ -282,24 +282,24 @@ function constructBox(furniture) {
 
 
     //inside faces
-    let insideMesh = createInsideFaces(mesh, furniture);
+    let insideMesh = createInsideFaces(mesh, box);
     mesh.attach(insideMesh);
     mesh.insideMesh = insideMesh;
     insideMesh.position.copy(_zero);
 
     //delegates
-    furniture.onSizeChanged.add(updateScale);
-    furniture.onPositionChanged.add(updatePosition);
-    furniture.onAngleChanged.add(() => updateRotation(furniture.angle, furniture.recline));
-    furniture.onReclineChanged.add(() => updateRotation(furniture.angle, furniture.recline));
-    furniture.onFaceChanged.add((index, url) => {
-        let material = createMaterial(url ?? furniture.defaultFace);
-        let materialBack = createMaterial(url ?? furniture.defaultFace, false);
+    box.onSizeChanged.add(updateScale);
+    box.onPositionChanged.add(updatePosition);
+    box.onAngleChanged.add(() => updateRotation(box.angle, box.recline));
+    box.onReclineChanged.add(() => updateRotation(box.angle, box.recline));
+    box.onFaceChanged.add((index, url) => {
+        let material = createMaterial(url ?? box.defaultFace);
+        let materialBack = createMaterial(url ?? box.defaultFace, false);
         let insideMaterials = mesh.insideMesh.material;
         //Set all faces with the default face
         if (index == FACE_DEFAULT) {
             for (let i = 0; i < meshMaterials.length; i++) {
-                if (!furniture.getFace(i)) {
+                if (!box.getFace(i)) {
                     meshMaterials[i] = material;
                     insideMaterials[i] = materialBack;
                 }
@@ -327,9 +327,9 @@ function constructBox(furniture) {
     select.position.copy(_zero);
 
     //init with update functions
-    updatePosition(furniture.position);
-    updateScale(furniture.scale);
-    updateRotation(furniture.angle, furniture.recline);
+    updatePosition(box.position);
+    updateScale(box.scale);
+    updateRotation(box.angle, box.recline);
 
     return holder;
 }
@@ -362,10 +362,10 @@ function createSelectHighlights(mesh) {
     return select;
 }
 
-function createInsideFaces(mesh, furniture) {
+function createInsideFaces(mesh, box) {
     //dirty: assumes a cube
 
-    const meshMaterials = createMaterials(furniture.faceList, 6, furniture.defaultFace, false);
+    const meshMaterials = createMaterials(box.faceList, 6, box.defaultFace, false);
 
     //create mesh
     const mesh = new Mesh(meshGeometry, meshMaterials);

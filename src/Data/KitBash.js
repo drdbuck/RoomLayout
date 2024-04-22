@@ -111,7 +111,7 @@ class KitBash extends Block {
         const oldPos = this.position;
         let offset = value.clone();
         offset.sub(oldPos);
-        //offset each individual piece of furniture
+        //offset each individual piece of box
         this._items.forEach(item => {
             let newPos = item.position.clone();
             newPos.add(offset);

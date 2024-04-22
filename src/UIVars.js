@@ -157,7 +157,7 @@ class UIVars {
         //if house
         obj.rooms?.forEach(room => this.clearUids(room));
         //if room
-        obj.furnitures?.forEach(furniture => this.clearUids(furniture));
+        obj.boxs?.forEach(box => this.clearUids(box));
         //if kitbash
         obj.items?.forEach(item => this.clearUids(item));
     }
@@ -172,7 +172,7 @@ class UIVars {
         //if house
         obj.rooms?.forEach(room => this.giveUids(room));
         //if room
-        obj.furnitures?.forEach(furniture => this.giveUids(furniture));
+        obj.boxs?.forEach(box => this.giveUids(box));
         //if kitbash
         obj.items?.forEach(item => this.giveUids(item));
     }
@@ -190,9 +190,9 @@ class UIVars {
             .at(0);
         if (retobj) { return retobj; }
         //room
-        retobj = obj.furnitures
-            ?.map(furniture => this.findUid(furniture, uid))
-            .filter(furniture => furniture)
+        retobj = obj.boxs
+            ?.map(box => this.findUid(box, uid))
+            .filter(box => box)
             .at(0);
         if (retobj) { return retobj; }
         //kitbash

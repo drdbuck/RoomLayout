@@ -1,84 +1,84 @@
 "use strict";
 
 let stringifyRoom = [
-    "furnitures",
+    "boxs",
 ];
 
 class Room extends Block {
     constructor(width = 11, length = 12, height = 9) {
         super(new Vector3(width, height, length));
 
-        this.furnitures = [];
+        this.boxs = [];
 
-        this.onBoxAdded = new Delegate("furniture");
-        this.onBoxRemoved = new Delegate("furniture");
-        this.onBoxsChanged = new Delegate("furnitures");
+        this.onBoxAdded = new Delegate("box");
+        this.onBoxRemoved = new Delegate("box");
+        this.onBoxsChanged = new Delegate("boxs");
 
         this.bind_groupItemAdded = this._groupItemAdded.bind(this);
         this.bind_groupItemRemoved = this._groupItemRemoved.bind(this);
     }
 
-    addBox(furniture) {
-        //early exit: invalid furniture
-        if (!furniture) { return; }
+    addBox(box) {
+        //early exit: invalid box
+        if (!box) { return; }
         //
-        furniture.room = this;
-        if (furniture.isKitBash) {
-            furniture.items.forEach(item => item.room = this);
+        box.room = this;
+        if (box.isKitBash) {
+            box.items.forEach(item => item.room = this);
         }
         //
-        if (!this.furnitures.includes(furniture)) {
-            this.furnitures.push(furniture);
-            if (furniture.isKitBash) {
-                furniture.onItemAdded.add(this.bind_groupItemAdded);
-                furniture.onItemRemoved.add(this.bind_groupItemRemoved);
+        if (!this.boxs.includes(box)) {
+            this.boxs.push(box);
+            if (box.isKitBash) {
+                box.onItemAdded.add(this.bind_groupItemAdded);
+                box.onItemRemoved.add(this.bind_groupItemRemoved);
             }
-            this.onBoxAdded.run(furniture);
-            this.onBoxsChanged.run([...this.furnitures]);
+            this.onBoxAdded.run(box);
+            this.onBoxsChanged.run([...this.boxs]);
         }
     }
 
-    removeBox(furniture) {
-        if (furniture?.room == this) {
-            furniture.room = undefined;
-            if (furniture.isKitBash) {
-                furniture.items.forEach(item => item.room = undefined);
+    removeBox(box) {
+        if (box?.room == this) {
+            box.room = undefined;
+            if (box.isKitBash) {
+                box.items.forEach(item => item.room = undefined);
             }
         }
-        let removed = this.furnitures.remove(furniture);
+        let removed = this.boxs.remove(box);
         if (removed) {
-            if (furniture.isKitBash) {
-                furniture.onItemAdded.remove(this.bind_groupItemAdded);
-                furniture.onItemRemoved.remove(this.bind_groupItemRemoved);
+            if (box.isKitBash) {
+                box.onItemAdded.remove(this.bind_groupItemAdded);
+                box.onItemRemoved.remove(this.bind_groupItemRemoved);
             }
             //delegates
-            this.onBoxRemoved.run(furniture);
-            this.onBoxsChanged.run([...this.furnitures]);
+            this.onBoxRemoved.run(box);
+            this.onBoxsChanged.run([...this.boxs]);
         }
     }
 
-    group(furnitures) {
-        //early exit: not enough furniture to make a group
-        if (!(furnitures.length >= 2)) { return; }
+    group(boxs) {
+        //early exit: not enough box to make a group
+        if (!(boxs.length >= 2)) { return; }
         //
-        let group = new KitBash(furnitures);
+        let group = new KitBash(boxs);
         this.addBox(group);
-        //remove furnitures from list
-        furnitures.forEach(f => this._groupItemAdded(f));
+        //remove boxs from list
+        boxs.forEach(f => this._groupItemAdded(f));
         //
         return group;
     }
 
     _groupItemAdded(item) {
-        if (this.furnitures.includes(item)) {
-            this.furnitures.remove(item);
+        if (this.boxs.includes(item)) {
+            this.boxs.remove(item);
             //don't call delegates here
             //bc the item is still in the room, just organized differently
         }
     }
     _groupItemRemoved(item) {
-        if (!this.furnitures.includes(item)) {
-            this.furnitures.push(item);
+        if (!this.boxs.includes(item)) {
+            this.boxs.push(item);
             //don't call delegates here
             //bc the item is still in the room, just organized differently
         }
@@ -87,7 +87,7 @@ class Room extends Block {
     prepareForSave() {
         const room = this;
         //remove empty groups
-        this.furnitures = this.furnitures.filter(f => !f.isKitBash || f.items.length > 0);
+        this.boxs = this.boxs.filter(f => !f.isKitBash || f.items.length > 0);
     }
 }
 
@@ -112,19 +112,19 @@ function inflateRoom(room) {
     backwardsCompatifyRoom(room);
 
     //Box
-    for (let furniture of room.furnitures) {
+    for (let box of room.boxs) {
         //Both
-        furniture.room = room;
+        box.room = room;
         //KitBash
-        if (furniture._items) {
+        if (box._items) {
             //inflate
-            inflateKitBash(furniture);
-            furniture.onItemAdded.add(room.bind_groupItemAdded);
-            furniture.onItemRemoved.add(room.bind_groupItemRemoved);
+            inflateKitBash(box);
+            box.onItemAdded.add(room.bind_groupItemAdded);
+            box.onItemRemoved.add(room.bind_groupItemRemoved);
         }
         //Box
         else {
-            inflateBox(furniture);
+            inflateBox(box);
         }
     }
 

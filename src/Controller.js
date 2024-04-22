@@ -94,7 +94,7 @@ class Controller {
         this.origMouse = copyObject(this.mouse, mouseDragStringify);
         let targetHit = this.getObjectHitAtMousePos();
         let targetBox = targetHit?.object;
-        let target = targetBox?.furniture;
+        let target = targetBox?.box;
         //if an object was clicked on
         if (target) {
             let targetFace = targetHit.face.materialIndex;
@@ -114,13 +114,13 @@ class Controller {
                         this.deselectObject(target, !onlySelectButton);
                         //check if there's no other face selected now
                         if (uiVars.viewPanelFace) {
-                            if (!uiVars.selector.some(c => c.furniture.validFaceIndex(c.face))) {
+                            if (!uiVars.selector.some(c => c.box.validFaceIndex(c.face))) {
                                 let stayInFaceEditModeWhenDeselectLastFace = false;//TODO: make this a user setting
                                 //Select other face
                                 if (stayInFaceEditModeWhenDeselectLastFace) {
                                     let prevFace = context.face;
                                     let newContext = uiVars.selector.first;
-                                    if (!newContext.furniture.validFaceIndex(prevFace)) {
+                                    if (!newContext.box.validFaceIndex(prevFace)) {
                                         prevFace = 2;
                                     }
                                     newContext.face = prevFace;
@@ -192,7 +192,7 @@ class Controller {
             }
             else {
                 let targetHit = this.getObjectHitAtMousePos();
-                let target = targetHit?.object?.furniture;
+                let target = targetHit?.object?.box;
                 //if an object was clicked on
                 if (target) {
                     //if the object is selected
@@ -200,14 +200,14 @@ class Controller {
                     if (context) {
                         let faceChanged = false;
                         //if its part of group, select this one
-                        if (context.furniture != target) {
+                        if (context.box != target) {
                             //unhighlight prev face
                             let prevFace = context.face;
                             context.face = -2;
                             this.updateFaceSelection();
                             context.face = prevFace;
                             //select this mesh as the target
-                            context.furniture = target;
+                            context.box = target;
                             context.grabInfo();
                             faceChanged = true;
                         }
@@ -250,8 +250,8 @@ class Controller {
         //Altitude
         if (state.mouse.lmbDown || event.altKey) {
             uiVars.selector.forEach(c => {
-                let furniture = c.obj;
-                this.setBoxAltitude(furniture, furniture.altitude + zoomDelta);
+                let box = c.obj;
+                this.setBoxAltitude(box, box.altitude + zoomDelta);
             });
             //record undo
             undoMan.recordUndo("change object altitude");
@@ -307,10 +307,10 @@ class Controller {
         if (obj.isKitBash) {
             selectContext.kitbash = obj;
             let items = obj.items;
-            selectContext.furniture = items[0];
+            selectContext.box = items[0];
         }
         else {
-            selectContext.furniture = obj;
+            selectContext.box = obj;
             let group = obj.group;
             if (group && selectGroups) {
                 selectContext.obj = group;
@@ -327,7 +327,7 @@ class Controller {
     sortSelected() {
         //sort selected
         uiVars.selector.sort((c1, c2) => (
-            c1.furniture.validFaceIndex(c1.face) && !c2.furniture.validFaceIndex(c2.face)) ? -1 : 0
+            c1.box.validFaceIndex(c1.face) && !c2.box.validFaceIndex(c2.face)) ? -1 : 0
         );
     }
 
@@ -356,7 +356,7 @@ class Controller {
                 this.selectObject(
                     item,
                     true,
-                    (item == context.furniture) ? context.face : undefined,
+                    (item == context.box) ? context.face : undefined,
                     false
                 );
             })
@@ -388,7 +388,7 @@ class Controller {
 
     getSelectContext(obj) {
         return uiVars.selector.find(c => c.obj === obj)
-            || uiVars.selector.find(c => c.furniture == obj)
+            || uiVars.selector.find(c => c.box == obj)
             || uiVars.selector.find(c => c.obj.has?.(obj));
     }
 
@@ -415,7 +415,7 @@ class Controller {
                 return;
             }
             //early exit: no face selected on this object
-            if (!context.furniture.validFaceIndex(context.face)) {
+            if (!context.box.validFaceIndex(context.face)) {
                 return;
             }
             //
@@ -446,14 +446,14 @@ class Controller {
                         context.face = prevFace;
                         //select next object
                         let group = context.obj;
-                        let nextF = group.nextItem(context.furniture, dir);
+                        let nextF = group.nextItem(context.box, dir);
                         let indexF = group.indexOf(nextF);
                         context.face = FACE_DEFAULT;
                         //TODO: put this back in after group refactor is complete
                         // context.face = (dir > 0)
                         //     ? (indexF == 0) ? FACE_DEFAULT : min
                         //     : context.face = (indexF == group.count - 1) ? FACE_DEFAULT : max;
-                        context.furniture = nextF;
+                        context.box = nextF;
                         context.grabInfo();
                     }
                     //just mesh
@@ -463,7 +463,7 @@ class Controller {
                 }
             }
                 //check for valid face
-                let faceDim = context.furniture.getFaceDimensions(context.face);
+                let faceDim = context.box.getFaceDimensions(context.face);
                 validFace = context.face === FACE_DEFAULT || (faceDim.x > 0 && faceDim.y > 0);
             }
         });
@@ -493,29 +493,29 @@ class Controller {
         });
     }
 
-    setBoxPosition(furniture, position) {
-        let min = furniture.room.min;
-        let max = furniture.room.max;
+    setBoxPosition(box, position) {
+        let min = box.room.min;
+        let max = box.room.max;
         position.x = Math.clamp(position.x, min.x, max.x);
         position.z = Math.clamp(position.z, min.z, max.z);
         // position.z = -Math.clamp(position.z, min.z, max.z);
-        furniture.position = position;
+        box.position = position;
     }
 
-    setBoxAltitude(furniture, altitude) {
-        furniture.altitude = Math.clamp(
+    setBoxAltitude(box, altitude) {
+        box.altitude = Math.clamp(
             altitude,
-            furniture.room.min.y,
-            furniture.room.max.y - furniture.height
+            box.room.min.y,
+            box.room.max.y - box.height
         );
     }
 
-    setBoxAngle(furniture, angle) {
-        furniture.angle = loopAngle(angle);
+    setBoxAngle(box, angle) {
+        box.angle = loopAngle(angle);
     }
 
-    setBoxRecline(furniture, recline) {
-        furniture.recline = Math.clamp(recline, -90, 90);
+    setBoxRecline(box, recline) {
+        box.recline = Math.clamp(recline, -90, 90);
     }
 
     getMouseWorld(mouse) {

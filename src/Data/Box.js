@@ -88,15 +88,15 @@ class Box extends Block {
     }
 }
 
-function inflateBox(furniture) {
+function inflateBox(box) {
 
-    let inflated = inflateObject(furniture, Box.prototype, ["onFaceChanged"]);
+    let inflated = inflateObject(box, Box.prototype, ["onFaceChanged"]);
     if (!inflated) { return; }
-    inflateBlock(furniture);
+    inflateBlock(box);
 
-    backwardsCompatifyBox(furniture);
+    backwardsCompatifyBox(box);
 
 }
 
-function backwardsCompatifyBox(furniture) {
+function backwardsCompatifyBox(box) {
 }

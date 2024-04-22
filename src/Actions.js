@@ -12,7 +12,7 @@ function actionImportBox() {
     el.addEventListener('change', (event) => {
         flm.handleFiles(el.files);
         //record undo
-        undoMan.recordUndo("import furniture");
+        undoMan.recordUndo("import box");
     });
 
     el.click(); // open
@@ -20,18 +20,18 @@ function actionImportBox() {
 }
 
 function actionExportBox() {
-    let furnitures = uiVars.selector.map(context => context.obj);
-    if (furnitures.length === 0) {
+    let boxs = uiVars.selector.map(context => context.obj);
+    if (boxs.length === 0) {
         //Do nothing
         return;
     }
     //Init savable object
     let listObj = {};
-    listObj.list = furnitures;
+    listObj.list = boxs;
     //Determine filename
     let filename = "";
-    for (let i = 0; i < furnitures.length; i++) {
-        let name = furnitures[i].name;
+    for (let i = 0; i < boxs.length; i++) {
+        let name = boxs[i].name;
         if (!isEmpty(name)) {
             filename += name + ", ";
             break;
@@ -40,7 +40,7 @@ function actionExportBox() {
     if (filename.endsWith(", ")) {
         filename = filename.substring(0, filename.length - 2);
     }
-    filename ||= "furniture";
+    filename ||= "box";
     //make json
     let json = JSON.stringify(
         listObj,
@@ -79,7 +79,7 @@ function actionExportRoom() {
 function actionSelectAll() {
     let room = house.rooms[0];//dirty: hard-coded room
     uiVars.selector.clear();
-    room.furnitures.forEach(f => {
+    room.boxs.forEach(f => {
         controllerEdit.selectObject(f, true, -2, true);
     });
     player.animate();
@@ -94,7 +94,7 @@ function actionSelectPieces() {
         if (c.obj.isKitBash) {
             return c.obj.items.map(f => {
                 let sc = new SelectContext(f);
-                sc.furniture = f;
+                sc.box = f;
                 sc.grabInfo();
                 return sc;
             });
@@ -143,17 +143,17 @@ function actionObjectCreateBlankFlatFloor() {
 }
 
 function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
-    let furniture = new Box(PIXEL_WHITE);
-    furniture.name = objName;
-    processFunc(furniture);
+    let box = new Box(PIXEL_WHITE);
+    box.name = objName;
+    processFunc(box);
     let room = house.rooms[0];//dirty: hardcoded which room to add to
-    room.addBox(furniture);
-    //Select new furniture
-    controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
-    //Position new furniture
+    room.addBox(box);
+    //Select new box
+    controllerEdit.selectObject(box, false, FACE_DEFAULT);
+    //Position new box
     let point = controllerEdit.getHitAtMousePos()?.point;
     if (point) {
-        furniture.position = point;
+        box.position = point;
     }
     // //focus field
     // $("txtWidth").focus();
@@ -162,14 +162,14 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
 }
 
 function actionObjectsCreateSkirt() {
-    let furnitures = [];
+    let boxs = [];
     const count = 4;
     for (let i = 0; i < count; i++) {
-        let furniture = new Box(PIXEL_WHITE);
-        furniture.name = `skirt wall ${i + 1}/${count}`;
-        furniture.depth = 0;
-        furniture.angle = i * 90;
-        furniture.position = new Vector3(
+        let box = new Box(PIXEL_WHITE);
+        box.name = `skirt wall ${i + 1}/${count}`;
+        box.depth = 0;
+        box.angle = i * 90;
+        box.position = new Vector3(
             (i % 2 == 0)
                 ? 0
                 : 0.5 * -Math.sign(i - 1.5),
@@ -178,14 +178,14 @@ function actionObjectsCreateSkirt() {
                 ? 0.5 * -Math.sign(i - 1.5)
                 : 0
         );//dirty: assumes 4 sides
-        furnitures.push(furniture);
+        boxs.push(box);
     }
     //Group
     let room = house.rooms[0];//dirty: hardcoded which room to add to
-    let group = room.group(furnitures);
-    //Select new furniture
+    let group = room.group(boxs);
+    //Select new box
     controllerEdit.selectObject(group, false, undefined, true);
-    //Position new furniture
+    //Position new box
     let point = controllerEdit.getHitAtMousePos()?.point;
     if (point) {
         group.position = point;
@@ -206,7 +206,7 @@ function actionObjectsDuplicate() {
         inflateData(newF);
         //Data
         room.addBox(newF);
-        //Select new furniture
+        //Select new box
         controllerEdit.selectObject(newF, true);
         //make it easier to find the new duplicate in the scene
         let offset = new Vector3(0.5, 0, 0.5);
@@ -232,10 +232,10 @@ function actionObjectsDelete() {
 function actionObjectsGroup() {
     let room = house.rooms[0];
     //remove from existing
-    let furnitures = uiVars.selector.map(c => c.furniture);
-    furnitures.forEach(f => f.group?.remove(f));
+    let boxs = uiVars.selector.map(c => c.box);
+    boxs.forEach(f => f.group?.remove(f));
     //add to new
-    let group = room.group(furnitures);
+    let group = room.group(boxs);
     //early exit: group wasn't made (ex: if there was only one object)
     if (!group) { return; }
     //select group
@@ -245,8 +245,8 @@ function actionObjectsGroup() {
 }
 function actionObjectsUngroup() {
     //remove from existing
-    let furnitures = uiVars.selector.map(c => c.furniture);
-    furnitures.forEach(f => f.group?.remove(f));
+    let boxs = uiVars.selector.map(c => c.box);
+    boxs.forEach(f => f.group?.remove(f));
     //
     uiVars.selector.clear();
     //record undo

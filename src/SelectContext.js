@@ -2,7 +2,7 @@
 
 const stringifySelectContext = [
     "uid_obj",
-    "uid_furniture",
+    "uid_box",
     "uid_kitbash",
     "face",
 ]
@@ -10,7 +10,7 @@ const stringifySelectContext = [
 class SelectContext {
     constructor(select, face = -2) {
         this.obj = select;
-        this.furniture = undefined;
+        this.box = undefined;
         this.kitbash = undefined;
         this.mesh = undefined;
         this.meshes = undefined;
@@ -25,12 +25,12 @@ class SelectContext {
 
     grabIds() {
         this.uid_obj = this.obj.uid;
-        this.uid_furniture = this.furniture?.uid;
+        this.uid_box = this.box?.uid;
         this.uid_kitbash = this.kitbash?.uid;
     }
 
     grabBoxes() {
-        this.mesh = getBox(this.furniture ?? this.kitbash?.items[0] ?? this.obj);
+        this.mesh = getBox(this.box ?? this.kitbash?.items[0] ?? this.obj);
         this.meshes = getBoxes(this.kitbash?.items);
         if (this.meshes.length == 0) {
             this.meshes = [this.mesh];
@@ -44,10 +44,10 @@ class SelectContext {
             let obj = uiVars.findUid(house, uid);
             this.obj = obj;
         }
-        if (this.uid_furniture) {
-            let uid = this.uid_furniture;
+        if (this.uid_box) {
+            let uid = this.uid_box;
             let obj = uiVars.findUid(house, uid);
-            this.furniture = obj;
+            this.box = obj;
         }
         if (this.uid_kitbash) {
             let uid = this.uid_kitbash;

@@ -102,14 +102,14 @@ class ControllerImageEdit {
 
     updateImage(context) {
         if (!context) { return; }
-        let furniture = context.furniture;
+        let box = context.box;
         let faceIndex = context.face;
-        if (!furniture.validFaceIndex(faceIndex)) { return; }
-        let imageURL = furniture.getFace(faceIndex);
+        if (!box.validFaceIndex(faceIndex)) { return; }
+        let imageURL = box.getFace(faceIndex);
         if (isValidImage(imageURL)) {
             this.setImage(imageURL);
         }
-        this.targetDimensions = furniture.getFaceDimensions(faceIndex);
+        this.targetDimensions = box.getFaceDimensions(faceIndex);
         this.targetDimensions.x ||= this.defaultTargetDimensions.x;
         this.targetDimensions.y ||= this.defaultTargetDimensions.y;
     }

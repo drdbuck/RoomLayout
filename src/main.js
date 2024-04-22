@@ -231,34 +231,34 @@ function hookupDelegates() {
             return;
         }
         //Data
-        let furniture = new Box(image.src);
-        furniture.name = image.name;
-        uiVars.giveUids(furniture);
+        let box = new Box(image.src);
+        box.name = image.name;
+        uiVars.giveUids(box);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
-        room.addBox(furniture);
-        //Select new furniture
-        controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
-        //Position new furniture
+        room.addBox(box);
+        //Select new box
+        controllerEdit.selectObject(box, false, FACE_DEFAULT);
+        //Position new box
         let point = controllerEdit.getHitAtMousePos()?.point;
         if (point) {
-            furniture.position = point;
+            box.position = point;
         }
         // //focus field
         // $("txtWidth").focus();
     });
 
-    //Upload new furniture
-    flm.onBoxUploaded.add((furniture) => {
+    //Upload new box
+    flm.onBoxUploaded.add((box) => {
         //Data
-        uiVars.giveUids(furniture);
+        uiVars.giveUids(box);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
-        room.addBox(furniture);
-        //Select new furniture
-        controllerEdit.selectObject(furniture, false);
-        //Position new furniture
+        room.addBox(box);
+        //Select new box
+        controllerEdit.selectObject(box, false);
+        //Position new box
         let point = controllerEdit.getHitAtMousePos()?.point;
         if (point) {
-            furniture.position = point;
+            box.position = point;
         }
     });
 
@@ -313,19 +313,19 @@ function hookupDelegatesMenu() {
     });
 }
 
-function getBox(furniture) {
+function getBox(box) {
     return player.scene.children
         .map(c => c?.children?.[0])
         .filter(c => c)
-        .find(mesh => mesh.furniture == furniture);
+        .find(mesh => mesh.box == box);
 }
 
-function getBoxes(furnitures) {
-    if (!(furnitures?.length > 0)) { return []; }
+function getBoxes(boxs) {
+    if (!(boxs?.length > 0)) { return []; }
     return player.scene.children
         .map(c => c?.children?.[0])
         .filter(c => c)
-        .filter(mesh => mesh.furniture && furnitures.includes(mesh.furniture))
+        .filter(mesh => mesh.box && boxs.includes(mesh.box))
 }
 
 function inflateData(data) {
@@ -333,7 +333,7 @@ function inflateData(data) {
         //House
         case !!data.rooms: inflateHouse(data); return;
         //Room
-        case !!data.furnitures: inflateRoom(data); return;
+        case !!data.boxs: inflateRoom(data); return;
         //KitBash
         case !!data._items: inflateKitBash(data); return;
         //Box
@@ -435,8 +435,8 @@ function uploadFace(image) {
     uiVars.selector.forEach(context => {
         let index = context.face;
         if (index == -2) { return; }
-        let furniture = context.furniture;
-        furniture.setFace(index, image.src);
+        let box = context.box;
+        box.setFace(index, image.src);
     });
 };
 

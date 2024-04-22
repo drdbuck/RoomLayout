@@ -1,7 +1,7 @@
 "use strict";
 //2024-01-04: copied from CalendarJournal
 
-const EXTENSION_FURNITURE = "frn";//furniture file extension
+const EXTENSION_FURNITURE = "frn";//box file extension
 const EXTENSION_ROOM = "room";//room file extension
 
 const imageFileTypes = [
@@ -46,7 +46,7 @@ class FileManager {
 
         //Delegate initialization
         this.onImageUploaded = new Delegate();//param: image
-        this.onBoxUploaded = new Delegate();//param: furniture
+        this.onBoxUploaded = new Delegate();//param: box
         this.onRoomUploaded = new Delegate("room");
         this.onJsonUploaded = new Delegate();//param: json
     }
@@ -153,14 +153,14 @@ class FileManager {
             let json = reader.result;
             let furnitueObj = JSON.parse(json);
             if (!furnitueObj) {
-                console.error("Unable to parse furniture list!", file.name, json);
+                console.error("Unable to parse box list!", file.name, json);
                 callback();
                 return;
             }
-            for (let furniture of furnitueObj.list) {
-                inflateData(furniture);
+            for (let box of furnitueObj.list) {
+                inflateData(box);
                 //Run delegate
-                flm.onBoxUploaded.run(furniture);
+                flm.onBoxUploaded.run(box);
             }
             callback();
         }

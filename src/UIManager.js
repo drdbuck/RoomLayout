@@ -1,7 +1,7 @@
 "use strict";
 
 let _contexts = [];//dirty
-let _furnitures = [];//dirty
+let _boxs = [];//dirty
 let _faces = [];//dirty
 const reduceFunc = (a, b) => (a === b) ? a : undefined;
 const inequal = "---";
@@ -182,8 +182,8 @@ function updateBoxEditPanel(contexts) {
     //defaults
     _contexts = contexts ?? _contexts;
     contexts ??= _contexts;
-    _furnitures = contexts?.map(c => c.obj);
-    _faces = contexts?.filter(c => c.furniture.validFaceIndex(c.face)).map(c => c.face);
+    _boxs = contexts?.map(c => c.obj);
+    _faces = contexts?.filter(c => c.box.validFaceIndex(c.face)).map(c => c.face);
 
     //check if panel should be shown
     let showPanel = uiVars.editObjects;
@@ -198,7 +198,7 @@ function updateBoxEditPanel(contexts) {
 
     $("hEditBox").innerHTML = `Edit ${(_contexts.every(c => c.obj.isKitBash)) ? "Group" : "Box"}`;
 
-    let flist = _furnitures;
+    let flist = _boxs;
 
     //Name
     $("txtName").disabled = !(contexts.length == 1);
@@ -220,19 +220,19 @@ function updateBoxEditPanel(contexts) {
     //
 }
 
-function registerUIDelegates(furniture, register) {
+function registerUIDelegates(box, register) {
     if (register) {
-        furniture.onSizeChanged.add(updateBoxEditPanel);
-        furniture.onPositionChanged.add(updateBoxEditPanel);
-        furniture.onAngleChanged.add(updateBoxEditPanel);
-        furniture.onFaceChanged.add(updateFaceEditPanel);
+        box.onSizeChanged.add(updateBoxEditPanel);
+        box.onPositionChanged.add(updateBoxEditPanel);
+        box.onAngleChanged.add(updateBoxEditPanel);
+        box.onFaceChanged.add(updateFaceEditPanel);
     }
     else {
-        if (!furniture.onSizeChanged) { return; }
-        furniture.onSizeChanged.remove(updateBoxEditPanel);
-        furniture.onPositionChanged.remove(updateBoxEditPanel);
-        furniture.onAngleChanged.remove(updateBoxEditPanel);
-        furniture.onFaceChanged.remove(updateFaceEditPanel);
+        if (!box.onSizeChanged) { return; }
+        box.onSizeChanged.remove(updateBoxEditPanel);
+        box.onPositionChanged.remove(updateBoxEditPanel);
+        box.onAngleChanged.remove(updateBoxEditPanel);
+        box.onFaceChanged.remove(updateFaceEditPanel);
     }
 }
 
@@ -278,11 +278,11 @@ function updateFaceEditPanel(faces) {
     //divFaceDrop
     let usingImage = false;
     let divhtml = "<label>Error: This element couldn't be displayed</label>";
-    let faceContexts = _contexts.filter(c => c.furniture.validFaceIndex(c.face));//dirty: using stored _contexts
+    let faceContexts = _contexts.filter(c => c.box.validFaceIndex(c.face));//dirty: using stored _contexts
     let imageURLs = faceContexts
         .map(c => {
-            let furniture = c.furniture;
-            return furniture.getFace(c.face);
+            let box = c.box;
+            return box.getFace(c.face);
         })
         .filter(url => isValidImage(url));
     //Images exist
@@ -310,30 +310,30 @@ function updateFaceEditPanel(faces) {
         const maxSuggestions = 4;
         //last image
         _contexts.forEach(context => {//dirty: using _contexts
-            let f = context.furniture;
+            let f = context.box;
             suggest.push(f.lastImage);
         });
         //image from other side
         _contexts.forEach(context => {//dirty: using _contexts
             if (context.face < 0) { return; }
-            let f = context.furniture;
+            let f = context.box;
             let flipFace = context.face + ((context.face % 2 == 0) ? 1 : -1);
             let flipURL = f.getFace(flipFace);
             suggest.push(flipURL);
         });
         //default face image
         _contexts.forEach(context => {//dirty: using _contexts
-            let f = context.furniture;
+            let f = context.box;
             suggest.push(f.defaultFace);
         });
         //images from other sides
         _contexts.forEach(context => {//dirty: using _contexts
-            let f = context.furniture;
+            let f = context.box;
             f.faceList.forEach(face => suggest.push(face));
         });
         //images from other meshes in same group
         _contexts.forEach(context => {//dirty: using _contexts
-            context.furniture.group?.items.forEach(item => {
+            context.box.group?.items.forEach(item => {
                 item.faceList.forEach(face => suggest.push(face));
             });
         });
@@ -346,7 +346,7 @@ function updateFaceEditPanel(faces) {
             //only get first few suggestions
             // .slice(0, maxSuggestions)
             //convert to html img element
-            //uiVars.selector.forEach(c => c.furniture.setFace(c.face, url));
+            //uiVars.selector.forEach(c => c.box.setFace(c.face, url));
             .map(url => `<img src='${url}' class="selectableImage"
                 onclick="btnUseSuggestedImage(this.src);"
             />`)
@@ -364,12 +364,12 @@ function updateFaceEditPanel(faces) {
     //
     let showFaceEdit = usingImage && uiVars.viewPanelFaceEdit;
     if (showFaceEdit) {
-        controllerImageEdit.updateImage(_contexts.find(c => c.furniture.validFaceIndex(c.face)));//dirty: _contexts
+        controllerImageEdit.updateImage(_contexts.find(c => c.box.validFaceIndex(c.face)));//dirty: _contexts
     }
     $("divImageEdit").hidden = !showFaceEdit;
     $("btnPanelFaceEdit").hidden = !usingImage;
-    $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.furniture._faces[c.face] != PIXEL_TRANSPARENT)
-        || usingImage && _contexts.find(c => c.furniture.validFaceIndex(c.face))?.face >= 0
+    $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.box._faces[c.face] != PIXEL_TRANSPARENT)
+        || usingImage && _contexts.find(c => c.box.validFaceIndex(c.face))?.face >= 0
     );//dirty: _contexts
     $("btnFaceClear").innerHTML = (usingImage) ? "Clear Face" : "Make Transparent";
 }
@@ -405,8 +405,8 @@ function btnExitFaceEdit() {
 
 function btnUseSuggestedImage(imgURL) {
     uiVars.selector.forEach(c => {
-        if (!c.furniture.validFaceIndex(c.face)) { return; }
-        let f = c.furniture;
+        if (!c.box.validFaceIndex(c.face)) { return; }
+        let f = c.box;
         f.setFace(c.face, imgURL);
     });
     uiVars.viewPanelFaceEdit = true;
@@ -417,8 +417,8 @@ function btnUseSuggestedImage(imgURL) {
 
 function btnUseDefaultImage() {
     uiVars.selector.forEach(c => {
-        if (!c.furniture.validFaceIndex(c.face)) { return; }
-        let f = c.furniture;
+        if (!c.box.validFaceIndex(c.face)) { return; }
+        let f = c.box;
         f.setFace(c.face, f.defaultFace);
     });
     //record undo
@@ -435,7 +435,7 @@ function btnFlipY() {
 
 function btnFlip(flipX, flipY) {
     uiVars.selector.forEach(c => {
-        let f = c.furniture;
+        let f = c.box;
         let faceIndex = c.face;
         if (!f.validFaceIndex(faceIndex)) { return; }
         let imageURL = f.getFace(faceIndex);
@@ -463,7 +463,7 @@ function btnRotateRight() {
 }
 function btnRotate(degrees) {
     uiVars.selector.forEach(c => {
-        let f = c.furniture;
+        let f = c.box;
         let faceIndex = c.face;
         if (!f.validFaceIndex(faceIndex)) { return; }
         let imageURL = f.getFace(faceIndex);
@@ -485,7 +485,7 @@ function btnRotate(degrees) {
 
 function cropCanvasChanged(url) {
     uiVars.selector.forEach(c => {
-        let f = c.furniture;
+        let f = c.box;
         let faceIndex = c.face;
         if (!f.validFaceIndex(faceIndex)) { return; }
         f.setFace(faceIndex, url);
@@ -514,8 +514,8 @@ function btnFaceErase() {
 
 function btnFaceClear() {
     uiVars.selector.forEach(c => {
-        if (!c.furniture.validFaceIndex(c.face)) { return; }
-        let f = c.furniture;
+        if (!c.box.validFaceIndex(c.face)) { return; }
+        let f = c.box;
         f.setFace(c.face, PIXEL_TRANSPARENT);
     });
     uiVars.viewPanelFaceEdit = false;
