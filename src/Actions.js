@@ -147,7 +147,7 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
     box.name = objName;
     processFunc(box);
     let room = house.rooms[0];//dirty: hardcoded which room to add to
-    room.addBox(box);
+    room.addFurniture(box);
     //Select new box
     controllerEdit.selectObject(box, false, FACE_DEFAULT);
     //Position new box
@@ -205,7 +205,7 @@ function actionObjectsDuplicate() {
         let newF = JSON.parse(JSON.stringify(f, stringify));
         inflateData(newF);
         //Data
-        room.addBox(newF);
+        room.addFurniture(newF);
         //Select new box
         controllerEdit.selectObject(newF, true);
         //make it easier to find the new duplicate in the scene
@@ -222,7 +222,7 @@ function actionObjectsDelete() {
     uiVars.selector.clear();
     delList.forEach(c => {
         let f = c.obj;
-        f.room.removeBox(f);
+        f.room.removeFurniture(f);
         c.meshes.forEach(mesh => mesh.parent.remove(mesh));
     });
     //record undo

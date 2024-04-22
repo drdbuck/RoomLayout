@@ -10,15 +10,15 @@ class Room extends Block {
 
         this.furnitures = [];
 
-        this.onFurnitureAdded = new Delegate("box");
-        this.onFurnitureRemoved = new Delegate("box");
+        this.onFurnitureAdded = new Delegate("furniture");
+        this.onFurnitureRemoved = new Delegate("furniture");
         this.onFurnituresChanged = new Delegate("furnitures");
 
         this.bind_groupItemAdded = this._groupItemAdded.bind(this);
         this.bind_groupItemRemoved = this._groupItemRemoved.bind(this);
     }
 
-    addBox(box) {
+    addFurniture(box) {
         //early exit: invalid box
         if (!box) { return; }
         //
@@ -38,7 +38,7 @@ class Room extends Block {
         }
     }
 
-    removeBox(box) {
+    removeFurniture(box) {
         if (box?.room == this) {
             box.room = undefined;
             if (box.isKitBash) {
@@ -62,7 +62,7 @@ class Room extends Block {
         if (!(furnitures.length >= 1)) { return; }
         //
         let group = new KitBash(furnitures);
-        this.addBox(group);
+        this.addFurniture(group);
         //remove furnitures from list
         furnitures.forEach(f => this._groupItemAdded(f));
         //

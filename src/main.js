@@ -235,7 +235,7 @@ function hookupDelegates() {
         box.name = image.name;
         uiVars.giveUids(box);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
-        room.addBox(box);
+        room.addFurniture(box);
         //Select new box
         controllerEdit.selectObject(box, false, FACE_DEFAULT);
         //Position new box
@@ -252,7 +252,7 @@ function hookupDelegates() {
         //Data
         uiVars.giveUids(box);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
-        room.addBox(box);
+        room.addFurniture(box);
         //Select new box
         controllerEdit.selectObject(box, false);
         //Position new box
