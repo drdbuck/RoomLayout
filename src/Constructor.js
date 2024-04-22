@@ -368,12 +368,12 @@ function createInsideFaces(mesh, box) {
     const meshMaterials = createMaterials(box.faceList, 6, box.defaultFace, false);
 
     //create mesh
-    const mesh = new Mesh(meshGeometry, meshMaterials);
-    mesh.layers.set(effectMask);
+    const insideMesh = new Mesh(meshGeometry, meshMaterials);
+    insideMesh.layers.set(effectMask);
 
-    mesh.position.copy(mesh.position);
-    mesh.scale.copy(mesh.scale);
-    mesh.rotation.copy(mesh.rotation);
+    insideMesh.position.copy(mesh.position);
+    insideMesh.scale.copy(mesh.scale);
+    insideMesh.rotation.copy(mesh.rotation);
 
-    return mesh;
+    return insideMesh;
 }
