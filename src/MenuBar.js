@@ -56,7 +56,7 @@ const menuBarData = {
         "Group Objects %g": {
             action: "actionObjectsGroup();",
             listen: ["select"],
-            update: "menuUpdateSelectMinimum(_, 2);",
+            update: "menuUpdateSelectMinimum(_);",
         },
         "Ungroup Objects %#g": {
             action: "actionObjectsUngroup();",
