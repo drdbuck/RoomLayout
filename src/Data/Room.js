@@ -80,6 +80,11 @@ class Room extends Block {
             //don't call delegates here
             //bc the item is still in the room, just organized differently
         }
+        else {
+            item.room = this;
+            this.onFurnitureAdded.run(item);
+            this.onFurnituresChanged.run([...this.furnitures]);
+        }
     }
     _groupItemRemoved(item) {
         if (!this.furnitures.includes(item)) {

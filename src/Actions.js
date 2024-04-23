@@ -146,10 +146,18 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
     let box = new Box(PIXEL_WHITE);
     box.name = objName;
     processFunc(box);
-    let room = house.rooms[0];//dirty: hardcoded which room to add to
-    room.addFurniture(box);
+    //find selected group
+    let group = uiVars.selector.find(c => c.kitbash)?.kitbash;
+    //
+    if (group) {
+        group.add(box);
+    }
+    else {
+        let room = house.rooms[0];//dirty: hardcoded which room to add to
+        room.addFurniture(box);
+    }
     //Select new box
-    controllerEdit.selectObject(box, false, FACE_DEFAULT);
+    controllerEdit.selectObject(box, false, FACE_DEFAULT, false);
     //Position new box
     let point = controllerEdit.getHitAtMousePos()?.point;
     if (point) {
@@ -181,10 +189,19 @@ function actionObjectsCreateSkirt() {
         furnitures.push(box);
     }
     //Group
-    let room = house.rooms[0];//dirty: hardcoded which room to add to
-    let group = room.group(furnitures);
+    //find selected group
+    let group = uiVars.selector.find(c => c.kitbash)?.kitbash;
+    let newGroup = !group;
+    //
+    if (group) {
+        group.add(furnitures);
+    }
+    else {
+        let room = house.rooms[0];//dirty: hardcoded which room to add to
+        group = room.group(furnitures);
+    }
     //Select new box
-    controllerEdit.selectObject(group, false, undefined, true);
+    controllerEdit.selectObject(group, false, undefined, newGroup);
     //Position new box
     let point = controllerEdit.getHitAtMousePos()?.point;
     if (point) {
