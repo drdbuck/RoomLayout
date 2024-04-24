@@ -2,22 +2,29 @@
 
 let stringifyBox = [
     "_faces",
-    "defaultFace",
 ];
 
 const FACE_DEFAULT = -1;
 
 class Box extends Block {
-    constructor(imageURL, width = 1, length = 1, height = 1) {
+    constructor(width = 1, length = 1, height = 1) {
         super(new Vector3(width, height, length));
 
         this._faces = [];
-        this.defaultFace = imageURL;
 
         this.onFaceChanged = new Delegate("index", "imageURL");
 
         //processing variables
         this.lastImage = undefined;
+    }
+
+    get defaultFace() {
+        if (!this.group) {
+            console.error("box with no group!", this.name);
+        }
+        return this.group?.defaultFace
+            ?? this.defaultFace //semi backwards compatibility
+            ?? PIXEL_WHITE;
     }
 
     get faceList() {
@@ -38,10 +45,7 @@ class Box extends Block {
         }
         //
         if (index == FACE_DEFAULT) {
-            if (!isValidImage(imageURL) && this.defaultFace) {
-                this.lastImage = this.defaultFace;
-            }
-            this.defaultFace = imageURL;
+            console.error("cant set default face on box! must set on group", index, this.name);
         }
         else {
             if (!isValidImage(imageURL) && this._faces[index]) {

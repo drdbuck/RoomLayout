@@ -2,13 +2,20 @@
 
 const stringifyKitBash = [
     "_items",
+    "defaultFace",
 ];
 
 class KitBash extends Block {
-    constructor(items = []) {
+    constructor(items = [], imageURL) {
         super();
 
         this.isKitBash = true;
+        this.defaultFace = imageURL
+            ?? items
+                .map(box => box._faces)
+                .flat(Infinity)
+                .find(iu => iu)
+            ?? PIXEL_WHITE;
 
         //Delegates
         this.onItemAdded = new Delegate("item");
