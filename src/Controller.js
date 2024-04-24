@@ -448,11 +448,9 @@ class Controller {
                             let group = context.obj;
                             let nextF = group.nextItem(context.box, dir);
                             let indexF = group.indexOf(nextF);
-                            context.face = FACE_DEFAULT;
-                            //TODO: put this back in after group refactor is complete
-                            // context.face = (dir > 0)
-                            //     ? (indexF == 0) ? FACE_DEFAULT : min
-                            //     : context.face = (indexF == group.count - 1) ? FACE_DEFAULT : max;
+                            context.face = (dir > 0)
+                                ? (indexF == 0) ? FACE_DEFAULT : min
+                                : context.face = (indexF == group.count - 1) ? FACE_DEFAULT : max;
                             context.box = nextF;
                             context.grabInfo();
                         }
