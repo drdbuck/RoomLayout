@@ -249,8 +249,8 @@ function actionObjectsDelete() {
 function actionObjectsGroup() {
     let room = house.rooms[0];
     //remove from existing
-    let furnitures = uiVars.selector.map(c => c.box);
-    furnitures.forEach(f => f.group?.remove(f));
+    let boxes = uiVars.selector.map(c => c.box);
+    boxes.forEach(f => f.group?.remove(f));
     //add to new
     let group = room.group(furnitures);
     //early exit: group wasn't made (ex: if there was only one object)
@@ -262,8 +262,8 @@ function actionObjectsGroup() {
 }
 function actionObjectsUngroup() {
     //remove from existing
-    let furnitures = uiVars.selector.map(c => c.box);
-    furnitures.forEach(f => f.group?.remove(f));
+    let boxes = uiVars.selector.map(c => c.box);
+    boxes.forEach(f => f.group?.remove(f));
     //
     uiVars.selector.clear();
     //record undo

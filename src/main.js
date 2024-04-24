@@ -247,18 +247,18 @@ function hookupDelegates() {
         // $("txtWidth").focus();
     });
 
-    //Upload new box
-    flm.onFurnitureUploaded.add((box) => {
+    //Upload new furniture
+    flm.onFurnitureUploaded.add((furniture) => {
         //Data
-        uiVars.giveUids(box);
+        uiVars.giveUids(furniture);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
-        room.addFurniture(box);
-        //Select new box
-        controllerEdit.selectObject(box, false);
-        //Position new box
+        room.addFurniture(furniture);
+        //Select new furniture
+        controllerEdit.selectObject(furniture, false);
+        //Position new furniture
         let point = controllerEdit.getHitAtMousePos()?.point;
         if (point) {
-            box.position = point;
+            furniture.position = point;
         }
     });
 

@@ -63,13 +63,13 @@ class Room extends Block {
     }
 
     group(furnitures) {
-        //early exit: not enough box to make a group
-        if (!(furnitures.length >= 1)) { return; }
         //
         let group = new KitBash(furnitures);
+        //early exit: not enough boxes to make a group
+        if (!(boxes.length >= 1)) { return; }
         this.addFurniture(group);
-        //remove furnitures from list
-        furnitures.forEach(f => this._groupItemAdded(f));
+        //remove boxes from list
+        boxes.forEach(f => this._groupItemAdded(f));
         //
         return group;
     }
