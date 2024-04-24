@@ -463,8 +463,8 @@ class Controller {
                     }
                 }
                 //check for valid face
-                let faceDim = context.box.getFaceDimensions(context.face);
-                validFace = context.face === FACE_DEFAULT || (faceDim.x > 0 && faceDim.y > 0);
+                validFace = context.face === FACE_DEFAULT
+                    || context.box.getValidFaceIndexes().includes(context.face);
             }
         });
         this.updateFaceSelection();

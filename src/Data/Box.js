@@ -83,6 +83,21 @@ class Box extends Block {
         }
     }
 
+    getValidFaceIndexes() {
+        const sideCount = 6;//dirty: assumes 6 sides
+        let validList = [...Array(sideCount).keys()]
+            .map(n => this.getFaceDimensions(n))
+            .map(v => v.x > 0 && v.y > 0)
+            .map((b, i) => (b) ? i : undefined)
+            .filter(i => i >= 0);
+        //if only two valid faces,
+        if (validList.length == 2) {
+            //only keep the one (to avoid user confusion while editing)
+            validList = [validList[0]];
+         }
+        return validList;
+    }
+
     validFaceIndex(index) {
         return index == FACE_DEFAULT || between(index, 0, 6 - 1);//dirty: hardcoding 6-sided shape
     }
