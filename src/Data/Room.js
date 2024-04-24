@@ -23,7 +23,8 @@ class Room extends Block {
         if (!box) { return; }
         //early exit: lonely box
         if (!box.isKitBash) {
-            this.group([box]);
+            console.error("cant add box because it is not a group! call group() instead");
+            this.group(box);
             return;
         }
         //
@@ -62,11 +63,13 @@ class Room extends Block {
         }
     }
 
-    group(furnitures) {
-        //
-        let group = new KitBash(furnitures);
+    group(boxes, imageURL) {
+        //ensure boxes is a (flat) array
+        boxes = [boxes].flat(Infinity);
         //early exit: not enough boxes to make a group
         if (!(boxes.length >= 1)) { return; }
+        //
+        let group = new KitBash(boxes, imageURL);
         this.addFurniture(group);
         //remove boxes from list
         boxes.forEach(f => this._groupItemAdded(f));

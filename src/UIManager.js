@@ -323,7 +323,7 @@ function updateFaceEditPanel(faces) {
         });
         //default face image
         _contexts.forEach(context => {//dirty: using _contexts
-            let f = context.box;
+            let f = context.kitbash ?? context.box;
             suggest.push(f.defaultFace);
         });
         //images from other sides

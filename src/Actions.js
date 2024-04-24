@@ -143,7 +143,7 @@ function actionObjectCreateBlankFlatFloor() {
 }
 
 function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
-    let box = new Box(PIXEL_WHITE);
+    let box = new Box();
     box.name = objName;
     processFunc(box);
     //find selected group
@@ -154,7 +154,7 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
     }
     else {
         let room = house.rooms[0];//dirty: hardcoded which room to add to
-        room.addFurniture(box);
+        group = room.group(box, PIXEL_WHITE);
     }
     //Select new box
     controllerEdit.selectObject(box, false, FACE_DEFAULT, false);
@@ -173,7 +173,7 @@ function actionObjectsCreateSkirt() {
     let furnitures = [];
     const count = 4;
     for (let i = 0; i < count; i++) {
-        let box = new Box(PIXEL_WHITE);
+        let box = new Box();
         box.name = `skirt wall ${i + 1}/${count}`;
         box.depth = 0;
         box.angle = i * 90;
@@ -198,7 +198,7 @@ function actionObjectsCreateSkirt() {
     }
     else {
         let room = house.rooms[0];//dirty: hardcoded which room to add to
-        group = room.group(furnitures);
+        group = room.group(furnitures, PIXEL_WHITE);
     }
     //Select new box
     controllerEdit.selectObject(group, false, undefined, newGroup);
@@ -251,8 +251,11 @@ function actionObjectsGroup() {
     //remove from existing
     let boxes = uiVars.selector.map(c => c.box);
     boxes.forEach(f => f.group?.remove(f));
+    let defaultImage = uiVars.selector
+        .map(c => c.kitbash?.defaultImage)
+        .filter(iu => iu)[0];
     //add to new
-    let group = room.group(furnitures);
+    let group = room.group(boxes, defaultImage);
     //early exit: group wasn't made (ex: if there was only one object)
     if (!group) { return; }
     //select group

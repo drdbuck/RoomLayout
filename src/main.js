@@ -231,13 +231,13 @@ function hookupDelegates() {
             return;
         }
         //Data
-        let box = new Box(image.src);
+        let box = new Box();
         box.name = image.name;
         uiVars.giveUids(box);
         let room = house.rooms[0];//dirty: hardcoded which room to add to
-        room.addFurniture(box);
+        let group = room.group(box, image.src);
         //Select new box
-        controllerEdit.selectObject(box, false, FACE_DEFAULT);
+        controllerEdit.selectObject(group, false, FACE_DEFAULT);
         //Position new box
         let point = controllerEdit.getHitAtMousePos()?.point;
         if (point) {
