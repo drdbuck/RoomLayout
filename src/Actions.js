@@ -19,7 +19,7 @@ function actionImportBox() {
 
 }
 
-function actionExportBox() {
+function actionExportFurniture() {
     let furnitures = uiVars.selector.map(context => context.obj);
     if (furnitures.length === 0) {
         //Do nothing
@@ -40,7 +40,7 @@ function actionExportBox() {
     if (filename.endsWith(", ")) {
         filename = filename.substring(0, filename.length - 2);
     }
-    filename ||= "box";
+    filename ||= "furniture";
     //make json
     let json = JSON.stringify(
         listObj,

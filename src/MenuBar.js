@@ -12,8 +12,8 @@ const menuBarData = {
         "Import": "---",
         "Import File": "actionImportBox();",
         "Export": "---",
-        "Export Box": {
-            action: "actionExportBox();",
+        "Export Furniture": {
+            action: "actionExportFurniture();",
             listen: ["select"],
             update: "menuUpdateSelectMinimum(_);",
         },

@@ -388,7 +388,7 @@ function btnExitBoxEdit() {
 }
 
 function btnBoxExport() {
-    actionExportBox();
+    actionExportFurniture();
 }
 
 function btnGroup() {
