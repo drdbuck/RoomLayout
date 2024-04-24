@@ -96,10 +96,11 @@ class KitBash extends Block {
         return this._items.indexOf(item);
     }
 
-    nextItem(item) {
+    nextItem(item, dir) {
         let index = this._items.indexOf(item);
         if (!(index >= 0)) { return undefined; }
-        return this._items[(index + 1) % this._items.length];
+        const length = this._items.length;
+        return this._items[(index + dir + length) % length];
     }
 
     //Position
