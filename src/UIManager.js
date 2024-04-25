@@ -125,8 +125,8 @@ function initUI() {
     // onChangeFunc("txtPosYRoom", rlist, (r, v) => r.position = r.position.setZ(v));
     // onChangeFunc("txtAltitudeRoom", rlist, (r, v) => r.altitude = v);
 
-    //FURNITURE
-    let flist = controllerEdit?.selector;
+    //BOX
+    let flist = uiVars.selector;
     //Name
     onChangeFunc("txtName", flist, (f, v) => f.name = v, false);
     //Size
