@@ -288,7 +288,7 @@ function constructBox(box) {
     insideMesh.position.copy(_zero);
 
     //delegates
-    box.onSizeChanged.add(updateScale);
+    box.onSizeChanged.add((scale) => updateScale(box.scaledScale));
     box.onPositionChanged.add(updatePosition);
     box.onAngleChanged.add(() => updateRotation(box.angle, box.recline));
     box.onReclineChanged.add(() => updateRotation(box.angle, box.recline));
@@ -328,7 +328,7 @@ function constructBox(box) {
 
     //init with update functions
     updatePosition(box.position);
-    updateScale(box.scale);
+    updateScale(box.scaledScale);
     updateRotation(box.angle, box.recline);
 
     return holder;

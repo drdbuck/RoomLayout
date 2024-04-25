@@ -3,7 +3,7 @@
 const stringifyKitBash = [
     "_items",
     "defaultFace",
-    "scaleFactor",
+    "_scaleFactor",
 ];
 
 class KitBash extends Block {
@@ -17,13 +17,14 @@ class KitBash extends Block {
                 .flat(Infinity)
                 .find(iu => iu)
             ?? PIXEL_WHITE;
-        this.scaleFactor = 1;
+        this._scaleFactor = 1;
 
         //Delegates
         this.onItemAdded = new Delegate("item");
         this.onItemRemoved = new Delegate("item");
         this.onFaceChanged = new Delegate("index", "imageURL");
         this.bind_FaceChanged = this.onFaceChanged.run.bind(this.onFaceChanged);
+        this.onScaleFactorChanged = new Delegate("scaleFactor");
 
         //Add items
         this._items = [];
@@ -72,6 +73,7 @@ class KitBash extends Block {
             item.group = this;
             //register delegate
             item.onFaceChanged.add(this.bind_FaceChanged);
+            this.onScaleFactorChanged.add(item.bind_ScaleFactorChanged);
             //
             this.onItemAdded.run(item);
         }
@@ -85,6 +87,7 @@ class KitBash extends Block {
             this._items.remove(item);
             //unregister delegate
             item.onFaceChanged.remove(this.onFaceChanged.run);
+            this.onScaleFactorChanged.remove(item.bind_ScaleFactorChanged);
             //
             this.onItemRemoved.run(item);
         }
@@ -182,6 +185,18 @@ class KitBash extends Block {
         this.height = value.y;
         //
         super.scale = value;
+    }
+
+    get scaleFactor() {
+        return this._scaleFactor;
+    }
+    set scaleFactor(value) {
+        //
+        value ??= 1;
+        value = Math.clamp(value, 0.001, 100);
+        this._scaleFactor = value;
+        //delegates
+        this.onScaleFactorChanged(this._scaleFactor);
     }
 
     get width() {
@@ -283,7 +298,12 @@ function inflateKitBash(kitbash) {
     let inflated = inflateObject(
         kitbash,
         KitBash.prototype,
-        ["onItemAdded", "onItemRemoved", "onFaceChanged"]
+        [
+            "onItemAdded",
+            "onItemRemoved",
+            "onFaceChanged",
+            "onScaleFactorChanged",
+        ]
     );
     if (!inflated) { return; }
 
@@ -305,5 +325,5 @@ function inflateKitBash(kitbash) {
 
 function backwardsCompatifyKitBash(kitbash) {
     //Change: scaleFactor
-    kitbash.scaleFactor ??= 1;
+    kitbash._scaleFactor ??= 1;
 }

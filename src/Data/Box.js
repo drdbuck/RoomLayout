@@ -14,6 +14,8 @@ class Box extends Block {
 
         this.onFaceChanged = new Delegate("index", "imageURL");
 
+        this.bind_ScaleFactorChanged = onScaleFactorChanged.bind(this);
+
         //processing variables
         this.lastImage = undefined;
     }
@@ -104,6 +106,15 @@ class Box extends Block {
 
     validFaceIndex(index) {
         return index == FACE_DEFAULT || between(index, 0, 6 - 1);//dirty: hardcoding 6-sided shape
+    }
+
+    get scaledScale(){
+        let scale = this.group?.scaleFactor ?? 1;
+        return this.scale.clone().multiplyScalar(scale);
+    }
+
+    onScaleFactorChanged(scale){
+        this.onSizeChanged(scale);
     }
 }
 
