@@ -225,8 +225,13 @@ canvas {
     left: 210px;
 }
 
+#divPanelGroupEdit{
+    left: 10px;
+}
+
 #divPanelEdit {
     left: 10px;
+    top: 500px;
 }
 
 #divFaceEdit {

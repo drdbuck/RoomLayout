@@ -53,10 +53,39 @@
             <input type="text" id="txtAltitudeRoom" title="Altitude" placeholder="altitude" default="0"/><br> -->
         </div>
 
-        <!-- Furniture Edit Panel -->
+        <!-- Group Edit Panel -->
+        <div id="divPanelGroupEdit" class="popupPanel" >
+            <button id="btnExitGroupEdit" class="exitButton" onclick="btnExitBoxEdit();">X</button>
+            <h1 id="hEditGroup">Edit Furniture</h1>
+            <!-- Name -->
+            <label id="lblGroupName" for="txtGroupName">Name</label><br>
+            <input type="text" id="txtGroupName" title="Name" placeholder="name" default="chair"/><br>
+            <!-- Size -->
+            <h2>Size</h2>
+            <label id="lblGroupWidth" for="txtGroupWidth">Width</label><br>
+            <input type="text" id="txtGroupWidth" title="Width" placeholder="width" default="1"/><br>
+            <label id="lblGroupLength" for="txtGroupLength">Depth</label><br>
+            <input type="text" id="txtGroupLength" title="Depth" placeholder="depth" default="1"/><br>
+            <label id="lblGroupHeight" for="txtGroupHeight">Height</label><br>
+            <input type="text" id="txtGroupHeight" title="Height" placeholder="height" default="1"/><br>
+            <!-- Position -->
+            <h2>Position</h2>
+            <label id="lblGroupPosX" for="txtGroupPosX">X</label><br>
+            <input type="text" id="txtGroupPosX" title="Position X" placeholder="x" default="0"/><br>
+            <label id="lblGroupPosY" for="txtGroupPosY">Y</label><br>
+            <input type="text" id="txtGroupPosY" title="Position Y" placeholder="y" default="0"/><br>
+            <label id="lblGroupAltitude" for="txtGroupAltitude">Altitude</label><br>
+            <input type="text" id="txtGroupAltitude" title="Altitude" placeholder="altitude" default="0"/><br>
+            <label id="lblGroupAngle" for="txtGroupAngle">Angle</label><br>
+            <input type="text" id="txtGroupAngle" title="Angle" placeholder="angle" default="0"/><br>
+            <br>
+            <button id="btnGroupFaceEdit" class="lineButton" onclick="btnFaceEdit();">View Faces</button>
+        </div>
+
+        <!-- Box Edit Panel -->
         <div id="divPanelEdit" class="popupPanel" hidden>
             <button id="btnExitBoxEdit" class="exitButton" onclick="btnExitBoxEdit();">X</button>
-            <h1 id="hEditBox">Edit Furniture</h1>
+            <h1 id="hEditBox">Edit Box</h1>
             <!-- Name -->
             <label id="lblName" for="txtName">Name</label><br>
             <input type="text" id="txtName" title="Name" placeholder="name" default="chair"/><br>
