@@ -3,6 +3,7 @@
 const stringifyKitBash = [
     "_items",
     "defaultFace",
+    "scaleFactor",
 ];
 
 class KitBash extends Block {
@@ -16,6 +17,7 @@ class KitBash extends Block {
                 .flat(Infinity)
                 .find(iu => iu)
             ?? PIXEL_WHITE;
+        this.scaleFactor = 1;
 
         //Delegates
         this.onItemAdded = new Delegate("item");
@@ -297,4 +299,11 @@ function inflateKitBash(kitbash) {
         item.onFaceChanged.add(kitbash.bind_FaceChanged);
     }
 
+    backwardsCompatifyKitBash(kitbash);
+    
+}
+
+function backwardsCompatifyKitBash(kitbash) {
+    //Change: scaleFactor
+    kitbash.scaleFactor ??= 1;
 }

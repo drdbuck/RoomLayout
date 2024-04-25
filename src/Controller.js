@@ -491,6 +491,10 @@ class Controller {
         });
     }
 
+    setGroupScaleFactor(group, scaleFactor){
+        group.scaleFactor = scaleFactor;
+    }
+
     setBoxPosition(box, position) {
         let min = box.room.min;
         let max = box.room.max;

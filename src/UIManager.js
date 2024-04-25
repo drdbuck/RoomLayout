@@ -125,6 +125,25 @@ function initUI() {
     // onChangeFunc("txtPosYRoom", rlist, (r, v) => r.position = r.position.setZ(v));
     // onChangeFunc("txtAltitudeRoom", rlist, (r, v) => r.altitude = v);
 
+    //GROUP
+    let glist = uiVars.selector;
+    //Name
+    onChangeFunc("txtGroupName", glist, (g, v) => g.name = v, false);
+    // Size
+    onChangeFunc("txtGroupScaleFactor", glist, (g, v) => controllerEdit.setGroupScaleFactor(g, v));
+    // onChangeFuncGroup(
+    //     glist,
+    //     updateBoxEditPanel,
+    //     { id: "txtGroupWidth", symbol: "w", func: (g, v) => g.width = v },
+    //     { id: "txtGroupLength", symbol: "d", func: (g, v) => g.length = v },
+    //     { id: "txtGroupHeight", symbol: "h", func: (g, v) => g.height = v },
+    // );
+    //Position
+    onChangeFunc("txtGroupPosX", glist, (g, v) => controllerEdit.setBoxPosition(g, g.position.setX(v)));
+    onChangeFunc("txtGroupPosY", glist, (g, v) => controllerEdit.setBoxPosition(g, g.position.setZ(v)));
+    onChangeFunc("txtGroupAltitude", glist, (g, v) => controllerEdit.setBoxAltitude(g, v));
+    onChangeFunc("txtGroupAngle", glist, (g, v) => controllerEdit.setBoxAngle(g, v), true, false);
+
     //BOX
     let flist = uiVars.selector;
     //Name
