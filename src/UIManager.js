@@ -215,7 +215,6 @@ function updateBoxEditPanel(contexts) {
 
     if (!anySelected) { return; }
 
-    $("hEditBox").innerHTML = `Edit ${(_contexts.every(c => c.obj.isKitBash)) ? "Group" : "Box"}`;
 
     let flist = _boxs;
 
