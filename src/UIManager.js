@@ -1,6 +1,7 @@
 "use strict";
 
 let _contexts = [];//dirty
+let _groups = [];//dirty
 let _boxs = [];//dirty
 let _faces = [];//dirty
 const reduceFunc = (a, b) => (a === b) ? a : undefined;
@@ -170,6 +171,27 @@ function initUI() {
 // ======= Update UI from data =======
 //
 
+function updateUIVariables(contexts) {
+    log("selected count:", uiVars.selector.count);
+
+    //early exit: no contexts
+    if (!contexts) {
+        console.error("must pass in a list of selected objects!", contexts);
+        return;
+    }
+    //early exit: contexts not array
+    if (!Array.isArray(contexts)) {
+        console.error("input must be an array!", contexts);
+        return;
+    }
+
+    //defaults
+    _contexts = contexts;
+    _groups = contexts.map(c => c.kitbash).filter(kb => kb);
+    _boxs = contexts.map(c => c.box);
+    _faces = contexts.filter(c => c.box.validFaceIndex(c.face)).map(c => c.face);
+}
+
 function updateRoomEditPanel() {
     let rooms = [...house.rooms];//dirty: hard-coding which room(s) to edit
 
@@ -192,18 +214,8 @@ function updateRoomEditPanel() {
 }
 
 function updateBoxEditPanel(contexts) {
-    log("selected count:", uiVars.selector.count);
 
-    //only accept array input
-    if (!Array.isArray(contexts)) {
-        contexts = undefined;
-    }
 
-    //defaults
-    _contexts = contexts ?? _contexts;
-    contexts ??= _contexts;
-    _boxs = contexts?.map(c => c.obj);
-    _faces = contexts?.filter(c => c.box.validFaceIndex(c.face)).map(c => c.face);
 
     //check if panel should be shown
     let showPanel = uiVars.editObjects;
@@ -220,7 +232,7 @@ function updateBoxEditPanel(contexts) {
     let flist = _boxs;
 
     //Name
-    $("txtName").disabled = !(contexts.length == 1);
+    $("txtName").disabled = !(_contexts.length == 1);
     updateFunc("txtName", flist, f => f.name, false);
     //Size
     updateFunc("txtWidth", flist, f => f.width);
