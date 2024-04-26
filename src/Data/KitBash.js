@@ -64,6 +64,11 @@ class KitBash extends Block {
         if (!item) { return; }
         //early exit: item is kitbash
         if (item.isKitBash) { return; }
+        //array handling
+        if (Array.isArray(item)) {
+            item.forEach(itm => this.add(itm));
+            return;
+        }
         //
         if (!this._items.includes(item)) {
             this._items.push(item);
