@@ -250,7 +250,7 @@ function updateGroupEditPanel() {
     updateFunc("txtGroupRecline", glist, g => g.recline);
 }
 
-function updateBoxEditPanel(contexts) {
+function updateBoxEditPanel() {
 
     //check if panel should be shown
     let showPanel = uiVars.editObjects;

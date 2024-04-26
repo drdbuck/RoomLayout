@@ -128,9 +128,8 @@ function init() {
     player.animate();
 
     //Update UI
-    updateBoxEditPanel(uiVars.selector.selection);
-    updateFaceEditPanel(uiVars.selector.map(c => c.face));
-    updateRoomEditPanel();
+    updateUIVariables(uiVars.selector.selection);
+    updateAllPanels();
 }
 init();
 
@@ -143,7 +142,7 @@ function hookupDelegates() {
     controllerEdit.onFaceSelectionChanged.add(faces => {
         if (uiVars.viewPanelFace) {
             uiVars.viewPanelFaceEdit = false;
-            updateFaceEditPanel(faces);
+            updateFaceEditPanel();
             uiVars.highlightSelectedFace = true;
             player.animate();
         }
@@ -151,7 +150,8 @@ function hookupDelegates() {
     uiVars.selector.onSelectionChanged.add(contexts => {
         controllerEdit.updateCollectiveCenter();
         //
-        updateBoxEditPanel(contexts);
+        updateUIVariables(contexts);
+        updateAllPanels();
         if (uiVars.viewPanelFace) {
             uiVars.highlightSelectedFace = true;
         }
@@ -186,7 +186,7 @@ function hookupDelegates() {
 
     //UI Vars
     uiVars.onEditRoomsChanged.add(updateRoomEditPanel);
-    uiVars.onEditObjectsChanged.add(updateBoxEditPanel);
+    uiVars.onEditObjectsChanged.add(updateAllPanels);
     uiVars.onViewPanelFaceChanged.add((viewPanelFace) => {
         uiVars.highlightSelectedFace = viewPanelFace;
         if (!viewPanelFace) {
