@@ -236,18 +236,18 @@ function updateGroupEditPanel() {
     let glist = _groups;
 
     //Name
-    $("txtGroupName").disabled = !(contexts.length == 1);
+    $("txtGroupName").disabled = !(_contexts.length == 1);
     updateFunc("txtGroupName", glist, g => g.name, false);
     //Size
-    updateFunc("txtGroupWidth", glist, g => g.width);
-    updateFunc("txtGroupLength", glist, g => g.length);
-    updateFunc("txtGroupHeight", glist, g => g.height);
+    updateFunc("txtGroupScaleFactor", glist, g => g.scaleFactor);
+    // updateFunc("txtGroupWidth", glist, g => g.width);
+    // updateFunc("txtGroupLength", glist, g => g.length);
+    // updateFunc("txtGroupHeight", glist, g => g.height);
     //Position
     updateFunc("txtGroupPosX", glist, g => g.position.x);
     updateFunc("txtGroupPosY", glist, g => g.position.z);
     updateFunc("txtGroupAltitude", glist, g => g.altitude);
     updateFunc("txtGroupAngle", glist, g => g.angle);
-    updateFunc("txtGroupRecline", glist, g => g.recline);
 }
 
 function updateBoxEditPanel() {
@@ -310,21 +310,13 @@ function registerUIDelegates(context, register) {
 
 function updateFaceEditPanel() {
 
-    //only accept array input
-    if (!Array.isArray(faces)) {
-        faces = undefined;
-    }
-
-    //defaults
-    _faces = faces?.filter(f => f >= 0 || f == FACE_DEFAULT) ?? _faces;
-    faces = _faces;
-
     //
     let showPanel = uiVars.viewPanelFace;
     $("divFaceEdit").hidden = !showPanel;
     if (!showPanel) { return; }
 
     //spnFaceName
+    const faces = _faces;
     const inequal = -3;
     const defaultValue = (faces?.length > 0) ? undefined : -2;
     let face = defaultValue ?? faces.reduce(reduceFunc) ?? inequal;
