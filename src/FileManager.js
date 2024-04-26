@@ -75,7 +75,17 @@ class FileManager {
         this.handleFiles(files, () => undoMan.recordUndo("paste file"));
     }
 
-    handleFiles(files, callback) {
+    async handleFiles(files, callback) {
+        //early exit: no files
+        if (!(files.length > 0)) {
+            console.error("cant handle files", files);
+            return;
+        }
+        //early exit: no callback
+        if (!callback) {
+            console.error("must have callback func! this method is asynchronous!", callback);
+            return;
+        }
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
         files = [...files];
         let filesLeft = files.length;

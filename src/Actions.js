@@ -10,9 +10,10 @@ function actionImportBox() {
     el.multiple = true;
 
     el.addEventListener('change', (event) => {
-        flm.handleFiles(el.files);
-        //record undo
-        undoMan.recordUndo("import box");
+        flm.handleFiles(
+            el.files,
+            () => undoMan.recordUndo("import box")
+        );
     });
 
     el.click(); // open
