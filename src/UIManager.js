@@ -135,7 +135,7 @@ function initUI() {
     onChangeFunc("txtGroupScaleFactor", glistfunc, (g, v) => controllerEdit.setGroupScaleFactor(g, v));
     // onChangeFuncGroup(
     //     glistfunc,
-    //     updateBoxEditPanel,
+    //     updateGroupEditPanel,
     //     { id: "txtGroupWidth", symbol: "w", func: (g, v) => g.width = v },
     //     { id: "txtGroupLength", symbol: "d", func: (g, v) => g.length = v },
     //     { id: "txtGroupHeight", symbol: "h", func: (g, v) => g.height = v },
@@ -213,9 +213,37 @@ function updateRoomEditPanel() {
     // updateFunc("txtAltitudeRoom", rooms, r => r.altitude);
 }
 
+function updateGroupEditPanel() {
+
+    //check if panel should be shown
+    let showPanel = uiVars.editObjects;
+    $("divPanelGroupEdit").hidden = !showPanel;
+    if (!showPanel) { return; }
+
+    //Update UI
+    let anySelected = _contexts.length > 0;
+
+    if (!anySelected) { return; }
+
+
+    let glist = _groups;
+
+    //Name
+    $("txtGroupName").disabled = !(contexts.length == 1);
+    updateFunc("txtGroupName", glist, g => g.name, false);
+    //Size
+    updateFunc("txtGroupWidth", glist, g => g.width);
+    updateFunc("txtGroupLength", glist, g => g.length);
+    updateFunc("txtGroupHeight", glist, g => g.height);
+    //Position
+    updateFunc("txtGroupPosX", glist, g => g.position.x);
+    updateFunc("txtGroupPosY", glist, g => g.position.z);
+    updateFunc("txtGroupAltitude", glist, g => g.altitude);
+    updateFunc("txtGroupAngle", glist, g => g.angle);
+    updateFunc("txtGroupRecline", glist, g => g.recline);
+}
+
 function updateBoxEditPanel(contexts) {
-
-
 
     //check if panel should be shown
     let showPanel = uiVars.editObjects;
