@@ -122,7 +122,7 @@ function init() {
         c.meshes.forEach(mesh => {
             mesh.edge.visible = true;
             updateFace(mesh, -2);
-        })
+        });
         updateFace(c.mesh, c.face);
     });
     player.animate();
@@ -164,7 +164,7 @@ function hookupDelegates() {
         context.meshes.forEach(mesh => {
             mesh.edge.visible = true;
             updateFace(mesh, -2);
-        })
+        });
         //
         updateFace(context.mesh, context.face);
         registerUIDelegates(context, true);
@@ -173,7 +173,7 @@ function hookupDelegates() {
         context.meshes.forEach(mesh => {
             mesh.edge.visible = false;
             updateFace(mesh, -2);
-        })
+        });
         //
         updateFace(context.mesh, -2);
         registerUIDelegates(context, false);
@@ -217,7 +217,7 @@ function hookupDelegates() {
             controllerImageEdit.imageEdit.cornerList = state.corners;
             controllerImageEdit.boomerangCorners();
         }
-    }
+    };
     undoMan.onUndo.add((state) => onUndoFunc(undoMan.getState(1)));
     undoMan.onRedo.add(onUndoFunc);
 
@@ -325,7 +325,7 @@ function getBoxes(furnitures) {
     return player.scene.children
         .map(c => c?.children?.[0])
         .filter(c => c)
-        .filter(mesh => mesh.box && furnitures.includes(mesh.box))
+        .filter(mesh => mesh.box && furnitures.includes(mesh.box));
 }
 
 function inflateData(data) {

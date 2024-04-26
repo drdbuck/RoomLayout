@@ -16,7 +16,7 @@ const updateFunc = (id, list, func, float = true) => {
         value = Math.cut(value, DIGITS_OF_PRECISION);
     }
     $(id).value = value ?? inequal;
-}
+};
 
 function initUI() {
 
@@ -32,7 +32,7 @@ function initUI() {
             txt.select();
             txtChanged = false;
             prevValue = txt.value;
-        }
+        };
         txt.onkeyup = () => {
             const rawvalue = txt.value;
             if (rawvalue != prevValue) {
@@ -61,7 +61,7 @@ function initUI() {
                 //record undo
                 undoMan.recordUndo("change object attribute");
             }
-        }
+        };
     };
 
     const onChangeFuncGroup = (listFunc, onblur, ...paramObjs) => {
@@ -86,7 +86,7 @@ function initUI() {
             const txt = $(obj.id);
             txt.onfocus = () => {
                 txt.select();
-            }
+            };
             txt.onkeyup = () => {
                 const rawvalue = txt.value;
                 if (rawvalue != prevValue) {
@@ -106,10 +106,10 @@ function initUI() {
                 onblur();
             };
         });
-    }
+    };
 
     //ROOM
-    let rlistfunc = ()=>house.rooms;//dirty: hard-coding whole list
+    let rlistfunc = () => house.rooms;//dirty: hard-coding whole list
     //Name
     onChangeFunc("txtNameRoom", rlistfunc, (r, v) => r.name = v, false);
     //Size
@@ -262,7 +262,6 @@ function updateBoxEditPanel(contexts) {
 
     if (!anySelected) { return; }
 
-
     let flist = _boxs;
 
     //Name
@@ -279,13 +278,12 @@ function updateBoxEditPanel(contexts) {
     updateFunc("txtAngle", flist, f => f.angle);
     updateFunc("txtRecline", flist, f => f.recline);
 
-
+    //Buttons
     $("btnFaceEdit").checked = uiVars.viewPanelFace;
-
-    //
 }
 
 function registerUIDelegates(context, register) {
+
     //group
     let group = context.kitbash;
     [
@@ -302,7 +300,7 @@ function registerUIDelegates(context, register) {
         box.onAngleChanged,
     ]
         .forEach(del => del.listen(updateBoxEditPanel, register));
-    
+
     //face
     [
         box.onFaceChanged,
@@ -523,7 +521,7 @@ function btnFlip(flipX, flipY) {
             f.setFace(faceIndex, url);
             updateFaceEditPanel();
             player.animate();
-        }
+        };
     });
     //record undo
     undoMan.recordUndo("flip image");
@@ -551,7 +549,7 @@ function btnRotate(degrees) {
             f.setFace(faceIndex, url);
             updateFaceEditPanel();
             player.animate();
-        }
+        };
     });
     //record undo
     undoMan.recordUndo("rotate image");
