@@ -170,7 +170,7 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
 }
 
 function actionObjectsCreateSkirt() {
-    let furnitures = [];
+    let boxes = [];
     const count = 4;
     for (let i = 0; i < count; i++) {
         let box = new Box();
@@ -186,7 +186,7 @@ function actionObjectsCreateSkirt() {
                 ? 0.5 * -Math.sign(i - 1.5)
                 : 0
         );//dirty: assumes 4 sides
-        furnitures.push(box);
+        boxes.push(box);
     }
     //Group
     //find selected group
@@ -194,11 +194,11 @@ function actionObjectsCreateSkirt() {
     let newGroup = !group;
     //
     if (group) {
-        group.add(furnitures);
+        group.add(boxes);
     }
     else {
         let room = house.rooms[0];//dirty: hardcoded which room to add to
-        group = room.group(furnitures, PIXEL_WHITE);
+        group = room.group(boxes, PIXEL_WHITE);
     }
     //Select new box
     controllerEdit.selectObject(group, false, undefined, newGroup);
