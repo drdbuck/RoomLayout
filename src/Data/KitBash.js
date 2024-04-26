@@ -196,7 +196,7 @@ class KitBash extends Block {
         value = Math.clamp(value, 0.001, 100);
         this._scaleFactor = value;
         //delegates
-        this.onScaleFactorChanged(this._scaleFactor);
+        this.onScaleFactorChanged.run(this._scaleFactor);
     }
 
     get width() {
