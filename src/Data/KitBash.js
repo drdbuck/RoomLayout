@@ -317,6 +317,7 @@ function inflateKitBash(kitbash) {
         inflateBox(item);
         //register delegate
         item.onFaceChanged.add(kitbash.bind_FaceChanged);
+        kitbash.onScaleFactorChanged.add(item.bind_ScaleFactorChanged);
     }
 
     backwardsCompatifyKitBash(kitbash);
