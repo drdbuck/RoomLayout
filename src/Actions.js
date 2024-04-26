@@ -186,6 +186,7 @@ function actionObjectsCreateSkirt() {
                 ? 0.5 * -Math.sign(i - 1.5)
                 : 0
         );//dirty: assumes 4 sides
+        box.setFace(5, PIXEL_TRANSPARENT);
         boxes.push(box);
     }
     //Group
