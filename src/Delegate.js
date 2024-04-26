@@ -5,6 +5,15 @@ class Delegate {
         this.delegateList = [];
     }
 
+    listen(func, listening = true) {
+        if (listening) {
+            this.add(func);
+        }
+        else {
+            this.remove(func);
+        }
+    }
+
     add(func) {
         if (!func) {
             console.error("func cannot be null or undefined! func: ", func);

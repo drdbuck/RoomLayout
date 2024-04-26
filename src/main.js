@@ -167,7 +167,7 @@ function hookupDelegates() {
         })
         //
         updateFace(context.mesh, context.face);
-        registerUIDelegates(context.obj, true);
+        registerUIDelegates(context, true);
     });
     uiVars.selector.onSelectionLost.add(context => {
         context.meshes.forEach(mesh => {
@@ -176,7 +176,7 @@ function hookupDelegates() {
         })
         //
         updateFace(context.mesh, -2);
-        registerUIDelegates(context.obj, false);
+        registerUIDelegates(context, false);
     });
 
     //Controller FPS

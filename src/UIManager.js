@@ -239,20 +239,29 @@ function updateBoxEditPanel(contexts) {
     //
 }
 
-function registerUIDelegates(box, register) {
-    if (register) {
-        box.onSizeChanged.add(updateBoxEditPanel);
-        box.onPositionChanged.add(updateBoxEditPanel);
-        box.onAngleChanged.add(updateBoxEditPanel);
-        box.onFaceChanged.add(updateFaceEditPanel);
-    }
-    else {
-        if (!box.onSizeChanged) { return; }
-        box.onSizeChanged.remove(updateBoxEditPanel);
-        box.onPositionChanged.remove(updateBoxEditPanel);
-        box.onAngleChanged.remove(updateBoxEditPanel);
-        box.onFaceChanged.remove(updateFaceEditPanel);
-    }
+function registerUIDelegates(context, register) {
+    //group
+    let group = context.kitbash;
+    [
+        group.onPositionChanged,
+        group.onAngleChanged,
+    ]
+        .forEach(del => del.listen(updateGroupEditPanel, register));
+
+    //box
+    let box = context.box;
+    [
+        box.onSizeChanged,
+        box.onPositionChanged,
+        box.onAngleChanged,
+    ]
+        .forEach(del => del.listen(updateBoxEditPanel, register));
+    
+    //face
+    [
+        box.onFaceChanged,
+    ]
+        .forEach(del => del.listen(updateFaceEditPanel, register));
 }
 
 function updateFaceEditPanel(faces) {
