@@ -192,6 +192,13 @@ function updateUIVariables(contexts) {
     _faces = contexts.filter(c => c.box.validFaceIndex(c.face)).map(c => c.face);
 }
 
+function updateAllPanels() {
+    updateRoomEditPanel();
+    updateGroupEditPanel();
+    updateBoxEditPanel();
+    updateFaceEditPanel();
+}
+
 function updateRoomEditPanel() {
     let rooms = [...house.rooms];//dirty: hard-coding which room(s) to edit
 
@@ -252,7 +259,6 @@ function updateBoxEditPanel(contexts) {
 
     //Update UI
     let anySelected = _contexts.length > 0;
-    updateFaceEditPanel();
 
     if (!anySelected) { return; }
 
@@ -304,7 +310,7 @@ function registerUIDelegates(context, register) {
         .forEach(del => del.listen(updateFaceEditPanel, register));
 }
 
-function updateFaceEditPanel(faces) {
+function updateFaceEditPanel() {
 
     //only accept array input
     if (!Array.isArray(faces)) {
