@@ -23,7 +23,7 @@ function initUI() {
     document.title = `${APP_NAME} v${VERSION}`;
 
     //individual textmesh listeners
-    const onChangeFunc = (id, list, func, float = true, allowFootNotation = true) => {
+    const onChangeFunc = (id, listFunc, func, float = true, allowFootNotation = true) => {
         let txtChanged = false;
         let prevValue;
         const txt = $(id);
@@ -33,7 +33,6 @@ function initUI() {
             prevValue = txt.value;
         }
         txt.onkeyup = () => {
-            list ??= uiVars.selector;
             const rawvalue = txt.value;
             if (rawvalue != prevValue) {
                 prevValue = rawvalue;
@@ -50,8 +49,9 @@ function initUI() {
                 value = rawvalue;
             }
             if (value == undefined) { return; }
+            let list = listFunc();
             list.forEach(
-                context => func(context.obj ?? context, value)
+                item => func(item, value)
             );
             player.animate();
         };
@@ -63,17 +63,17 @@ function initUI() {
         }
     };
 
-    const onChangeFuncGroup = (list, onblur, ...paramObjs) => {
+    const onChangeFuncGroup = (listFunc, onblur, ...paramObjs) => {
         paramObjs.flat();
         //
         const _changeFunc = (dimensions) => {
-            list ??= uiVars.selector;//dirty: hardcoding
+            list = listFunc();
             Object.keys(dimensions).forEach(d => {
                 let value = dimensions[d];
                 if (value == undefined) { return; }
                 let dfunc = paramObjs.find(po => po.symbol == d).func;
                 list.forEach(
-                    context => dfunc(context.obj ?? context, value)
+                    item => dfunc(item, value)
                 );
             });
             player.animate();
@@ -98,7 +98,6 @@ function initUI() {
                 _changeFunc(dimensions);
             };
             txt.onblur = () => {
-                if (!list) { return; }
                 if (txtChanged) {
                     //record undo
                     undoMan.recordUndo("change object attribute");
@@ -109,59 +108,61 @@ function initUI() {
     }
 
     //ROOM
-    let rlist = house.rooms;//dirty: hard-coding whole list
+    let rlistfunc = ()=>house.rooms;//dirty: hard-coding whole list
     //Name
-    onChangeFunc("txtNameRoom", rlist, (r, v) => r.name = v, false);
+    onChangeFunc("txtNameRoom", rlistfunc, (r, v) => r.name = v, false);
     //Size
     onChangeFuncGroup(
-        rlist,
+        rlistfunc,
         updateRoomEditPanel,
         { id: "txtWidthRoom", symbol: "w", func: (r, v) => r.width = v },
         { id: "txtLengthRoom", symbol: "l", func: (r, v) => r.length = v },
         { id: "txtHeightRoom", symbol: "h", func: (r, v) => r.height = v },
     );
     //Position
-    // onChangeFunc("txtPosXRoom", rlist, (r, v) => r.position = r.position.setX(v));
-    // onChangeFunc("txtPosYRoom", rlist, (r, v) => r.position = r.position.setZ(v));
-    // onChangeFunc("txtAltitudeRoom", rlist, (r, v) => r.altitude = v);
+    // onChangeFunc("txtPosXRoom", rlistfunc, (r, v) => r.position = r.position.setX(v));
+    // onChangeFunc("txtPosYRoom", rlistfunc, (r, v) => r.position = r.position.setZ(v));
+    // onChangeFunc("txtAltitudeRoom", rlistfunc, (r, v) => r.altitude = v);
 
     //GROUP
-    let glist = uiVars.selector;
+    let glistfunc = () => uiVars.selector
+        .map(c => c.kitbash)
+        .filter(kb => kb);
     //Name
-    onChangeFunc("txtGroupName", glist, (g, v) => g.name = v, false);
+    onChangeFunc("txtGroupName", glistfunc, (g, v) => g.name = v, false);
     // Size
-    onChangeFunc("txtGroupScaleFactor", glist, (g, v) => controllerEdit.setGroupScaleFactor(g, v));
+    onChangeFunc("txtGroupScaleFactor", glistfunc, (g, v) => controllerEdit.setGroupScaleFactor(g, v));
     // onChangeFuncGroup(
-    //     glist,
+    //     glistfunc,
     //     updateBoxEditPanel,
     //     { id: "txtGroupWidth", symbol: "w", func: (g, v) => g.width = v },
     //     { id: "txtGroupLength", symbol: "d", func: (g, v) => g.length = v },
     //     { id: "txtGroupHeight", symbol: "h", func: (g, v) => g.height = v },
     // );
     //Position
-    onChangeFunc("txtGroupPosX", glist, (g, v) => controllerEdit.setBoxPosition(g, g.position.setX(v)));
-    onChangeFunc("txtGroupPosY", glist, (g, v) => controllerEdit.setBoxPosition(g, g.position.setZ(v)));
-    onChangeFunc("txtGroupAltitude", glist, (g, v) => controllerEdit.setBoxAltitude(g, v));
-    onChangeFunc("txtGroupAngle", glist, (g, v) => controllerEdit.setBoxAngle(g, v), true, false);
+    onChangeFunc("txtGroupPosX", glistfunc, (g, v) => controllerEdit.setBoxPosition(g, g.position.setX(v)));
+    onChangeFunc("txtGroupPosY", glistfunc, (g, v) => controllerEdit.setBoxPosition(g, g.position.setZ(v)));
+    onChangeFunc("txtGroupAltitude", glistfunc, (g, v) => controllerEdit.setBoxAltitude(g, v));
+    onChangeFunc("txtGroupAngle", glistfunc, (g, v) => controllerEdit.setBoxAngle(g, v), true, false);
 
     //BOX
-    let flist = uiVars.selector;
+    let flistfunc = uiVars.selector.map(c => c.box);
     //Name
-    onChangeFunc("txtName", flist, (f, v) => f.name = v, false);
+    onChangeFunc("txtName", flistfunc, (f, v) => f.name = v, false);
     //Size
     onChangeFuncGroup(
-        flist,
+        flistfunc,
         updateBoxEditPanel,
         { id: "txtWidth", symbol: "w", func: (f, v) => f.width = v },
         { id: "txtLength", symbol: "d", func: (f, v) => f.length = v },
         { id: "txtHeight", symbol: "h", func: (f, v) => f.height = v },
     );
     //Position
-    onChangeFunc("txtPosX", flist, (f, v) => controllerEdit.setBoxPosition(f, f.position.setX(v)));
-    onChangeFunc("txtPosY", flist, (f, v) => controllerEdit.setBoxPosition(f, f.position.setZ(v)));
-    onChangeFunc("txtAltitude", flist, (f, v) => controllerEdit.setBoxAltitude(f, v));
-    onChangeFunc("txtAngle", flist, (f, v) => controllerEdit.setBoxAngle(f, v), true, false);
-    onChangeFunc("txtRecline", flist, (f, v) => controllerEdit.setBoxRecline(f, v), true, false);
+    onChangeFunc("txtPosX", flistfunc, (f, v) => controllerEdit.setBoxPosition(f, f.position.setX(v)));
+    onChangeFunc("txtPosY", flistfunc, (f, v) => controllerEdit.setBoxPosition(f, f.position.setZ(v)));
+    onChangeFunc("txtAltitude", flistfunc, (f, v) => controllerEdit.setBoxAltitude(f, v));
+    onChangeFunc("txtAngle", flistfunc, (f, v) => controllerEdit.setBoxAngle(f, v), true, false);
+    onChangeFunc("txtRecline", flistfunc, (f, v) => controllerEdit.setBoxRecline(f, v), true, false);
 
 }
 
