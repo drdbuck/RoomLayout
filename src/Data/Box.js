@@ -24,6 +24,14 @@ class Box extends Block {
         return this.scale.clone().multiplyScalar(this.group.scaleFactor);
     }
 
+    get worldPosition() {
+        // (pos * factor) + gpos
+        let groupPos = this.group.position;
+        let groupScaleFactor = this.group.scaleFactor;
+        let pos = this.position.clone();
+        return pos.multiplyScalar(groupScaleFactor).add(groupPos);
+    }
+
     get defaultFace() {
         if (!this.group) {
             console.error("box with no group!", this.name);

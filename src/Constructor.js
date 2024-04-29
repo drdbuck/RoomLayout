@@ -247,7 +247,7 @@ function constructBox(box) {
     holder.attach(mesh);
 
     //update functions
-    let updatePosition = (pos = box.position) => {
+    let updatePosition = (pos) => {
         holder.position.copy(pos);
     };
     let updateScale = (scale) => {
@@ -290,8 +290,9 @@ function constructBox(box) {
     //delegates
     box.onSizeChanged.add(() => {
         updateScale(box.worldScale);
+        updatePosition(box.worldPosition);
     });
-    box.onPositionChanged.add(updatePosition);
+    box.onPositionChanged.add(() => updatePosition(box.worldPosition));
     box.onAngleChanged.add(() => updateRotation(box.angle, box.recline));
     box.onReclineChanged.add(() => updateRotation(box.angle, box.recline));
     box.onFaceChanged.add((index, url) => {
@@ -329,7 +330,7 @@ function constructBox(box) {
     select.position.copy(_zero);
 
     //init with update functions
-    updatePosition(box.position);
+    updatePosition(box.worldPosition);
     updateScale(box.worldScale);
     updateRotation(box.angle, box.recline);
 

@@ -114,31 +114,6 @@ class KitBash extends Block {
     }
 
     //Position
-    get position() {
-        let pos = new Vector3();
-        let sumX = this._items.sum(f => f.position.x);
-        pos.x = sumX / this._items.length;
-        let sumZ = this._items.sum(f => f.position.z);
-        pos.z = sumZ / this._items.length;
-        let minY = this._items.min(f => f.altitude);
-        pos.y = minY;
-        return pos;
-    }
-    set position(value) {
-        //get offset
-        const oldPos = this.position;
-        let offset = value.clone();
-        offset.sub(oldPos);
-        //offset each individual piece of box
-        this._items.forEach(item => {
-            let newPos = item.position.clone();
-            newPos.add(offset);
-            item.position = newPos;
-        });
-        //delegate
-        super.position = value;
-    }
-
     get altitude() {
         return this._items.min(f => f.altitude)
     }
