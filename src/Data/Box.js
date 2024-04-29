@@ -54,6 +54,12 @@ class Box extends Block {
         return this.group?.defaultFace
             ?? PIXEL_WHITE;
     }
+    set defaultFace(value) {
+        if (!this._validGroup) {
+            return;
+        }
+        this.group.defaultFace = value;
+    }
 
     get faceList() {
         return [...this._faces];
