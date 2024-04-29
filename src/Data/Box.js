@@ -20,6 +20,10 @@ class Box extends Block {
         this.lastImage = undefined;
     }
 
+    get worldScale() {
+        return this.scale.clone().multiplyScalar(this.group.scaleFactor);
+    }
+
     get defaultFace() {
         if (!this.group) {
             console.error("box with no group!", this.name);
@@ -106,11 +110,6 @@ class Box extends Block {
 
     validFaceIndex(index) {
         return index == FACE_DEFAULT || between(index, 0, 6 - 1);//dirty: hardcoding 6-sided shape
-    }
-
-    get scaledScale(){
-        let scale = this.group?.scaleFactor ?? 1;
-        return this.scale.clone().multiplyScalar(scale);
     }
 
     onScaleFactorChanged(scale){
