@@ -72,7 +72,7 @@ function constructRoom(room, scene) {
             wall.position.y = size.y / 2;
             wall.scale.y = size.y;
         });
-    }
+    };
     room.onSizeChanged.add(updateSize);
     updateSize(room.scale);
 }
@@ -276,7 +276,7 @@ function constructBox(box) {
 
         //
         // updatePosition();
-    }
+    };
 
 
     //inside faces

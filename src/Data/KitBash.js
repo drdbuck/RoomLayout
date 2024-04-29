@@ -31,7 +31,7 @@ class KitBash extends Block {
         items.filter(i => i).forEach(item => this.add(item));
 
         //Name
-        let name = this._items[0].name ?? ""
+        let name = this._items[0].name ?? "";
         this.name = ((name) ? `${name} Group` : "Group") + ` (${this._items.length} count)`;
 
         //Position
@@ -117,7 +117,7 @@ class KitBash extends Block {
 
     //Position
     get altitude() {
-        return this._items.min(f => f.altitude)
+        return this._items.min(f => f.altitude);
     }
     set altitude(value) {
         const prev = this.altitude;
@@ -304,7 +304,7 @@ function inflateKitBash(kitbash) {
     }
 
     backwardsCompatifyKitBash(kitbash);
-    
+
 }
 
 function backwardsCompatifyKitBash(kitbash) {

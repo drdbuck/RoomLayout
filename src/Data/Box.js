@@ -69,7 +69,7 @@ class Box extends Block {
         }
         else {
             if (!isValidImage(imageURL) && this._faces[index]) {
-                this.lastImage = this._faces[index]
+                this.lastImage = this._faces[index];
             }
             this._faces[index] = imageURL;
         }
@@ -118,7 +118,7 @@ class Box extends Block {
         if (validList.length == 2) {
             //only keep the one (to avoid user confusion while editing)
             validList = [validList[0]];
-         }
+        }
         return validList;
     }
 
@@ -126,12 +126,12 @@ class Box extends Block {
         return index == FACE_DEFAULT || between(index, 0, 6 - 1);//dirty: hardcoding 6-sided shape
     }
 
-    onScaleFactorChanged(scale){
+    onScaleFactorChanged(scale) {
         this.onSizeChanged.run(this.scale);
     }
     onGroupPositionChanged(pos) {
         this.onPositionChanged.run(this.position);
-    }//
+    }
 
     get _validGroup() {
         if (!this.group) {
@@ -149,7 +149,7 @@ function inflateBox(box) {
     inflateBlock(box);
 
     backwardsCompatifyBox(box);
-    
+
     box.bind_ScaleFactorChanged = box.onScaleFactorChanged.bind(box);
     box.bind_GroupPositionChanged = box.onGroupPositionChanged.bind(box);
 
