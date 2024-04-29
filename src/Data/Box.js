@@ -36,8 +36,9 @@ class Box extends Block {
         // (pos * factor) + gpos
         let groupPos = this.group.position;
         let groupScaleFactor = this.group.scaleFactor;
+        let groupAngle = degToRad(this.group.angle);
         let pos = this.position.clone();
-        return pos.multiplyScalar(groupScaleFactor).add(groupPos);
+        return pos.applyAxisAngle(_up, groupAngle).multiplyScalar(groupScaleFactor).add(groupPos);
     }
 
     get worldAngle() {
@@ -162,6 +163,7 @@ function inflateBox(box) {
 
     box.bind_ScaleFactorChanged = box.onScaleFactorChanged.bind(box);
     box.bind_GroupPositionChanged = box.onGroupPositionChanged.bind(box);
+    box.bind_GroupAngleChanged = box.onGroupAngleChanged.bind(box);
 
 }
 
