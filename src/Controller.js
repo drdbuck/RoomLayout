@@ -406,6 +406,32 @@ class Controller {
         uiVars.selector.forEach(context => context.offset.copy(_zero));
     }
 
+    selectNextBox(dir) {
+        if (dir == undefined) {
+            return;
+        }
+        uiVars.selector.forEach(context => {
+            //early exit: no group
+            if (!context.kitbash) {
+                console.error("no group selected!", context);
+                return;
+            }
+            //
+            let item = context.kitbash.nextItem(context.box, dir);
+            if (!context.obj.isKitBash) {
+                context.obj = item;
+            }
+            context.box = item;
+            //
+            //TODO: verify newly selected face is valid
+        });
+        this.updateFaceSelection();
+        this.runFaceDelegate();
+        updateUIVariables(uiVars.selector.selection);
+        updateBoxEditPanel();
+        updateFaceEditPanel();
+    }
+
     selectNextFace(dir) {
         const min = 0;
         uiVars.selector.forEach(context => {

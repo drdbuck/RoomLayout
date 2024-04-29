@@ -88,6 +88,12 @@
         <div id="divPanelEdit" class="popupPanel" hidden>
             <button id="btnExitBoxEdit" class="exitButton" onclick="btnExitBoxEdit();">X</button>
             <h1 id="hEditBox">Edit Box</h1>
+            <!-- Switch Box -->
+            <button id="btnChangeBox" class="arrowButton" onclick="controller.selectNextBox(-1);"><</button>
+            <span id="spnBoxName">Select</span>
+            <button id="btnChangeBox" class="arrowButton" onclick="controller.selectNextBox(1);">></button>
+            <br>
+            <br>
             <!-- Name -->
             <label id="lblName" for="txtName">Name</label><br>
             <input type="text" id="txtName" title="Name" placeholder="name" default="chair"/><br>
