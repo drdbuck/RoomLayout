@@ -22,10 +22,16 @@ class Box extends Block {
     }
 
     get worldScale() {
+        if (!this._validGroup) {
+            return this.position;
+        }
         return this.scale.clone().multiplyScalar(this.group.scaleFactor);
     }
 
     get worldPosition() {
+        if (!this._validGroup) {
+            return this.position;
+        }
         // (pos * factor) + gpos
         let groupPos = this.group.position;
         let groupScaleFactor = this.group.scaleFactor;
@@ -34,8 +40,7 @@ class Box extends Block {
     }
 
     get defaultFace() {
-        if (!this.group) {
-            console.error("box with no group!", this.name);
+        if (!this._validGroup) {
         }
         return this.group?.defaultFace
             ?? this.defaultFace //semi backwards compatibility
@@ -128,6 +133,13 @@ class Box extends Block {
         this.onPositionChanged.run(this.position);
     }//
 
+    get _validGroup() {
+        if (!this.group) {
+            console.error("box with no group!", this.name);
+            return false;
+        }
+        return true;
+    }//
 }
 
 function inflateBox(box) {
