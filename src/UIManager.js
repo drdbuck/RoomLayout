@@ -11,7 +11,9 @@ const updateFunc = (id, list, func, float = true) => {
     //early exit: this txt is active
     if (document.activeElement.id === id) { return; }
     //processing
-    let value = list.map(func).reduce(reduceFunc);
+    let value = (list.length > 0)
+        ? list.map(func).reduce(reduceFunc)
+        : undefined;
     if (value && float) {
         value = Math.cut(value, DIGITS_OF_PRECISION);
     }
@@ -286,11 +288,16 @@ function registerUIDelegates(context, register) {
 
     //group
     let group = context.kitbash;
+    if (group) {
     [
         group.onPositionChanged,
         group.onAngleChanged,
     ]
         .forEach(del => del.listen(updateGroupEditPanel, register));
+    }
+    else {
+        console.error("context has no group!", context.box.name, group, context);
+    }
 
     //box
     let box = context.box;

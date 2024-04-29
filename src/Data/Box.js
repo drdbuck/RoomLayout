@@ -43,7 +43,6 @@ class Box extends Block {
         if (!this._validGroup) {
         }
         return this.group?.defaultFace
-            ?? this.defaultFace //semi backwards compatibility
             ?? PIXEL_WHITE;
     }
 

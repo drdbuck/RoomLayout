@@ -312,9 +312,9 @@ class Controller {
         else {
             selectContext.box = obj;
             let group = obj.group;
+            selectContext.kitbash = group;
             if (group && selectGroups) {
                 selectContext.obj = group;
-                selectContext.kitbash = group;
             }
         }
         selectContext.grabInfo();
