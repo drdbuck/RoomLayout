@@ -68,7 +68,7 @@ function initUI() {
         paramObjs.flat();
         //
         const _changeFunc = (dimensions) => {
-            list = listFunc();
+            let list = listFunc();
             Object.keys(dimensions).forEach(d => {
                 let value = dimensions[d];
                 if (value == undefined) { return; }
@@ -147,7 +147,7 @@ function initUI() {
     onChangeFunc("txtGroupAngle", glistfunc, (g, v) => controllerEdit.setBoxAngle(g, v), true, false);
 
     //BOX
-    let flistfunc = uiVars.selector.map(c => c.box);
+    let flistfunc = () => uiVars.selector.map(c => c.box);
     //Name
     onChangeFunc("txtName", flistfunc, (f, v) => f.name = v, false);
     //Size
