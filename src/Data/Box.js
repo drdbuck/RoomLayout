@@ -15,6 +15,7 @@ class Box extends Block {
         this.onFaceChanged = new Delegate("index", "imageURL");
 
         this.bind_ScaleFactorChanged = this.onScaleFactorChanged.bind(this);
+        this.bind_GroupPositionChanged = this.onGroupPositionChanged.bind(this);
 
         //processing variables
         this.lastImage = undefined;
@@ -121,8 +122,12 @@ class Box extends Block {
     }
 
     onScaleFactorChanged(scale){
-        this.onSizeChanged.run(scale);
+        this.onSizeChanged.run(this.scale);
     }
+    onGroupPositionChanged(pos) {
+        this.onPositionChanged.run(this.position);
+    }//
+
 }
 
 function inflateBox(box) {
@@ -134,6 +139,7 @@ function inflateBox(box) {
     backwardsCompatifyBox(box);
     
     box.bind_ScaleFactorChanged = box.onScaleFactorChanged.bind(box);
+    box.bind_GroupPositionChanged = box.onGroupPositionChanged.bind(box);
 
 }
 

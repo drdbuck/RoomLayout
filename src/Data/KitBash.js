@@ -79,6 +79,7 @@ class KitBash extends Block {
             //register delegate
             item.onFaceChanged.add(this.bind_FaceChanged);
             this.onScaleFactorChanged.add(item.bind_ScaleFactorChanged);
+            this.onPositionChanged.add(item.bind_GroupPositionChanged);
             //
             this.onItemAdded.run(item);
         }
@@ -93,6 +94,7 @@ class KitBash extends Block {
             //unregister delegate
             item.onFaceChanged.remove(this.onFaceChanged.run);
             this.onScaleFactorChanged.remove(item.bind_ScaleFactorChanged);
+            this.onPositionChanged.remove(item.bind_GroupPositionChanged);
             //
             this.onItemRemoved.run(item);
         }
@@ -298,6 +300,7 @@ function inflateKitBash(kitbash) {
         //register delegate
         item.onFaceChanged.add(kitbash.bind_FaceChanged);
         kitbash.onScaleFactorChanged.add(item.bind_ScaleFactorChanged);
+        kitbash.onPositionChanged.add(item.bind_GroupPositionChanged);
     }
 
     backwardsCompatifyKitBash(kitbash);

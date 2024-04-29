@@ -257,8 +257,6 @@ function constructBox(box) {
         holder.scale.x = minFunc(holder.scale.x);
         holder.scale.y = minFunc(holder.scale.y);
         holder.scale.z = minFunc(holder.scale.z);
-        //
-        // updatePosition();
     };
     let updateRotation = (angle = 0, recline = 0) => {
         //rotate to default
