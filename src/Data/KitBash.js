@@ -80,6 +80,7 @@ class KitBash extends Block {
             item.onFaceChanged.add(this.bind_FaceChanged);
             this.onScaleFactorChanged.add(item.bind_ScaleFactorChanged);
             this.onPositionChanged.add(item.bind_GroupPositionChanged);
+            this.onAngleChanged.add(item.bind_GroupAngleChanged);
             //
             this.onItemAdded.run(item);
         }
@@ -95,6 +96,7 @@ class KitBash extends Block {
             item.onFaceChanged.remove(this.onFaceChanged.run);
             this.onScaleFactorChanged.remove(item.bind_ScaleFactorChanged);
             this.onPositionChanged.remove(item.bind_GroupPositionChanged);
+            this.onAngleChanged.remove(item.bind_GroupAngleChanged);
             //
             this.onItemRemoved.run(item);
         }
@@ -132,27 +134,6 @@ class KitBash extends Block {
     }
 
     //Rotation
-    get angle() {
-        let sumAngle = this._items.sum(f => loopAngle(f.angle));
-        return sumAngle / this._items.length;
-    }
-    set angle(value) {
-        const oldAngle = this.angle;
-        let offset = value - oldAngle;
-        const center = this.position;
-        this._items.forEach(item => {
-            //update angle
-            item.angle += offset;
-            //update position
-            let poffset = item.position.clone();
-            poffset.sub(center);
-            let radians = toRadians(offset);
-            poffset.applyAxisAngle(_up, radians);
-            poffset.add(center);
-            item.position = poffset;
-        });
-        super.angle = value;
-    }
 
     //Scale
     get scale() {
@@ -301,6 +282,7 @@ function inflateKitBash(kitbash) {
         item.onFaceChanged.add(kitbash.bind_FaceChanged);
         kitbash.onScaleFactorChanged.add(item.bind_ScaleFactorChanged);
         kitbash.onPositionChanged.add(item.bind_GroupPositionChanged);
+        kitbash.onAngleChanged.add(item.bind_GroupAngleChanged);
     }
 
     backwardsCompatifyKitBash(kitbash);

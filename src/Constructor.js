@@ -273,9 +273,6 @@ function constructBox(box) {
         let radRecline = -MathUtils.degToRad(recline);
         let axisRecline = new Vector3(1, 0, 0);
         holder.rotateOnAxis(axisRecline, radRecline);
-
-        //
-        // updatePosition();
     };
 
 
@@ -291,8 +288,11 @@ function constructBox(box) {
         updatePosition(box.worldPosition);
     });
     box.onPositionChanged.add(() => updatePosition(box.worldPosition));
-    box.onAngleChanged.add(() => updateRotation(box.angle, box.recline));
-    box.onReclineChanged.add(() => updateRotation(box.angle, box.recline));
+    box.onAngleChanged.add(() => {
+        updateRotation(box.worldAngle, box.recline);
+        updatePosition(box.worldPosition);
+    });
+    box.onReclineChanged.add(() => updateRotation(box.worldAngle, box.recline));
     box.onFaceChanged.add((index, url) => {
         let material = createMaterial(url ?? box.defaultFace);
         let materialBack = createMaterial(url ?? box.defaultFace, false);
@@ -330,7 +330,7 @@ function constructBox(box) {
     //init with update functions
     updatePosition(box.worldPosition);
     updateScale(box.worldScale);
-    updateRotation(box.angle, box.recline);
+    updateRotation(box.worldAngle, box.recline);
 
     return holder;
 }

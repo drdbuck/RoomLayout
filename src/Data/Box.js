@@ -16,6 +16,7 @@ class Box extends Block {
 
         this.bind_ScaleFactorChanged = this.onScaleFactorChanged.bind(this);
         this.bind_GroupPositionChanged = this.onGroupPositionChanged.bind(this);
+        this.bind_GroupAngleChanged = this.onGroupAngleChanged.bind(this);
 
         //processing variables
         this.lastImage = undefined;
@@ -23,7 +24,7 @@ class Box extends Block {
 
     get worldScale() {
         if (!this._validGroup) {
-            return this.position;
+            return this.scale;
         }
         return this.scale.clone().multiplyScalar(this.group.scaleFactor);
     }
@@ -37,6 +38,13 @@ class Box extends Block {
         let groupScaleFactor = this.group.scaleFactor;
         let pos = this.position.clone();
         return pos.multiplyScalar(groupScaleFactor).add(groupPos);
+    }
+
+    get worldAngle() {
+        if (!this._validGroup) {
+            return this.angle;
+        }
+        return this.group.angle + this.angle;
     }
 
     get defaultFace() {
@@ -130,6 +138,9 @@ class Box extends Block {
     }
     onGroupPositionChanged(pos) {
         this.onPositionChanged.run(this.position);
+    }
+    onGroupAngleChanged(angle) {
+        this.onAngleChanged.run(this.angle);
     }
 
     get _validGroup() {
