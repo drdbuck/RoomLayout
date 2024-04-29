@@ -76,6 +76,8 @@ class KitBash extends Block {
             item.group?.remove(item);
             //tell item its in a new group now
             item.group = this;
+            //change position
+            item.position.sub(this.position);
             //register delegate
             item.onFaceChanged.add(this.bind_FaceChanged);
             this.onScaleFactorChanged.add(item.bind_ScaleFactorChanged);
@@ -92,6 +94,9 @@ class KitBash extends Block {
         }
         if (this._items.includes(item)) {
             this._items.remove(item);
+            
+            //change position
+            item.position.add(this.position);
             //unregister delegate
             item.onFaceChanged.remove(this.onFaceChanged.run);
             this.onScaleFactorChanged.remove(item.bind_ScaleFactorChanged);
