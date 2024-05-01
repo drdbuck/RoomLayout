@@ -81,8 +81,16 @@ const menuBarData = {
         "Panels": "---",
         "Box Edit Panel": "actionTogglePanelEditObject();",
         "Room Edit Panel": "actionTogglePanelEditRoom();",
-        "Face View Panel": "actionTogglePanelFaceView();",
-        "Face Edit Panel": "actionTogglePanelFaceEdit();",
+        "Face View Panel": {
+            action: "actionTogglePanelFaceView();",
+            listen: ["select"],
+            update: "menuUpdateSelectMinimum(_);",
+        },
+        "Face Edit Panel": {
+            action: "actionTogglePanelFaceEdit();",
+            listen: ["select"],
+            update: "menuUpdateTogglePanelFaceEdit(_);",
+        },
     },
 };
 
