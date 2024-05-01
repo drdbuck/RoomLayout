@@ -10,6 +10,15 @@ const DIGITS_OF_PRECISION = 3;
 const updateFunc = (id, list, func, float = true) => {
     //early exit: this txt is active
     if (document.activeElement.id === id) { return; }
+    //
+    let txt = $(id);
+    let validList = list?.length > 0;
+    txt.disabled = !validList;
+    //early exit: nothing in list
+    if (!validList) {
+        txt.value = "";
+        return;
+    }
     //processing
     let value = (list.length > 0)
         ? list.map(func).reduce(reduceFunc)
@@ -17,7 +26,7 @@ const updateFunc = (id, list, func, float = true) => {
     if (value && float) {
         value = Math.cut(value, DIGITS_OF_PRECISION);
     }
-    $(id).value = value ?? inequal;
+    txt.value = value ?? inequal;
 };
 
 function initUI() {
@@ -174,7 +183,7 @@ function initUI() {
 //
 
 function updateUIVariables(contexts) {
-    log("selected count:", uiVars.selector.count);
+    log("selected count:", contexts.count);
 
     //early exit: no contexts
     if (!contexts) {
@@ -232,14 +241,12 @@ function updateGroupEditPanel() {
     //Update UI
     let anySelected = _contexts.length > 0;
 
-    if (!anySelected) { return; }
-
 
     let glist = _groups;
 
     //Name
-    $("txtGroupName").disabled = !(_contexts.length == 1);
     updateFunc("txtGroupName", glist, g => g.name, false);
+    $("txtGroupName").disabled = !(anySelected && _contexts.length == 1);
     //Size
     updateFunc("txtGroupScaleFactor", glist, g => g.scaleFactor);
     // updateFunc("txtGroupWidth", glist, g => g.width);
@@ -261,14 +268,13 @@ function updateBoxEditPanel() {
 
     //Update UI
     let anySelected = _contexts.length > 0;
-
-    if (!anySelected) { return; }
+    
 
     let flist = _boxs;
 
     //Name
-    $("txtName").disabled = !(_contexts.length == 1);
     updateFunc("txtName", flist, f => f.name, false);
+    $("txtName").disabled = !(anySelected && _contexts.length == 1);
     //Size
     updateFunc("txtWidth", flist, f => f.width);
     updateFunc("txtLength", flist, f => f.length);
@@ -282,6 +288,7 @@ function updateBoxEditPanel() {
 
     //Buttons
     $("btnFaceEdit").checked = uiVars.viewPanelFace;
+    $("btnFaceEdit").disabled = !anySelected;
 }
 
 function registerUIDelegates(context, register) {
