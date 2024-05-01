@@ -33,12 +33,24 @@ class Box extends Block {
         if (!this._validGroup) {
             return this.position;
         }
-        // (pos * factor) + gpos
+        // (pos^gangle * factor) + gpos
         let groupPos = this.group.position;
         let groupScaleFactor = this.group.scaleFactor;
         let groupAngle = degToRad(this.group.angle);
         let pos = this.position.clone();
         return pos.applyAxisAngle(_up, groupAngle).multiplyScalar(groupScaleFactor).add(groupPos);
+    }
+    set worldPosition(value) {
+        if (!this._validGroup) {
+            this.position = value;
+            return;
+        }
+        // ((wpos - gpos) / factor)^-gangle
+        let groupPos = this.group.position;
+        let groupScaleFactor = this.group.scaleFactor;
+        let groupAngle = degToRad(this.group.angle);
+        let worldPos = value.clone();
+        this.position = worldPos.sub(groupPos).divideScalar(groupScaleFactor).applyAxisAngle(_up, -groupAngle);
     }
 
     get worldAngle() {

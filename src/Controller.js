@@ -527,7 +527,7 @@ class Controller {
         position.x = Math.clamp(position.x, min.x, max.x);
         position.z = Math.clamp(position.z, min.z, max.z);
         // position.z = -Math.clamp(position.z, min.z, max.z);
-        box.position = position;
+        box.worldPosition = position;
     }
 
     setBoxAltitude(box, altitude) {

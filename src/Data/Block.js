@@ -95,6 +95,14 @@ class Block {
         this.onPositionChanged.run(this._position);
     }
 
+    get worldPosition() {
+        return this.position;
+    }
+    set worldPosition(value) {
+        this.position = value;
+    }
+
+
     get altitude() {
         return this._position.y;
     }
