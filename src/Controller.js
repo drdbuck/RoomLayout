@@ -513,7 +513,7 @@ class Controller {
             let item = context.obj;
             pos.copy(mouseWorld);
             pos = pos.add(context.offset);
-            this.setBoxPosition(item, pos);
+            this.setBoxPositionWorld(item, pos);
         });
     }
 
@@ -527,7 +527,15 @@ class Controller {
         position.x = Math.clamp(position.x, min.x, max.x);
         position.z = Math.clamp(position.z, min.z, max.z);
         // position.z = -Math.clamp(position.z, min.z, max.z);
-        box.worldPosition = position;
+        box.position = position;
+    }
+    setBoxPositionWorld(box, worldPos) {
+        let min = box.room.min;
+        let max = box.room.max;
+        worldPos.x = Math.clamp(worldPos.x, min.x, max.x);
+        worldPos.z = Math.clamp(worldPos.z, min.z, max.z);
+        // worldPos.z = -Math.clamp(worldPos.z, min.z, max.z);
+        box.worldPosition = worldPos;
     }
 
     setBoxAltitude(box, altitude) {
