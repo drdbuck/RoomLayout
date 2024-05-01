@@ -96,6 +96,7 @@ function actionSelectPieces() {
             return c.obj.items.map(f => {
                 let sc = new SelectContext(f);
                 sc.box = f;
+                sc.kitbash = f.group;
                 sc.grabInfo();
                 return sc;
             });
