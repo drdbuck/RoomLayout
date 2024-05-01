@@ -11,6 +11,7 @@ class Input {
             hold: new Delegate(),
             up: new Delegate(),
             wheel: new Delegate(),
+            doubleclick: new Delegate(),
         };
         this.key = {
             down: new Delegate(),
@@ -82,6 +83,13 @@ class Input {
         //
         this.processMouseInput(event);
         this.mouse.wheel.run(this.state, event);
+    }
+
+    processMouseDoubleClick(event) {
+        if (!this.verifyEvent(event)) { return; }
+        //
+        this.processMouseInput(event);
+        this.mouse.doubleclick.run(this.state, event);
     }
 
 

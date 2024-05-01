@@ -277,6 +277,15 @@ class Controller {
         player.animate();
     }
 
+    processMouseDoubleClick(state, event) {
+        let targetHit = this.getObjectHitAtMousePos();
+        if (targetHit?.object?.box) {
+            //open up face edit panel
+            uiVars.viewPanelFace = true;
+            player.animate();
+        }
+    }
+
     getHitAtMousePos(findFunc = (rch) => true) {
         //2023-12-21: copied from https://stackoverflow.com/a/30871007/2336212
         this.raycaster.setFromCamera(this.mouse, this.camera);

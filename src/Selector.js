@@ -123,10 +123,11 @@ class Selector {
      * Deselect all the selected items
      */
     clear() {
-        for (let item of this._selection) {
+        let removeList = [...this._selection];
+        this._selection.length = 0;
+        for (let item of removeList) {
             this.onSelectionLost.run(item);
         }
-        this._selection.length = 0;
         this.onSelectionChanged.run(this._selection);
     }
 

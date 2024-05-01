@@ -48,6 +48,7 @@ function init() {
     window.onmousemove = input.processMouseMove.bind(input);
     window.onmouseup = input.processMouseUp.bind(input);
     window.onmousewheel = input.processMouseWheel.bind(input);
+    window.ondblclick = input.processMouseDoubleClick.bind(input);
 
     //Crop Canvas
     controllerImageEdit = new ControllerImageEdit($("cvsCrop"), "#73c9ff");
@@ -174,6 +175,11 @@ function hookupDelegates() {
             mesh.edge.visible = false;
             updateFace(mesh, -2);
         });
+        //if group no longer selected,
+        if (!uiVars.selector.find(c => c.kitbash == context.kitbash)) {
+            //hide face panel
+            uiVars.viewPanelFace = false;
+        }
         //
         updateFace(context.mesh, -2);
         registerUIDelegates(context, false);
@@ -354,6 +360,7 @@ function registerKeyBindings(edit = inEditMode, play = !inEditMode) {
         input.mouse.move.add(controllerEdit.processMouseMove.bind(controllerEdit));
         input.mouse.up.add(controllerEdit.processMouseUp.bind(controllerEdit));
         input.mouse.wheel.add(controllerEdit.processMouseWheel.bind(controllerEdit));
+        input.mouse.doubleclick.add(controllerEdit.processMouseDoubleClick.bind(controllerEdit));
 
         controller = controllerEdit;
     }
