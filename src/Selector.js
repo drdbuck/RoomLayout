@@ -79,12 +79,14 @@ class Selector {
     selectOnly(item) {
         if (!item) { return; }
         //clear
-        for (let item1 of this._selection) {
-            this.onSelectionLost.run(item1);
-        }
+        let removeList = [...this._selection];
         this._selection.length = 0;
         //select
         this._selection.push(item);
+        //delegates
+        for (let item1 of removeList) {
+            this.onSelectionLost.run(item1);
+        }
         this.onSelectionGained.run(item);
         this.onSelectionChanged.run(this._selection);
     }
