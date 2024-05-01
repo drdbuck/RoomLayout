@@ -162,7 +162,7 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
     //Position new box
     let point = controllerEdit.getHitAtMousePos()?.point;
     if (point) {
-        box.position = point;
+        box.worldPosition = point;
     }
     // //focus field
     // $("txtWidth").focus();

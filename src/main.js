@@ -241,7 +241,7 @@ function hookupDelegates() {
         //Position new box
         let point = controllerEdit.getHitAtMousePos()?.point;
         if (point) {
-            box.position = point;
+            box.worldPosition = point;
         }
         // //focus field
         // $("txtWidth").focus();
@@ -258,7 +258,7 @@ function hookupDelegates() {
         //Position new furniture
         let point = controllerEdit.getHitAtMousePos()?.point;
         if (point) {
-            furniture.position = point;
+            furniture.worldPosition = point;
         }
     });
 

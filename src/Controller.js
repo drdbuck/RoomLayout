@@ -374,9 +374,9 @@ class Controller {
         }
         const avgFunc = (func) => uiVars.selector.map(func).sum() / count;
         let collectiveCenter = new Vector3(
-            avgFunc(c => c.obj.position.x),
-            avgFunc(c => c.obj.position.y),
-            avgFunc(c => c.obj.position.z),
+            avgFunc(c => c.obj.worldPosition.x),
+            avgFunc(c => c.obj.worldPosition.y),
+            avgFunc(c => c.obj.worldPosition.z),
         );
         this.collectiveCenter = collectiveCenter;
         uiVars.selector.forEach(c => c.collectiveCenter = collectiveCenter);
@@ -396,7 +396,7 @@ class Controller {
         let mouseWorld = this.getMouseWorld(this.mouse);
         uiVars.selector.forEach(context => {
             let select = context.obj;
-            let origPos = new Vector3(select.position);
+            let origPos = new Vector3(select.worldPosition);
             let offset = origPos.sub(mouseWorld);
             context.offset.copy(offset);
         });
