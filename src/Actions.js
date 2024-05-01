@@ -122,23 +122,23 @@ function actionRedo() {
 
 function actionObjectCreateBlank() {
     _actionObjectCreate(
-        "blank",
-        "create blank object"
+        "box _",
+        "create box"
     );
 }
 
 function actionObjectCreateBlankFlatWall() {
     _actionObjectCreate(
-        "blank wall",
-        "create blank flat wall object",
+        "rectangle _",
+        "create rectangle",
         (f) => f.depth = 0
     );
 }
 
 function actionObjectCreateBlankFlatFloor() {
     _actionObjectCreate(
-        "blank floor",
-        "create blank flat floor object",
+        "floor rectangle _",
+        "create floor rectangle",
         (f) => f.height = 0
     );
 }
@@ -147,6 +147,9 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
     let box = new Box();
     box.name = objName;
     processFunc(box);
+    //ids
+    uiVars.giveUids(box);
+    box.name = box.name.replace("_", box.uid);
     //find selected group
     let group = uiVars.selector.find(c => c.kitbash)?.kitbash;
     //
@@ -210,7 +213,7 @@ function actionObjectsCreateSkirt() {
         group.position = point;
     }
     //record undo
-    undoMan.recordUndo("create blank skirt object");
+    undoMan.recordUndo("create skirt prefab");
 }
 
 function actionObjectsDuplicate() {

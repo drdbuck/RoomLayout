@@ -66,11 +66,12 @@ const menuBarData = {
     },
     create: {
         title: "Create",
-        "Blank": "---",
-        "Create Blank %b": "actionObjectCreateBlank();",
-        "Create Flat Wall Blank %#b": "actionObjectCreateBlankFlatWall();",
-        "Create Flat Floor Blank %&b": "actionObjectCreateBlankFlatFloor();",
-        "Create Skirt Blank #b": "actionObjectsCreateSkirt();",
+        "Component": "---",
+        "Create Box %b": "actionObjectCreateBlank();",
+        "Create Rectangle %#b": "actionObjectCreateBlankFlatWall();",
+        "Create Floor Rectangle %&b": "actionObjectCreateBlankFlatFloor();",
+        "Prefab": "---",
+        "Create Skirt Prefab #b": "actionObjectsCreateSkirt();",
     },
     view: {
         title: "View",
