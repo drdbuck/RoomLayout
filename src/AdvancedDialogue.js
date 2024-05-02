@@ -24,7 +24,6 @@ class AdvancedDialogue {
                     default: 20,
                 },
             ];
-        this._visible = false;
 
         this._parent = parent;
 
@@ -32,6 +31,21 @@ class AdvancedDialogue {
         this._parent.innerHTML = text;
         this._panel = $(panelId);
         this._controls = optionIds.map(oid => $(oid));
+
+        //make callback func
+        this.callbackFunc = (answers) => { };
+        const advdlg = this;
+        this._panel.callbackFunc = () => {
+            let answers = {};
+            this.options
+                .filter(o => advdlg._includeList.includes(o.name))
+                .forEach(o =>
+                    answers[o.name] = advdlg._controls.find(c => c.id.includes(o.name)).value
+                );
+            advdlg.callbackFunc(answers);
+        };
+
+        this.visible = false;
 
     }
 
@@ -82,7 +96,7 @@ class AdvancedDialogue {
         });
 
         //ok button
-        lines.push(`<button id="btnOK${panelId}" class="lineButton" onclick="$(${panelId}).callback();">${this.okLabel ?? "OK"}</button>`);
+        lines.push(`<button id="btnOK${panelId}" class="lineButton" onclick="$(${panelId}).callbackFunc();">${this.okLabel ?? "OK"}</button>`);
 
         //cancel button
         lines.push(`<button id="btnCancel${panelId}" class="lineButton" onclick="$(${panelId}).hidden=true;">${"Cancel"}</button>`);
@@ -96,21 +110,21 @@ class AdvancedDialogue {
     }
 
     get visible() {
-        return this._visible;
+        return !this._panel.hidden;
     }
     set visible(value) {
-        this._visible = value;
-        this._panel.hidden = !this._visible;
+        this._panel.hidden = !value;
     }
 
-    show(callback, includeList) {
+    show(callbackFunc, includeList) {
         //
-        this.callback = callback;
+        this.callbackFunc = callbackFunc;
         //
         this.reset();
         //
         const options = this.options;
         includeList ??= options.map(o => o.name);
+        this._includeList = includeList;
         //
         options.forEach(o => {
             let input = this._controls(o.name);
