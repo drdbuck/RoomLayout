@@ -23,7 +23,7 @@ function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
 function isInteger(n) { return isNumber(n) && Math.floor(n) === n; }
 
 //2024-05-02: copied from https://stackoverflow.com/a/8511350/2336212
-function isObject(o) { return typeof x === 'object' && !Array.isArray(x) && x !== null; }
+function isObject(o) { return typeof o === 'object' && !Array.isArray(o) && o !== null; }
 
 function $(id) {
     return document.getElementById(id);

@@ -28,9 +28,12 @@ class AdvancedDialogue {
         this._parent = parent;
 
         const [text, panelId, optionIds] = this._generate();
-        this._panel = document.createElement(text);
-        this._parent.appendChild(this._panel);
-        this._controls = optionIds.map(oid => $(oid));
+        let wrapper = document.createElement("div");
+        this._parent.appendChild(wrapper);
+        wrapper.innerHTML = text;
+        this._panel = $(panelId);
+        this._controls = {};
+        Object.entries(optionIds).forEach(([key, val]) => this._controls[key] = $(val));
 
         //make callback func
         this.callbackFunc = (answers) => { };
@@ -40,7 +43,7 @@ class AdvancedDialogue {
             this.options
                 .filter(o => advdlg._includeList.includes(o.name))
                 .forEach(o =>
-                    answers[o.name] = advdlg._controls.find(c => c.id.includes(o.name)).value
+                    answers[o.name] = advdlg._controls[o.name].value
                 );
             advdlg.callbackFunc(answers);
         };
@@ -50,18 +53,18 @@ class AdvancedDialogue {
     }
 
     _generate() {
-        const panelId = `advdlg${this.title}`;
+        const panelId = `advdlg${this.title.replaceAll(" ","")}`;
         let lines = [];
-        let optionIds = [];
+        let optionIds = {};
 
         //div start
-        lines.push(`<div id="${panelId}" class="popupPanel" hidden></div>`);
+        lines.push(`<div id="${panelId}" class="popupPanel">`);
 
         //exit button
-        lines.push(`<button id="btnExit${panelId}" class="exitButton" onclick="$(${panelId}).hidden=true;">X</button>`);
+        lines.push(`<button id="btnExit${panelId}" class="exitButton" onclick="$('${panelId}').hidden=true;">X</button>`);
 
         //panel header
-        lines.push(`<h1 id="h1${panelId}">Edit Box</h1>`);
+        lines.push(`<h1 id="h1${panelId}">${this.title}</h1>`);
 
         //options
         this._options.forEach(o => {
@@ -82,7 +85,7 @@ class AdvancedDialogue {
                         <input type="text" id="${fieldId}" title="${name}" placeholder="${name}" default="${defaultVal}"/>
                         <br>
                     `);
-                    optionIds.push(fieldId);
+                    optionIds[name] = fieldId;
                     //TODO: allow different inputs for different types
                     // switch (o.type) {
                     //     case OPTION_TYPE_STRING:
@@ -96,11 +99,16 @@ class AdvancedDialogue {
         });
 
         //ok button
-        lines.push(`<button id="btnOK${panelId}" class="lineButton" onclick="$(${panelId}).callbackFunc();">${this.okLabel ?? "OK"}</button>`);
+        lines.push(
+            `<button id="btnOK${panelId}" class="lineButton" onclick="
+                $('${panelId}').callbackFunc();
+                $('${panelId}').hidden=true;
+            ">${this.okLabel ?? "OK"}</button>`
+        );
 
         //cancel button
-        lines.push(`<button id="btnCancel${panelId}" class="lineButton" onclick="$(${panelId}).hidden=true;">${"Cancel"}</button>`);
         
+        lines.push(`<button id="btnCancel${panelId}" class="lineButton" onclick="$('${panelId}').hidden=true;">${"Cancel"}</button>`);
         //div end
         lines.push(`</div>`);
 
@@ -127,7 +135,7 @@ class AdvancedDialogue {
         this._includeList = includeList;
         //
         options.forEach(o => {
-            let input = this._controls(o.name);
+            let input = this._controls[o.name];
             let shown = includeList.includes(o.name);
             input.disabled = !shown;
             input.hidden = !shown;
@@ -139,7 +147,7 @@ class AdvancedDialogue {
 
     reset() {
         this.options.forEach(o => {
-            let input = this._controls(o.name);
+            let input = this._controls[o.name];
             input.value = o.default ?? "";
         });
     }
