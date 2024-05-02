@@ -28,8 +28,8 @@ class AdvancedDialogue {
         this._parent = parent;
 
         const [text, panelId, optionIds] = this._generate();
-        this._parent.innerHTML = text;
-        this._panel = $(panelId);
+        this._panel = document.createElement(text);
+        this._parent.appendChild(this._panel);
         this._controls = optionIds.map(oid => $(oid));
 
         //make callback func

@@ -175,6 +175,12 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
 }
 
 function actionObjectsCreateSkirt() {
+    createObjectDialogue.show(
+        _actionObjectsCreateSkirt,
+        undefined //size, recline
+    );
+}
+function _actionObjectsCreateSkirt(answers) {
     let boxes = [];
     const count = 4;
     for (let i = 0; i < count; i++) {

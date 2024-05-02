@@ -13,6 +13,7 @@ let controller;
 let controllerEdit;
 let controllerFPS;
 let controllerImageEdit;
+let createObjectDialogue;
 let house = new House();
 const selectColor = "#8ce8ff";
 const selectMaterial = createColorMaterial(selectColor, false);
@@ -111,6 +112,58 @@ function init() {
 
     //Menu
     constructMenuBar("divMenuBar", "divMenuPanels", menuBarData);
+
+    //Create Object Dialogue
+    createObjectDialogue = new AdvancedDialogue(
+        "Create Object", //TODO: have the title changed based on what's being created
+        [
+            "Size",
+            {
+                name: "Width",
+                type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
+                default: 1,
+            },
+            {
+                name: "Depth",
+                type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
+                default: 1,
+            },
+            {
+                name: "Height",
+                type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
+                default: 1,
+            },
+            // "Position",
+            // {
+            //     name: "X",
+            //     type: OPTION_TYPE_NUMBER,
+            //     default: 0,
+            // },
+            // {
+            //     name: "Y",
+            //     type: OPTION_TYPE_NUMBER,
+            //     default: 0,
+            // },
+            // {
+            //     name: "Altitude",
+            //     type: OPTION_TYPE_NUMBER_POSITIVE,
+            //     default: 0,
+            // },
+            "Rotation",
+            // {
+            //     name: "Angle",
+            //     type: OPTION_TYPE_NUMBER_POSITIVE,
+            //     default: 0,
+            // },
+            {
+                name: "Recline",
+                type: OPTION_TYPE_NUMBER_POSITIVE,
+                default: 0,
+            },
+        ],
+        body,
+        "Create"
+    );
 
     //Delegates
     hookupDelegates();
