@@ -6,8 +6,9 @@ const OPTION_TYPE_NUMBER_POSITIVE_NONZERO = 2;
 const OPTION_TYPE_STRING = 3;
 
 class AdvancedDialogue {
-    constructor(title, options, parent) {
+    constructor(title, options, parent, okLabel) {
         this.title = title;
+        this.okLabel = okLabel;
         //TODO: make sure each option has a unique name
         this._options = options ??
             [
@@ -80,6 +81,12 @@ class AdvancedDialogue {
             }
         });
 
+        //ok button
+        lines.push(`<button id="btnOK${panelId}" class="lineButton" onclick="$(${panelId}).callback();">${this.okLabel ?? "OK"}</button>`);
+
+        //cancel button
+        lines.push(`<button id="btnCancel${panelId}" class="lineButton" onclick="$(${panelId}).hidden=true;">${"Cancel"}</button>`);
+        
         //div end
         lines.push(`</div>`);
 
