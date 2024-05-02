@@ -186,15 +186,20 @@ function _actionObjectsCreateSkirt(answers) {
     for (let i = 0; i < count; i++) {
         let box = new Box();
         box.name = `skirt wall ${i + 1}/${count}`;
+        let dim = (i % 2 == 0) ? answers.Width : answers.Depth;
+        let dim2 = (i % 2 == 0) ? answers.Depth : answers.Width;
+        box.width = dim;
         box.depth = 0;
-        box.angle = i * 90;
+        box.height = answers.Height;
+        box.angle = i * 90;//dirty: assumes 4 sides
+        box.recline = answers.Recline;
         box.position = new Vector3(
             (i % 2 == 0)
                 ? 0
-                : 0.5 * -Math.sign(i - 1.5),
+                : dim2 * 0.5 * -Math.sign(i - 1.5),
             0,
             (i % 2 == 0)
-                ? 0.5 * -Math.sign(i - 1.5)
+                ? dim2 * 0.5 * -Math.sign(i - 1.5)
                 : 0
         );//dirty: assumes 4 sides
         box.setFace(5, PIXEL_TRANSPARENT);
@@ -211,6 +216,7 @@ function _actionObjectsCreateSkirt(answers) {
     else {
         let room = house.rooms[0];//dirty: hardcoded which room to add to
         group = room.group(boxes, PIXEL_WHITE);
+        group.angle = 0;
     }
     //Select new box
     controllerEdit.selectObject(group, false, undefined, newGroup);
