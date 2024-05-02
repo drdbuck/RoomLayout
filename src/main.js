@@ -298,10 +298,10 @@ function hookupDelegates() {
         //Select new box
         controllerEdit.selectObject(group, false, FACE_DEFAULT);
         //Position new box
-        let point = controllerEdit.getHitAtMousePos()?.point;
-        if (point) {
-            box.worldPosition = point;
-        }
+        // let point = controllerEdit.getHitAtMousePos()?.point;
+        // if (point) {
+        //     box.worldPosition = point;
+        // }
         // //focus field
         // $("txtWidth").focus();
     });
@@ -315,10 +315,10 @@ function hookupDelegates() {
         //Select new furniture
         controllerEdit.selectObject(furniture, false);
         //Position new furniture
-        let point = controllerEdit.getHitAtMousePos()?.point;
-        if (point) {
-            furniture.worldPosition = point;
-        }
+        // let point = controllerEdit.getHitAtMousePos()?.point;
+        // if (point) {
+        //     furniture.worldPosition = point;
+        // }
     });
 
     //Upload new room
