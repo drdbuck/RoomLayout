@@ -59,7 +59,7 @@ class AdvancedDialogue {
                 case isString(o):
                     lines.push(`<h2>${o}</h2>`);
                     break;
-                case Object.isObject(o):
+                case isObject(o):
                     const name = o.name;
                     const fieldId = `input${panelId}${name}`;
                     const defaultVal = o.default ?? "";
@@ -132,7 +132,7 @@ class AdvancedDialogue {
 
     get options() {
         return this._options
-            .filter(o => Object.isObject(o));
+            .filter(o => isObject(o));
     }
 
 }
