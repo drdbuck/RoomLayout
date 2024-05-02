@@ -32,6 +32,8 @@ class AdvancedDialogue {
         this._parent.appendChild(wrapper);
         wrapper.innerHTML = text;
         this._panel = $(panelId);
+        this._panel.style.left = "400px";
+        this._panel.style.top = "200px";
         this._controls = {};
         Object.entries(optionIds).forEach(([key, val]) => this._controls[key] = $(val));
 
@@ -140,6 +142,7 @@ class AdvancedDialogue {
             input.disabled = !shown;
             input.hidden = !shown;
         });
+        this._controls[includeList[0]].focus();
         //
         this.visible = true;
         //
