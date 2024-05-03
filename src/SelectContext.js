@@ -31,8 +31,10 @@ class SelectContext {
 
     grabBoxes() {
         this.mesh = getBox(this.box ?? this.kitbash?.items[0] ?? this.obj);
-        this.meshes = getBoxes(this.kitbash?.items);
-        if (this.meshes.length == 0) {
+        if (this.obj.isKitBash) {
+            this.meshes = getBoxes(this.kitbash.items);
+        }
+        else {
             this.meshes = [this.mesh];
         }
         return this.mesh && this.meshes.length > 0;
