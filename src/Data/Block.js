@@ -146,13 +146,20 @@ function inflateBlock(block) {
 
     backwardsCompatifyBlock(block);
 
-    Object.setPrototypeOf(block._position, Vector3.prototype);
+    validifyVector3(block._position, 0);
 
-    Object.setPrototypeOf(block._scale, Vector3.prototype);
+    validifyVector3(block._scale, 1);
 
 }
 
 function backwardsCompatifyBlock(block) {
     //Change: add _recline
     block._recline ??= 0;
+}
+
+function validifyVector3(v, defaultValue = 0) {
+    Object.setPrototypeOf(v, Vector3.prototype);
+    v.x ??= defaultValue;
+    v.y ??= defaultValue;
+    v.z ??= defaultValue;
 }
