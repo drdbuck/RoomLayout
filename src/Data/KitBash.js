@@ -98,7 +98,7 @@ class KitBash extends Block {
         }
         if (this._items.includes(item)) {
             this._items.remove(item);
-            
+
             //change position
             item.position.add(this.position);
             //unregister delegate

@@ -268,7 +268,7 @@ function updateBoxEditPanel() {
 
     //Update UI
     let anySelected = _contexts.length > 0;
-    
+
 
     let flist = _boxs;
 
@@ -309,11 +309,11 @@ function registerUIDelegates(context, register) {
     //group
     let group = context.kitbash;
     if (group) {
-    [
-        group.onPositionChanged,
-        group.onAngleChanged,
-    ]
-        .forEach(del => del.listen(updateGroupEditPanel, register));
+        [
+            group.onPositionChanged,
+            group.onAngleChanged,
+        ]
+            .forEach(del => del.listen(updateGroupEditPanel, register));
     }
     else {
         console.error("context has no group!", context.box.name, group, context);
