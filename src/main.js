@@ -196,6 +196,7 @@ function hookupDelegates() {
     controllerEdit.onFaceSelectionChanged.add(faces => {
         if (uiVars.viewPanelFace) {
             uiVars.viewPanelFaceEdit = false;
+            updateUIVariables(uiVars.selector.selection);
             updateFaceEditPanel();
             uiVars.highlightSelectedFace = true;
             player.animate();
