@@ -4,22 +4,28 @@
 const EXTENSION_FURNITURE = "frn";//box file extension
 const EXTENSION_ROOM = "room";//room file extension
 
+const listToAcceptString = (list) => list
+    .map(f => (f.includes("/")) ? f : `.${f}`)
+    .join(", ");
+
 const imageFileTypes = [
     "image/png",
     "image/jpeg",
     "image/bmp",
     "image/webp",
 ];
+const acceptStringImageFiles = listToAcceptString(imageFileTypes);
+
 const textFileTypes = [
     "text/plain",
     "application/json",
     EXTENSION_FURNITURE,
     EXTENSION_ROOM,
 ];
+const acceptStringTextFiles = listToAcceptString(textFileTypes);
+
 const allFileTypes = [imageFileTypes, textFileTypes].flat();
-const acceptStringAllFiles = allFileTypes
-    .map(f => (f.includes("/")) ? f : `.${f}`)
-    .join(", ");
+const acceptStringAllFiles = listToAcceptString(allFileTypes);
 
 class FileManager {
     constructor(dropPanel) {

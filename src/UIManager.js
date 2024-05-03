@@ -449,6 +449,7 @@ function updateFaceEditPanel() {
     $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.box._faces[c.face] != PIXEL_TRANSPARENT)
         || usingImage && _contexts.find(c => c.box.validFaceIndex(c.face))?.face >= 0
     );//dirty: _contexts
+    $("btnFaceImport").hidden = !!usingImage;
     $("btnFaceClear").innerHTML = (usingImage) ? "Clear Face" : "Make Transparent";
 }
 
@@ -588,6 +589,32 @@ function btnFaceErase() {
     player.animate();//needed?
     //record undo
     undoMan.recordUndo("erase image");
+}
+
+function btnFaceImport() {
+    //2024-05-03: copied from actionImportBox()
+    //2024-03-06: copied from CardGenerator
+    //2024-03-03: copied from https://stackoverflow.com/a/56607553/2336212
+
+    var el = document.createElement("INPUT");
+    el.type = "file";
+    el.accept = acceptStringImageFiles;
+    el.multiple = false;
+
+    el.addEventListener('change', (event) => {
+        flm.handleFiles(
+            el.files,
+            () => {
+                uiVars.highlightSelectedFace = false;
+                updateFaceEditPanel();
+                player.animate();
+                //record undo
+                undoMan.recordUndo("import image");
+            }
+        );
+    });
+
+    el.click(); // open
 }
 
 function btnFaceClear() {
