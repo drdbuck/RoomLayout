@@ -349,6 +349,10 @@ function cleanInput(value, regexp = REGEXP_FLOAT) {
     return parts.map(a => a[0]).join("");
 }
 
+function parseNumber(txt) {
+    return parseFootInchInput(txt) ?? parseFloatInput(txt);
+}
+
 function parseFloatInput(txt) {
     let f = parseFloat(txt);
     if (!isNumber(f)) {

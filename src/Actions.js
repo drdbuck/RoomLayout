@@ -181,18 +181,24 @@ function actionObjectsCreateSkirt() {
     );
 }
 function _actionObjectsCreateSkirt(answers) {
+    //
+    const width = parseNumber(answers.Width);
+    const depth = parseNumber(answers.Depth);
+    const height = parseNumber(answers.Height);
+    const recline = parseNumber(answers.Recline);
+    //
     let boxes = [];
     const count = 4;
     for (let i = 0; i < count; i++) {
         let box = new Box();
         box.name = `skirt wall ${i + 1}/${count}`;
-        let dim = (i % 2 == 0) ? answers.Width : answers.Depth;
-        let dim2 = (i % 2 == 0) ? answers.Depth : answers.Width;
+        let dim = (i % 2 == 0) ? width : depth;
+        let dim2 = (i % 2 == 0) ? depth : width;
         box.width = dim;
         box.depth = 0;
-        box.height = answers.Height;
+        box.height = height;
         box.angle = i * 90;//dirty: assumes 4 sides
-        box.recline = answers.Recline;
+        box.recline = recline;
         box.position = new Vector3(
             (i % 2 == 0)
                 ? 0
