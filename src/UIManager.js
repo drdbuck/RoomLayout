@@ -272,6 +272,19 @@ function updateBoxEditPanel() {
 
     let flist = _boxs;
 
+    $("spnBoxName").innerHTML =
+        (((flist.length > 0)
+            ? flist
+                .map(box => (box.group) ? box.group.indexOf(box) + 1 : undefined)
+                .reduce(reduceFunc)
+            : undefined)
+            ?? inequal)
+        + " / " +
+        (((flist.length > 0)
+            ? flist.map(box => box.group?.count).reduce(reduceFunc)
+            : undefined)
+            ?? inequal);
+
     //Name
     updateFunc("txtName", flist, f => f.name, false);
     $("txtName").disabled = !(anySelected && _contexts.length == 1);

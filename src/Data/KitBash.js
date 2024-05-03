@@ -59,6 +59,10 @@ class KitBash extends Block {
         return [...this._items];
     }
 
+    get count() {
+        return this._items.length;
+    }
+
     add(item) {
         //early exit: invalid item
         if (!item) { return; }
