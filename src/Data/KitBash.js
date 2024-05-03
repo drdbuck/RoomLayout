@@ -32,7 +32,7 @@ class KitBash extends Block {
 
         //Name
         let name = this._items[0].name ?? "";
-        this.name = ((name) ? `${name} Group` : "Group") + ` (${this._items.length} count)`;
+        this.name = ((name) ? `${name} Group` : "Group");
 
         //Position
         let pos = _zero.clone();
