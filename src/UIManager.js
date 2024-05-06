@@ -573,7 +573,7 @@ function btnRotate(degrees) {
     });
     //record undo
     undoMan.recordUndo("rotate image");
-}//
+}
 
 function cropCanvasChanged(url) {
     uiVars.selector.forEach(c => {

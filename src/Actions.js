@@ -125,63 +125,63 @@ function actionObjectCreateBlank() {
     let spawnPoint = getSpawnPoint();
     createObjectDialogue.show(
         (answers) => {
-    _actionObjectCreate(
-        "box _",
-        "create box",
-        (f) => {
-            f.width = answers.Width;
-            f.depth = answers.Depth;
-            f.height = answers.Height;
-            f.recline = answers.Recline;
-        },
-        spawnPoint
-    );
+            _actionObjectCreate(
+                "box _",
+                "create box",
+                (f) => {
+                    f.width = answers.Width;
+                    f.depth = answers.Depth;
+                    f.height = answers.Height;
+                    f.recline = answers.Recline;
+                },
+                spawnPoint
+            );
         },
         undefined, //size, recline
         "Create Box"
-    );//
+    );
 }
 
 function actionObjectCreateBlankFlatWall() {
     let spawnPoint = getSpawnPoint();
     createObjectDialogue.show(
         (answers) => {
-    _actionObjectCreate(
-        "rectangle _",
-        "create rectangle",
-        (f) => {
-            f.width = answers.Width;
-            f.depth = 0;
-            f.height = answers.Height;
-            f.recline = answers.Recline;
-        },
-        spawnPoint
-    );
+            _actionObjectCreate(
+                "rectangle _",
+                "create rectangle",
+                (f) => {
+                    f.width = answers.Width;
+                    f.depth = 0;
+                    f.height = answers.Height;
+                    f.recline = answers.Recline;
+                },
+                spawnPoint
+            );
         },
         ["Width", "Height", "Recline"],
         "Create Rectangle"
-    );//
+    );
 }
 
 function actionObjectCreateBlankFlatFloor() {
     let spawnPoint = getSpawnPoint();
     createObjectDialogue.show(
         (answers) => {
-    _actionObjectCreate(
-        "floor rectangle _",
-        "create floor rectangle",
-        (f) => {
-            f.width = answers.Width;
-            f.depth = answers.Depth;
-            f.height = 0;
-            f.recline = answers.Recline;
-        },
-        spawnPoint
-    );
+            _actionObjectCreate(
+                "floor rectangle _",
+                "create floor rectangle",
+                (f) => {
+                    f.width = answers.Width;
+                    f.depth = answers.Depth;
+                    f.height = 0;
+                    f.recline = answers.Recline;
+                },
+                spawnPoint
+            );
         },
         ["Width", "Depth", "Recline"],
         "Create Floor Rectangle"
-    );//
+    );
 }
 
 function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPoint) {

@@ -17,7 +17,7 @@ function isEmpty(str) {
 function isString(s) { return s === "" + s; }
 
 //2019-10-31: copied from https://stackoverflow.com/a/1421988/2336212
-function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
+function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0); }
 
 //2023-02-27: constructed after consulting https://stackoverflow.com/q/14636536/2336212
 function isInteger(n) { return isNumber(n) && Math.floor(n) === n; }
@@ -43,17 +43,17 @@ Math.clamp = function (value, min, max) {
             value
         )
     );
-}
+};
 
 let between = function (value, min, max) {
     return (min <= value && value <= max);
-}
+};
 
 //Cuts decimals off the given value so that only the given number of places remains
 Math.cut = function (value, places = 0) {
     let factor = Math.pow(10, places);
     return Math.round(value * factor) / factor;
-}
+};
 
 //2024-01-30: copied from https://stackoverflow.com/a/9705160/2336212
 function toDegrees(angle) {
@@ -94,27 +94,27 @@ Array.prototype.equals = function (array) {
     return this === array ||
         this.length === array.length &&
         this.every((item, i) => item === array[i]);
-}
+};
 
 Array.prototype.min = function (minFunc = (val) => val) {
     return this.reduce(
         (acc, cur) => Math.min(minFunc(cur), acc),
         minFunc(this[0])
     );
-}
+};
 Array.prototype.max = function (maxFunc = (val) => val) {
     return this.reduce(
         (acc, cur) => Math.max(maxFunc(cur), acc),
         maxFunc(this[0])
     );
-}
+};
 
 Array.prototype.sum = function (sumFunc = (val) => val) {
     return this.reduce(
         (acc, cur) => sumFunc(cur) + acc,
         0
     );
-}
+};
 
 Array.prototype.remove = function (value) {
     let index = this.indexOf(value);
@@ -123,7 +123,7 @@ Array.prototype.remove = function (value) {
         return true;
     }
     return false;
-}
+};
 
 /**
  * Returns a new array with the duplicates removed
@@ -136,7 +136,7 @@ Array.prototype.removeDuplicates = function () {
         }
     });
     return arr;
-}
+};
 
 /**
  * Returns a random number between min and max, inclusive
@@ -185,7 +185,7 @@ const PIXEL_WHITE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAA
 const LIST_PIXEL = [
     PIXEL_TRANSPARENT,
     PIXEL_WHITE,
-]
+];
 
 function isValidImage(imageURL) {
     return imageURL && !LIST_PIXEL.includes(imageURL);
@@ -412,7 +412,7 @@ function parseFootInchInput(txt) {
             f += f0;
             return;
         }
-    })
+    });
     if (isNumber(f)) {
         return f;
     }

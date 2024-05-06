@@ -168,7 +168,7 @@ class Box extends Block {
             return false;
         }
         return true;
-    }//
+    }
 }
 
 function inflateBox(box) {

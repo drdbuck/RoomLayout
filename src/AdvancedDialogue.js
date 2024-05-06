@@ -24,7 +24,7 @@ class AdvancedDialogue {
                     default: 20,
                 },
             ];
-        
+
         this._cleanFunc = cleanFunc;
 
         this._parent = parent;
@@ -47,8 +47,8 @@ class AdvancedDialogue {
             this.options
                 .filter(o => advdlg._includeList.includes(o.name))
                 .forEach(o =>
-                );
                     answers[o.name] = advdlg._controls[o.name].value ?? o.default
+                );
             if (advdlg._cleanFunc) {
                 advdlg._cleanFunc(answers);
             }
@@ -60,7 +60,7 @@ class AdvancedDialogue {
     }
 
     _generate() {
-        const panelId = `advdlg${this.title.replaceAll(" ","")}`;
+        const panelId = `advdlg${this.title.replaceAll(" ", "")}`;
         let lines = [];
         let optionIds = {};
 
@@ -114,7 +114,7 @@ class AdvancedDialogue {
         );
 
         //cancel button
-        
+
         lines.push(`<button id="btnCancel${panelId}" class="lineButton" onclick="$('${panelId}').hidden=true;">${"Cancel"}</button>`);
         //div end
         lines.push(`</div>`);

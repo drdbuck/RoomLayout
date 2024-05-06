@@ -122,7 +122,7 @@ function createFloor(width = 11, length = 12, showTriangles = false) {
 
     //position
     floor.position.y = -0.001;//needed to prevent artifacts with backs of faces on floor
-    
+
     //type
     floor.planeType = "floor";
 
@@ -174,7 +174,7 @@ function createCeiling(width = 11, length = 12, height = 9, showTriangles = fals
     //position
     ceil.position.y = height
         + 0.001;//needed to prevent artifacts with backs of faces on ceil
-    
+
     //type
     ceil.planeType = "ceiling";
 
@@ -224,7 +224,7 @@ function createWall(length = 11, height = 9, side = 0, showTriangles = false) {
     const wall = new Mesh(wallGeometry, wallMaterial);
     wall.layers.set(objectMask);
     wall.position.y = height / 2;
-    
+
     //type
     wall.planeType = "wall";
 
