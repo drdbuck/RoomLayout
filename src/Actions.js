@@ -198,10 +198,7 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
     //Select new box
     controllerEdit.selectObject(box, false, FACE_DEFAULT, false);
     //Position new box
-    // let point = controllerEdit.getHitAtMousePos()?.point;
-    // if (point) {
-    //     box.worldPosition = point;
-    // }
+    box.worldPosition = getSpawnPoint();
     // //focus field
     // $("txtWidth").focus();
     //record undo
@@ -262,10 +259,7 @@ function _actionObjectsCreateSkirt(answers) {
     //Select new box
     controllerEdit.selectObject(group, false, undefined, newGroup);
     //Position new box
-    // let point = controllerEdit.getHitAtMousePos()?.point;
-    // if (point) {
-    //     group.position = point;
-    // }
+    group.position = getSpawnPoint();
     //record undo
     undoMan.recordUndo("create skirt prefab");
 }

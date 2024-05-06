@@ -305,10 +305,7 @@ function hookupDelegates() {
         //Select new box
         controllerEdit.selectObject(group, false, FACE_DEFAULT);
         //Position new box
-        // let point = controllerEdit.getHitAtMousePos()?.point;
-        // if (point) {
-        //     box.worldPosition = point;
-        // }
+        box.worldPosition = getSpawnPoint();
         // //focus field
         // $("txtWidth").focus();
     });
@@ -322,10 +319,7 @@ function hookupDelegates() {
         //Select new furniture
         controllerEdit.selectObject(furniture, false);
         //Position new furniture
-        // let point = controllerEdit.getHitAtMousePos()?.point;
-        // if (point) {
-        //     furniture.worldPosition = point;
-        // }
+        furniture.worldPosition = getSpawnPoint();
     });
 
     //Upload new room
@@ -392,6 +386,14 @@ function getBoxes(furnitures) {
         .map(c => c?.children?.[0])
         .filter(c => c)
         .filter(mesh => mesh.box && furnitures.includes(mesh.box));
+}
+
+function getSpawnPoint() {
+    let point = controllerEdit.getHitAtMousePos()?.point;
+    if (point) {
+        return point;
+    }
+    return _zero.clone();
 }
 
 function inflateData(data) {
