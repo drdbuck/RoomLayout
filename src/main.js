@@ -162,7 +162,13 @@ function init() {
             },
         ],
         body,
-        "Create"
+        "Create",
+        (answers) => {
+            answers.Width = parseNumber(answers.Width);
+            answers.Depth = parseNumber(answers.Depth);
+            answers.Height = parseNumber(answers.Height);
+            answers.Recline = parseNumber(answers.Recline);
+        }
     );
 
     //Delegates

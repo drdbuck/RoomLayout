@@ -182,10 +182,10 @@ function actionObjectsCreateSkirt() {
 }
 function _actionObjectsCreateSkirt(answers) {
     //
-    const width = parseNumber(answers.Width);
-    const depth = parseNumber(answers.Depth);
-    const height = parseNumber(answers.Height);
-    const recline = parseNumber(answers.Recline);
+    const width = answers.Width;
+    const depth = answers.Depth;
+    const height = answers.Height;
+    const recline = answers.Recline;
     //
     let boxes = [];
     const count = 4;

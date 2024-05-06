@@ -6,7 +6,7 @@ const OPTION_TYPE_NUMBER_POSITIVE_NONZERO = 2;
 const OPTION_TYPE_STRING = 3;
 
 class AdvancedDialogue {
-    constructor(title, options, parent, okLabel) {
+    constructor(title, options, parent, okLabel, cleanFunc) {
         this.title = title;
         this.okLabel = okLabel;
         //TODO: make sure each option has a unique name
@@ -24,6 +24,8 @@ class AdvancedDialogue {
                     default: 20,
                 },
             ];
+        
+        this._cleanFunc = cleanFunc;
 
         this._parent = parent;
 
@@ -47,6 +49,9 @@ class AdvancedDialogue {
                 .forEach(o =>
                     answers[o.name] = advdlg._controls[o.name].value
                 );
+            if (advdlg._cleanFunc) {
+                advdlg._cleanFunc(answers);
+            }
             advdlg.callbackFunc(answers);
         };
 
