@@ -131,9 +131,11 @@ class AdvancedDialogue {
         this._panel.hidden = !value;
     }
 
-    show(callbackFunc, includeList) {
+    show(callbackFunc, includeList, title = this.title) {
         //
         this.callbackFunc = callbackFunc;
+        //
+        $(`h1${this._panel.id}`).innerHTML = title;
         //
         this.reset();
         //

@@ -135,7 +135,8 @@ function actionObjectCreateBlank() {
         }
     );
         },
-        undefined //size, recline
+        undefined, //size, recline
+        "Create Box"
     );//
 }
 
@@ -153,7 +154,8 @@ function actionObjectCreateBlankFlatWall() {
         }
     );
         },
-        ["Width", "Height", "Recline"]
+        ["Width", "Height", "Recline"],
+        "Create Rectangle"
     );//
 }
 
@@ -171,7 +173,8 @@ function actionObjectCreateBlankFlatFloor() {
         }
     );
         },
-        ["Width", "Depth", "Recline"]
+        ["Width", "Depth", "Recline"],
+        "Create Floor Rectangle"
     );//
 }
 
@@ -208,7 +211,8 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
 function actionObjectsCreateSkirt() {
     createObjectDialogue.show(
         _actionObjectsCreateSkirt,
-        undefined //size, recline
+        undefined, //size, recline
+        "Create Skirt"
     );
 }
 function _actionObjectsCreateSkirt(answers) {
