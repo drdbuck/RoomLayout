@@ -86,11 +86,11 @@ class AdvancedDialogue {
                 case isObject(o):
                     const name = o.name;
                     const fieldId = `input${panelId}${name}`;
+                    const labelId = `lbl${fieldId}`;
                     const defaultVal = o.default ?? "";
                     lines.push(`
-                        <label for="${fieldId}">${name}</label><br>
+                        <label id="${labelId}" for="${fieldId}">${name}</label>
                         <input type="text" id="${fieldId}" title="${name}" placeholder="${name}" default="${defaultVal}"/>
-                        <br>
                     `);
                     optionIds[name] = fieldId;
                     //TODO: allow different inputs for different types
@@ -144,8 +144,11 @@ class AdvancedDialogue {
         options.forEach(o => {
             let input = this._controls[o.name];
             let shown = includeList.includes(o.name);
+            let showStyle = (shown) ? "block" : "none";
             input.disabled = !shown;
-            input.hidden = !shown;
+            input.style.display = showStyle;
+            let label = $(`lbl${input.id}`);
+            label.style.display = showStyle;
         });
         this._controls[includeList[0]].focus();
         //
