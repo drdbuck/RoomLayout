@@ -47,8 +47,8 @@ class AdvancedDialogue {
             this.options
                 .filter(o => advdlg._includeList.includes(o.name))
                 .forEach(o =>
-                    answers[o.name] = advdlg._controls[o.name].value
                 );
+                    answers[o.name] = advdlg._controls[o.name].value ?? o.default
             if (advdlg._cleanFunc) {
                 advdlg._cleanFunc(answers);
             }

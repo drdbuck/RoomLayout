@@ -341,6 +341,11 @@ function regtest(value) {
 }
 
 function cleanInput(value, regexp = REGEXP_FLOAT) {
+    //
+    if (!isString(value)) {
+        return value;
+    }
+    //
     let parts = [];
     let matches = value.matchAll(regexp);
     for (let s of matches) {
@@ -350,6 +355,9 @@ function cleanInput(value, regexp = REGEXP_FLOAT) {
 }
 
 function parseNumber(txt) {
+    if (!isString(txt)) {
+        return txt;
+    }
     return parseFootInchInput(txt) ?? parseFloatInput(txt);
 }
 
