@@ -122,6 +122,7 @@ function actionRedo() {
 }
 
 function actionObjectCreateBlank() {
+    let spawnPoint = getSpawnPoint();
     createObjectDialogue.show(
         (answers) => {
     _actionObjectCreate(
@@ -132,7 +133,8 @@ function actionObjectCreateBlank() {
             f.depth = answers.Depth;
             f.height = answers.Height;
             f.recline = answers.Recline;
-        }
+        },
+        spawnPoint
     );
         },
         undefined, //size, recline
@@ -141,6 +143,7 @@ function actionObjectCreateBlank() {
 }
 
 function actionObjectCreateBlankFlatWall() {
+    let spawnPoint = getSpawnPoint();
     createObjectDialogue.show(
         (answers) => {
     _actionObjectCreate(
@@ -151,7 +154,8 @@ function actionObjectCreateBlankFlatWall() {
             f.depth = 0;
             f.height = answers.Height;
             f.recline = answers.Recline;
-        }
+        },
+        spawnPoint
     );
         },
         ["Width", "Height", "Recline"],
@@ -160,6 +164,7 @@ function actionObjectCreateBlankFlatWall() {
 }
 
 function actionObjectCreateBlankFlatFloor() {
+    let spawnPoint = getSpawnPoint();
     createObjectDialogue.show(
         (answers) => {
     _actionObjectCreate(
@@ -170,7 +175,8 @@ function actionObjectCreateBlankFlatFloor() {
             f.depth = answers.Depth;
             f.height = 0;
             f.recline = answers.Recline;
-        }
+        },
+        spawnPoint
     );
         },
         ["Width", "Depth", "Recline"],
@@ -178,7 +184,7 @@ function actionObjectCreateBlankFlatFloor() {
     );//
 }
 
-function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
+function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPoint) {
     let box = new Box();
     box.name = objName;
     processFunc(box);
@@ -198,7 +204,7 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
     //Select new box
     controllerEdit.selectObject(box, false, FACE_DEFAULT, false);
     //Position new box
-    box.worldPosition = getSpawnPoint();
+    box.worldPosition = spawnPoint ?? getSpawnPoint();
     // //focus field
     // $("txtWidth").focus();
     //record undo
@@ -206,13 +212,14 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
 }
 
 function actionObjectsCreateSkirt() {
+    let spawnPoint = getSpawnPoint();
     createObjectDialogue.show(
-        _actionObjectsCreateSkirt,
+        (answers) => _actionObjectsCreateSkirt(answers, spawnPoint),
         undefined, //size, recline
         "Create Skirt"
     );
 }
-function _actionObjectsCreateSkirt(answers) {
+function _actionObjectsCreateSkirt(answers, spawnPoint) {
     //
     const width = answers.Width;
     const depth = answers.Depth;
@@ -259,7 +266,7 @@ function _actionObjectsCreateSkirt(answers) {
     //Select new box
     controllerEdit.selectObject(group, false, undefined, newGroup);
     //Position new box
-    group.position = getSpawnPoint();
+    group.position = spawnPoint ?? getSpawnPoint();
     //record undo
     undoMan.recordUndo("create skirt prefab");
 }
