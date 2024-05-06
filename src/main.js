@@ -389,11 +389,11 @@ function getBoxes(furnitures) {
 }
 
 function getSpawnPoint() {
-    let point = controllerEdit.getHitAtMousePos()?.point;
-    if (point) {
-        return point;
-    }
-    return _zero.clone();
+    const defaultSpawnPoint = _zero.clone();
+    let rch = controllerEdit.getHitAtMousePos();
+    if (!(rch?.object.planeType == "floor")) { return defaultSpawnPoint; }
+    //main point
+    return rch.point ?? defaultSpawnPoint;
 }
 
 function inflateData(data) {
