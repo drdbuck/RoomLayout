@@ -122,26 +122,57 @@ function actionRedo() {
 }
 
 function actionObjectCreateBlank() {
+    createObjectDialogue.show(
+        (answers) => {
     _actionObjectCreate(
         "box _",
-        "create box"
+        "create box",
+        (f) => {
+            f.width = answers.Width;
+            f.depth = answers.Depth;
+            f.height = answers.Height;
+            f.recline = answers.Recline;
+        }
     );
+        },
+        undefined //size, recline
+    );//
 }
 
 function actionObjectCreateBlankFlatWall() {
+    createObjectDialogue.show(
+        (answers) => {
     _actionObjectCreate(
         "rectangle _",
         "create rectangle",
-        (f) => f.depth = 0
+        (f) => {
+            f.width = answers.Width;
+            f.depth = 0;
+            f.height = answers.Height;
+            f.recline = answers.Recline;
+        }
     );
+        },
+        ["Width", "Height", "Recline"]
+    );//
 }
 
 function actionObjectCreateBlankFlatFloor() {
+    createObjectDialogue.show(
+        (answers) => {
     _actionObjectCreate(
         "floor rectangle _",
         "create floor rectangle",
-        (f) => f.height = 0
+        (f) => {
+            f.width = answers.Width;
+            f.depth = answers.Depth;
+            f.height = 0;
+            f.recline = answers.Recline;
+        }
     );
+        },
+        ["Width", "Depth", "Recline"]
+    );//
 }
 
 function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }) {
