@@ -226,10 +226,15 @@ function _actionObjectsCreateSkirt(answers, spawnPoint) {
     const height = answers.Height;
     const recline = answers.Recline;
     //
-    let boxes = [];
+    spawnPoint ??= getSpawnPoint();
+    //
+    let group = new KitBash();
+    group.position = spawnPoint;
+    //
     const count = 4;
     for (let i = 0; i < count; i++) {
         let box = new Box();
+        group.add(box);
         box.name = `skirt wall ${i + 1}/${count}`;
         let dim = (i % 2 == 0) ? width : depth;
         let dim2 = (i % 2 == 0) ? depth : width;
@@ -248,25 +253,26 @@ function _actionObjectsCreateSkirt(answers, spawnPoint) {
                 : 0
         );//dirty: assumes 4 sides
         box.setFace(5, PIXEL_TRANSPARENT);
-        boxes.push(box);
     }
     //Group
     //find selected group
-    let group = uiVars.selector.find(c => c.kitbash)?.kitbash;
-    let newGroup = !group;
+    let selectgroup = uiVars.selector.find(c => c.kitbash)?.kitbash;
+    let newGroup = !selectgroup;
     //
-    if (group) {
-        group.add(boxes);
+    if (selectgroup) {
+        let items = group.items;
+        items.forEach(item => {
+            group.remove(item);
+            selectgroup.add(item);
+        });
+        group = undefined;
     }
     else {
         let room = house.rooms[0];//dirty: hardcoded which room to add to
-        group = room.group(boxes, PIXEL_WHITE);
-        group.angle = 0;
+        room.addFurniture(group);
     }
     //Select new box
-    controllerEdit.selectObject(group, false, undefined, newGroup);
-    //Position new box
-    group.position = spawnPoint ?? getSpawnPoint();
+    controllerEdit.selectObject(group ?? selectgroup, false, undefined, newGroup);
     //record undo
     undoMan.recordUndo("create skirt prefab");
 }

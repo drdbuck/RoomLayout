@@ -97,12 +97,14 @@ Array.prototype.equals = function (array) {
 };
 
 Array.prototype.min = function (minFunc = (val) => val) {
+    if (!(this.length > 0)) { return 0; }
     return this.reduce(
         (acc, cur) => Math.min(minFunc(cur), acc),
         minFunc(this[0])
     );
 };
 Array.prototype.max = function (maxFunc = (val) => val) {
+    if (!(this.length > 0)) { return 0; }
     return this.reduce(
         (acc, cur) => Math.max(maxFunc(cur), acc),
         maxFunc(this[0])
@@ -110,6 +112,7 @@ Array.prototype.max = function (maxFunc = (val) => val) {
 };
 
 Array.prototype.sum = function (sumFunc = (val) => val) {
+    if (!(this.length > 0)) { return 0; }
     return this.reduce(
         (acc, cur) => sumFunc(cur) + acc,
         0

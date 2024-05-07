@@ -31,9 +31,10 @@ class KitBash extends Block {
         items.filter(i => i).forEach(item => this.add(item));
 
         //Name
-        let name = this._items[0].name ?? "";
+        let name = this._items[0]?.name ?? "";
         this.name = ((name) ? `${name} Group` : "Group");
 
+        if (this._items.length > 0){
         //Position
         let pos = _zero.clone();
         let sumX = this._items.sum(f => f.position.x);
@@ -52,6 +53,12 @@ class KitBash extends Block {
         //TODO: account for rotation of individual parts
         let maxHalfWidth = this._items.max(f => pos.distanceTo(f.position) + (f.width / 2));
         let maxHalfDepth = this._items.max(f => pos.distanceTo(f.position) + (f.depth / 2));
+        }
+        else {
+            this._position = _zero.clone();
+            this._angle = 0;
+            this._scaleFactor = 1;
+        }
 
     }
 
