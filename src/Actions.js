@@ -292,13 +292,15 @@ function actionObjectsDuplicate() {
         let newF = JSON.parse(JSON.stringify(f, stringify));
         inflateData(newF);
         //Data
-        room.addFurniture(newF);
+        if (newF.isKitBash) {
+            room.addFurniture(newF);
+        }
+        else {
+            let group = c.obj.group;
+            group.add(newF);
+        }
         //Select new box
         controllerEdit.selectObject(newF, true);
-        //make it easier to find the new duplicate in the scene
-        let offset = new Vector3(0.5, 0, 0.5);
-        offset.add(newF.position);
-        newF.position = offset;
     });
     //record undo
     undoMan.recordUndo("duplicate object");
