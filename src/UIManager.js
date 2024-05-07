@@ -623,6 +623,7 @@ function btnFaceImport() {
                 player.animate();
                 //record undo
                 undoMan.recordUndo("import image");
+                uiVars.viewPanelFaceEdit = true;
             }
         );
     });
