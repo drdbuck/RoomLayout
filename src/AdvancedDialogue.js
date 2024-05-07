@@ -92,9 +92,18 @@ class AdvancedDialogue {
                         <label id="${labelId}" for="${fieldId}">${name}</label>
                         <input type="text" id="${fieldId}" title="${name}" placeholder="${name}" default="${defaultVal}"
                             onkeydown="
-                                if (event.keyCode == 13){//enter key
+                                switch (event.keyCode){
+                                    //enter key
+                                    case 13:
                                     $('${panelId}').callbackFunc();
                                     $('${panelId}').hidden=true;
+                                        break;
+                                    //esc key
+                                    case 27:
+                                        $('${panelId}').hidden=true;
+                                        break;
+                                    default:
+                                        break;
                                 }
                             "
                         />
