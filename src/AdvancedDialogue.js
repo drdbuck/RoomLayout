@@ -91,6 +91,7 @@ class AdvancedDialogue {
                     lines.push(`
                         <label id="${labelId}" for="${fieldId}">${name}</label>
                         <input type="text" id="${fieldId}" title="${name}" placeholder="${name}" default="${defaultVal}"
+                            onfocus="this.select();"
                             onkeydown="
                                 switch (event.keyCode){
                                     //enter key
