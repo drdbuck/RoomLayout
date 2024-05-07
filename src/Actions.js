@@ -190,6 +190,8 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPo
     let box = new Box();
     box.name = objName;
     processFunc(box);
+    //
+    spawnPoint ??= getSpawnPoint();
     //ids
     uiVars.giveUids(box);
     box.name = box.name.replace("_", box.uid);
@@ -198,15 +200,15 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPo
     //
     if (group) {
         group.add(box);
+        box.worldPosition = spawnPoint;
     }
     else {
         let room = house.rooms[0];//dirty: hardcoded which room to add to
         group = room.group(box, PIXEL_WHITE);
+        group.position = spawnPoint;
     }
     //Select new box
     controllerEdit.selectObject(box, false, FACE_DEFAULT, false);
-    //Position new box
-    box.worldPosition = spawnPoint ?? getSpawnPoint();
     // //focus field
     // $("txtWidth").focus();
     //record undo
