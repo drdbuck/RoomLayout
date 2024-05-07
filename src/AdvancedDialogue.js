@@ -90,7 +90,14 @@ class AdvancedDialogue {
                     const defaultVal = o.default ?? "";
                     lines.push(`
                         <label id="${labelId}" for="${fieldId}">${name}</label>
-                        <input type="text" id="${fieldId}" title="${name}" placeholder="${name}" default="${defaultVal}"/>
+                        <input type="text" id="${fieldId}" title="${name}" placeholder="${name}" default="${defaultVal}"
+                            onkeydown="
+                                if (event.keyCode == 13){//enter key
+                                    $('${panelId}').callbackFunc();
+                                    $('${panelId}').hidden=true;
+                                }
+                            "
+                        />
                     `);
                     optionIds[name] = fieldId;
                     //TODO: allow different inputs for different types
@@ -152,9 +159,11 @@ class AdvancedDialogue {
             let label = $(`lbl${input.id}`);
             label.style.display = showStyle;
         });
-        this._controls[includeList[0]].focus();
         //
         this.visible = true;
+        let focusControl = this._controls[includeList[0]];
+        focusControl.focus();
+        focusControl.select();
         //
     }
 
