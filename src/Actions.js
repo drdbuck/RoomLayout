@@ -154,6 +154,7 @@ function actionObjectCreateBlankFlatWall() {
                     f.depth = 0;
                     f.height = answers.Height;
                     f.recline = answers.Recline;
+                    f.setFace(5, PIXEL_TRANSPARENT);
                 },
                 spawnPoint
             );
@@ -175,6 +176,7 @@ function actionObjectCreateBlankFlatFloor() {
                     f.depth = answers.Depth;
                     f.height = 0;
                     f.recline = answers.Recline;
+                    f.setFace(3, PIXEL_TRANSPARENT);
                 },
                 spawnPoint
             );
