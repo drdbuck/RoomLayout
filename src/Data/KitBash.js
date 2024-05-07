@@ -34,25 +34,25 @@ class KitBash extends Block {
         let name = this._items[0]?.name ?? "";
         this.name = ((name) ? `${name} Group` : "Group");
 
-        if (this._items.length > 0){
-        //Position
-        let pos = _zero.clone();
-        let sumX = this._items.sum(f => f.position.x);
-        pos.x = sumX / this._items.length;
-        let sumZ = this._items.sum(f => f.position.z);
-        pos.z = sumZ / this._items.length;
-        let minY = this._items.min(f => f.altitude);
-        pos.y = minY;
-        this._position.copy(pos);
+        if (this._items.length > 0) {
+            //Position
+            let pos = _zero.clone();
+            let sumX = this._items.sum(f => f.position.x);
+            pos.x = sumX / this._items.length;
+            let sumZ = this._items.sum(f => f.position.z);
+            pos.z = sumZ / this._items.length;
+            let minY = this._items.min(f => f.altitude);
+            pos.y = minY;
+            this._position.copy(pos);
 
-        //Rotation
-        let sumAngle = this._items.sum(f => loopAngle(f.angle));
-        this._angle = sumAngle / this._items.length;
+            //Rotation
+            let sumAngle = this._items.sum(f => loopAngle(f.angle));
+            this._angle = sumAngle / this._items.length;
 
-        //Scale
-        //TODO: account for rotation of individual parts
-        let maxHalfWidth = this._items.max(f => pos.distanceTo(f.position) + (f.width / 2));
-        let maxHalfDepth = this._items.max(f => pos.distanceTo(f.position) + (f.depth / 2));
+            //Scale
+            //TODO: account for rotation of individual parts
+            let maxHalfWidth = this._items.max(f => pos.distanceTo(f.position) + (f.width / 2));
+            let maxHalfDepth = this._items.max(f => pos.distanceTo(f.position) + (f.depth / 2));
         }
         else {
             this._position = _zero.clone();

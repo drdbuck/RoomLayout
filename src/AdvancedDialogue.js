@@ -95,8 +95,8 @@ class AdvancedDialogue {
                                 switch (event.keyCode){
                                     //enter key
                                     case 13:
-                                    $('${panelId}').callbackFunc();
-                                    $('${panelId}').hidden=true;
+                                        $('${panelId}').callbackFunc();
+                                        $('${panelId}').hidden=true;
                                         break;
                                     //esc key
                                     case 27:
