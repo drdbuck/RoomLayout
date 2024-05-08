@@ -134,6 +134,7 @@ class Controller {
                 //if only select button is down (alt)
                 else if (onlySelectButton) {
                     //select this object only
+                    uiVars.prevSelection = uiVars.selector.selection.filter(c => c.stable);
                     let context = this.selectObject(target, false, targetFace, !onlySelectButton);
                     context.stable = false;
                 }
@@ -146,6 +147,7 @@ class Controller {
                     anyPieceSingleSelected = uiVars.selector.some(c => items.includes(c.obj));
                 }
                 //select object
+                uiVars.prevSelection = uiVars.selector.selection.filter(c => c.stable);
                 let context = this.selectObject(
                     target,
                     this.multiselectButton,
@@ -190,6 +192,9 @@ class Controller {
                 if (uiVars.selector.count > 0) {
                     //remove volatile selections
                     uiVars.selector.filter(c => c.stable);
+                    if (uiVars.selector.count == 0) {
+                        uiVars.selector.selectAll(uiVars.prevSelection);
+                    }
                     //record undo
                     undoMan.recordUndo("move object");
                 }
