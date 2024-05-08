@@ -47,7 +47,10 @@ class Input {
         //
         this.processMouseInput(event);
         if (this.state.mouse.lmbDown || this.state.mouse.rmbDown) {
-            this.state.mouse.wasDragged = true;
+            let moveAmount = this.state.mouse.posStart.clone().sub(this.state.mouse.pos).length();
+            if (moveAmount > 0.0001) {
+                this.state.mouse.wasDragged = true;
+            }
         }
         this.mouse.move.run(this.state, event);
     }

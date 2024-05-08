@@ -134,7 +134,8 @@ class Controller {
                 //if only select button is down (alt)
                 else if (onlySelectButton) {
                     //select this object only
-                    this.selectObject(target, false, targetFace, !onlySelectButton);
+                    let context = this.selectObject(target, false, targetFace, !onlySelectButton);
+                    context.stable = false;
                 }
             }
             else {
@@ -145,12 +146,13 @@ class Controller {
                     anyPieceSingleSelected = uiVars.selector.some(c => items.includes(c.obj));
                 }
                 //select object
-                this.selectObject(
+                let context = this.selectObject(
                     target,
                     this.multiselectButton,
                     targetFace,
                     !onlySelectButton && !anyPieceSingleSelected
                 );
+                context.stable = false;
             }
             //sort selected
             this.sortSelected();
@@ -186,11 +188,16 @@ class Controller {
             //select face
             if (state.mouse.wasDragged) {
                 if (uiVars.selector.count > 0) {
+                    //remove volatile selections
+                    uiVars.selector.filter(c => c.stable);
                     //record undo
                     undoMan.recordUndo("move object");
                 }
             }
             else {
+                //stabilize volatile selections
+                uiVars.selector.forEach(c => c.stable = true);
+                //
                 let targetHit = this.getObjectHitAtMousePos();
                 let target = targetHit?.object?.box;
                 //if an object was clicked on

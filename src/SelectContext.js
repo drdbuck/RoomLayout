@@ -16,6 +16,7 @@ class SelectContext {
         this.meshes = undefined;
         this.face = face;
         this.offset = _zero.clone();
+        this.stable = true;
     }
 
     grabInfo() {
