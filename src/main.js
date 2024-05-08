@@ -220,6 +220,8 @@ function hookupDelegates() {
         contexts.forEach(c => {
             updateFace(c.mesh, c.face);
         });
+        //
+        uiVars.editObjects = contexts.length > 0;
     });
     uiVars.selector.onSelectionGained.add(context => {
         context.meshes.forEach(mesh => {
