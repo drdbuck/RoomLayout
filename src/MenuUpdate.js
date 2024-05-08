@@ -23,7 +23,7 @@ function menuUpdateGroupSelected(btnId, min = 1) {
     let minEnabled = menuUpdateSelectMinimum(btnId);
     _updateEnabled(
         btnId,
-        minEnabled && uiVars.selector.some(c => c.kitbash || c.obj.isKitBash)
+        minEnabled && uiVars.selector.some(c => c.obj.isKitBash)
     );
 }
 
