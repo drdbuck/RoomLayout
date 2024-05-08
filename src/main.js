@@ -207,6 +207,7 @@ function hookupDelegates() {
             uiVars.highlightSelectedFace = true;
             player.animate();
         }
+        updateBoxEditPanel();
     });
     uiVars.selector.onSelectionChanged.add(contexts => {
         controllerEdit.updateCollectiveCenter();
