@@ -366,6 +366,10 @@ function actionTogglePanelEditObject() {
     uiVars.editObjects = !uiVars.editObjects;
 }
 
+function actionTogglePanelEditBox() {
+    uiVars.editBoxes = !uiVars.editBoxes;
+}
+
 function actionTogglePanelFaceView() {
     uiVars.viewPanelFace = !uiVars.viewPanelFace;
 }

@@ -262,7 +262,7 @@ function updateGroupEditPanel() {
 function updateBoxEditPanel() {
 
     //check if panel should be shown
-    let showPanel = uiVars.editObjects;
+    let showPanel = uiVars.editBoxes;
     $("divPanelEdit").hidden = !showPanel;
     if (!showPanel) { return; }
 

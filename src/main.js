@@ -223,6 +223,7 @@ function hookupDelegates() {
         });
         //
         uiVars.editObjects = contexts.length > 0;
+        uiVars.editBoxes = contexts.length > 0 && contexts.some(c => !c.obj.isKitBash);
     });
     uiVars.selector.onSelectionGained.add(context => {
         context.meshes.forEach(mesh => {
@@ -256,6 +257,7 @@ function hookupDelegates() {
     //UI Vars
     uiVars.onEditRoomsChanged.add(updateRoomEditPanel);
     uiVars.onEditObjectsChanged.add(updateAllPanels);
+    uiVars.onEditBoxesChanged.add(updateAllPanels);
     uiVars.onViewPanelFaceChanged.add((viewPanelFace) => {
         uiVars.highlightSelectedFace = viewPanelFace;
         if (!viewPanelFace) {
