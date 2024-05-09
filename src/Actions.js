@@ -89,6 +89,17 @@ function actionSelectNone() {
     uiVars.selector.clear();
     player.animate();
 }
+function actionSelectGroups() {
+    let selection = uiVars.selector.selection;
+    selection = selection
+        .map(c => c.kkitbash ?? c.obj.group ?? c.obj)
+        .filter(obj => obj.isKitBash)
+        .removeDuplicates()
+        .map(obj => new SelectContext(obj));
+    uiVars.selector.clear();
+    uiVars.selector.selectAll(selection);
+    player.animate();
+}
 function actionSelectPieces() {
     let selection = uiVars.selector.selection;
     selection = selection.map(c => {

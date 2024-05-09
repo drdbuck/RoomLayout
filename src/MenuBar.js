@@ -23,7 +23,12 @@ const menuBarData = {
         title: "Select",
         "Select All %a": "actionSelectAll();",
         "Select None _escape": "actionSelectNone();",
-        "Select Components %&a": {
+        "Select Furnitures #a": {
+            action: "actionSelectGroups();",
+            listen: ["select", "group"],
+            update: "menuUpdateBoxSelected(_);",
+        },
+        "Select Components &a": {
             action: "actionSelectPieces();",
             listen: ["select", "group"],
             update: "menuUpdateGroupSelected(_);",

@@ -8,7 +8,7 @@ const stringifySelectContext = [
 ];
 
 class SelectContext {
-    constructor(select, face = -2) {
+    constructor(select, face = -2, autoGrab = true) {
         this.obj = select;
         this.box = undefined;
         this.kitbash = undefined;
@@ -17,6 +17,18 @@ class SelectContext {
         this.face = face;
         this.offset = _zero.clone();
         this.stable = true;
+        //
+        if (autoGrab) {
+            if (this.obj.isKitBash) {
+                this.box = this.obj.items[0];
+                this.kitbash = this.obj;
+            }
+            else {
+                this.box = this.obj;
+                this.kitbash = this.obj.group;
+            }
+            this.grabInfo();
+        }
     }
 
     grabInfo() {

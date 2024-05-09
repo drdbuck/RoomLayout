@@ -27,6 +27,14 @@ function menuUpdateGroupSelected(btnId, min = 1) {
     );
 }
 
+function menuUpdateBoxSelected(btnId, min = 1) {
+    let minEnabled = menuUpdateSelectMinimum(btnId);
+    _updateEnabled(
+        btnId,
+        minEnabled && uiVars.selector.some(c => !c.obj.isKitBash)
+    );
+}
+
 //
 //
 //
