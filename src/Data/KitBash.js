@@ -266,7 +266,24 @@ class KitBash extends Block {
         super.height = value;
     }
 
+    recenterPivot() {
+        //store existing position
+        let prevPos = this._position.clone();
 
+        //calculate new pivot position
+        let pos = _zero.clone();
+        let sumX = this._items.sum(f => f.worldPosition.x);
+        pos.x = sumX / this._items.length;
+        let sumZ = this._items.sum(f => f.worldPosition.z);
+        pos.z = sumZ / this._items.length;
+        let minY = this._items.min(f => f.worldPosition.y);
+        pos.y = minY;
+        this.position = pos;
+
+        //move all components (so they effectively dont move)
+        let offset = prevPos.clone().sub(this._position);
+        this._items.forEach(item => item.worldPosition = item.worldPosition.add(offset));
+    }
 
 }
 

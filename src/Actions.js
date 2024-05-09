@@ -359,6 +359,15 @@ function actionObjectsUngroup() {
     undoMan.recordUndo("ungroup object");
 }
 
+function actionObjectsRecenter() {
+    uiVars.selector.selection
+        .map(c => c.kitbash)
+        .removeDuplicates()
+        .forEach(group => group.recenterPivot());
+    //record undo
+    undoMan.recordUndo("recenter pivot");
+}
+
 function actionViewOverhead() {
     uiVars.viewId = VIEW_OVERHEAD;
     player.animate();

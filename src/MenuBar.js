@@ -68,6 +68,12 @@ const menuBarData = {
         //     listen: ["select", "group"],
         //     update: "menuUpdateGroupSelected(_);",
         // },
+        "Group": "---",
+        "Recenter Pivot Point": {
+            action: "actionObjectsRecenter();",
+            listen: ["select", "group"],
+            update: "menuUpdateGroupSelected(_);",
+        },
     },
     create: {
         title: "Create",
