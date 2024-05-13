@@ -10,8 +10,13 @@ class Box extends Block {
     constructor(width = 1, length = 1, height = 1) {
         super(new Vector3(width, height, length));
 
+        this._scaleTop = undefined;
+        this._positionTop = undefined;
+
         this._faces = [];
 
+        this.onScaleTopChanged = new Delegate("scaleTop");
+        this.onPositionTopChanged = new Delegate("positionTop");
         this.onFaceChanged = new Delegate("index", "imageURL");
 
         this.bind_ScaleFactorChanged = this.onScaleFactorChanged.bind(this);
@@ -58,6 +63,37 @@ class Box extends Block {
             return this.angle;
         }
         return this.group.angle + this.angle;
+    }
+
+    get worldScaleTop() {
+        if (!this._validGroup) {
+            return this._scaleTop;
+        }
+        return this._scaleTop.clone().multiplyScalar(this.group.scaleFactor);
+    }
+
+    get worldPositionTop() {
+        let pos = this.worldPosition;
+        if (this._positionTop) {
+            pos.add(this._positionTop);
+        }
+        return pos;
+    }
+
+    get scaleTop() {
+        return this._scaleTop;
+    }
+    set scaleTop(value) {
+        this._scaleTop = value;
+        this.onScaleTopChanged.run(this._scaleTop);
+    }
+
+    get positionTop() {
+        return this._positionTop;
+    }
+    set positionTop(value) {
+        this._positionTop = value;
+        this.onPositionTopChanged.run(this._positionTop);
     }
 
     get defaultFace() {
@@ -173,7 +209,15 @@ class Box extends Block {
 
 function inflateBox(box) {
 
-    let inflated = inflateObject(box, Box.prototype, ["onFaceChanged"]);
+    let inflated = inflateObject(
+        box,
+        Box.prototype,
+        [
+            "onFaceChanged",
+            "onScaleTopChanged",
+            "onPositionTopChanged",
+        ]
+    );
     if (!inflated) { return; }
     inflateBlock(box);
 
