@@ -111,7 +111,7 @@ class Box extends Block {
     }
 
     get positionTop() {
-        return this._positionTop ?? this.position;
+        return this._positionTop ?? _zero.clone();
     }
     set positionTop(value) {
         this._positionTop = value;
