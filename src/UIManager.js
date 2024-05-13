@@ -175,7 +175,16 @@ function initUI() {
     onChangeFunc("txtAltitude", flistfunc, (f, v) => controllerEdit.setBoxAltitude(f, v));
     onChangeFunc("txtAngle", flistfunc, (f, v) => controllerEdit.setBoxAngle(f, v), true, false);
     onChangeFunc("txtRecline", flistfunc, (f, v) => controllerEdit.setBoxRecline(f, v), true, false);
-
+    //Top
+    onChangeFuncGroup(
+        flistfunc,
+        updateBoxEditPanel,
+        { id: "txtWidthTop", symbol: "w", func: (f, v) => f.widthTop = v },
+        { id: "txtLengthTop", symbol: "d", func: (f, v) => f.depthTop = v },
+    );
+    onChangeFunc("txtPosXTop", flistfunc, (f, v) => f.positionTop = f.positionTop.setX(v));
+    onChangeFunc("txtPosYTop", flistfunc, (f, v) => f.positionTop = f.positionTop.setZ(v));
+   
 }
 
 //
@@ -298,6 +307,11 @@ function updateBoxEditPanel() {
     updateFunc("txtAltitude", flist, f => f.altitude);
     updateFunc("txtAngle", flist, f => f.angle);
     updateFunc("txtRecline", flist, f => f.recline);
+    //Top
+    updateFunc("txtWidthTop", flist, f => f.widthTop);
+    updateFunc("txtLengthTop", flist, f => f.depthTop);
+    updateFunc("txtPosXTop", flist, f => f.positionTop.x);
+    updateFunc("txtPosYTop", flist, f => f.positionTop.z);
 
     //Buttons
     $("btnFaceEdit").checked = uiVars.viewPanelFace;

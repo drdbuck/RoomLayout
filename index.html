@@ -88,15 +88,18 @@
         <div id="divPanelEdit" class="popupPanel" hidden>
             <button id="btnExitBoxEdit" class="exitButton" onclick="btnExitBoxEdit();">X</button>
             <h1 id="hEditBox">Edit Box</h1>
+
             <!-- Switch Box -->
             <button id="btnChangeBox" class="arrowButton" onclick="controller.selectNextBox(-1);"><</button>
             <span id="spnBoxName">Select</span>
             <button id="btnChangeBox" class="arrowButton" onclick="controller.selectNextBox(1);">></button>
             <br>
             <br>
+
             <!-- Name -->
             <label id="lblName" for="txtName">Name</label><br>
             <input type="text" id="txtName" title="Name" placeholder="name" default="chair"/><br>
+            
             <!-- Size -->
             <h2>Size</h2>
             <label id="lblWidth" for="txtWidth">Width</label><br>
@@ -105,6 +108,7 @@
             <input type="text" id="txtLength" title="Depth" placeholder="depth" default="1"/><br>
             <label id="lblHeight" for="txtHeight">Height</label><br>
             <input type="text" id="txtHeight" title="Height" placeholder="height" default="1"/><br>
+            
             <!-- Position -->
             <h2>Position</h2>
             <label id="lblPosX" for="txtPosX">X</label><br>
@@ -113,12 +117,25 @@
             <input type="text" id="txtPosY" title="Position Y" placeholder="y" default="0"/><br>
             <label id="lblAltitude" for="txtAltitude">Altitude</label><br>
             <input type="text" id="txtAltitude" title="Altitude" placeholder="altitude" default="0"/><br>
+            
             <!-- Angle -->
             <h2>Rotation</h2>
             <label id="lblAngle" for="txtAngle">Angle</label><br>
             <input type="text" id="txtAngle" title="Angle" placeholder="angle" default="0"/><br>
             <label id="lblRecline" for="txtRecline">Recline</label><br>
             <input type="text" id="txtRecline" title="Recline" placeholder="recline" default="0"/><br>
+            
+            <!-- Top -->
+            <h2>Top</h2>
+            <label id="lblWidthTop" for="txtWidthTop">Top Width</label><br>
+            <input type="text" id="txtWidthTop" title="Width" placeholder="width" default="1"/><br>
+            <label id="lblLengthTop" for="txtLengthTop">Top Depth</label><br>
+            <input type="text" id="txtLengthTop" title="Depth" placeholder="depth" default="1"/><br>
+            <label id="lblPosXTop" for="txtPosXTop">Top X</label><br>
+            <input type="text" id="txtPosXTop" title="Position X" placeholder="x" default="0"/><br>
+            <label id="lblPosYTop" for="txtPosYTop">Top Y</label><br>
+            <input type="text" id="txtPosYTop" title="Position Y" placeholder="y" default="0"/><br>
+            
             <br>
             <button id="btnFaceEdit" class="lineButton" onclick="btnFaceEdit();">View Faces</button>
         </div>
