@@ -8,12 +8,12 @@ const reduceFunc = (a, b) => (a === b) ? a : undefined;
 const inequal = "---";
 const DIGITS_OF_PRECISION = 3;
 const updateFunc = (id, list, func, float = true) => {
-    //early exit: this txt is active
-    if (document.activeElement.id === id) { return; }
-    //
+    //enable this txt
     let txt = $(id);
     let validList = list?.length > 0;
     txt.disabled = !validList;
+    //early exit: this txt is active
+    if (document.activeElement.id === id) { return; }
     //early exit: nothing in list
     if (!validList) {
         txt.value = "";
