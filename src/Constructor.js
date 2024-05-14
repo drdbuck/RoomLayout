@@ -234,11 +234,14 @@ function createWall(length = 11, height = 9, side = 0, showTriangles = false) {
 function constructBox(box) {
     //2024-01-09: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 
+    //create geometry
+    const boxGeometry = createGeometry(box);
+
     //create material
     const meshMaterials = createMaterials(box.faceList, 6, box.defaultFace);
 
     //create mesh
-    const mesh = new Mesh(meshGeometry, meshMaterials);
+    const mesh = new Mesh(boxGeometry, meshMaterials);
     mesh.layers.set(objectMask);
 
     mesh.userData ??= {};
@@ -343,6 +346,89 @@ function constructBox(box) {
     updateRotation(box.worldAngle, box.recline);
 
     return holder;
+}
+
+function createGeometry(box) {
+
+    //create geometry
+    let bufferGeometry = new BufferGeometry();
+
+    let points = [];
+    //create base points
+    const size = box.scale;
+    for (let i = 0; i < 4; i++) {//dirty: assumes four sides
+        let p = new Vector3(0, 0, 0);
+        let sign = Math.sign(i - 1.5);
+        p.x = size.x / 2 * sign;
+        p.z = size.z / 2 * sign;
+        if (i % 2 == 0) {
+            p.x *= -1;
+        }
+        else {
+            p.z *= -1;
+        }
+        points.push(p);
+    }
+    //create top points
+    const sizeTop = box.scaleTop;
+    const posTop = box.positionTop;
+    for (let i = 0; i < 4; i++) {//dirty: assumes four sides
+        let p = new Vector3(0, 0, 0);
+        let sign = Math.sign(i - 1.5);
+        p.x = size.x / 2 * sign;
+        p.z = size.z / 2 * sign;
+        if (i % 2 == 0) {
+            p.x *= -1;
+        }
+        else {
+            p.z *= -1;
+        }
+
+        p.add(posTop);
+        points.push(p);
+    }
+
+    //vertices
+    const vertices = new Float32Array(
+        points
+            .map(p => [p.x, p.y, p.z])
+            .flat(Infinity)
+    );
+
+    //indices
+    const indices = [
+
+        //bottom
+        0, 1, 2,
+        2, 3, 0,
+
+        //top
+        4, 5, 6,
+        6, 7, 4,
+
+        //back
+        0, 1, 4,
+        4, 5, 1,
+
+        //right
+        1, 2, 5,
+        5, 6, 2,
+
+        //front
+        2, 3, 7,
+        7, 6, 2,
+
+        //left
+        1, 3, 7,
+        7, 4, 1,
+    ];
+
+    //compile it together
+    bufferGeometry.setIndex(indices);
+    bufferGeometry.setAttribute('position', new BufferAttribute(vertices, 3));
+
+    //return
+    return bufferGeometry;
 }
 
 function createEdgeHighlights(mesh) {
