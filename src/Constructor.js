@@ -356,19 +356,19 @@ function createGeometry(box) {
     //create base points
     const w2 = box.width / 2;
     const d2 = box.depth / 2;
-    let v0 = new Vector3(-w2, 0, d2);
-    let v1 = new Vector3(w2, 0, d2);
-    let v2 = new Vector3(w2, 0, -d2);
-    let v3 = new Vector3(-w2, 0, -d2);
+    let v0 = new Vector3(-w2, 0, -d2);
+    let v1 = new Vector3(w2, 0, -d2);
+    let v2 = new Vector3(w2, 0, d2);
+    let v3 = new Vector3(-w2, 0, d2);
     //create top points
     const posTop = box.positionTop;
     const height = box.height;
-    const wt2 = box.width / 2;
-    const dt2 = box.depth / 2;
-    let v4 = new Vector3(-wt2, height, dt2).add(posTop);
-    let v5 = new Vector3(wt2, height, dt2).add(posTop);
-    let v6 = new Vector3(wt2, height, -dt2).add(posTop);
-    let v7 = new Vector3(-wt2, height, -dt2).add(posTop);
+    const wt2 = box.widthTop / 2;
+    const dt2 = box.depthTop / 2;
+    let v4 = new Vector3(-wt2, height, -dt2).add(posTop);
+    let v5 = new Vector3(wt2, height, -dt2).add(posTop);
+    let v6 = new Vector3(wt2, height, dt2).add(posTop);
+    let v7 = new Vector3(-wt2, height, dt2).add(posTop);
     // points
     let points = [
         v0, v1, v2, v3,
@@ -386,42 +386,28 @@ function createGeometry(box) {
     const indices = [
 
         //right
-        // 1, 2, 5,
-        // 5, 6, 2,
-        1, 5, 2,
-        5, 2, 6,
-
+        3, 7, 4,
+        4, 0, 3,
+        
         //left
-        // 1, 3, 7,
-        // 7, 4, 1,
-        1, 7, 3,
-        7, 1, 4,
-
+        1, 5, 6,
+        6, 2, 1,
+        
         //top
-        // 4, 5, 6,
-        // 6, 7, 4,
-        4, 6, 5,
-        6, 4, 7,
+        4, 7, 6,
+        6, 5, 4,
 
         //bottom
-        // 0, 1, 2,
-        // 2, 3, 0,
-        // 0, 2, 1,
-        // 0, 3, 2,
-        1, 2, 0,
+        0, 1, 2,
         2, 3, 0,
 
         //back
-        // 0, 1, 4,
-        // 4, 5, 1,
-        0, 4, 1,
-        4, 1, 5,
+        0, 4, 5,
+        5, 1, 0,
 
         //front
-        // 2, 3, 7,
-        // 7, 6, 2,
-        2, 7, 3,
-        7, 2, 6,
+        2, 6, 7,
+        7, 3, 2,
 
     ];
 
