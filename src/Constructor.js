@@ -353,40 +353,27 @@ function createGeometry(box) {
     //create geometry
     let bufferGeometry = new BufferGeometry();
 
-    let points = [];
     //create base points
-    const size = box.scale;
-    for (let i = 0; i < 4; i++) {//dirty: assumes four sides
-        let p = new Vector3(0, 0, 0);
-        let sign = Math.sign(i - 1.5);
-        p.x = size.x / 2 * sign;
-        p.z = size.z / 2 * sign;
-        if (i % 2 == 0) {
-            p.x *= -1;
-        }
-        else {
-            p.z *= -1;
-        }
-        points.push(p);
-    }
+    const w2 = box.width / 2;
+    const d2 = box.depth / 2;
+    let v0 = new Vector3(-w2, 0, d2);
+    let v1 = new Vector3(w2, 0, d2);
+    let v2 = new Vector3(w2, 0, -d2);
+    let v3 = new Vector3(-w2, 0, -d2);
     //create top points
-    const sizeTop = box.scaleTop;
     const posTop = box.positionTop;
-    for (let i = 0; i < 4; i++) {//dirty: assumes four sides
-        let p = new Vector3(0, 0, 0);
-        let sign = Math.sign(i - 1.5);
-        p.x = size.x / 2 * sign;
-        p.z = size.z / 2 * sign;
-        if (i % 2 == 0) {
-            p.x *= -1;
-        }
-        else {
-            p.z *= -1;
-        }
-
-        p.add(posTop);
-        points.push(p);
-    }
+    const height = box.height;
+    const wt2 = box.width / 2;
+    const dt2 = box.depth / 2;
+    let v4 = new Vector3(-wt2, height, dt2).add(posTop);
+    let v5 = new Vector3(wt2, height, dt2).add(posTop);
+    let v6 = new Vector3(wt2, height, -dt2).add(posTop);
+    let v7 = new Vector3(-wt2, height, -dt2).add(posTop);
+    // points
+    let points = [
+        v0, v1, v2, v3,
+        v4, v5, v6, v7,
+    ];
 
     //vertices
     const vertices = new Float32Array(
