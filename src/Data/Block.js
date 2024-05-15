@@ -133,7 +133,6 @@ class Block {
 
 /**
  * Call this inside subtype inflate...() method
- * it only does delegates
  */
 function inflateBlock(block) {
     [

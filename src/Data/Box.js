@@ -2,6 +2,8 @@
 
 let stringifyBox = [
     "_faces",
+    "_scaleTop",
+    "_positionTop",
 ];
 
 const FACE_DEFAULT = -1;
@@ -81,7 +83,7 @@ class Box extends Block {
     }
 
     get scaleTop() {
-        return this._scaleTop ?? this.scale;
+        return this._scaleTop ?? this.scale.clone();
     }
     set scaleTop(value) {
         this._scaleTop = value;
@@ -243,7 +245,14 @@ function inflateBox(box) {
     if (!inflated) { return; }
     inflateBlock(box);
 
-    backwardsCompatifyBox(box);
+    backwardsCompatifyBox(box);    
+
+    if (box._scaleTop) {
+        validifyVector3(box._scaleTop, 1);
+    }
+    if (box._positionTop) {
+        validifyVector3(box._positionTop, 0);
+    }
 
     box.bind_ScaleFactorChanged = box.onScaleFactorChanged.bind(box);
     box.bind_GroupPositionChanged = box.onGroupPositionChanged.bind(box);
