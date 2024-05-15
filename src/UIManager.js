@@ -489,8 +489,11 @@ function btnExitRoomEdit() {
     uiVars.editRooms = false;
 }
 
-function btnExitBoxEdit() {
+function btnExitFurnitureEdit() {
     uiVars.editObjects = false;
+}
+function btnExitBoxEdit() {
+    uiVars.editBoxes = false;
 }
 
 function btnBoxExport() {
