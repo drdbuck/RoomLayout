@@ -268,9 +268,15 @@ function constructBox(box) {
         holder.scale.copy(scale);
         //need to make it small but nonzero so it can be detected by raycast
         let minFunc = (dim) => Math.max(dim, 0.0001);
-        holder.scale.x = minFunc(holder.scale.x);
-        holder.scale.y = minFunc(holder.scale.y);
-        holder.scale.z = minFunc(holder.scale.z);
+        holder.scale.x = 1; //minFunc(holder.scale.x);
+        holder.scale.y = 1; //minFunc(holder.scale.y);
+        holder.scale.z = 1; //minFunc(holder.scale.z);
+        let newgeom = createGeometry(box);
+        mesh.geometry.setAttribute('position', newgeom.attributes.position);
+        let newselect = createSelectHighlights(mesh);
+        mesh.select.geometry.setAttribute('position', newselect.geometry.attributes.position);
+        let newedge = createEdgeHighlights(mesh);
+        mesh.edge.geometry.setAttribute('position', newedge.geometry.attributes.position);
     };
     let updateRotation = (angle = 0, recline = 0) => {
         //rotate to default
@@ -300,6 +306,12 @@ function constructBox(box) {
     box.onSizeChanged.add(() => {
         updateScale(box.worldScale);
         updatePosition(box.worldPosition);
+    });
+    box.onScaleTopChanged.add(() => {
+        updateScale(box.worldScale);
+    });
+    box.onPositionTopChanged.add(() => {
+        updateScale(box.worldScale);
     });
     box.onPositionChanged.add(() => updatePosition(box.worldPosition));
     box.onAngleChanged.add(() => {
