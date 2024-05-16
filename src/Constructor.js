@@ -241,7 +241,9 @@ function constructBox(box) {
     const meshMaterials = createMaterials(box.faceList, 6, box.defaultFace);
 
     //create mesh
-    const mesh = new Mesh(boxGeometry, meshMaterials);
+    const testMaterial = new MeshBasicMaterial({ color: 0xffffff });
+    const mesh = new Mesh(boxGeometry, testMaterial);
+    // const mesh = new Mesh(meshGeometry, meshMaterials);
     mesh.layers.set(objectMask);
 
     mesh.userData ??= {};
@@ -290,10 +292,10 @@ function constructBox(box) {
 
 
     //inside faces
-    let insideMesh = createInsideFaces(mesh, box);
-    mesh.attach(insideMesh);
-    mesh.insideMesh = insideMesh;
-    insideMesh.position.copy(_zero);
+    // let insideMesh = createInsideFaces(mesh, box);
+    // mesh.attach(insideMesh);
+    // mesh.insideMesh = insideMesh;
+    // insideMesh.position.copy(_zero);
 
     //delegates
     box.onSizeChanged.add(() => {
