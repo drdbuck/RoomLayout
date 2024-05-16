@@ -258,7 +258,6 @@ function constructBox(box) {
     holder.layers.set(effectMask);
     holder.scale.copy(_one);
     holder.position.copy(mesh.position);
-    holder.position.y = mesh.position.y - (mesh.scale.y / 2);
     holder.attach(mesh);
 
     //update functions
