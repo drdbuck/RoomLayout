@@ -43,6 +43,7 @@ class Selector {
      * @param {boolean} [add=true] Whether or not to add the item to the list. If false, clears the list first
      */
     select(item, add = true) {
+        if (!item) { return; }
         if (!add) {
             this.selectOnly(item);
             return;
@@ -59,7 +60,7 @@ class Selector {
      * @param  {...object} items The items to select
      */
     selectAll(...items) {
-        items = items.flat();
+        items = items.flat().filter(item=>item!=undefined);
         let oldlength = this._selection.length;
         for (let item of items) {
             if (!this._selection.includes(item)) {
