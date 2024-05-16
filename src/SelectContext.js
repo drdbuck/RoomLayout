@@ -79,6 +79,10 @@ class SelectContext {
 }
 
 function inflateSelectContext(context, uiVars) {
+    if (!context) {
+        console.error("must pass in a context!", context);
+        return;
+    }
     inflateObject(context, SelectContext.prototype);
     return context.inflate(uiVars);
 }
