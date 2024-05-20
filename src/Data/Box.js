@@ -69,7 +69,7 @@ class Box extends Block {
 
     get worldScaleTop() {
         if (!this._validGroup) {
-            return this._scaleTop;
+            return this._scaleTop.clone();
         }
         return this._scaleTop.clone().multiplyScalar(this.group.scaleFactor);
     }
@@ -96,7 +96,7 @@ class Box extends Block {
     set widthTop(value) {
         value ||= 0;//NaN prevention
         value ||= this.scale.x;
-        this._scaleTop ??= this.scale;
+        this._scaleTop ??= this.scale.clone();
         this._scaleTop.x = value;
         this.onScaleTopChanged.run(this._scaleTop);
     }
@@ -107,7 +107,7 @@ class Box extends Block {
     set depthTop(value) {
         value ||= 0;//NaN prevention
         value ||= this.scale.z;
-        this._scaleTop ??= this.scale;
+        this._scaleTop ??= this.scale.clone();
         this._scaleTop.z = value
         this.onScaleTopChanged.run(this._scaleTop);
     }
