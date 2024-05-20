@@ -242,7 +242,7 @@ function constructBox(box) {
 
     //create mesh
     const testMaterial = new MeshBasicMaterial({ color: 0xffffff });
-    const mesh = new Mesh(boxGeometry, testMaterial);
+    const mesh = new Mesh(boxGeometry, meshMaterials);
     // const mesh = new Mesh(meshGeometry, meshMaterials);
     mesh.layers.set(objectMask);
 
@@ -424,9 +424,21 @@ function createGeometry(box) {
 
     ];
 
+    //uv
+    //2024-05-15: copied from a BoxGeometry using the console command: console.log(""+select().mesh.geometry.attributes.uv.array)
+    const uvs = new Float32Array([
+        0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1,
+    ]);
+    //2024-05-20: copied from a BoxGeometry using the console command: JSON.stringify(meshGeometry.groups)
+    const groupJSON = '[{"start":0,"count":6,"materialIndex":0},{"start":6,"count":6,"materialIndex":1},{"start":12,"count":6,"materialIndex":2},{"start":18,"count":6,"materialIndex":3},{"start":24,"count":6,"materialIndex":4},{"start":30,"count":6,"materialIndex":5}]';
+    let group = JSON.parse(groupJSON);
+    bufferGeometry.groups = (group);
     //compile it together
     bufferGeometry.setIndex(indices);
     bufferGeometry.setAttribute('position', new BufferAttribute(vertices, 3));
+    // bufferGeometry.setAttribute('normal', new BufferAttribute(new Float32Array(12 * 3 * 3), 3));
+    bufferGeometry.setAttribute('uv', new BufferAttribute(uvs, 2));
+    // bufferGeometry.computeVertexNormals();
 
     //return
     return bufferGeometry;
