@@ -430,6 +430,7 @@ function createGeometry(box) {
     //uv
     const widthDiff = w2 - wt2;
     const maxWidth = Math.max(width, widthTop);
+    const widthOffset = posTop.x;
     const uvs = new Float32Array([
 
         //right
@@ -475,9 +476,9 @@ function createGeometry(box) {
         //front
         Math.max(0, (0 - widthDiff) / maxWidth), 0,//BL
         Math.min(1, (maxWidth + widthDiff) / maxWidth), 0,//BR
-        Math.min(1, (maxWidth - widthDiff) / maxWidth), 1,//TR
-        Math.min(1, (maxWidth - widthDiff) / maxWidth), 1,//TR
-        Math.max(0, (0 + widthDiff) / maxWidth), 1,//TL
+        Math.min(1, (maxWidth - widthDiff + widthOffset) / maxWidth), 1,//TR
+        Math.min(1, (maxWidth - widthDiff + widthOffset) / maxWidth), 1,//TR
+        Math.max(0, (0 + widthDiff + widthOffset) / maxWidth), 1,//TL
         Math.max(0, (0 - widthDiff) / maxWidth), 0,//BL
 
     ]);
