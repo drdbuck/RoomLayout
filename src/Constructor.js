@@ -427,28 +427,36 @@ function createGeometry(box) {
 
     ]);
 
-    //uv
+    //width uv constants
     const widthOffset = posTop.x;
     const maxWidth = Math.max(width, w2 + wt2 + Math.abs(widthOffset));
     const widthDiffLeft = w2 - wt2 + widthOffset;
     const widthDiffRight = width - (w2 + wt2 + widthOffset);
+
+    //depth uv constants
+    const depthOffset = posTop.z;
+    const maxDepth = Math.max(depth, d2 + dt2 + Math.abs(depthOffset));
+    const depthDiffLeft = d2 - dt2 + depthOffset;
+    const depthDiffRight = depth - (d2 + dt2 + depthOffset);
+
+    //uv
     const uvs = new Float32Array([
 
         //right
-        0, 0,
-        1, 0,
-        1, 1,
-        1, 1,
-        0, 1,
-        0, 0,
+        Math.max(0, (0 - depthDiffLeft) / maxDepth), 0,//BL
+        Math.min(1, (maxDepth + depthDiffRight) / maxDepth), 0,//BR
+        Math.min(1, (maxDepth - depthDiffRight) / maxDepth), 1,//TR
+        Math.min(1, (maxDepth - depthDiffRight) / maxDepth), 1,//TR
+        Math.max(0, (0 + depthDiffLeft) / maxDepth), 1,//TL
+        Math.max(0, (0 - depthDiffLeft) / maxDepth), 0,//BL
 
         //left
-        0, 0,
-        1, 0,
-        1, 1,
-        1, 1,
-        0, 1,
-        0, 0,
+        Math.max(0, (0 - depthDiffRight) / maxDepth), 0,//BL
+        Math.min(1, (maxDepth + depthDiffLeft) / maxDepth), 0,//BR
+        Math.min(1, (maxDepth - depthDiffLeft) / maxDepth), 1,//TR
+        Math.min(1, (maxDepth - depthDiffLeft) / maxDepth), 1,//TR
+        Math.max(0, (0 + depthDiffRight) / maxDepth), 1,//TL
+        Math.max(0, (0 - depthDiffRight) / maxDepth), 0,//BL
 
         //top
         0, 0,
