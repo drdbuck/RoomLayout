@@ -396,7 +396,7 @@ function createGeometry(box) {
     );
 
     //indices
-    const indices = [
+    const indices = new Uint32Array([
 
         //right
         3, 7, 4,
@@ -422,7 +422,7 @@ function createGeometry(box) {
         2, 6, 7,
         7, 3, 2,
 
-    ];
+    ]);
 
     //uv
     //2024-05-15: copied from a BoxGeometry using the console command: console.log(""+select().mesh.geometry.attributes.uv.array)
@@ -430,11 +430,17 @@ function createGeometry(box) {
         0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1,
     ]);
     //2024-05-20: copied from a BoxGeometry using the console command: JSON.stringify(meshGeometry.groups)
-    const groupJSON = '[{"start":0,"count":6,"materialIndex":0},{"start":6,"count":6,"materialIndex":1},{"start":12,"count":6,"materialIndex":2},{"start":18,"count":6,"materialIndex":3},{"start":24,"count":6,"materialIndex":4},{"start":30,"count":6,"materialIndex":5}]';
-    let group = JSON.parse(groupJSON);
-    bufferGeometry.groups = (group);
+    const groups = [
+        { "start": 0, "count": 6, "materialIndex": 0 },
+        { "start": 6, "count": 6, "materialIndex": 1 },
+        // { "start": 12, "count": 6, "materialIndex": 2 },
+        // { "start": 18, "count": 6, "materialIndex": 3 },
+        // { "start": 24, "count": 6, "materialIndex": 4 },
+        // { "start": 30, "count": 6, "materialIndex": 5 },
+    ];
+    bufferGeometry.groups = groups;
     //compile it together
-    bufferGeometry.setIndex(indices);
+    bufferGeometry.setIndex(new BufferAttribute(indices, 1));
     bufferGeometry.setAttribute('position', new BufferAttribute(vertices, 3));
     // bufferGeometry.setAttribute('normal', new BufferAttribute(new Float32Array(12 * 3 * 3), 3));
     bufferGeometry.setAttribute('uv', new BufferAttribute(uvs, 2));
