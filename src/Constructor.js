@@ -399,35 +399,50 @@ function createGeometry(box) {
     const indices = new Uint32Array([
 
         //right
-        3, 7, 4,
-        4, 0, 3,
-        
-        //left
-        1, 5, 6,
-        6, 2, 1,
-        
-        //top
-        4, 7, 6,
-        6, 5, 4,
+        0, 3, 7,
+        7, 4, 0,
+
+        // //left
+        // 1, 5, 6,
+        // 6, 2, 1,
+
+        // //top
+        // 4, 7, 6,
+        // 6, 5, 4,
 
         //bottom
         0, 1, 2,
         2, 3, 0,
 
-        //back
-        0, 4, 5,
-        5, 1, 0,
+        // //back
+        // 0, 4, 5,
+        // 5, 1, 0,
 
-        //front
-        2, 6, 7,
-        7, 3, 2,
+        // //front
+        // 2, 6, 7,
+        // 7, 3, 2,
 
     ]);
 
     //uv
-    //2024-05-15: copied from a BoxGeometry using the console command: console.log(""+select().mesh.geometry.attributes.uv.array)
     const uvs = new Float32Array([
-        0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1,
+
+        //right
+        0, 0,
+        1, 0,
+        1, 1,
+        // 1, 1,
+        0, 1,
+        0, 0,
+
+        //bottom
+        0, 0,
+        1, 0,
+        1, 1,
+        // 1, 1,
+        0, 1,
+        0, 0,
+
     ]);
     //2024-05-20: copied from a BoxGeometry using the console command: JSON.stringify(meshGeometry.groups)
     const groups = [
