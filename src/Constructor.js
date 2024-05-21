@@ -7,6 +7,8 @@ const SIDE_RIGHT = 3;
 
 //create geometry
 const meshGeometry = new BoxGeometry().toNonIndexed();
+//2024-05-21: copied from https://stackoverflow.com/a/78485870/2336212
+const wireFrameMaterial = new MeshBasicMaterial({ color: "#8ce8ff", wireframe: true });
 
 //Constructs scene objects from data objects
 
@@ -42,6 +44,8 @@ function constructRoom(room, scene) {
     };
     const boxFunc = (box) => {
         if (box.isKitBash) {
+            let bounds = constructKitBash(box);
+            scene.add(bounds);
             box.items.forEach(_boxFunc);
         }
         else {
@@ -229,6 +233,75 @@ function createWall(length = 11, height = 9, side = 0, showTriangles = false) {
     wall.planeType = "wall";
 
     return wall;
+}
+
+function constructKitBash(kitbash) {
+
+    //create mesh
+    const mesh = new Mesh(meshGeometry, wireFrameMaterial);
+    mesh.layers.set(effectMask);
+
+    mesh.userData ??= {};
+    mesh.userData.selectable = true;
+
+    mesh.box = kitbash;
+
+    //update functions
+    let updatePosition = (pos) => {
+        mesh.position.copy(pos);
+        mesh.position.y += mesh.scale.y / 2;
+    };
+    let updateScale = (scale) => {
+        mesh.scale.copy(scale);
+        //need to make it small but nonzero so it can be detected by raycast
+        let minFunc = (dim) => Math.max(dim, 0.0001);
+        mesh.scale.x = minFunc(mesh.scale.x);
+        mesh.scale.y = minFunc(mesh.scale.y);
+        mesh.scale.z = minFunc(mesh.scale.z);
+    };
+    let updateRotation = (angle = 0) => {
+        //rotate to default
+        mesh.rotation.x = 0;
+        mesh.rotation.y = 0;
+        mesh.rotation.z = 0;
+
+        //angle
+        let radAngle = MathUtils.degToRad(angle);
+        let axisAngle = new Vector3(0, 1, 0);
+        mesh.rotateOnAxis(axisAngle, radAngle);
+    };
+
+
+    //inside faces
+    // let insideMesh = createInsideFaces(mesh, kitbash);
+    // mesh.attach(insideMesh);
+    // mesh.insideMesh = insideMesh;
+    // insideMesh.position.copy(_zero);
+
+    //delegates
+    kitbash.onSizeChanged.add(() => {
+        updateScale(kitbash.scale);
+        updatePosition(kitbash.position);
+    });
+    kitbash.onPositionChanged.add(() => updatePosition(kitbash.position));
+    kitbash.onAngleChanged.add(() => {
+        updateRotation(kitbash.angle);
+        updatePosition(kitbash.position);
+    });
+
+    // //edge highlights
+    // let edge = createEdgeHighlights(mesh);
+    // mesh.edge = edge;
+    // mesh.attach(edge);
+    // edge.visible = false;
+    // edge.position.copy(_zero);
+
+    //init with update functions
+    updateScale(kitbash.scale);
+    updateRotation(kitbash.angle);
+    updatePosition(kitbash.position);
+
+    return mesh;
 }
 
 function constructBox(box) {
