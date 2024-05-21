@@ -237,17 +237,17 @@ function createWall(length = 11, height = 9, side = 0, showTriangles = false) {
 
 function constructKitBash(kitbash) {
 
+    let hasItems = kitbash.count > 0;
+
     //create mesh
-    const mesh = new Mesh(meshGeometry, createMaterial(PIXEL_TRANSPARENT)); //wireFrameMaterial);
-    mesh.layers.set(effectMask);
+    const mesh = new Mesh(meshGeometry, createMaterial((hasItems) ? PIXEL_TRANSPARENT : kitbash.defaultFace));
+    mesh.layers.set(objectMask);
 
     mesh.userData ??= {};
     mesh.userData.selectable = true;
 
     mesh.box = kitbash;
     mesh.kitbash = kitbash;
-
-    // mesh.visible = false;
 
     //update functions
     let updatePosition = (pos) => {
@@ -273,6 +273,13 @@ function constructKitBash(kitbash) {
         let axisAngle = new Vector3(0, 1, 0);
         mesh.rotateOnAxis(axisAngle, radAngle);
     };
+    let updateFace = (hasItemsNow) => {
+        if (hasItems != hasItemsNow) {
+            hasItems = hasItemsNow;
+            mesh.material = createMaterial((hasItems) ? PIXEL_TRANSPARENT : kitbash.defaultFace);
+            mesh.visible = !hasItems || uiVars.selector.find(c => c.obj == kitbash);
+        }
+    }
 
 
     //inside faces
@@ -291,6 +298,8 @@ function constructKitBash(kitbash) {
         updateRotation(kitbash.angle);
         updatePosition(kitbash.position);
     });
+    kitbash.onItemAdded.add(() => updateFace(kitbash.count > 0));
+    kitbash.onItemRemoved.add(() => updateFace(kitbash.count > 0));
 
     //edge highlights
     let edge = createEdgeHighlights(mesh);
