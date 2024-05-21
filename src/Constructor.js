@@ -241,12 +241,11 @@ function constructKitBash(kitbash) {
 
     //create mesh
     const mesh = new Mesh(meshGeometry, createMaterial((hasItems) ? PIXEL_TRANSPARENT : kitbash.defaultFace));
-    mesh.layers.set(objectMask);
 
     mesh.userData ??= {};
     mesh.userData.selectable = true;
 
-    mesh.box = kitbash;
+    // mesh.box = kitbash;
     mesh.kitbash = kitbash;
 
     //update functions
@@ -273,13 +272,14 @@ function constructKitBash(kitbash) {
         let axisAngle = new Vector3(0, 1, 0);
         mesh.rotateOnAxis(axisAngle, radAngle);
     };
-    let updateFace = (hasItemsNow) => {
-        if (hasItems != hasItemsNow) {
+    let updateFace = (hasItemsNow, forceUpdate = false) => {
+        if (forceUpdate || hasItems != hasItemsNow) {
             hasItems = hasItemsNow;
             mesh.material = createMaterial((hasItems) ? PIXEL_TRANSPARENT : kitbash.defaultFace);
-            mesh.visible = !hasItems || uiVars.selector.find(c => c.obj == kitbash);
+            mesh.visible = !hasItems || uiVars?.selector.find(c => c.obj == kitbash);
+            mesh.layers.set((hasItems) ? effectMask : objectMask);
         }
-    }
+    };
 
 
     //inside faces
@@ -312,6 +312,7 @@ function constructKitBash(kitbash) {
     updateScale(kitbash.scale);
     updateRotation(kitbash.angle);
     updatePosition(kitbash.position);
+    updateFace(kitbash.count > 0, true);
 
     return mesh;
 }
