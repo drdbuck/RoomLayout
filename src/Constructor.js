@@ -241,9 +241,7 @@ function constructBox(box) {
     const meshMaterials = createMaterials(box.faceList, 6, box.defaultFace);
 
     //create mesh
-    const testMaterial = new MeshBasicMaterial({ color: 0xffffff });
     const mesh = new Mesh(boxGeometry, meshMaterials);
-    // const mesh = new Mesh(meshGeometry, meshMaterials);
     mesh.layers.set(objectMask);
 
     mesh.userData ??= {};
@@ -477,20 +475,14 @@ function createGeometry(box) {
 
     ]);
 
-    //2024-05-20: copied from a BoxGeometry using the console command: JSON.stringify(meshGeometry.groups)
-    const groups = [
-        { "start": 0, "count": 6, "materialIndex": 0 },
-        { "start": 6, "count": 6, "materialIndex": 1 },
-        { "start": 12, "count": 6, "materialIndex": 2 },
-        { "start": 18, "count": 6, "materialIndex": 3 },
-        { "start": 24, "count": 6, "materialIndex": 4 },
-        { "start": 30, "count": 6, "materialIndex": 5 },
-    ];
-
     //compile it together
     bufferGeometry.setIndex(new BufferAttribute(indices, 1));
     bufferGeometry.setAttribute('position', new BufferAttribute(vertices, 3));
-    groups.forEach(g => bufferGeometry.addGroup(g.start, g.count, g.materialIndex));
+    
+    const sideCount = 6;//dirty: assumes 6 sides
+    for (let i = 0; i < sideCount; i++){
+        bufferGeometry.addGroup(i * sideCount, sideCount, i);
+    }
     bufferGeometry.attributes.position.needsUpdate = true;
 
     bufferGeometry = bufferGeometry.toNonIndexed();
