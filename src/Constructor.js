@@ -398,36 +398,64 @@ function createGeometry(box) {
     //indices
     const indices = new Uint32Array([
 
-        //right
-        0, 3, 7,
-        7, 4, 0,
-
-        // //left
-        // 1, 5, 6,
-        // 6, 2, 1,
-
-        // //top
-        // 4, 7, 6,
-        // 6, 5, 4,
-
         //bottom
         0, 1, 2,
         2, 3, 0,
 
-        // //back
-        // 0, 4, 5,
-        // 5, 1, 0,
+        //front
+        3, 2, 6,
+        6, 7, 3,
 
-        // //front
-        // 2, 6, 7,
-        // 7, 3, 2,
+        //right
+        0, 3, 7,
+        7, 4, 0,
+
+        //left
+        2, 1, 5,
+        5, 6, 2,
+
+        //top
+        7, 6, 5,
+        5, 4, 7,
+
+        //back
+        1, 0, 4,
+        4, 5, 1,
 
     ]);
 
     //uv
     const uvs = new Float32Array([
 
+        //bottom
+        0, 0,
+        1, 0,
+        1, 1,
+        // 1, 1,
+        0, 1,
+        0, 0,
+        // 0, 1,
+        // 0,0,
+
+        //front
+        0, 0,
+        1, 0,
+        1, 1,
+        // 1, 1,
+        0, 1,
+        0, 0,
+        // 0,0,
+
         //right
+        1, 0,
+        1, 0,
+        1, 1,
+        // 1, 1,
+        0, 1,
+        0, 0,
+        // 0,0,
+
+        /////////
         0, 0,
         1, 0,
         1, 1,
@@ -435,7 +463,16 @@ function createGeometry(box) {
         0, 1,
         0, 0,
 
-        //bottom
+        
+        /////////
+        0, 0,
+        1, 0,
+        1, 1,
+        // 1, 1,
+        0, 1,
+        0, 0,
+        
+        /////////
         0, 0,
         1, 0,
         1, 1,
@@ -448,17 +485,18 @@ function createGeometry(box) {
     const groups = [
         { "start": 0, "count": 6, "materialIndex": 0 },
         { "start": 6, "count": 6, "materialIndex": 1 },
-        // { "start": 12, "count": 6, "materialIndex": 2 },
-        // { "start": 18, "count": 6, "materialIndex": 3 },
-        // { "start": 24, "count": 6, "materialIndex": 4 },
-        // { "start": 30, "count": 6, "materialIndex": 5 },
+        { "start": 12, "count": 6, "materialIndex": 2 },
+        { "start": 18, "count": 6, "materialIndex": 3 },
+        { "start": 24, "count": 6, "materialIndex": 4 },
+        { "start": 30, "count": 6, "materialIndex": 5 },
     ];
-    bufferGeometry.groups = groups;
     //compile it together
     bufferGeometry.setIndex(new BufferAttribute(indices, 1));
     bufferGeometry.setAttribute('position', new BufferAttribute(vertices, 3));
     // bufferGeometry.setAttribute('normal', new BufferAttribute(new Float32Array(12 * 3 * 3), 3));
     bufferGeometry.setAttribute('uv', new BufferAttribute(uvs, 2));
+    groups.forEach(g => bufferGeometry.addGroup(g.start, g.count, g.materialIndex));
+    // bufferGeometry.groups = groups;
     // bufferGeometry.computeVertexNormals();
 
     //return
