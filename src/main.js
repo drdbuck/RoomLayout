@@ -525,11 +525,19 @@ function uploadFace(image) {
         let index = context.face;
         if (index == -2) { return; }
         let box = context.box;
-        box.setFace(index, image.src);
+        if (box) {
+            box.setFace(index, image.src);
+        }
+        else {
+            context.defaultFace = image.src;
+        }
     });
 };
 
 function updateFace(mesh, face) {
+    //early exit: no mesh
+    if (!mesh) { return; }
+    //
     let edge = mesh.edge;
     let select = mesh.select;
 

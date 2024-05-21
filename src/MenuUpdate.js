@@ -67,7 +67,7 @@ function menuUpdateTogglePanelFaceEdit(btnId) {
         minEnabled &&
         //at least one valid image is selected
         uiVars.selector.selection
-            .filter(c => c.box.validFaceIndex(c.face))
+            .filter(c => c.box?.validFaceIndex(c.face))
             .map(c => c.box.getFace(c.face))
             .filter(url => isValidImage(url))
             .length > 0

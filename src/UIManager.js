@@ -208,8 +208,8 @@ function updateUIVariables(contexts) {
     //defaults
     _contexts = contexts;
     _groups = contexts.map(c => c.kitbash).filter(kb => kb);
-    _boxs = contexts.map(c => c.box);
-    _faces = contexts.filter(c => c.box.validFaceIndex(c.face)).map(c => c.face);
+    _boxs = contexts.map(c => c.box).filter(b => b);
+    _faces = contexts.filter(c => c.box?.validFaceIndex(c.face)).map(c => c.face);
 }
 
 function updateAllPanels() {
@@ -335,6 +335,7 @@ function registerUIDelegates(context, register) {
 
     //box
     let box = context.box;
+    if (!box) { return; }
     [
         box.onSizeChanged,
         box.onPositionChanged,
@@ -383,7 +384,7 @@ function updateFaceEditPanel() {
     //divFaceDrop
     let usingImage = false;
     let divhtml = "<label>Error: This element couldn't be displayed</label>";
-    let faceContexts = _contexts.filter(c => c.box.validFaceIndex(c.face));//dirty: using stored _contexts
+    let faceContexts = _contexts.filter(c => c.box?.validFaceIndex(c.face));//dirty: using stored _contexts
     let imageURLs = faceContexts
         .map(c => {
             let box = c.box;
@@ -469,12 +470,12 @@ function updateFaceEditPanel() {
     //
     let showFaceEdit = usingImage && uiVars.viewPanelFaceEdit;
     if (showFaceEdit) {
-        controllerImageEdit.updateImage(_contexts.find(c => c.box.validFaceIndex(c.face)));//dirty: _contexts
+        controllerImageEdit.updateImage(_contexts.find(c => c.box?.validFaceIndex(c.face)));//dirty: _contexts
     }
     $("divImageEdit").hidden = !showFaceEdit;
     $("btnPanelFaceEdit").hidden = !usingImage;
     $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.box._faces[c.face] != PIXEL_TRANSPARENT)
-        || usingImage && _contexts.find(c => c.box.validFaceIndex(c.face))?.face >= 0
+        || usingImage && _contexts.find(c => c.box?.validFaceIndex(c.face))?.face >= 0
     );//dirty: _contexts
     $("btnFaceImport").hidden = !!usingImage;
     $("btnFaceClear").innerHTML = (usingImage) ? "Clear Face" : "Make Transparent";
@@ -514,7 +515,7 @@ function btnExitFaceEdit() {
 
 function btnUseSuggestedImage(imgURL) {
     uiVars.selector.forEach(c => {
-        if (!c.box.validFaceIndex(c.face)) { return; }
+        if (!c.box?.validFaceIndex(c.face)) { return; }
         let f = c.box;
         f.setFace(c.face, imgURL);
     });
@@ -526,7 +527,7 @@ function btnUseSuggestedImage(imgURL) {
 
 function btnUseDefaultImage() {
     uiVars.selector.forEach(c => {
-        if (!c.box.validFaceIndex(c.face)) { return; }
+        if (!c.box?.validFaceIndex(c.face)) { return; }
         let f = c.box;
         f.setFace(c.face, f.defaultFace);
     });
@@ -546,7 +547,7 @@ function btnFlip(flipX, flipY) {
     uiVars.selector.forEach(c => {
         let f = c.box;
         let faceIndex = c.face;
-        if (!f.validFaceIndex(faceIndex)) { return; }
+        if (!f?.validFaceIndex(faceIndex)) { return; }
         let imageURL = f.getFace(faceIndex);
         let img = new Image();
         img.src = imageURL;
@@ -574,7 +575,7 @@ function btnRotate(degrees) {
     uiVars.selector.forEach(c => {
         let f = c.box;
         let faceIndex = c.face;
-        if (!f.validFaceIndex(faceIndex)) { return; }
+        if (!f?.validFaceIndex(faceIndex)) { return; }
         let imageURL = f.getFace(faceIndex);
         let img = new Image();
         img.src = imageURL;
@@ -596,7 +597,7 @@ function cropCanvasChanged(url) {
     uiVars.selector.forEach(c => {
         let f = c.box;
         let faceIndex = c.face;
-        if (!f.validFaceIndex(faceIndex)) { return; }
+        if (!f?.validFaceIndex(faceIndex)) { return; }
         f.setFace(faceIndex, url);
     });
     //turn off face highlighting
@@ -650,7 +651,7 @@ function btnFaceImport() {
 
 function btnFaceClear() {
     uiVars.selector.forEach(c => {
-        if (!c.box.validFaceIndex(c.face)) { return; }
+        if (!c.box?.validFaceIndex(c.face)) { return; }
         let f = c.box;
         f.setFace(c.face, PIXEL_TRANSPARENT);
     });

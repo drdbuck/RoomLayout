@@ -114,13 +114,13 @@ class Controller {
                         this.deselectObject(target, !onlySelectButton);
                         //check if there's no other face selected now
                         if (uiVars.viewPanelFace) {
-                            if (!uiVars.selector.some(c => c.box.validFaceIndex(c.face))) {
+                            if (!uiVars.selector.some(c => c.box?.validFaceIndex(c.face))) {
                                 let stayInFaceEditModeWhenDeselectLastFace = false;//TODO: make this a user setting
                                 //Select other face
                                 if (stayInFaceEditModeWhenDeselectLastFace) {
                                     let prevFace = context.face;
                                     let newContext = uiVars.selector.first;
-                                    if (!newContext.box.validFaceIndex(prevFace)) {
+                                    if (!newContext.box?.validFaceIndex(prevFace)) {
                                         prevFace = 2;
                                     }
                                     newContext.face = prevFace;
@@ -219,7 +219,9 @@ class Controller {
                             this.updateFaceSelection();
                             context.face = prevFace;
                             //select this mesh as the target
-                            context.box = target;
+                            if (!target.isKitBash) {
+                                context.box = target;
+                            }
                             context.grabInfo();
                             faceChanged = true;
                         }
@@ -348,7 +350,7 @@ class Controller {
     sortSelected() {
         //sort selected
         uiVars.selector.sort((c1, c2) => (
-            c1.box.validFaceIndex(c1.face) && !c2.box.validFaceIndex(c2.face)) ? -1 : 0
+            c1.box?.validFaceIndex(c1.face) && !c2.box?.validFaceIndex(c2.face)) ? -1 : 0
         );
     }
 
@@ -437,6 +439,8 @@ class Controller {
                 console.error("no group selected!", context);
                 return;
             }
+            //early exit: no items
+            if (!(context.kitbash.count > 0)) { return; }
             //
             let item = context.kitbash.nextItem(context.box, dir);
             if (!context.obj.isKitBash) {
@@ -459,6 +463,11 @@ class Controller {
             //early exit: deselect faces
             if (dir == undefined) {
                 context.face = -2;
+                return;
+            }
+            //early exit: no items
+            if (!(context.kitbash.count > 0)) {
+                context.face = FACE_DEFAULT;
                 return;
             }
             //early exit: no face selected on this object
