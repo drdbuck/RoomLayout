@@ -20,7 +20,7 @@ class SelectContext {
         this.stable = true;
         //
         if (autoGrab) {
-            if (this.obj.isKitBash) {
+            if (this.obj.isKitBash || this.obj._items) {
                 this.box = this.obj.items[0];
                 this.kitbash = this.obj;
             }
@@ -51,6 +51,7 @@ class SelectContext {
         else {
             this.meshes = [this.mesh];
         }
+        this.mesh ??= this.meshes[0];
         this.meshBounds = getBoxBounds(this.kitbash);
         return this.mesh && this.meshes.length > 0;
     }
