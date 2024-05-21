@@ -143,14 +143,14 @@ function initUI() {
     //Name
     onChangeFunc("txtGroupName", glistfunc, (g, v) => g.name = v, false);
     // Size
-    onChangeFunc("txtGroupScaleFactor", glistfunc, (g, v) => controllerEdit.setGroupScaleFactor(g, v));
-    // onChangeFuncGroup(
-    //     glistfunc,
-    //     updateGroupEditPanel,
-    //     { id: "txtGroupWidth", symbol: "w", func: (g, v) => g.width = v },
-    //     { id: "txtGroupLength", symbol: "d", func: (g, v) => g.length = v },
-    //     { id: "txtGroupHeight", symbol: "h", func: (g, v) => g.height = v },
-    // );
+    // onChangeFunc("txtGroupScaleFactor", glistfunc, (g, v) => controllerEdit.setGroupScaleFactor(g, v));
+    onChangeFuncGroup(
+        glistfunc,
+        updateGroupEditPanel,
+        { id: "txtGroupWidth", symbol: "w", func: (g, v) => g.width = v },
+        { id: "txtGroupLength", symbol: "d", func: (g, v) => g.length = v },
+        { id: "txtGroupHeight", symbol: "h", func: (g, v) => g.height = v },
+    );
     //Position
     onChangeFunc("txtGroupPosX", glistfunc, (g, v) => controllerEdit.setBoxPosition(g, g.position.setX(v)));
     onChangeFunc("txtGroupPosY", glistfunc, (g, v) => controllerEdit.setBoxPosition(g, g.position.setZ(v)));
@@ -257,10 +257,10 @@ function updateGroupEditPanel() {
     updateFunc("txtGroupName", glist, g => g.name, false);
     $("txtGroupName").disabled = !(anySelected && _contexts.length == 1);
     //Size
-    updateFunc("txtGroupScaleFactor", glist, g => g.scaleFactor);
-    // updateFunc("txtGroupWidth", glist, g => g.width);
-    // updateFunc("txtGroupLength", glist, g => g.length);
-    // updateFunc("txtGroupHeight", glist, g => g.height);
+    // updateFunc("txtGroupScaleFactor", glist, g => g.scaleFactor);
+    updateFunc("txtGroupWidth", glist, g => g.width);
+    updateFunc("txtGroupLength", glist, g => g.length);
+    updateFunc("txtGroupHeight", glist, g => g.height);
     //Position
     updateFunc("txtGroupPosX", glist, g => g.position.x);
     updateFunc("txtGroupPosY", glist, g => g.position.z);

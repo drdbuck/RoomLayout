@@ -53,6 +53,8 @@ class KitBash extends Block {
             //TODO: account for rotation of individual parts
             let maxHalfWidth = this._items.max(f => pos.distanceTo(f.position) + (f.width / 2));
             let maxHalfDepth = this._items.max(f => pos.distanceTo(f.position) + (f.depth / 2));
+            let maxHeight = this._items.max(f => f.altitude + f.height);
+            this._scale = new Vector3(maxHalfWidth * 2, maxHeight, maxHalfDepth * 2);
         }
         else {
             this._position = _zero.clone();
@@ -152,20 +154,6 @@ class KitBash extends Block {
     //Rotation
 
     //Scale
-    get scale() {
-        let width = this.width;
-        let depth = this.depth;
-        let height = this.height;
-        return new Vector3(width, height, depth);
-    }
-    set scale(value) {
-        this.width = value.x;
-        this.depth = value.z;
-        this.height = value.y;
-        //
-        super.scale = value;
-    }
-
     get scaleFactor() {
         return this._scaleFactor;
     }
@@ -178,93 +166,9 @@ class KitBash extends Block {
         this.onScaleFactorChanged.run(this._scaleFactor);
     }
 
-    get width() {
-        //TODO: calculate size
-        return this._items[0].width;
-    }
-    set width(value) {
-        const oldWidth = this.width;
-        const factor = value / oldWidth;
-        const center = this.position;
-        this._items.forEach(item => {
-            //adjust dimensions
-            item.width *= factor;
-            //move
-            //TODO: account for rotation
-            let offset = item.position.clone();
-            offset.sub(center);
-            offset.x *= factor;
-            offset.add(center);
-            item.position = offset;
-        });
-        super.width = value;
-    }
-
-    get depth() {
-        //TODO: calculate size
-        return this._items[0].depth;
-    }
-    set depth(value) {
-        const prev = this.depth;
-        let factor = value / prev;
-        const center = this.position;
-        this._items.forEach(item => {
-            //adjust dimensions
-            item.depth *= factor;
-            //move
-            //TODO: account for rotation
-            let offset = item.position.clone();
-            offset.sub(center);
-            offset.z *= factor;
-            offset.add(center);
-            item.position = offset;
-        });
-        super.depth = value;
-    }
-
-    get length() {
-        //TODO: calculate size
-        return this._items[0].length;
-    }
-    set length(value) {
-        const prev = this.length;
-        let factor = value / prev;
-        const center = this.position;
-        this._items.forEach(item => {
-            //adjust dimensions
-            item.length *= factor;
-            //move
-            //TODO: account for rotation
-            let offset = item.position.clone();
-            offset.sub(center);
-            offset.z *= factor;
-            offset.add(center);
-            item.position = offset;
-        });
-        super.length = value;
-    }
-
-    get height() {
-        //TODO: account for rotation / recline
-        return this._items.max(f => f.altitude + f.height) - this.altitude;
-    }
-    set height(value) {
-        const prev = this.height;
-        let factor = value / prev;
-        const center = this.position;
-        this._items.forEach(item => {
-            //adjust dimensions
-            item.height *= factor;
-            //move
-            //TODO: account for rotation / recline
-            let offset = item.position.clone();
-            offset.sub(center);
-            offset.y *= factor;
-            offset.add(center);
-            item.position = offset;
-        });
-        super.height = value;
-    }
+    //
+    //
+    //
 
     recenterPivot() {
         //store existing position
