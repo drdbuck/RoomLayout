@@ -271,6 +271,7 @@ function constructBox(box) {
         holder.scale.z = 1; //minFunc(holder.scale.z);
         let newgeom = createGeometry(box);
         mesh.geometry.setAttribute('position', newgeom.attributes.position);
+        mesh.geometry.setAttribute('uv', newgeom.attributes.uv);
         let newselect = createSelectHighlights(mesh);
         mesh.select.geometry.setAttribute('position', newselect.geometry.attributes.position);
         let newedge = createEdgeHighlights(mesh);
@@ -365,8 +366,10 @@ function createGeometry(box) {
     let bufferGeometry = new BufferGeometry();
 
     //create base points
-    const w2 = box.width / 2;
-    const d2 = box.depth / 2;
+    const width = box.width;
+    const depth = box.depth;
+    const w2 = width / 2;
+    const d2 = depth / 2;
     let v0 = new Vector3(-w2, 0, -d2);
     let v1 = new Vector3(w2, 0, -d2);
     let v2 = new Vector3(w2, 0, d2);
@@ -374,8 +377,10 @@ function createGeometry(box) {
     //create top points
     const posTop = box.positionTop;
     const height = box.height;
-    const wt2 = box.widthTop / 2;
-    const dt2 = box.depthTop / 2;
+    const widthTop = box.widthTop;
+    const depthTop = box.depthTop;
+    const wt2 = widthTop / 2;
+    const dt2 = depthTop / 2;
     let v4 = new Vector3(-wt2, height, -dt2).add(posTop);
     let v5 = new Vector3(wt2, height, -dt2).add(posTop);
     let v6 = new Vector3(wt2, height, dt2).add(posTop);
@@ -423,6 +428,7 @@ function createGeometry(box) {
     ]);
 
     //uv
+    const widthDiff = w2 - wt2;
     const uvs = new Float32Array([
 
         //right
@@ -468,9 +474,9 @@ function createGeometry(box) {
         //front
         0, 0,
         1, 0,
-        1, 1,
-        1, 1,
-        0, 1,
+        Math.min(1, (width - widthDiff) / width), 1,//TR
+        Math.min(1, (width - widthDiff) / width), 1,//TR
+        Math.max(0, widthDiff / width), 1,//TL
         0, 0,
 
     ]);
