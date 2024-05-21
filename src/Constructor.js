@@ -398,14 +398,6 @@ function createGeometry(box) {
     //indices
     const indices = new Uint32Array([
 
-        //bottom
-        0, 1, 2,
-        2, 3, 0,
-
-        //front
-        3, 2, 6,
-        6, 7, 3,
-
         //right
         0, 3, 7,
         7, 4, 0,
@@ -418,9 +410,17 @@ function createGeometry(box) {
         7, 6, 5,
         5, 4, 7,
 
+        //bottom
+        0, 1, 2,
+        2, 3, 0,
+
         //back
         1, 0, 4,
         4, 5, 1,
+
+        //front
+        3, 2, 6,
+        6, 7, 3,
 
     ]);
 
@@ -431,56 +431,52 @@ function createGeometry(box) {
         0, 0,
         1, 0,
         1, 1,
-        // 1, 1,
+        1, 1,
         0, 1,
         0, 0,
-        // 0, 1,
-        // 0,0,
 
         //front
         0, 0,
         1, 0,
         1, 1,
-        // 1, 1,
+        1, 1,
         0, 1,
         0, 0,
-        // 0,0,
 
         //right
-        1, 0,
-        1, 0,
-        1, 1,
-        // 1, 1,
-        0, 1,
-        0, 0,
-        // 0,0,
-
-        /////////
         0, 0,
         1, 0,
         1, 1,
-        // 1, 1,
+        1, 1,
         0, 1,
         0, 0,
 
-        
-        /////////
+        //left
         0, 0,
         1, 0,
         1, 1,
-        // 1, 1,
+        1, 1,
         0, 1,
         0, 0,
-        
-        /////////
+
+        //top
         0, 0,
         1, 0,
         1, 1,
-        // 1, 1,
+        1, 1,
+        0, 1,
+        0, 0,
+
+        //back
+        0, 0,
+        1, 0,
+        1, 1,
+        1, 1,
         0, 1,
         0, 0,
 
     ]);
+
     //2024-05-20: copied from a BoxGeometry using the console command: JSON.stringify(meshGeometry.groups)
     const groups = [
         { "start": 0, "count": 6, "materialIndex": 0 },
@@ -490,14 +486,17 @@ function createGeometry(box) {
         { "start": 24, "count": 6, "materialIndex": 4 },
         { "start": 30, "count": 6, "materialIndex": 5 },
     ];
+
     //compile it together
     bufferGeometry.setIndex(new BufferAttribute(indices, 1));
     bufferGeometry.setAttribute('position', new BufferAttribute(vertices, 3));
-    // bufferGeometry.setAttribute('normal', new BufferAttribute(new Float32Array(12 * 3 * 3), 3));
-    bufferGeometry.setAttribute('uv', new BufferAttribute(uvs, 2));
     groups.forEach(g => bufferGeometry.addGroup(g.start, g.count, g.materialIndex));
-    // bufferGeometry.groups = groups;
-    // bufferGeometry.computeVertexNormals();
+    bufferGeometry.attributes.position.needsUpdate = true;
+
+    bufferGeometry = bufferGeometry.toNonIndexed();
+
+    bufferGeometry.setAttribute('uv', new BufferAttribute(uvs, 2));
+    bufferGeometry.attributes.uv.needsUpdate = true;
 
     //return
     return bufferGeometry;
