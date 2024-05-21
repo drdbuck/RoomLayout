@@ -425,22 +425,6 @@ function createGeometry(box) {
     //uv
     const uvs = new Float32Array([
 
-        //bottom
-        0, 0,
-        1, 0,
-        1, 1,
-        1, 1,
-        0, 1,
-        0, 0,
-
-        //front
-        0, 0,
-        1, 0,
-        1, 1,
-        1, 1,
-        0, 1,
-        0, 0,
-
         //right
         0, 0,
         1, 0,
@@ -465,7 +449,23 @@ function createGeometry(box) {
         0, 1,
         0, 0,
 
+        //bottom
+        0, 0,
+        1, 0,
+        1, 1,
+        1, 1,
+        0, 1,
+        0, 0,
+
         //back
+        0, 0,
+        1, 0,
+        1, 1,
+        1, 1,
+        0, 1,
+        0, 0,
+
+        //front
         0, 0,
         1, 0,
         1, 1,
