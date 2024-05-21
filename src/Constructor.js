@@ -238,7 +238,7 @@ function createWall(length = 11, height = 9, side = 0, showTriangles = false) {
 function constructKitBash(kitbash) {
 
     //create mesh
-    const mesh = new Mesh(meshGeometry, wireFrameMaterial);
+    const mesh = new Mesh(meshGeometry, createMaterial(PIXEL_TRANSPARENT)); //wireFrameMaterial);
     mesh.layers.set(effectMask);
 
     mesh.userData ??= {};
@@ -247,7 +247,7 @@ function constructKitBash(kitbash) {
     mesh.box = kitbash;
     mesh.kitbash = kitbash;
 
-    mesh.visible = false;
+    // mesh.visible = false;
 
     //update functions
     let updatePosition = (pos) => {
@@ -292,12 +292,12 @@ function constructKitBash(kitbash) {
         updatePosition(kitbash.position);
     });
 
-    // //edge highlights
-    // let edge = createEdgeHighlights(mesh);
-    // mesh.edge = edge;
-    // mesh.attach(edge);
-    // edge.visible = false;
-    // edge.position.copy(_zero);
+    //edge highlights
+    let edge = createEdgeHighlights(mesh);
+    mesh.edge = edge;
+    mesh.attach(edge);
+    edge.visible = false;
+    edge.position.copy(_zero);
 
     //init with update functions
     updateScale(kitbash.scale);

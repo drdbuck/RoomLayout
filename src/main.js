@@ -226,10 +226,10 @@ function hookupDelegates() {
         //update group bounding box selections
         player.scene.children
             .filter(mesh => mesh.kitbash)
-            .forEach(mesh => mesh.visible = false);
+            .forEach(mesh => mesh.edge.visible = false);
         contexts
             .filter(c => c.obj.isKitBash)
-            .forEach(c => c.meshBounds.visible = true);
+            .forEach(c => c.meshBounds.edge.visible = true);
         //
         uiVars.editObjects = contexts.length > 0;
         uiVars.editBoxes = contexts.length > 0 && contexts.some(c => !c.obj.isKitBash);
