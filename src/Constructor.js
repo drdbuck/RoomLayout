@@ -467,12 +467,12 @@ function createGeometry(box) {
         0, 0,
 
         //back
-        0, 0,
-        1, 0,
-        1, 1,
-        1, 1,
-        0, 1,
-        0, 0,
+        Math.max(0, (0 - widthDiffRight) / maxWidth), 0,//BL
+        Math.min(1, (maxWidth + widthDiffLeft) / maxWidth), 0,//BR
+        Math.min(1, (maxWidth - widthDiffLeft) / maxWidth), 1,//TR
+        Math.min(1, (maxWidth - widthDiffLeft) / maxWidth), 1,//TR
+        Math.max(0, (0 + widthDiffRight) / maxWidth), 1,//TL
+        Math.max(0, (0 - widthDiffRight) / maxWidth), 0,//BL
 
         //front
         Math.max(0, (0 - widthDiffLeft) / maxWidth), 0,//BL
