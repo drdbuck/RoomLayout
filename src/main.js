@@ -223,6 +223,13 @@ function hookupDelegates() {
         contexts.forEach(c => {
             updateFace(c.mesh, c.face);
         });
+        //update group bounding box selections
+        player.scene.children
+            .filter(mesh => mesh.kitbash)
+            .forEach(mesh => mesh.visible = false);
+        contexts
+            .filter(c => c.obj.isKitBash)
+            .forEach(c => c.meshBounds.visible = true);
         //
         uiVars.editObjects = contexts.length > 0;
         uiVars.editBoxes = contexts.length > 0 && contexts.some(c => !c.obj.isKitBash);
@@ -393,6 +400,12 @@ function getBoxes(furnitures) {
         .map(c => c?.children?.[0])
         .filter(c => c)
         .filter(mesh => mesh.box && furnitures.includes(mesh.box));
+}
+
+function getBoxBounds(kitbash) {
+    return player.scene.children
+        .filter(c => c)
+        .find(mesh => mesh.kitbash == kitbash);
 }
 
 function getSpawnPoint() {

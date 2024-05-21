@@ -245,6 +245,9 @@ function constructKitBash(kitbash) {
     mesh.userData.selectable = true;
 
     mesh.box = kitbash;
+    mesh.kitbash = kitbash;
+
+    mesh.visible = false;
 
     //update functions
     let updatePosition = (pos) => {

@@ -14,6 +14,7 @@ class SelectContext {
         this.kitbash = undefined;
         this.mesh = undefined;
         this.meshes = undefined;
+        this.meshBounds = undefined;
         this.face = face;
         this.offset = _zero.clone();
         this.stable = true;
@@ -50,6 +51,7 @@ class SelectContext {
         else {
             this.meshes = [this.mesh];
         }
+        this.meshBounds = getBoxBounds(this.kitbash);
         return this.mesh && this.meshes.length > 0;
     }
 
