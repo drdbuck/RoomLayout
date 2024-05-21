@@ -190,6 +190,8 @@ function init() {
     //Update UI
     updateUIVariables(uiVars.selector.selection);
     updateAllPanels();
+
+    controllerEdit.updateCollectiveCenter();
 }
 init();
 
