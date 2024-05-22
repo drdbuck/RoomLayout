@@ -110,7 +110,7 @@ let menuIds = [];
 
 let menuBarState = {
     anyOpen: false,
-}
+};
 
 let menuListeners = {};//{"select": ["menuUpdateObjectsDuplicate();"]}
 

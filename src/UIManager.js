@@ -184,7 +184,7 @@ function initUI() {
     );
     onChangeFunc("txtPosXTop", flistfunc, (f, v) => f.positionTop = f.positionTop.setX(v));
     onChangeFunc("txtPosYTop", flistfunc, (f, v) => f.positionTop = f.positionTop.setZ(v));
-   
+
 }
 
 //

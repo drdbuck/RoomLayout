@@ -242,7 +242,7 @@ function inflateUIVars(uiVars) {
 
     uiVars._views.forEach(view => {
         inflateView(view);
-    })
+    });
 
     uiVars.init();
 }

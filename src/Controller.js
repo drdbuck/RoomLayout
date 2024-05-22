@@ -382,7 +382,7 @@ class Controller {
                     (item == context.box) ? context.face : undefined,
                     false
                 );
-            })
+            });
         }
         //return the deselected context
         return context;
@@ -548,7 +548,7 @@ class Controller {
         });
     }
 
-    setGroupScaleFactor(group, scaleFactor){
+    setGroupScaleFactor(group, scaleFactor) {
         group.scaleFactor = scaleFactor;
     }
 

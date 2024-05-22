@@ -253,7 +253,7 @@ function hookupDelegates() {
             //hide face panel
             uiVars.viewPanelFace = false;
         }
-        //
+        //        
         updateFace(context.mesh, -2);
         registerUIDelegates(context, false);
     });

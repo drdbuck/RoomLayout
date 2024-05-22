@@ -39,7 +39,7 @@ class ControllerImageEdit {
             }
             this.canvasFactor = _img.width / 200;//dirty: hardcoded on-screen width of canvas
             this.update();
-        }
+        };
         if (isString(img)) {
             let image = new Image();
             image.src = img;

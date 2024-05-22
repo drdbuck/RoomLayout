@@ -581,9 +581,9 @@ function createGeometry(box) {
     //compile it together
     bufferGeometry.setIndex(new BufferAttribute(indices, 1));
     bufferGeometry.setAttribute('position', new BufferAttribute(vertices, 3));
-    
+
     const sideCount = 6;//dirty: assumes 6 sides
-    for (let i = 0; i < sideCount; i++){
+    for (let i = 0; i < sideCount; i++) {
         bufferGeometry.addGroup(i * sideCount, sideCount, i);
     }
     bufferGeometry.attributes.position.needsUpdate = true;

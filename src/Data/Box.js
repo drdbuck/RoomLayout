@@ -108,7 +108,7 @@ class Box extends Block {
         value ||= 0;//NaN prevention
         value ||= this.scale.z;
         this._scaleTop ??= this.scale.clone();
-        this._scaleTop.z = value
+        this._scaleTop.z = value;
         this.onScaleTopChanged.run(this._scaleTop);
     }
 
@@ -245,7 +245,7 @@ function inflateBox(box) {
     if (!inflated) { return; }
     inflateBlock(box);
 
-    backwardsCompatifyBox(box);    
+    backwardsCompatifyBox(box);
 
     if (box._scaleTop) {
         validifyVector3(box._scaleTop, 1);

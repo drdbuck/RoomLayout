@@ -60,7 +60,7 @@ class Selector {
      * @param  {...object} items The items to select
      */
     selectAll(...items) {
-        items = items.flat().filter(item=>item!=undefined);
+        items = items.flat().filter(item => item != undefined);
         let oldlength = this._selection.length;
         for (let item of items) {
             if (!this._selection.includes(item)) {
@@ -118,7 +118,7 @@ class Selector {
                 this.onSelectionLost.run(c);
                 return false;
             }
-        })
+        });
         this.onSelectionChanged.run(this._selection);
     }
 
