@@ -99,8 +99,6 @@ class Room extends Block {
 
     prepareForSave() {
         const room = this;
-        //remove empty groups
-        this.furnitures = this.furnitures.filter(f => !f.isKitBash || f.items.length > 0);
     }
 }
 
