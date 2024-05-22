@@ -94,7 +94,7 @@ class Controller {
         this.origMouse = copyObject(this.mouse, mouseDragStringify);
         let targetHit = this.getObjectHitAtMousePos();
         let targetBox = targetHit?.object;
-        let target = targetBox?.box;
+        let target = targetBox?.box ?? targetBox?.kitbash;
         //if an object was clicked on
         if (target) {
             let targetFace = targetHit.face.materialIndex;
@@ -412,6 +412,7 @@ class Controller {
     getSelectContext(obj) {
         return uiVars.selector.find(c => c.obj === obj)
             || uiVars.selector.find(c => c.box == obj)
+            || uiVars.selector.find(c => c.kitbash == obj)
             || uiVars.selector.find(c => c.obj.has?.(obj));
     }
 
