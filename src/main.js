@@ -408,8 +408,9 @@ function getBoxBounds(kitbash) {
         .find(mesh => mesh.kitbash == kitbash);
 }
 
-function getSpawnPoint() {
-    const defaultSpawnPoint = _zero.clone();
+function getSpawnPoint(kitbash) {
+    kitbash ??= uiVars.selector.find(c => c.kitbash)?.kitbash;
+    const defaultSpawnPoint = (kitbash?.position ?? _zero).clone();
     let rch = controllerEdit.getHitAtMousePos();
     if (!(rch?.object.planeType == "floor")) { return defaultSpawnPoint; }
     //main point
