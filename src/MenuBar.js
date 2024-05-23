@@ -78,9 +78,21 @@ const menuBarData = {
     create: {
         title: "Create",
         "Component": "---",
-        "Create Box %b": "actionObjectCreateBlank();",
-        "Create Rectangle %#b": "actionObjectCreateBlankFlatWall();",
-        "Create Floor Rectangle %&b": "actionObjectCreateBlankFlatFloor();",
+        "Create Box %b": {
+            action: "actionObjectCreateBlank();",
+            listen: ["select"],
+            update: "menuUpdateGroupSelected(_);",
+        },
+        "Create Rectangle %#b": {
+            action: "actionObjectCreateBlankFlatWall();",
+            listen: ["select"],
+            update: "menuUpdateGroupSelected(_);",
+        },
+        "Create Floor Rectangle %&b": {
+            action: "actionObjectCreateBlankFlatFloor();",
+            listen: ["select"],
+            update: "menuUpdateGroupSelected(_);",
+        },
         "Prefab": "---",
         "Create Skirt Prefab #b": "actionObjectsCreateSkirt();",
     },
