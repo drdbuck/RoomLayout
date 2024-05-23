@@ -134,6 +134,30 @@ function actionRedo() {
     player.animate();
 }
 
+function actionObjectCreateFurniture() {
+    let spawnPoint = getSpawnPoint();
+    createObjectDialogue.show(
+        (answers) => _actionObjectCreateFurniture(answers, spawnPoint),
+        ["Width", "Depth", "Height"],
+        "Create Furniture"
+    );
+}
+function _actionObjectCreateFurniture(answers, spawnPoint) {
+    let room = house.rooms[0];//dirty: hard coded room
+    let group = room.group();
+    group.position = spawnPoint;
+    group.width = answers.Width;
+    group.depth = answers.Depth;
+    group.height = answers.Height;
+    //Select new box
+    controllerEdit.selectObject(group, false);
+    //record undo
+    undoMan.recordUndo("create furniture");
+    //ui
+    player.animate();
+    updateAllPanels();
+}
+
 function actionObjectCreateBlank() {
     let spawnPoint = getSpawnPoint();
             _actionObjectCreate(

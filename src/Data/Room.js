@@ -65,9 +65,8 @@ class Room extends Block {
 
     group(boxes, imageURL) {
         //ensure boxes is a (flat) array
+        boxes ??= [];
         boxes = [boxes].flat(Infinity);
-        //early exit: not enough boxes to make a group
-        if (!(boxes.length >= 1)) { return; }
         //
         let group = new KitBash(boxes, imageURL);
         this.addFurniture(group);

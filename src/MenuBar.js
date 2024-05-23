@@ -82,18 +82,19 @@ const menuBarData = {
     },
     create: {
         title: "Create",
+        "Create Furniture %b": "actionObjectCreateFurniture()",
         "Component": "---",
-        "Create Box %b": {
+        "Create Box %#b": {
             action: "actionObjectCreateBlank();",
             listen: ["select"],
             update: "menuUpdateGroupSelected(_);",
         },
-        "Create Rectangle %#b": {
+        "Create Rectangle %&b": {
             action: "actionObjectCreateBlankFlatWall();",
             listen: ["select"],
             update: "menuUpdateGroupSelected(_);",
         },
-        "Create Floor Rectangle %&b": {
+        "Create Floor Rectangle &b": {
             action: "actionObjectCreateBlankFlatFloor();",
             listen: ["select"],
             update: "menuUpdateGroupSelected(_);",
