@@ -75,6 +75,7 @@ body {
     background-color: #1a1a1a;
     color: rgb(152, 152, 152);
 }
+
 .menuPanel button:disabled:hover {
     background-color: #1a1a1a;
     color: rgb(152, 152, 152);
@@ -226,7 +227,7 @@ canvas {
     left: 210px;
 }
 
-#divPanelGroupEdit{
+#divPanelGroupEdit {
     left: 10px;
 }
 

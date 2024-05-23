@@ -160,42 +160,42 @@ function _actionObjectCreateFurniture(answers, spawnPoint) {
 
 function actionObjectCreateBlank() {
     let spawnPoint = getSpawnPoint();
-            _actionObjectCreate(
-                "box _",
-                "create box",
-                (f) => {
-                    f.scale = DEFAULT_SCALE;
-                },
-                spawnPoint
-            );
+    _actionObjectCreate(
+        "box _",
+        "create box",
+        (f) => {
+            f.scale = DEFAULT_SCALE;
+        },
+        spawnPoint
+    );
 }
 
 function actionObjectCreateBlankFlatWall() {
     let spawnPoint = getSpawnPoint();
-            _actionObjectCreate(
-                "rectangle _",
-                "create rectangle",
-                (f) => {
-                    f.scale = DEFAULT_SCALE;
-                    f.depth = 0;
-                    f.setFace(5, PIXEL_TRANSPARENT);
-                },
-                spawnPoint
-            );
+    _actionObjectCreate(
+        "rectangle _",
+        "create rectangle",
+        (f) => {
+            f.scale = DEFAULT_SCALE;
+            f.depth = 0;
+            f.setFace(5, PIXEL_TRANSPARENT);
+        },
+        spawnPoint
+    );
 }
 
 function actionObjectCreateBlankFlatFloor() {
     let spawnPoint = getSpawnPoint();
-            _actionObjectCreate(
-                "floor rectangle _",
-                "create floor rectangle",
-                (f) => {
-                    f.scale = DEFAULT_SCALE;
-                    f.height = 0;
-                    f.setFace(3, PIXEL_TRANSPARENT);
-                },
-                spawnPoint
-            );
+    _actionObjectCreate(
+        "floor rectangle _",
+        "create floor rectangle",
+        (f) => {
+            f.scale = DEFAULT_SCALE;
+            f.height = 0;
+            f.setFace(3, PIXEL_TRANSPARENT);
+        },
+        spawnPoint
+    );
 }
 
 function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPoint) {
