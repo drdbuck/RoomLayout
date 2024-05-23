@@ -50,11 +50,7 @@ class KitBash extends Block {
             this._angle = sumAngle / this._items.length;
 
             //Scale
-            //TODO: account for rotation of individual parts
-            let maxHalfWidth = this._items.max(f => pos.distanceTo(f.position) + (f.width / 2));
-            let maxHalfDepth = this._items.max(f => pos.distanceTo(f.position) + (f.depth / 2));
-            let maxHeight = this._items.max(f => f.altitude + f.height);
-            this._scale = new Vector3(maxHalfWidth * 2, maxHeight, maxHalfDepth * 2);
+            this.recalculateSize();
         }
         else {
             this._position = _zero.clone();
@@ -187,6 +183,15 @@ class KitBash extends Block {
         //move all components (so they effectively dont move)
         let offset = prevPos.clone().sub(this._position);
         this._items.forEach(item => item.worldPosition = item.worldPosition.add(offset));
+    }
+
+    recalculateSize() {
+        this.recenterPivot();
+        //TODO: account for rotation of individual parts
+        let maxHalfWidth = this._items.max(f => f.position.x + (f.width / 2));
+        let maxHalfDepth = this._items.max(f => f.position.z + (f.depth / 2));
+        let maxHeight = this._items.max(f => f.altitude + f.height) - this.altitude;
+        this.scale = new Vector3(maxHalfWidth * 2, maxHeight, maxHalfDepth * 2);
     }
 
 }

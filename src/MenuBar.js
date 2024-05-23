@@ -74,6 +74,11 @@ const menuBarData = {
             listen: ["select", "group"],
             update: "menuUpdateGroupSelected(_);",
         },
+        "Recalculate Size": {
+            action: "actionObjectsRecalculateSize();",
+            listen: ["select", "group"],
+            update: "menuUpdateGroupSelected(_);",
+        },
     },
     create: {
         title: "Create",

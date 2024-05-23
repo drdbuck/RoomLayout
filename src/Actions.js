@@ -343,6 +343,23 @@ function actionObjectsRecenter() {
         .forEach(group => group.recenterPivot());
     //record undo
     undoMan.recordUndo("recenter pivot");
+    //ui
+    player.animate();
+    updateGroupEditPanel();
+    updateBoxEditPanel();
+}
+
+function actionObjectsRecalculateSize() {
+    uiVars.selector.selection
+        .map(c => c.kitbash)
+        .removeDuplicates()
+        .forEach(group => group.recalculateSize());
+    //record undo
+    undoMan.recordUndo("recalculate size");
+    //ui    
+    player.animate();
+    updateGroupEditPanel();
+    updateBoxEditPanel();
 }
 
 function actionViewOverhead() {
