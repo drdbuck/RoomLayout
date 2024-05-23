@@ -529,20 +529,20 @@ function createGeometry(box) {
     const uvs = new Float32Array([
 
         //right
-        Math.max(0, (0 - depthDiffLeft) / maxDepth), 0,//BL
-        Math.min(1, (maxDepth + depthDiffRight) / maxDepth), 0,//BR
-        Math.min(1, (maxDepth - depthDiffRight) / maxDepth), 1,//TR
-        Math.min(1, (maxDepth - depthDiffRight) / maxDepth), 1,//TR
-        Math.max(0, (0 + depthDiffLeft) / maxDepth), 1,//TL
-        Math.max(0, (0 - depthDiffLeft) / maxDepth), 0,//BL
+        0, 0,
+        1, 0,
+        1, 1,
+        1, 1,
+        0, 1,
+        0, 0,
 
         //left
-        Math.max(0, (0 - depthDiffRight) / maxDepth), 0,//BL
-        Math.min(1, (maxDepth + depthDiffLeft) / maxDepth), 0,//BR
-        Math.min(1, (maxDepth - depthDiffLeft) / maxDepth), 1,//TR
-        Math.min(1, (maxDepth - depthDiffLeft) / maxDepth), 1,//TR
-        Math.max(0, (0 + depthDiffRight) / maxDepth), 1,//TL
-        Math.max(0, (0 - depthDiffRight) / maxDepth), 0,//BL
+        0, 0,
+        1, 0,
+        1, 1,
+        1, 1,
+        0, 1,
+        0, 0,
 
         //top
         0, 0,
@@ -561,20 +561,20 @@ function createGeometry(box) {
         0, 0,
 
         //back
-        Math.max(0, (0 - widthDiffRight) / maxWidth), 0,//BL
-        Math.min(1, (maxWidth + widthDiffLeft) / maxWidth), 0,//BR
-        Math.min(1, (maxWidth - widthDiffLeft) / maxWidth), 1,//TR
-        Math.min(1, (maxWidth - widthDiffLeft) / maxWidth), 1,//TR
-        Math.max(0, (0 + widthDiffRight) / maxWidth), 1,//TL
-        Math.max(0, (0 - widthDiffRight) / maxWidth), 0,//BL
+        0, 0,
+        1, 0,
+        1, 1,
+        1, 1,
+        0, 1,
+        0, 0,
 
         //front
-        Math.max(0, (0 - widthDiffLeft) / maxWidth), 0,//BL
-        Math.min(1, (maxWidth + widthDiffRight) / maxWidth), 0,//BR
-        Math.min(1, (maxWidth - widthDiffRight) / maxWidth), 1,//TR
-        Math.min(1, (maxWidth - widthDiffRight) / maxWidth), 1,//TR
-        Math.max(0, (0 + widthDiffLeft) / maxWidth), 1,//TL
-        Math.max(0, (0 - widthDiffLeft) / maxWidth), 0,//BL
+        0, 0,
+        1, 0,
+        1, 1,
+        1, 1,
+        0, 1,
+        0, 0,
 
     ]);
 
