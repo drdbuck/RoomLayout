@@ -125,7 +125,7 @@ function init() {
             {
                 name: "Width",
                 type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
-                default: 1,
+                default: 2,
             },
             {
                 name: "Depth",
@@ -135,7 +135,7 @@ function init() {
             {
                 name: "Height",
                 type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
-                default: 1,
+                default: 3,
             },
             // "Position",
             // {
