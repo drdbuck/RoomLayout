@@ -1,5 +1,7 @@
 "use strict";
 
+const DEFAULT_SCALE = new Vector3(2, 3, 1);
+
 function actionImportBox() {
     //2024-03-06: copied from CardGenerator
     //2024-03-03: copied from https://stackoverflow.com/a/56607553/2336212
@@ -134,67 +136,42 @@ function actionRedo() {
 
 function actionObjectCreateBlank() {
     let spawnPoint = getSpawnPoint();
-    createObjectDialogue.show(
-        (answers) => {
             _actionObjectCreate(
                 "box _",
                 "create box",
                 (f) => {
-                    f.width = answers.Width;
-                    f.depth = answers.Depth;
-                    f.height = answers.Height;
-                    f.recline = answers.Recline;
+                    f.scale = DEFAULT_SCALE;
                 },
                 spawnPoint
             );
-        },
-        undefined, //size, recline
-        "Create Box"
-    );
 }
 
 function actionObjectCreateBlankFlatWall() {
     let spawnPoint = getSpawnPoint();
-    createObjectDialogue.show(
-        (answers) => {
             _actionObjectCreate(
                 "rectangle _",
                 "create rectangle",
                 (f) => {
-                    f.width = answers.Width;
+                    f.scale = DEFAULT_SCALE;
                     f.depth = 0;
-                    f.height = answers.Height;
-                    f.recline = answers.Recline;
                     f.setFace(5, PIXEL_TRANSPARENT);
                 },
                 spawnPoint
             );
-        },
-        ["Width", "Height", "Recline"],
-        "Create Rectangle"
-    );
 }
 
 function actionObjectCreateBlankFlatFloor() {
     let spawnPoint = getSpawnPoint();
-    createObjectDialogue.show(
-        (answers) => {
             _actionObjectCreate(
                 "floor rectangle _",
                 "create floor rectangle",
                 (f) => {
-                    f.width = answers.Width;
-                    f.depth = answers.Depth;
+                    f.scale = DEFAULT_SCALE;
                     f.height = 0;
-                    f.recline = answers.Recline;
                     f.setFace(3, PIXEL_TRANSPARENT);
                 },
                 spawnPoint
             );
-        },
-        ["Width", "Depth", "Recline"],
-        "Create Floor Rectangle"
-    );
 }
 
 function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPoint) {
