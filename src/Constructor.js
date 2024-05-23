@@ -302,7 +302,7 @@ function constructKitBash(kitbash) {
     kitbash.onItemRemoved.add(() => updateFace(kitbash.count > 0));
 
     //edge highlights
-    let edge = createEdgeHighlights(mesh);
+    let edge = createEdgeHighlights(mesh, edgeMaterial2);
     mesh.edge = edge;
     mesh.attach(edge);
     edge.visible = false;
@@ -597,11 +597,11 @@ function createGeometry(box) {
     return bufferGeometry;
 }
 
-function createEdgeHighlights(mesh) {
+function createEdgeHighlights(mesh, material = edgeMaterial) {
     //2024-01-16: copied from https://discourse.threejs.org/t/highlighting-the-edge-of-a-cube-on-hover-linesegmentsgeometry/28480
     const edgesGeometry = new EdgesGeometry(mesh.geometry, 40);
 
-    const line = new LineSegments(edgesGeometry, edgeMaterial);
+    const line = new LineSegments(edgesGeometry, material);
     line.layers.set(effectMask);
 
     line.position.copy(mesh.position);

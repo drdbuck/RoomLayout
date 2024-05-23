@@ -21,6 +21,10 @@ const edgeMaterial = new LineBasicMaterial({
     color: selectColor,
     linewidth: 1,
 });
+const edgeMaterial2 = new LineBasicMaterial({
+    color: "#0CF727",
+    linewidth: 1,
+});
 const objectMask = 0;
 const effectMask = 1;
 let inEditMode = true;
