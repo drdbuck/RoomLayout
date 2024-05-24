@@ -577,12 +577,12 @@ function createMaterials(imageURLs, mincount = 6, defaultImageURL = undefined, f
     return materials;
 }
 
-function createMaterial(imageURL, front = true) {
+function createMaterial(imageURL, front = true, opacity = 1) {
     if (!imageURL) {
         return undefined;
     }
     //search for existing material (efficiency)
-    let matObj = knownMaterials.find(matObj => matObj.imageURL == imageURL && matObj.front == front);
+    let matObj = knownMaterials.find(matObj => matObj.imageURL == imageURL && matObj.front == front && matObj.material.opacity == opacity);
     if (matObj) {
         return matObj.material;
     }
@@ -604,7 +604,8 @@ function createMaterial(imageURL, front = true) {
                 mat.aoMap = texture;
                 mat.lightMap = texture;
                 mat.map = texture;
-                mat.transparent = imageHasTransparency(texture.source.data);
+                mat.transparent = opacity < 1 || imageHasTransparency(texture.source.data);
+                mat.opacity = opacity;
                 mat.alphaTest = 0.001;
                 mat.needsUpdate = true;
                 player.animate();

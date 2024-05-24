@@ -240,7 +240,7 @@ function constructKitBash(kitbash) {
     let hasItems = kitbash.count > 0;
 
     //create mesh
-    const mesh = new Mesh(meshGeometry, createMaterial((hasItems) ? PIXEL_TRANSPARENT : kitbash.defaultFace));
+    const mesh = new Mesh(meshGeometry, undefined);
 
     mesh.userData ??= {};
     mesh.userData.selectable = true;
@@ -275,7 +275,12 @@ function constructKitBash(kitbash) {
     let updateFace = (hasItemsNow, forceUpdate = false) => {
         if (forceUpdate || hasItems != hasItemsNow) {
             hasItems = hasItemsNow;
-            mesh.material = createMaterial((hasItems) ? PIXEL_TRANSPARENT : kitbash.defaultFace);
+            let material = createMaterial(
+                (hasItems) ? PIXEL_TRANSPARENT : kitbash.defaultFace,
+                true,
+                0.5
+            );
+            mesh.material = material;
             mesh.visible = !hasItems || uiVars?.selector.find(c => c.obj == kitbash);
             mesh.layers.set((hasItems) ? effectMask : objectMask);
         }
