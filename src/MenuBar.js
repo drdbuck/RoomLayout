@@ -82,7 +82,7 @@ const menuBarData = {
     },
     create: {
         title: "Create",
-        "Create Furniture %b": "actionObjectCreateFurniture()",
+        "Create Furniture %b": "actionObjectCreateFurniture();",
         "Component": "---",
         "Create Box %#b": {
             action: "actionObjectCreateBlank();",
