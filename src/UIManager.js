@@ -415,7 +415,9 @@ function updateFaceEditPanel() {
         let suggest = [];
         const maxSuggestions = 4;
         //last image
-        _contexts.forEach(context => {//dirty: using _contexts
+        _contexts
+            .filter(c => c.box)
+            .forEach(context => {//dirty: using _contexts
             let f = context.box;
             suggest.push(f.lastImage);
         });

@@ -62,6 +62,10 @@ class SelectContext {
             let obj = uiVars.findUid(house, uid);
             this.obj = obj;
         }
+        if (!this.obj) {
+            console.error("unable to find object with id", this.uid_obj);
+            return;
+        }
         if (this.uid_box) {
             let uid = this.uid_box;
             let obj = uiVars.findUid(house, uid);
@@ -71,6 +75,10 @@ class SelectContext {
             let uid = this.uid_kitbash;
             let obj = uiVars.findUid(house, uid);
             this.kitbash = obj;
+        }
+        if (!this.kitbash) {
+            console.error("unable to find kitbash with id", this.uid_kitbash);
+            return;
         }
         //
         this.offset = _zero.clone();
