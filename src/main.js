@@ -211,12 +211,11 @@ function hookupDelegates() {
     controllerEdit.onFaceSelectionChanged.add(faces => {
         updateUIVariables(uiVars.selector.selection);
         updateBoxEditPanel();
-        if (uiVars.viewPanelFace) {
+        uiVars.viewPanelFace = faces.length > 0 && faces.some(f => f > -2);
             uiVars.viewPanelFaceEdit = false;
             updateFaceEditPanel();
             uiVars.highlightSelectedFace = true;
             player.animate();
-        }
     });
     uiVars.selector.onSelectionChanged.add(contexts => {
         controllerEdit.updateCollectiveCenter();
