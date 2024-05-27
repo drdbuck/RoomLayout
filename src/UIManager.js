@@ -266,6 +266,10 @@ function updateGroupEditPanel() {
     updateFunc("txtGroupPosY", glist, g => g.position.z);
     updateFunc("txtGroupAltitude", glist, g => g.altitude);
     updateFunc("txtGroupAngle", glist, g => g.angle);
+    
+    //Buttons
+    $("btnGroupFaceEdit").checked = uiVars.viewPanelFace;
+    $("btnGroupFaceEdit").disabled = !anySelected;
 }
 
 function updateBoxEditPanel() {
