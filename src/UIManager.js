@@ -435,13 +435,12 @@ function updateFaceEditPanel() {
             suggest.push(f.defaultFace);
         });
         //images from other sides
-        _contexts.forEach(context => {//dirty: using _contexts
-            let f = context.box;
-            f.faceList.forEach(face => suggest.push(face));
+        _boxs.forEach(box => {
+            box.faceList.forEach(face => suggest.push(face));
         });
         //images from other meshes in same group
-        _contexts.forEach(context => {//dirty: using _contexts
-            context.box.group?.items.forEach(item => {
+        _groups.forEach(group => {
+            group.items.forEach(item => {
                 item.faceList.forEach(face => suggest.push(face));
             });
         });
@@ -476,7 +475,7 @@ function updateFaceEditPanel() {
     }
     $("divImageEdit").hidden = !showFaceEdit;
     $("btnPanelFaceEdit").hidden = !usingImage;
-    $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.box._faces[c.face] != PIXEL_TRANSPARENT)
+    $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.box && c.box?._faces[c.face] != PIXEL_TRANSPARENT)
         || usingImage && _contexts.find(c => c.box?.validFaceIndex(c.face))?.face >= 0
     );//dirty: _contexts
     $("btnFaceImport").hidden = !!usingImage;
