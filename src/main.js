@@ -239,7 +239,7 @@ function hookupDelegates() {
             .forEach(c => c.meshBounds.edge.visible = true);
         //
         uiVars.editObjects = contexts.length > 0;
-        uiVars.editBoxes = contexts.length > 0 && contexts.some(c => !c.obj.isKitBash);
+        uiVars.editBoxes = contexts.length > 0 && contexts.some(c => !c.obj.isKitBash || c.box);
     });
     uiVars.selector.onSelectionGained.add(context => {
         context.meshes.forEach(mesh => {
