@@ -160,7 +160,7 @@ class Controller {
                 let context = this.selectObject(
                     selectTarget,
                     this.multiselectButton,
-                    targetFace,
+                    undefined,
                     !onlySelectButton && !anyPieceSingleSelected
                 );
                 context.stable = false;
@@ -219,20 +219,6 @@ class Controller {
                     let context = this.getSelectContext(target);
                     if (context) {
                         let faceChanged = false;
-                        //if its part of group, select this one
-                        if (context.box != target) {
-                            //unhighlight prev face
-                            let prevFace = context.face;
-                            context.face = -2;
-                            this.updateFaceSelection();
-                            context.face = prevFace;
-                            //select this mesh as the target
-                            if (!target.isKitBash) {
-                                context.box = target;
-                            }
-                            context.grabInfo();
-                            faceChanged = true;
-                        }
                         //determine if face is already selected
                         let targetFace = targetHit.face.materialIndex;
                         let alreadySelected = context.face == targetFace;
@@ -249,12 +235,10 @@ class Controller {
                             faceChanged = true;
                         }
                         if (faceChanged) {
-                            if (uiVars.viewPanelFace) {
                                 this.updateFaceSelection();
                                 this.runFaceDelegate();
                                 //sort selected
                                 this.sortSelected();
-                            }
                         }
                     }
                     else {
