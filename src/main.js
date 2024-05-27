@@ -187,6 +187,9 @@ function init() {
             mesh.edge.visible = true;
             updateFace(mesh, -2);
         });
+        if (c.obj.isKitBash && c.meshBounds) {
+            c.meshBounds.edge.visible = true;
+        }
         updateFace(c.mesh, c.face);
     });
     player.animate();
