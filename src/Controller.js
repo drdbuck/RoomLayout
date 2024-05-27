@@ -140,6 +140,13 @@ class Controller {
                 }
             }
             else {
+                //if its group is already selected, but the box isnt
+                let context2 = this.getSelectContext(target.group);
+                if (context2) {
+                    //select the box
+                    context2.box = target;
+                }
+                else {
                 //check to see if the target is in a group that has some pieces single selected
                 let anyPieceSingleSelected = false;
                 if (target.group) {
@@ -155,6 +162,7 @@ class Controller {
                     !onlySelectButton && !anyPieceSingleSelected
                 );
                 context.stable = false;
+                }
             }
             //sort selected
             this.sortSelected();
