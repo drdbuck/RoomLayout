@@ -155,8 +155,11 @@ class Controller {
                 }
                 //select object
                 uiVars.prevSelection = uiVars.selector.selection.filter(c => c.stable);
+                let selectTarget = (!onlySelectButton && !anyPieceSingleSelected)
+                    ? target.group ?? target
+                    : target; 
                 let context = this.selectObject(
-                    target.group ?? target,
+                    selectTarget,
                     this.multiselectButton,
                     targetFace,
                     !onlySelectButton && !anyPieceSingleSelected
