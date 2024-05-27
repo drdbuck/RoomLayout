@@ -21,7 +21,6 @@ class SelectContext {
         //
         if (autoGrab) {
             if (this.obj.isKitBash || this.obj._items) {
-                this.box = this.obj.items[0];
                 this.kitbash = this.obj;
             }
             else {

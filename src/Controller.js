@@ -149,7 +149,7 @@ class Controller {
                 //select object
                 uiVars.prevSelection = uiVars.selector.selection.filter(c => c.stable);
                 let context = this.selectObject(
-                    target,
+                    target.group ?? target,
                     this.multiselectButton,
                     targetFace,
                     !onlySelectButton && !anyPieceSingleSelected
@@ -330,7 +330,6 @@ class Controller {
         if (obj.isKitBash) {
             selectContext.kitbash = obj;
             let items = obj.items;
-            selectContext.box = items[0];
         }
         else {
             selectContext.box = obj;
@@ -412,8 +411,7 @@ class Controller {
     getSelectContext(obj) {
         return uiVars.selector.find(c => c.obj === obj)
             || uiVars.selector.find(c => c.box == obj)
-            || uiVars.selector.find(c => c.kitbash == obj)
-            || uiVars.selector.find(c => c.obj.has?.(obj));
+            || uiVars.selector.find(c => c.kitbash == obj);
     }
 
     calculateSelectedOffsets() {
