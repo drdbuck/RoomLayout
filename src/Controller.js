@@ -146,24 +146,24 @@ class Controller {
                     //select the box
                 }
                 else {
-                //check to see if the target is in a group that has some pieces single selected
-                let anyPieceSingleSelected = false;
-                if (target.group) {
-                    let items = target.group.items;
-                    anyPieceSingleSelected = uiVars.selector.some(c => items.includes(c.obj));
-                }
-                //select object
-                uiVars.prevSelection = uiVars.selector.selection.filter(c => c.stable);
-                let selectTarget = (!onlySelectButton && !anyPieceSingleSelected)
-                    ? target.group ?? target
-                    : target; 
-                let context = this.selectObject(
-                    selectTarget,
-                    this.multiselectButton,
-                    undefined,
-                    !onlySelectButton && !anyPieceSingleSelected
-                );
-                context.stable = false;
+                    //check to see if the target is in a group that has some pieces single selected
+                    let anyPieceSingleSelected = false;
+                    if (target.group) {
+                        let items = target.group.items;
+                        anyPieceSingleSelected = uiVars.selector.some(c => items.includes(c.obj));
+                    }
+                    //select object
+                    uiVars.prevSelection = uiVars.selector.selection.filter(c => c.stable);
+                    let selectTarget = (!onlySelectButton && !anyPieceSingleSelected)
+                        ? target.group ?? target
+                        : target;
+                    let context = this.selectObject(
+                        selectTarget,
+                        this.multiselectButton,
+                        undefined,
+                        !onlySelectButton && !anyPieceSingleSelected
+                    );
+                    context.stable = false;
                 }
             }
             //sort selected
@@ -235,10 +235,10 @@ class Controller {
                             faceChanged = true;
                         }
                         if (faceChanged) {
-                                this.updateFaceSelection();
-                                this.runFaceDelegate();
-                                //sort selected
-                                this.sortSelected();
+                            this.updateFaceSelection();
+                            this.runFaceDelegate();
+                            //sort selected
+                            this.sortSelected();
                         }
                     }
                     else {

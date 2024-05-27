@@ -266,7 +266,7 @@ function updateGroupEditPanel() {
     updateFunc("txtGroupPosY", glist, g => g.position.z);
     updateFunc("txtGroupAltitude", glist, g => g.altitude);
     updateFunc("txtGroupAngle", glist, g => g.angle);
-    
+
     //Buttons
     $("btnGroupFaceEdit").checked = uiVars.viewPanelFace;
     $("btnGroupFaceEdit").disabled = !anySelected;
@@ -422,9 +422,9 @@ function updateFaceEditPanel() {
         _contexts
             .filter(c => c.box)
             .forEach(context => {//dirty: using _contexts
-            let f = context.box;
-            suggest.push(f.lastImage);
-        });
+                let f = context.box;
+                suggest.push(f.lastImage);
+            });
         //image from other side
         _contexts.forEach(context => {//dirty: using _contexts
             if (context.face < 0) { return; }
