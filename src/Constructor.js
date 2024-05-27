@@ -286,13 +286,6 @@ function constructKitBash(kitbash) {
         }
     };
 
-
-    //inside faces
-    // let insideMesh = createInsideFaces(mesh, kitbash);
-    // mesh.attach(insideMesh);
-    // mesh.insideMesh = insideMesh;
-    // insideMesh.position.copy(_zero);
-
     //delegates
     kitbash.onSizeChanged.add(() => {
         updateScale(kitbash.scale);
@@ -387,10 +380,10 @@ function constructBox(box) {
 
 
     //inside faces
-    // let insideMesh = createInsideFaces(mesh, box);
-    // mesh.attach(insideMesh);
-    // mesh.insideMesh = insideMesh;
-    // insideMesh.position.copy(_zero);
+    let insideMesh = createInsideFaces(mesh, box);
+    mesh.attach(insideMesh);
+    mesh.insideMesh = insideMesh;
+    insideMesh.position.copy(_zero);
 
     //delegates
     box.onSizeChanged.add(() => {
@@ -412,20 +405,20 @@ function constructBox(box) {
     box.onFaceChanged.add((index, url) => {
         let material = createMaterial(url ?? box.defaultFace);
         let materialBack = createMaterial(url ?? box.defaultFace, false);
-        // let insideMaterials = mesh.insideMesh.material;
+        let insideMaterials = mesh.insideMesh.material;
         //Set all faces with the default face
         if (index == FACE_DEFAULT) {
             for (let i = 0; i < meshMaterials.length; i++) {
                 if (!box.getFace(i)) {
                     meshMaterials[i] = material;
-                    // insideMaterials[i] = materialBack;
+                    insideMaterials[i] = materialBack;
                 }
             }
         }
         //Set just the one face that was changed
         else {
             meshMaterials[index] = material;
-            // insideMaterials[index] = materialBack;
+            insideMaterials[index] = materialBack;
         }
     });
 
