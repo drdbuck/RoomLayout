@@ -276,7 +276,7 @@ function updateBoxEditPanel() {
     if (!showPanel) { return; }
 
     //Update UI
-    let anySelected = _contexts.length > 0;
+    let anySelected = _boxs.length > 0;
 
 
     let flist = _boxs;
@@ -296,7 +296,7 @@ function updateBoxEditPanel() {
 
     //Name
     updateFunc("txtName", flist, f => f.name, false);
-    $("txtName").disabled = !(anySelected && _contexts.length == 1);
+    $("txtName").disabled = !(anySelected && _boxs.length == 1);
     //Size
     updateFunc("txtWidth", flist, f => f.width);
     updateFunc("txtLength", flist, f => f.length);
