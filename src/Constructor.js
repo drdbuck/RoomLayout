@@ -629,7 +629,7 @@ function createInsideFaces(mesh, box) {
     const meshMaterials = createMaterials(box.faceList, 6, box.defaultFace, false);
 
     //create mesh
-    const insideMesh = new Mesh(meshGeometry, meshMaterials);
+    const insideMesh = new Mesh(mesh.geometry, meshMaterials);
     insideMesh.layers.set(effectMask);
 
     insideMesh.position.copy(mesh.position);

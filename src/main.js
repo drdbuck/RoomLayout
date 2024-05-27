@@ -565,7 +565,7 @@ function updateFace(mesh, face) {
     }
 }
 
-function createMaterials(imageURLs, mincount = 6, defaultImageURL = undefined, front = true) {
+function createMaterials(imageURLs = [PIXEL_WHITE], mincount = 6, defaultImageURL = undefined, front = true) {
     let materials = imageURLs.map(
         face => createMaterial(face, front)
     );
