@@ -260,8 +260,11 @@ class Controller {
                     else {
                         let context2 = this.getSelectContext(target.group);
                         if (context2?.stable) {
+                            uiVars.selector.deselect(context2);
                             //select the box
                             context2.box = target;
+                            context2.grabInfo();
+                            uiVars.selector.select(context2);
                         }
                     }
                 }
