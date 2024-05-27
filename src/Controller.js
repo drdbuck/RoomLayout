@@ -144,7 +144,6 @@ class Controller {
                 let context2 = this.getSelectContext(target.group);
                 if (context2) {
                     //select the box
-                    context2.box = target;
                 }
                 else {
                 //check to see if the target is in a group that has some pieces single selected
@@ -211,8 +210,6 @@ class Controller {
                 }
             }
             else {
-                //stabilize volatile selections
-                uiVars.selector.forEach(c => c.stable = true);
                 //
                 let targetHit = this.getObjectHitAtMousePos();
                 let target = targetHit?.object?.box;
@@ -260,7 +257,16 @@ class Controller {
                             }
                         }
                     }
+                    else {
+                        let context2 = this.getSelectContext(target.group);
+                        if (context2?.stable) {
+                            //select the box
+                            context2.box = target;
+                        }
+                    }
                 }
+                //stabilize volatile selections
+                uiVars.selector.forEach(c => c.stable = true);
             }
             //reset drag variables
             this.mouse.targetY = 0;
