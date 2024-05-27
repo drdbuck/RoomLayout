@@ -247,6 +247,7 @@ class Controller {
                             uiVars.selector.deselect(context2);
                             //select the box
                             context2.box = target;
+                            context2.face = -2;
                             context2.grabInfo();
                             uiVars.selector.select(context2);
                         }
