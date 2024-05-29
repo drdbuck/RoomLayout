@@ -479,7 +479,8 @@ class Controller {
                 return;
             }
             //
-            const max = context.mesh.material.length - 1;
+            const faceCount = context.mesh.material.length;
+            const max = faceCount - 1;
             let validFace = false;
             let loopProtect = 100;//to prevent infinite loops
             while (!validFace && loopProtect > 0) {
@@ -497,8 +498,8 @@ class Controller {
                 else {
                     context.face += dir;
                     if (!between(context.face, min, max)) {
-                        //group
-                        if (context.obj.isKitBash) {
+                        //cycle through all faces in group
+                        if (!context.box) {
                             //unhighlight prev face
                             let prevFace = context.face;
                             context.face = -2;
@@ -514,9 +515,9 @@ class Controller {
                             context.box = nextF;
                             context.grabInfo();
                         }
-                        //just mesh
+                        //cycle through just faces on box
                         else {
-                            context.face = FACE_DEFAULT;
+                            context.face = (context.face + faceCount) % faceCount;
                         }
                     }
                 }
