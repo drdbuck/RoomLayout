@@ -2,7 +2,7 @@
 
 const stringifyKitBash = [
     "_items",
-    "defaultFace",
+    "_defaultFace",
     "_scaleFactor",
 ];
 
@@ -11,7 +11,7 @@ class KitBash extends Block {
         super();
 
         this.isKitBash = true;
-        this.defaultFace = imageURL
+        this._defaultFace = imageURL
             ?? items
                 .map(box => box._faces)
                 .flat(Infinity)
@@ -131,6 +131,16 @@ class KitBash extends Block {
         return this._items[(index + dir + length) % length];
     }
 
+    //Face
+    get defaultFace() {
+        return this._defaultFace;
+    }
+    set defaultFace(value) {
+        let imageURL = value;
+        this._defaultFace = imageURL;
+        this.onFaceChanged.run(FACE_DEFAULT, imageURL);
+    }
+
     //Position
     get altitude() {
         return this._items.min(f => f.altitude);
@@ -234,4 +244,6 @@ function inflateKitBash(kitbash) {
 function backwardsCompatifyKitBash(kitbash) {
     //Change: scaleFactor
     kitbash._scaleFactor ??= 1;
+    //Change: defaultFace -> _defaultFace
+    kitbash._defaultFace ??= kitbash.defaultFace;
 }
