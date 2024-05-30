@@ -140,13 +140,13 @@ class ImageEdit {
             longestEdge = Math.max(edge, longestEdge);
         }
         //calculate resolution
-        let w = width;
-        let h = height;
+        let w = width || longestEdge;
+        let h = height || longestEdge;
         if (width > height) {
             w = longestEdge;
             h = w * height / width;
         }
-        else {
+        else if (height > width){
             h = longestEdge;
             w = h * width / height;
         }
