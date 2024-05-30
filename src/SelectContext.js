@@ -58,6 +58,15 @@ class SelectContext {
         return this.box?.validFaceIndex(index) || index == FACE_DEFAULT;
     }
 
+    get Face() {
+        let index = this.face;
+        //early exit: invalid face
+        if (!this.validFaceIndex(index)) {
+            return undefined;
+        }
+        //
+        return this.box?.getFace(index) ?? this.kitbash.defaultFace;
+    }
     set Face(imgURL) {
         let index = this.face;
         if (this.box?.validFaceIndex(index)) {

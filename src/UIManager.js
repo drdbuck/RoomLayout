@@ -390,10 +390,7 @@ function updateFaceEditPanel() {
     let divhtml = "<label>Error: This element couldn't be displayed</label>";
     let faceContexts = _contexts.filter(c => c.validFaceIndex());//dirty: using stored _contexts
     let imageURLs = faceContexts
-        .map(c => {
-            let box = c.box;
-            return box.getFace(c.face);
-        })
+        .map(c => c.Face)
         .filter(url => isValidImage(url));
     //Images exist
     if (imageURLs.length > 0) {
@@ -419,15 +416,16 @@ function updateFaceEditPanel() {
         let suggest = [];
         const maxSuggestions = 4;
         //last image
-        _contexts
+        _contexts//dirty: using _contexts
             .filter(c => c.box)
-            .forEach(context => {//dirty: using _contexts
+            .forEach(context => {
                 let f = context.box;
                 suggest.push(f.lastImage);
             });
         //image from other side
-        _contexts.forEach(context => {//dirty: using _contexts
-            if (context.face < 0) { return; }
+        _contexts//dirty: using _contexts
+            .filter(c=>c.face >=0 && c.box)
+            .forEach(context => {
             let f = context.box;
             let flipFace = context.face + ((context.face % 2 == 0) ? 1 : -1);
             let flipURL = f.getFace(flipFace);
@@ -593,9 +591,7 @@ function editFace(editFunc = (img) => img, completeFunc = () => { }) {
         }
     }
     selection.forEach(c => {
-        let f = c.box;
-        let faceIndex = c.face;
-        let imageURL = f.getFace(faceIndex);
+        let imageURL = c.Face;
         let img = new Image();
         img.src = imageURL;
         img.onload = () => {

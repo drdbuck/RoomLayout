@@ -114,13 +114,12 @@ class ControllerImageEdit {
         }
         //use box face
         let box = context.box;
-        let faceIndex = context.face;
-        let imageURL = box.getFace(faceIndex);
         if (!context.validFaceIndex()) { return; }
+        let imageURL = context.Face;
         if (isValidImage(imageURL)) {
             this.setImage(imageURL);
         }
-        this.targetDimensions = box.getFaceDimensions(faceIndex);
+        this.targetDimensions = box?.getFaceDimensions(faceIndex) ?? _zero.clone();
         this.targetDimensions.x ||= this.defaultTargetDimensions.x;
         this.targetDimensions.y ||= this.defaultTargetDimensions.y;
     }
