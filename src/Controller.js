@@ -223,7 +223,7 @@ class Controller {
                         let targetFace = targetHit.face.materialIndex;
                         let alreadySelected = context.face == targetFace;
                         if (alreadySelected) {
-                            //do nothing
+                            uiVars.viewPanelFace = true;
                         }
                         else {
                             //deselect all other faces
