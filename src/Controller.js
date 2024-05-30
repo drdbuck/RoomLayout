@@ -437,23 +437,32 @@ class Controller {
         if (dir == undefined) {
             return;
         }
-        uiVars.selector.forEach(context => {
+        let selection = uiVars.selector.selection;
+        uiVars.selector.clear();
+        let newSelection = selection
+            .map(context => {
             //early exit: no group
             if (!context.kitbash) {
                 console.error("no group selected!", context);
                 return;
             }
             //early exit: no items
-            if (!(context.kitbash.count > 0)) { return; }
+            if (!(context.kitbash.count > 0)) { return context; }
             //
             let item = context.kitbash.nextItem(context.box, dir);
             if (!context.obj.isKitBash) {
                 context.obj = item;
             }
             context.box = item;
+            context.grabInfo();
             //
             //TODO: verify newly selected face is valid
-        });
+            //
+            //return
+            return context;
+        })
+            .filter(c => c);
+        uiVars.selector.selectAll(newSelection);
         this.updateFaceSelection();
         this.runFaceDelegate();
         updateUIVariables(uiVars.selector.selection);
