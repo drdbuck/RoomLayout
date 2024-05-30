@@ -585,22 +585,20 @@ function btnRotate(degrees) {
 }
 
 function editFace(editFunc = (img) => img, completeFunc = () => { }) {
-    let count = 0;
+    const selection = uiVars.selector.selection
+        .filter(c => c.box?.validFaceIndex(c.face));
+    const count = selection.length;
     let progress = 0;
-    let progressEnabled = false;
-    let completeCalled = false;
     let progressFunc = () => {
         progress++;
-        if (progressEnabled && progress == count) {
+        if (progress == count) {
             completeCalled = true;
             completeFunc();
         }
     }
-    uiVars.selector.selection.forEach(c => {
+    selection.forEach(c => {
         let f = c.box;
         let faceIndex = c.face;
-        if (!f?.validFaceIndex(faceIndex)) { return; }
-        count++;
         let imageURL = f.getFace(faceIndex);
         let img = new Image();
         img.src = imageURL;
@@ -613,10 +611,6 @@ function editFace(editFunc = (img) => img, completeFunc = () => { }) {
             progressFunc();
         };
     });
-    progressEnabled = true;
-    if (!completeCalled && progress == count) {
-        completeFunc();
-    }
 }
 
 function cropCanvasChanged(url) {
