@@ -160,7 +160,7 @@ class Controller {
                     let context = this.selectObject(
                         selectTarget,
                         this.multiselectButton,
-                        undefined,
+                        (selectTarget.isKitBash) ? FACE_DEFAULT : undefined,
                         !onlySelectButton && !anyPieceSingleSelected
                     );
                     context.stable = false;
