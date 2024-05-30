@@ -398,12 +398,13 @@ function constructBox(box) {
     }
     let updateDefaultFace = (url) => {
         let defaultFace = url;
-        box.faceList.forEach((face, i) => {
-            if (!box.validFaceIndex(i)) { return; }
-            if (!face) {
+        const sideCount = 6;//dirty: assumes 6 sides
+        for (let i = 0; i < sideCount; i++){
+            if (!box.validFaceIndex(i)) { continue; }
+            if (!box.getFace(i)) {
                 updateFace(i, defaultFace);
             }
-        });
+        }
     }
 
 
