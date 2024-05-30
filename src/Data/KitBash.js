@@ -108,7 +108,7 @@ class KitBash extends Block {
             //change position
             item.position.add(this.position);
             //unregister delegate
-            item.onFaceChanged.remove(this.onFaceChanged.run);
+            item.onFaceChanged.remove(this.bind_FaceChanged);
             this.onScaleFactorChanged.remove(item.bind_ScaleFactorChanged);
             this.onPositionChanged.remove(item.bind_GroupPositionChanged);
             this.onAngleChanged.remove(item.bind_GroupAngleChanged);
