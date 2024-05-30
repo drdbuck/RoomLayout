@@ -549,25 +549,18 @@ function btnFlipY() {
 }
 
 function btnFlip(flipX, flipY) {
-    uiVars.selector.forEach(c => {
-        let f = c.box;
-        let faceIndex = c.face;
-        if (!f?.validFaceIndex(faceIndex)) { return; }
-        let imageURL = f.getFace(faceIndex);
-        let img = new Image();
-        img.src = imageURL;
-        img.onload = () => {
+    editFace(
+        (img) => {
             img = flipImage(img, flipX, flipY);
             controllerImageEdit.imageEdit.flip(flipX, flipY);//dirty: directly accessing protected member imageEdit
             controllerImageEdit.boomerangCorners();
-            let url = img.src;
-            f.setFace(faceIndex, url);
-            updateFaceEditPanel();
-            player.animate();
-        };
-    });
+            return img;
+        },
     //record undo
+        () => {
     undoMan.recordUndo("flip image");
+        }
+    );
 }
 
 function btnRotateLeft() {
@@ -577,25 +570,18 @@ function btnRotateRight() {
     btnRotate(90);
 }
 function btnRotate(degrees) {
-    uiVars.selector.forEach(c => {
-        let f = c.box;
-        let faceIndex = c.face;
-        if (!f?.validFaceIndex(faceIndex)) { return; }
-        let imageURL = f.getFace(faceIndex);
-        let img = new Image();
-        img.src = imageURL;
-        img.onload = () => {
+    editFace(
+        (img) => {
             img = rotateImage(img, degrees);
             controllerImageEdit.imageEdit.rotate(degrees);//dirty: directly accessing protected member imageEdit
             controllerImageEdit.boomerangCorners();
-            let url = img.src;
-            f.setFace(faceIndex, url);
-            updateFaceEditPanel();
-            player.animate();
-        };
-    });
+            return img;
+        },
     //record undo
+        () => {
     undoMan.recordUndo("rotate image");
+        }
+    );
 }
 
 function editFace(editFunc = (img) => img, completeFunc = () => { }) {
