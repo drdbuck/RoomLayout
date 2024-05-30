@@ -392,9 +392,12 @@ function updateFaceEditPanel() {
     //divFaceDrop
     let usingImage = false;
     let divhtml = "<label>Error: This element couldn't be displayed</label>";
-    let faceContexts = _contexts.filter(c => c.validFaceIndex());//dirty: using stored _contexts
+    let faceContexts = _contexts.filter(c => c.box?.validFaceIndex(c.face));
     let imageURLs = faceContexts
-        .map(c => c.Face)
+        .map(c => {
+            let box = c.box;
+            return box.getFace(c.face);
+        })
         .filter(url => isValidImage(url));
     //Images exist
     if (imageURLs.length > 0) {
