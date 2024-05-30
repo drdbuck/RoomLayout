@@ -598,6 +598,41 @@ function btnRotate(degrees) {
     undoMan.recordUndo("rotate image");
 }
 
+function editFace(editFunc = (img) => img, completeFunc = () => { }) {
+    let count = 0;
+    let progress = 0;
+    let progressEnabled = false;
+    let completeCalled = false;
+    let progressFunc = () => {
+        progress++;
+        if (progressEnabled && progress == count) {
+            completeCalled = true;
+            completeFunc();
+        }
+    }
+    uiVars.selector.selection.forEach(c => {
+        let f = c.box;
+        let faceIndex = c.face;
+        if (!f?.validFaceIndex(faceIndex)) { return; }
+        count++;
+        let imageURL = f.getFace(faceIndex);
+        let img = new Image();
+        img.src = imageURL;
+        img.onload = () => {
+            img = editFunc(img);
+            let url = img.src;
+            f.setFace(faceIndex, url);
+            updateFaceEditPanel();
+            player.animate();
+            progressFunc();
+        };
+    });
+    progressEnabled = true;
+    if (!completeCalled && progress == count) {
+        completeFunc();
+    }
+}
+
 function cropCanvasChanged(url) {
     uiVars.selector.forEach(c => {
         let f = c.box;
