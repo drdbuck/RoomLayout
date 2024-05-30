@@ -496,7 +496,6 @@ function updateFaceEditPanel() {
         || usingImage && _contexts.find(c => c.validFaceIndex())?.face >= 0
     );//dirty: _contexts
     $("btnFaceImport").hidden = !!usingImage;
-    $("btnFaceClear").innerHTML = (usingImage) ? "Clear Face" : "Make Transparent";
 }
 
 
@@ -690,12 +689,14 @@ function btnFaceReset() {
 }
 
 function btnFaceClear() {
-    uiVars.selector.forEach(c => {
+    uiVars.selector.selection
+        .filter(c=>c.face != FACE_DEFAULT)
+        .forEach(c => {
         c.Face = PIXEL_TRANSPARENT;
     });
     uiVars.viewPanelFaceEdit = false;
     updateFaceEditPanel();
     player.animate();
     //record undo
-    undoMan.recordUndo("clear image");
+    undoMan.recordUndo("make face transparent");
 }
