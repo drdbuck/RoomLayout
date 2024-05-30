@@ -102,24 +102,13 @@ class ControllerImageEdit {
 
     updateImage(context) {
         //early exit: no context
-        if (!context) { return; }
-        //no box, use default face
-        if (!context.box) {
-            let imageURL = context.kitbash.defaultFace;
-            if (isValidImage(imageURL)) {
-                this.setImage(imageURL);
-            }
-            this.targetDimensions = _zero.clone();
-            return;
-        }
-        //use box face
-        let box = context.box;
-        if (!context.validFaceIndex()) { return; }
+        if (!context?.validFaceIndex()) { return; }
+        //set face
         let imageURL = context.Face;
         if (isValidImage(imageURL)) {
             this.setImage(imageURL);
         }
-        this.targetDimensions = box?.getFaceDimensions(faceIndex) ?? _zero.clone();
+        this.targetDimensions = context.box?.getFaceDimensions(context.face) ?? _zero.clone();
         this.targetDimensions.x ||= this.defaultTargetDimensions.x;
         this.targetDimensions.y ||= this.defaultTargetDimensions.y;
     }
