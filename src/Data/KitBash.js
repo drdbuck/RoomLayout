@@ -24,6 +24,7 @@ class KitBash extends Block {
         this.onItemRemoved = new Delegate("item");
         this.onFaceChanged = new Delegate("index", "imageURL");
         this.bind_FaceChanged = this.onFaceChanged.run.bind(this.onFaceChanged);
+        this.onDefaultFaceChanged = new Delegate("imageURL");
         this.onScaleFactorChanged = new Delegate("scaleFactor");
 
         //Add items
@@ -139,6 +140,7 @@ class KitBash extends Block {
         let imageURL = value;
         this._defaultFace = imageURL;
         this.onFaceChanged.run(FACE_DEFAULT, imageURL);
+        this.onDefaultFaceChanged.run(imageURL);
     }
 
     //Position
@@ -217,6 +219,7 @@ function inflateKitBash(kitbash) {
             "onItemAdded",
             "onItemRemoved",
             "onFaceChanged",
+            "onDefaultFaceChanged",
             "onScaleFactorChanged",
         ]
     );

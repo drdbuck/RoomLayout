@@ -377,6 +377,34 @@ function constructBox(box) {
         let axisRecline = new Vector3(1, 0, 0);
         holder.rotateOnAxis(axisRecline, radRecline);
     };
+    let updateFace = (index, url) => {
+        let material = createMaterial(url ?? box.defaultFace);
+        let materialBack = createMaterial(url ?? box.defaultFace, false);
+        let insideMaterials = mesh.insideMesh.material;
+        //Set all faces with the default face
+        if (index == FACE_DEFAULT) {
+            for (let i = 0; i < meshMaterials.length; i++) {
+                if (!box.getFace(i)) {
+                    meshMaterials[i] = material;
+                    insideMaterials[i] = materialBack;
+                }
+            }
+        }
+        //Set just the one face that was changed
+        else {
+            meshMaterials[index] = material;
+            insideMaterials[index] = materialBack;
+        }
+    }
+    let updateDefaultFace = (url) => {
+        let defaultFace = url;
+        box.faceList.forEach((face, i) => {
+            if (!box.validFaceIndex(i)) { return; }
+            if (!face) {
+                updateFace(i, defaultFace);
+            }
+        });
+    }
 
 
     //inside faces
@@ -402,25 +430,8 @@ function constructBox(box) {
         updatePosition(box.worldPosition);
     });
     box.onReclineChanged.add(() => updateRotation(box.worldAngle, box.recline));
-    box.onFaceChanged.add((index, url) => {
-        let material = createMaterial(url ?? box.defaultFace);
-        let materialBack = createMaterial(url ?? box.defaultFace, false);
-        let insideMaterials = mesh.insideMesh.material;
-        //Set all faces with the default face
-        if (index == FACE_DEFAULT) {
-            for (let i = 0; i < meshMaterials.length; i++) {
-                if (!box.getFace(i)) {
-                    meshMaterials[i] = material;
-                    insideMaterials[i] = materialBack;
-                }
-            }
-        }
-        //Set just the one face that was changed
-        else {
-            meshMaterials[index] = material;
-            insideMaterials[index] = materialBack;
-        }
-    });
+    box.onFaceChanged.add(updateFace);
+    box.group.onDefaultFaceChanged.add(updateDefaultFace);
 
     //edge highlights
     let edge = createEdgeHighlights(mesh);

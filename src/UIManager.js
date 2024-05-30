@@ -332,6 +332,10 @@ function registerUIDelegates(context, register) {
             group.onAngleChanged,
         ]
             .forEach(del => del.listen(updateGroupEditPanel, register));
+        [
+            group.onFaceChanged,
+        ]
+            .forEach(del => del.listen(updateFaceEditPanel, register));
     }
     else {
         console.error("context has no group!", context.box.name, group, context);
