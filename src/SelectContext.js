@@ -58,6 +58,22 @@ class SelectContext {
         return this.box?.validFaceIndex(index) || index == FACE_DEFAULT;
     }
 
+    set Face(imgURL) {
+        let index = this.face;
+        if (this.box?.validFaceIndex(index)) {
+            this.box.setFace(imgURL);
+        }
+        else if (index == FACE_DEFAULT) {
+            this.kitbash.defaultFace = imgURL;
+        }
+        else if (index == -2) {
+            //do nothing
+        }
+        else {
+            console.error("cant set face!", this.face);
+        }
+    }
+
     inflate(uiVars) {
         if (this.uid_obj) {
             let uid = this.uid_obj;

@@ -529,15 +529,7 @@ function getDataStringify() {
 
 function uploadFace(image) {
     uiVars.selector.forEach(context => {
-        let index = context.face;
-        if (index == -2) { return; }
-        let box = context.box;
-        if (box) {
-            box.setFace(index, image.src);
-        }
-        else {
-            context.defaultFace = image.src;
-        }
+        context.Face = image.src;
     });
 };
 

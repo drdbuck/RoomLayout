@@ -457,7 +457,7 @@ function updateFaceEditPanel() {
             //only get first few suggestions
             // .slice(0, maxSuggestions)
             //convert to html img element
-            //uiVars.selector.forEach(c => c.box.setFace(c.face, url));
+            //uiVars.selector.forEach(c => c.Face = url);
             .map(url => `<img src='${url}' class="selectableImage"
                 onclick="btnUseSuggestedImage(this.src);"
             />`)
@@ -520,9 +520,7 @@ function btnExitFaceEdit() {
 
 function btnUseSuggestedImage(imgURL) {
     uiVars.selector.forEach(c => {
-        if (!c.validFaceIndex()) { return; }
-        let f = c.box;
-        f.setFace(c.face, imgURL);
+        c.Face = imgURL;
     });
     uiVars.viewPanelFaceEdit = true;
     updateFaceEditPanel();
@@ -532,9 +530,7 @@ function btnUseSuggestedImage(imgURL) {
 
 function btnUseDefaultImage() {
     uiVars.selector.forEach(c => {
-        if (!c.validFaceIndex()) { return; }
-        let f = c.box;
-        f.setFace(c.face, f.defaultFace);
+        c.Face = c.kitbash.defaultFace;
     });
     //record undo
     undoMan.recordUndo("use default image");
@@ -605,7 +601,7 @@ function editFace(editFunc = (img) => img, completeFunc = () => { }) {
         img.onload = () => {
             img = editFunc(img);
             let url = img.src;
-            f.setFace(faceIndex, url);
+            c.Face = url;
             updateFaceEditPanel();
             player.animate();
             progressFunc();
@@ -615,10 +611,7 @@ function editFace(editFunc = (img) => img, completeFunc = () => { }) {
 
 function cropCanvasChanged(url) {
     uiVars.selector.forEach(c => {
-        let f = c.box;
-        let faceIndex = c.face;
-        if (!c.validFaceIndex()) { return; }
-        f.setFace(faceIndex, url);
+        c.Face = url;
     });
     //turn off face highlighting
     uiVars.highlightSelectedFace = false;
@@ -671,9 +664,7 @@ function btnFaceImport() {
 
 function btnFaceClear() {
     uiVars.selector.forEach(c => {
-        if (!c.validFaceIndex()) { return; }
-        let f = c.box;
-        f.setFace(c.face, PIXEL_TRANSPARENT);
+        c.Face = PIXEL_TRANSPARENT;
     });
     uiVars.viewPanelFaceEdit = false;
     updateFaceEditPanel();
