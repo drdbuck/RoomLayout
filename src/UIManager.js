@@ -489,6 +489,9 @@ function updateFaceEditPanel() {
     }
     $("divImageEdit").hidden = !showFaceEdit;
     $("btnPanelFaceEdit").hidden = !usingImage;
+    $("btnFaceReset").hidden = !(!usingImage && _contexts.some(c => c.box && c.box?._faces[c.face] == PIXEL_TRANSPARENT)
+        || usingImage
+    );//dirty: _contexts
     $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.box && c.box?._faces[c.face] != PIXEL_TRANSPARENT)
         || usingImage && _contexts.find(c => c.validFaceIndex())?.face >= 0
     );//dirty: _contexts
@@ -668,6 +671,22 @@ function btnFaceImport() {
     });
 
     el.click(); // open
+}
+
+function btnFaceReset() {
+    uiVars.selector.forEach(c => {
+        if (c.face == FACE_DEFAULT) {
+            c.Face = PIXEL_WHITE;
+        }
+        else {
+            c.Face = undefined;
+        }
+    });
+    uiVars.viewPanelFaceEdit = false;
+    updateFaceEditPanel();
+    player.animate();
+    //record undo
+    undoMan.recordUndo("reset face");
 }
 
 function btnFaceClear() {
