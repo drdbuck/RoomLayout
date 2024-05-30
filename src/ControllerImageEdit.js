@@ -115,8 +115,8 @@ class ControllerImageEdit {
         //use box face
         let box = context.box;
         let faceIndex = context.face;
-        if (!box.validFaceIndex(faceIndex)) { return; }
         let imageURL = box.getFace(faceIndex);
+        if (!context.validFaceIndex()) { return; }
         if (isValidImage(imageURL)) {
             this.setImage(imageURL);
         }

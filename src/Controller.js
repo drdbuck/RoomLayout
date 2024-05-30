@@ -114,13 +114,13 @@ class Controller {
                         this.deselectObject(target, !onlySelectButton);
                         //check if there's no other face selected now
                         if (uiVars.viewPanelFace) {
-                            if (!uiVars.selector.some(c => c.box?.validFaceIndex(c.face))) {
+                            if (!uiVars.selector.some(c => c.validFaceIndex())) {
                                 let stayInFaceEditModeWhenDeselectLastFace = false;//TODO: make this a user setting
                                 //Select other face
                                 if (stayInFaceEditModeWhenDeselectLastFace) {
                                     let prevFace = context.face;
                                     let newContext = uiVars.selector.first;
-                                    if (!newContext.box?.validFaceIndex(prevFace)) {
+                                    if (!newContext.validFaceIndex(prevFace)) {
                                         prevFace = 2;
                                     }
                                     newContext.face = prevFace;
@@ -354,7 +354,7 @@ class Controller {
     sortSelected() {
         //sort selected
         uiVars.selector.sort((c1, c2) => (
-            c1.box?.validFaceIndex(c1.face) && !c2.box?.validFaceIndex(c2.face)) ? -1 : 0
+            c1.validFaceIndex() && !c2.validFaceIndex()) ? -1 : 0
         );
     }
 
@@ -484,7 +484,7 @@ class Controller {
                 return;
             }
             //early exit: no face selected on this object
-            if (!context.box.validFaceIndex(context.face)) {
+            if (!context.validFaceIndex()) {
                 return;
             }
             //

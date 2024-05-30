@@ -209,7 +209,7 @@ function updateUIVariables(contexts) {
     _contexts = contexts;
     _groups = contexts.map(c => c.kitbash).filter(kb => kb);
     _boxs = contexts.map(c => c.box).filter(b => b);
-    _faces = contexts.filter(c => c.box?.validFaceIndex(c.face)).map(c => c.face);
+    _faces = contexts.filter(c => c.validFaceIndex()).map(c => c.face);
 }
 
 function updateAllPanels() {
@@ -388,7 +388,7 @@ function updateFaceEditPanel() {
     //divFaceDrop
     let usingImage = false;
     let divhtml = "<label>Error: This element couldn't be displayed</label>";
-    let faceContexts = _contexts.filter(c => c.box?.validFaceIndex(c.face));//dirty: using stored _contexts
+    let faceContexts = _contexts.filter(c => c.validFaceIndex());//dirty: using stored _contexts
     let imageURLs = faceContexts
         .map(c => {
             let box = c.box;
@@ -475,12 +475,12 @@ function updateFaceEditPanel() {
     //
     let showFaceEdit = usingImage && uiVars.viewPanelFaceEdit;
     if (showFaceEdit) {
-        controllerImageEdit.updateImage(_contexts.find(c => c.box?.validFaceIndex(c.face)));//dirty: _contexts
+        controllerImageEdit.updateImage(_contexts.find(c => c.validFaceIndex()));//dirty: _contexts
     }
     $("divImageEdit").hidden = !showFaceEdit;
     $("btnPanelFaceEdit").hidden = !usingImage;
     $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.box && c.box?._faces[c.face] != PIXEL_TRANSPARENT)
-        || usingImage && _contexts.find(c => c.box?.validFaceIndex(c.face))?.face >= 0
+        || usingImage && _contexts.find(c => c.validFaceIndex())?.face >= 0
     );//dirty: _contexts
     $("btnFaceImport").hidden = !!usingImage;
     $("btnFaceClear").innerHTML = (usingImage) ? "Clear Face" : "Make Transparent";
@@ -520,7 +520,7 @@ function btnExitFaceEdit() {
 
 function btnUseSuggestedImage(imgURL) {
     uiVars.selector.forEach(c => {
-        if (!c.box?.validFaceIndex(c.face)) { return; }
+        if (!c.validFaceIndex()) { return; }
         let f = c.box;
         f.setFace(c.face, imgURL);
     });
@@ -532,7 +532,7 @@ function btnUseSuggestedImage(imgURL) {
 
 function btnUseDefaultImage() {
     uiVars.selector.forEach(c => {
-        if (!c.box?.validFaceIndex(c.face)) { return; }
+        if (!c.validFaceIndex()) { return; }
         let f = c.box;
         f.setFace(c.face, f.defaultFace);
     });
@@ -586,7 +586,7 @@ function btnRotate(degrees) {
 
 function editFace(editFunc = (img) => img, completeFunc = () => { }) {
     const selection = uiVars.selector.selection
-        .filter(c => c.box?.validFaceIndex(c.face));
+        .filter(c => c.validFaceIndex());
     const count = selection.length;
     let progress = 0;
     let progressFunc = () => {
@@ -617,7 +617,7 @@ function cropCanvasChanged(url) {
     uiVars.selector.forEach(c => {
         let f = c.box;
         let faceIndex = c.face;
-        if (!f?.validFaceIndex(faceIndex)) { return; }
+        if (!c.validFaceIndex()) { return; }
         f.setFace(faceIndex, url);
     });
     //turn off face highlighting
@@ -671,7 +671,7 @@ function btnFaceImport() {
 
 function btnFaceClear() {
     uiVars.selector.forEach(c => {
-        if (!c.box?.validFaceIndex(c.face)) { return; }
+        if (!c.validFaceIndex()) { return; }
         let f = c.box;
         f.setFace(c.face, PIXEL_TRANSPARENT);
     });

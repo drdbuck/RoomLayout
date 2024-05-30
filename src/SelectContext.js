@@ -53,6 +53,11 @@ class SelectContext {
         return this.mesh && this.meshes.length > 0;
     }
 
+    validFaceIndex(index) {
+        index ??= this.face;
+        return this.box?.validFaceIndex(index) || index == FACE_DEFAULT;
+    }
+
     inflate(uiVars) {
         if (this.uid_obj) {
             let uid = this.uid_obj;
