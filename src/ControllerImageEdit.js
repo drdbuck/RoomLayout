@@ -54,11 +54,28 @@ class ControllerImageEdit {
         let ctx = this.ctx;
         let width = this.canvas.width;
         let height = this.canvas.height;
+        //clear
+        ctx.clearRect(0, 0, width, height);
+        //paint transparency grid
+        const handleSize = HANDLE_SIZE * this.canvasFactor;
+        ctx.fillStyle = "#555555";
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = "#CCCCCC";
+        let gridCountW = width / handleSize;
+        let gridCountH = height / handleSize;
+        for (let ix = 0; ix < gridCountW; ix++){
+            for (let iy = 0; iy < gridCountH; iy++){
+                //alternate where these sqaures are drawn
+                if ((ix + iy) % 2 == 0) {
+                    //draw the square
+                    ctx.fillRect(ix*handleSize, iy*handleSize, handleSize, handleSize);
+                }
+            }
+        }
+        //
         ctx.strokeStyle = this.uiColor;
         ctx.fillStyle = this.uiColor;
         ctx.lineWidth = 1 * this.canvasFactor;
-        //clear
-        ctx.clearRect(0, 0, width, height);
         //image
         ctx.drawImage(this.imageEdit.original, 0, 0, width, height);
         //Box path
@@ -73,7 +90,6 @@ class ControllerImageEdit {
         ctx.stroke();
 
         //Draw handles
-        const handleSize = HANDLE_SIZE * this.canvasFactor;
         const handleSizeHalf = handleSize / 2;
         let handles = [
             //corners
