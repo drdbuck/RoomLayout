@@ -644,7 +644,7 @@ function createShaderMaterial(edgeColor = _one.clone(), faceColor = _zero.clone(
     return material;
 }
 function createColorMaterial(color = 4687027, depth = true) {
-    let material = new MeshMatcapMaterial(
+    let material = new MeshBasicMaterial(
         {
             color: color,
             blendColor: 0,
