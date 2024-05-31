@@ -313,11 +313,15 @@ class Controller {
     }
 
     getObjectHitAtMousePos() {
-        return this.getHitAtMousePos(o => o.object.userData.selectable && o.object.material[o.face.materialIndex].opacity > 0);
+        return this.getHitAtMousePos(o => this.isMeshSelectable(o.object, o.face.materialIndex));
     }
 
     getObjectAtMousePos() {
         return this.getObjectHitAtMousePos()?.object;
+    }
+
+    isMeshSelectable(mesh, faceIndex) {
+        return mesh.userData.selectable && mesh.material[faceIndex].opacity > 0
     }
 
     selectObject(obj, add = false, face = -2, selectGroups = true) {
