@@ -213,6 +213,10 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPo
     if (group) {
         group.add(box);
         box.worldPosition = spawnPoint;
+        //if first box in group, set it to group's size
+        if (group.count == 1) {
+            box.scale = group.scale.clone();
+        }
     }
     else {
         let room = house.rooms[0];//dirty: hardcoded which room to add to
