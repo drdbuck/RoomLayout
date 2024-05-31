@@ -333,26 +333,11 @@ function constructBox(box) {
 
     mesh.box = box;
 
-    //holder
-    //essentially make the anchor point of data box object to be bottom center,
-    //while the 3D object's anchor point is still true center
-    const holder = new Group();
-    holder.layers.set(effectMask);
-    holder.scale.copy(_one);
-    holder.position.copy(mesh.position);
-    holder.attach(mesh);
-
     //update functions
     let updatePosition = (pos) => {
-        holder.position.copy(pos);
+        mesh.position.copy(pos);
     };
     let updateScale = (scale) => {
-        holder.scale.copy(scale);
-        //need to make it small but nonzero so it can be detected by raycast
-        let minFunc = (dim) => Math.max(dim, 0.0001);
-        holder.scale.x = 1; //minFunc(holder.scale.x);
-        holder.scale.y = 1; //minFunc(holder.scale.y);
-        holder.scale.z = 1; //minFunc(holder.scale.z);
         let newgeom = createGeometry(box);
         mesh.geometry.setAttribute('position', newgeom.attributes.position);
         mesh.geometry.setAttribute('uv', newgeom.attributes.uv);
@@ -363,19 +348,19 @@ function constructBox(box) {
     };
     let updateRotation = (angle = 0, recline = 0) => {
         //rotate to default
-        holder.rotation.x = 0;
-        holder.rotation.y = 0;
-        holder.rotation.z = 0;
+        mesh.rotation.x = 0;
+        mesh.rotation.y = 0;
+        mesh.rotation.z = 0;
 
         //angle
         let radAngle = MathUtils.degToRad(angle);
         let axisAngle = new Vector3(0, 1, 0);
-        holder.rotateOnAxis(axisAngle, radAngle);
+        mesh.rotateOnAxis(axisAngle, radAngle);
 
         //recline
         let radRecline = -MathUtils.degToRad(recline);
         let axisRecline = new Vector3(1, 0, 0);
-        holder.rotateOnAxis(axisRecline, radRecline);
+        mesh.rotateOnAxis(axisRecline, radRecline);
     };
     let updateFace = (index, url) => {
         let material = createMaterial(url ?? box.defaultFace);
@@ -453,7 +438,7 @@ function constructBox(box) {
     updateScale(box.worldScale);
     updateRotation(box.worldAngle, box.recline);
 
-    return holder;
+    return mesh;
 }
 
 function createGeometry(box) {
@@ -471,7 +456,7 @@ function createGeometry(box) {
     let v2 = new Vector3(w2, 0, d2);
     let v3 = new Vector3(-w2, 0, d2);
     //create top points
-    const posTop = box.positionTop;
+    const posTop = box.positionTop.clone().setY(0);
     const height = box.height;
     const widthTop = box.widthTop;
     const depthTop = box.depthTop;

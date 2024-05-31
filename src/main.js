@@ -395,16 +395,12 @@ function hookupDelegatesMenu() {
 
 function getBox(box) {
     return player.scene.children
-        .map(c => c?.children?.[0])
-        .filter(c => c)
         .find(mesh => mesh.box == box);
 }
 
 function getBoxes(furnitures) {
     if (!(furnitures?.length > 0)) { return []; }
     return player.scene.children
-        .map(c => c?.children?.[0])
-        .filter(c => c)
         .filter(mesh => mesh.box && furnitures.includes(mesh.box));
 }
 
