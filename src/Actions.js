@@ -211,14 +211,15 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPo
     let group = uiVars.selector.find(c => c.kitbash)?.kitbash;
     //
     if (group) {
-        group.add(box);
-        box.worldPosition = spawnPoint;
         //if first box in group, set it to group's size
-        if (group.count == 1) {
+        if (group.count == 0) {
             box.scale = group.scale.clone();
         }
         //limit size to group size
         box.scale.clamp(_zero, group.scale);
+        //add to group
+        group.add(box);
+        box.worldPosition = spawnPoint;
     }
     else {
         let room = house.rooms[0];//dirty: hardcoded which room to add to
