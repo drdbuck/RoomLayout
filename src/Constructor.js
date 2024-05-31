@@ -447,7 +447,7 @@ function createGeometry(box) {
     let bufferGeometry = new BufferGeometry();
 
     //create base points
-    const minSize = 0.01;
+    const minSize = 0.001;
     const width = Math.max(box.width, minSize);
     const depth = Math.max(box.depth, minSize);
     const w2 = width / 2;
@@ -615,10 +615,7 @@ function createInsideFaces(mesh, box) {
     const meshMaterials = createMaterials(box.faceList, 6, box.defaultFace, false);
 
     const insideMesh = new Mesh(mesh.geometry, meshMaterials);
-    insideMesh.layers.set(
-        //only allow clicking the inside face when not a rectangle
-        (box.width > 0 && box.depth > 0 && box.height > 0) ? objectMask : effectMask
-    );
+    insideMesh.layers.set(objectMask);
 
     insideMesh.box = box;
 
