@@ -160,7 +160,7 @@ function initUI() {
     //BOX
     let flistfunc = () => uiVars.selector.map(c => c.box);
     //Name
-    onChangeFunc("txtName", flistfunc, (f, v) => f.name = v, false);
+    // onChangeFunc("txtName", flistfunc, (f, v) => f.name = v, false);
     //Size
     onChangeFuncGroup(
         flistfunc,
@@ -299,8 +299,8 @@ function updateBoxEditPanel() {
             ?? inequal);
 
     //Name
-    updateFunc("txtName", flist, f => f.name, false);
-    $("txtName").disabled = !(anySelected && _boxs.length == 1);
+    // updateFunc("txtName", flist, f => f.name, false);
+    // $("txtName").disabled = !(anySelected && _boxs.length == 1);
     //Size
     updateFunc("txtWidth", flist, f => f.width);
     updateFunc("txtLength", flist, f => f.length);
