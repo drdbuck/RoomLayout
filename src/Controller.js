@@ -321,7 +321,8 @@ class Controller {
     }
 
     isMeshSelectable(mesh, faceIndex) {
-        return mesh.userData.selectable && mesh.material[faceIndex].opacity > 0
+        let material = mesh.material[faceIndex] ?? mesh.material;
+        return mesh.userData.selectable && material.opacity > 0;
     }
 
     selectObject(obj, add = false, face = -2, selectGroups = true) {
