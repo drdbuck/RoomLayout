@@ -626,8 +626,9 @@ function createInsideFaces(mesh, box) {
     const meshMaterials = createMaterials(box.faceList, 6, box.defaultFace, false);
 
     //create mesh
+    //TODO: turn the geometry inside out
     const insideMesh = new Mesh(mesh.geometry, meshMaterials);
-    insideMesh.layers.set(effectMask);
+    insideMesh.layers.set(objectMask);
 
     insideMesh.position.copy(mesh.position);
     insideMesh.scale.copy(mesh.scale);

@@ -313,7 +313,7 @@ class Controller {
     }
 
     getObjectHitAtMousePos() {
-        return this.getHitAtMousePos(o => o.object.userData.selectable);
+        return this.getHitAtMousePos(o => o.object.userData.selectable && o.object.material[o.face.materialIndex].opacity > 0);
     }
 
     getObjectAtMousePos() {
