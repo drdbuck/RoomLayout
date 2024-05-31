@@ -424,6 +424,9 @@ class Controller {
     }
 
     getSelectContext(obj) {
+        //early exit: no obj
+        if (!obj) { return undefined; }
+        //find obj
         return uiVars.selector.find(c => c.obj === obj)
             || uiVars.selector.find(c => c.box == obj)
             || uiVars.selector.find(c => c.kitbash == obj);
