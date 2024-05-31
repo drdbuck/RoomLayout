@@ -25,6 +25,10 @@ const edgeMaterial2 = new LineBasicMaterial({
     color: "#0CF727",
     linewidth: 1,
 });
+const edgeMaterial3 = new LineBasicMaterial({
+    color: "#FFFFFF",
+    linewidth: 1,
+});
 const objectMask = 0;
 const effectMask = 1;
 let inEditMode = true;
@@ -234,8 +238,17 @@ function hookupDelegates() {
             .filter(mesh => mesh.kitbash)
             .forEach(mesh => mesh.edge.visible = false);
         contexts
+            .filter(c => !c.obj.isKitBash)
+            .forEach(c => {
+                c.meshBounds.edge.visible = true;
+                c.meshBounds.edge.material = edgeMaterial3;
+            });
+        contexts
             .filter(c => c.obj.isKitBash)
-            .forEach(c => c.meshBounds.edge.visible = true);
+            .forEach(c => {
+                c.meshBounds.edge.visible = true;
+                c.meshBounds.edge.material = edgeMaterial2;
+            });
         //
         uiVars.editObjects = contexts.length > 0;
         uiVars.editBoxes = contexts.length > 0 && contexts.some(c => !c.obj.isKitBash || c.box);
