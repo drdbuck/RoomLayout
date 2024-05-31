@@ -508,18 +508,6 @@ function createGeometry(box) {
 
     ]);
 
-    //width uv constants
-    const widthOffset = posTop.x;
-    const maxWidth = Math.max(width, w2 + wt2 + Math.abs(widthOffset));
-    const widthDiffLeft = w2 - wt2 + widthOffset;
-    const widthDiffRight = width - (w2 + wt2 + widthOffset);
-
-    //depth uv constants
-    const depthOffset = posTop.z;
-    const maxDepth = Math.max(depth, d2 + dt2 + Math.abs(depthOffset));
-    const depthDiffLeft = d2 - dt2 + depthOffset;
-    const depthDiffRight = depth - (d2 + dt2 + depthOffset);
-
     //uv
     const uvs = new Float32Array([
 
