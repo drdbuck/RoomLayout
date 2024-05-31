@@ -217,6 +217,8 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPo
         if (group.count == 1) {
             box.scale = group.scale.clone();
         }
+        //limit size to group size
+        box.scale.clamp(_zero, group.scale);
     }
     else {
         let room = house.rooms[0];//dirty: hardcoded which room to add to
