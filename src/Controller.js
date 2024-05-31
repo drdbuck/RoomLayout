@@ -212,7 +212,7 @@ class Controller {
             else {
                 //
                 let targetHit = this.getObjectHitAtMousePos();
-                let target = targetHit?.object?.box;
+                let target = targetHit?.object?.box ?? targetHit?.object?.kitbash;
                 //if an object was clicked on
                 if (target) {
                     //if the object is selected
@@ -242,6 +242,10 @@ class Controller {
                         }
                     }
                     else {
+                        if (target.isKitBash) {
+                            this.selectObject(target, this.multiselectButton, undefined, true);
+                        }
+                        else{
                         let context2 = this.getSelectContext(target.group);
                         if (context2?.stable) {
                             uiVars.selector.deselect(context2);
@@ -250,6 +254,7 @@ class Controller {
                             context2.face = -2;
                             context2.grabInfo();
                             uiVars.selector.select(context2);
+                        }
                         }
                     }
                 }
