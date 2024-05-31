@@ -571,6 +571,10 @@ function createMaterial(imageURL, front = true, opacity = 1) {
     if (!imageURL) {
         return undefined;
     }
+    //special case: completely transparent pixel
+    if (imageURL == PIXEL_TRANSPARENT) {
+        opacity = 0;
+    }
     //search for existing material (efficiency)
     let matObj = knownMaterials.find(matObj => matObj.imageURL == imageURL && matObj.front == front && matObj.material.opacity == opacity);
     if (matObj) {
