@@ -276,7 +276,7 @@ class Controller {
             undoMan.recordUndo("change object altitude");
         }
         //Rotate
-        else if (event.shiftKey) {
+        else if (event.shiftKey || uiVars.selector.count > 0) {
             uiVars.selector.forEach(c => {
                 //Rotate object
                 let deltaAngle = Math.round(zoomDelta) * 15;
