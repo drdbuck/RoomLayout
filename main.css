@@ -141,6 +141,19 @@ canvas {
     border: 2px solid #aaaaaa;
 }
 
+.popupPanel input{
+    width: 94%;
+}
+
+.fieldtable input {
+    display: inline;
+    width: 90%;
+}
+.fieldtable {
+    padding: 0px;
+    border-spacing: 0px;
+}
+
 .dropArea {
     border: 2px white solid;
     text-align: center;
