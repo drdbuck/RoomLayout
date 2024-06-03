@@ -380,17 +380,17 @@ function constructBox(box) {
             meshMaterials[index] = material;
             insideMaterials[index] = materialBack;
         }
-    }
+    };
     let updateDefaultFace = (url) => {
         let defaultFace = url;
         const sideCount = 6;//dirty: assumes 6 sides
-        for (let i = 0; i < sideCount; i++){
+        for (let i = 0; i < sideCount; i++) {
             if (!box.validFaceIndex(i)) { continue; }
             if (!box.getFace(i)) {
                 updateFace(i, defaultFace);
             }
         }
-    }
+    };
 
 
     //inside faces

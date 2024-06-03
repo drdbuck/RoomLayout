@@ -436,13 +436,13 @@ function updateFaceEditPanel() {
             });
         //image from other side
         _contexts//dirty: using _contexts
-            .filter(c=>c.face >=0 && c.box)
+            .filter(c => c.face >= 0 && c.box)
             .forEach(context => {
-            let f = context.box;
-            let flipFace = context.face + ((context.face % 2 == 0) ? 1 : -1);
-            let flipURL = f.getFace(flipFace);
-            suggest.push(flipURL);
-        });
+                let f = context.box;
+                let flipFace = context.face + ((context.face % 2 == 0) ? 1 : -1);
+                let flipURL = f.getFace(flipFace);
+                suggest.push(flipURL);
+            });
         //default face image
         _contexts.forEach(context => {//dirty: using _contexts
             let f = context.kitbash ?? context.box;
@@ -565,9 +565,9 @@ function btnFlip(flipX, flipY) {
             controllerImageEdit.boomerangCorners();
             return img;
         },
-    //record undo
+        //record undo
         () => {
-    undoMan.recordUndo("flip image");
+            undoMan.recordUndo("flip image");
         }
     );
 }
@@ -586,9 +586,9 @@ function btnRotate(degrees) {
             controllerImageEdit.boomerangCorners();
             return img;
         },
-    //record undo
+        //record undo
         () => {
-    undoMan.recordUndo("rotate image");
+            undoMan.recordUndo("rotate image");
         }
     );
 }
@@ -604,7 +604,7 @@ function editFace(editFunc = (img) => img, completeFunc = () => { }) {
             completeCalled = true;
             completeFunc();
         }
-    }
+    };
     selection.forEach(c => {
         let imageURL = c.Face;
         let img = new Image();
@@ -691,10 +691,10 @@ function btnFaceReset() {
 
 function btnFaceClear() {
     uiVars.selector.selection
-        .filter(c=>c.face != FACE_DEFAULT)
+        .filter(c => c.face != FACE_DEFAULT)
         .forEach(c => {
-        c.Face = PIXEL_TRANSPARENT;
-    });
+            c.Face = PIXEL_TRANSPARENT;
+        });
     uiVars.viewPanelFaceEdit = false;
     updateFaceEditPanel();
     player.animate();

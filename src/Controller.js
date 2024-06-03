@@ -245,16 +245,16 @@ class Controller {
                         if (target.isKitBash) {
                             this.selectObject(target, this.multiselectButton, undefined, true);
                         }
-                        else{
-                        let context2 = this.getSelectContext(target.group);
-                        if (context2?.stable) {
-                            uiVars.selector.deselect(context2);
-                            //select the box
-                            context2.box = target;
-                            context2.face = -2;
-                            context2.grabInfo();
-                            uiVars.selector.select(context2);
-                        }
+                        else {
+                            let context2 = this.getSelectContext(target.group);
+                            if (context2?.stable) {
+                                uiVars.selector.deselect(context2);
+                                //select the box
+                                context2.box = target;
+                                context2.face = -2;
+                                context2.grabInfo();
+                                uiVars.selector.select(context2);
+                            }
                         }
                     }
                 }
@@ -454,26 +454,26 @@ class Controller {
         uiVars.selector.clear();
         let newSelection = selection
             .map(context => {
-            //early exit: no group
-            if (!context.kitbash) {
-                console.error("no group selected!", context);
-                return;
-            }
-            //early exit: no items
-            if (!(context.kitbash.count > 0)) { return context; }
-            //
-            let item = context.kitbash.nextItem(context.box, dir);
-            if (!context.obj.isKitBash) {
-                context.obj = item;
-            }
-            context.box = item;
-            context.grabInfo();
-            //
-            //TODO: verify newly selected face is valid
-            //
-            //return
-            return context;
-        })
+                //early exit: no group
+                if (!context.kitbash) {
+                    console.error("no group selected!", context);
+                    return;
+                }
+                //early exit: no items
+                if (!(context.kitbash.count > 0)) { return context; }
+                //
+                let item = context.kitbash.nextItem(context.box, dir);
+                if (!context.obj.isKitBash) {
+                    context.obj = item;
+                }
+                context.box = item;
+                context.grabInfo();
+                //
+                //TODO: verify newly selected face is valid
+                //
+                //return
+                return context;
+            })
             .filter(c => c);
         uiVars.selector.selectAll(newSelection);
         this.updateFaceSelection();

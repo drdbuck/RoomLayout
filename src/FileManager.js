@@ -41,7 +41,7 @@ class FileManager {
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropPanel.addEventListener(eventName, _preventDefaults, false);
             document.body.addEventListener(eventName, _preventDefaults, false);
-        })
+        });
         dropPanel.addEventListener("paste", _preventDefaults, false);
 
         //drop event handlers
@@ -59,8 +59,8 @@ class FileManager {
 
     preventDefaults(e) {
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
-        e.preventDefault()
-        e.stopPropagation()
+        e.preventDefault();
+        e.stopPropagation();
     }
     handleDrop(e) {
         //2022-05-26: copied from https://www.smashingmagazine.com/2018/01/drag-drop-file-uploader-vanilla-js/
@@ -100,7 +100,7 @@ class FileManager {
             if (filesLeft <= 0) {
                 callback();
             }
-        }
+        };
         files.forEach((file) => {
             let fileType = file.type;
             let fileExtension = file.name.split(".").at(-1);
@@ -179,7 +179,7 @@ class FileManager {
                 flm.onFurnitureUploaded.run(box);
             }
             callback();
-        }
+        };
     }
 
     uploadRoom(file, callback) {
@@ -198,7 +198,7 @@ class FileManager {
             //Run delegate
             flm.onRoomUploaded.run(room);
             callback();
-        }
+        };
     }
 
     uploadJson(file, callback) {
@@ -209,6 +209,6 @@ class FileManager {
             //Run delegate
             this.onJsonUploaded.run(json);
             callback();
-        }
+        };
     }
 }
