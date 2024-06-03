@@ -143,10 +143,42 @@
             
             <!-- Position -->
             <h2>Position</h2>
-            <label id="lblPosX" for="txtPosX">X</label><br>
+            <table class="fieldtable">
+                <tr>
+                    <th>Base</th>
+                    <th>Top</th>
+                </tr>
+                <tr>
+                    <td>
+                <label id="lblPosX" for="txtPosX">X</label><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
             <input type="text" id="txtPosX" title="Position X" placeholder="x" default="0"/><br>
+                    </td>
+                    <td>
+            <input type="text" id="txtPosXTop" title="Position X" placeholder="x" default="0"/><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
             <label id="lblPosY" for="txtPosY">Y</label><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
             <input type="text" id="txtPosY" title="Position Y" placeholder="y" default="0"/><br>
+                    </td>
+                    <td>
+            <input type="text" id="txtPosYTop" title="Position Y" placeholder="y" default="0"/><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                </tr>
+            </table>
             <label id="lblAltitude" for="txtAltitude">Altitude</label><br>
             <input type="text" id="txtAltitude" title="Altitude" placeholder="altitude" default="0"/><br>
             
@@ -156,13 +188,6 @@
             <input type="text" id="txtAngle" title="Angle" placeholder="angle" default="0"/><br>
             <label id="lblRecline" for="txtRecline">Recline</label><br>
             <input type="text" id="txtRecline" title="Recline" placeholder="recline" default="0"/><br>
-            
-            <!-- Top -->
-            <h2>Top</h2>
-            <label id="lblPosXTop" for="txtPosXTop">Top X</label><br>
-            <input type="text" id="txtPosXTop" title="Position X" placeholder="x" default="0"/><br>
-            <label id="lblPosYTop" for="txtPosYTop">Top Y</label><br>
-            <input type="text" id="txtPosYTop" title="Position Y" placeholder="y" default="0"/><br>
             
             <br>
             <button id="btnFaceEdit" class="lineButton" onclick="btnFaceEdit();">View Faces</button>
