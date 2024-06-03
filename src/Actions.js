@@ -102,6 +102,23 @@ function actionSelectGroups() {
     uiVars.selector.selectAll(selection);
     player.animate();
 }
+function actionSelectBox() {
+    let selection = uiVars.selector.selection;
+    selection = selection.map(c => {
+        if (c.obj.isKitBash) {
+            let sc = new SelectContext(c.box);
+            sc.grabInfo();
+            return sc;
+        }
+        else {
+            return c;
+        }
+    })
+        .flat(Infinity);
+    uiVars.selector.clear();
+    uiVars.selector.selectAll(selection);
+    player.animate();
+}
 function actionSelectPieces() {
     let selection = uiVars.selector.selection;
     selection = selection.map(c => {
