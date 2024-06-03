@@ -277,6 +277,8 @@ function _actionObjectsCreateSkirt(answers, spawnPoint) {
         );//dirty: assumes 4 sides
         box.setFace(5, PIXEL_TRANSPARENT);
     }
+    // group.recalculateSize();
+    group.scale = new Vector3(width, height, depth);
     //Group
     //find selected group
     let selectgroup = uiVars.selector.find(c => c.kitbash)?.kitbash;
