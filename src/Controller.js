@@ -501,7 +501,7 @@ class Controller {
                 return;
             }
             //
-            const faceCount = context.mesh.material.length;
+            const faceCount = context.mesh?.material.length ?? 1;
             const max = faceCount - 1;
             let validFace = false;
             let loopProtect = 100;//to prevent infinite loops
