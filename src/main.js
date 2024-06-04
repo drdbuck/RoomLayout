@@ -251,6 +251,7 @@ function hookupDelegates() {
         //
         updateFace(context.mesh, context.face);
         registerUIDelegates(context, true);
+        uiVars.viewPanelFace = uiVars.selector.some(c=>c.faceSelected);
     });
     uiVars.selector.onSelectionLost.add(context => {
         context.meshes.forEach(mesh => {

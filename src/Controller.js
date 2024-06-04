@@ -262,6 +262,17 @@ class Controller {
                         if (target.isKitBash) {
                             this.selectObject(target, this.multiselectButton, targetFace, true);
                         }
+                        else {
+                            let context2 = this.getSelectContext(target.group);
+                            if (context2?.stable) {
+                                uiVars.selector.deselect(context2);
+                                //select the box
+                                context2.box = target;
+                                context2.face = targetFace;
+                                context2.grabInfo();
+                                uiVars.selector.select(context2);
+                            }
+                        }
                     }
                 }
                 //stabilize volatile selections
