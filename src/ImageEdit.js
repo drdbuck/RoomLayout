@@ -64,13 +64,14 @@ class ImageEdit {
         });
     }
 
-    setImage(img) {
+    setImage(img, resetCorners = false) {
         this.original = img;
         this.imgData = getImageData(this.original);
         this.width = img.width;
         this.height = img.height;
         //points that define where to pull pixels from
         //default: use whole image
+        if (resetCorners || !this.corners) {
         this.cornerLT = new Vector2(0, 0);
         this.cornerLB = new Vector2(0, this.height);
         this.cornerRT = new Vector2(this.width, 0);
@@ -78,6 +79,7 @@ class ImageEdit {
         this._cornersToList();
         //
         this._updateMidPoints();
+        }
     }
 
     getIndex(x, y, width) {

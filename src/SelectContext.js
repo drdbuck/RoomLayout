@@ -114,6 +114,14 @@ class SelectContext {
         //
         return this.obj && meshesGrabbed;
     }
+
+    equals(context) {
+        if (!context) { return false; }
+        return this.uid_obj == context.uid_obj
+            && this.uid_kitbash == context.uid_kitbash
+            && this.uid_box == context.uid_box
+            && this.face == context.face;
+    }
 }
 
 function inflateSelectContext(context, uiVars) {

@@ -21,6 +21,8 @@ class ControllerImageEdit {
             origHandle: undefined,
         };
 
+        this.prevContext = undefined;
+
         this.canvas.onmousedown = this.processMouseDown.bind(this);
         this.canvas.onmousemove = this.processMouseMove.bind(this);
         this.canvas.onmouseup = this.processMouseUp.bind(this);
@@ -29,9 +31,9 @@ class ControllerImageEdit {
         this.onEditChanged = new Delegate("imageURL");
     }
 
-    setImage(img) {
+    setImage(img, resetSelection = false) {
         let setFunc = (_img) => {
-            this.imageEdit.setImage(_img);
+            this.imageEdit.setImage(_img, resetSelection);
             this.canvas.width = _img.width;
             this.canvas.height = _img.height;
             if (this.savedCorners) {
@@ -122,7 +124,8 @@ class ControllerImageEdit {
         //set face
         let imageURL = context.Face;
         if (isValidImage(imageURL)) {
-            this.setImage(imageURL);
+            this.setImage(imageURL, !context.equals(this.prevContext));
+            this.prevContext = copyObject(context, stringifySelectContext);
         }
         this.targetDimensions = context.box?.getFaceDimensions(context.face) ?? _zero.clone();
         this.targetDimensions.x ||= this.defaultTargetDimensions.x;
