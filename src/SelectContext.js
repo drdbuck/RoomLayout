@@ -5,6 +5,7 @@ const stringifySelectContext = [
     "uid_box",
     "uid_kitbash",
     "face",
+    "_boxSelected",
 ];
 
 class SelectContext {
@@ -12,6 +13,7 @@ class SelectContext {
         this.obj = select;
         this.box = undefined;
         this.kitbash = undefined;
+        this._boxSelected = false;
         this.mesh = undefined;
         this.meshes = undefined;
         this.meshBounds = undefined;
@@ -21,11 +23,13 @@ class SelectContext {
         //
         if (autoGrab) {
             if (this.obj.isKitBash || this.obj._items) {
+                this.box = this.obj.items[0];
                 this.kitbash = this.obj;
             }
             else {
                 this.box = this.obj;
                 this.kitbash = this.obj.group;
+                this._boxSelected = true;
             }
             this.grabInfo();
         }
@@ -38,12 +42,12 @@ class SelectContext {
 
     grabIds() {
         this.uid_obj = this.obj.uid;
-        this.uid_box = this.box?.uid;
+        this.uid_box = this.box.uid;
         this.uid_kitbash = this.kitbash?.uid;
     }
 
     grabBoxes() {
-        this.mesh = getBox(this.box ?? this.obj);
+        this.mesh = getBox(this.box);
         this.meshes = [];
         if (this.mesh) {
             this.meshes.push(this.mesh);
@@ -53,9 +57,16 @@ class SelectContext {
         return (this.mesh && this.meshes.length > 0) || this.meshBounds;
     }
 
+    get boxSelected() {
+        return this._boxSelected;
+    }
+    set boxSelected(value) {
+        this._boxSelected = value;
+    }
+    
     validFaceIndex(index) {
         index ??= this.face;
-        return this.box?.validFaceIndex(index) || index == FACE_DEFAULT;
+        return index == FACE_DEFAULT || this.box.validFaceIndex(index);
     }
 
     get Face() {
@@ -65,15 +76,15 @@ class SelectContext {
             return undefined;
         }
         //
-        return this.box?.getFace(index) ?? this.kitbash.defaultFace;
+        return (index == FACE_DEFAULT) ? this.kitbash.defaultFace : this.box.getFace(index);
     }
     set Face(imgURL) {
         let index = this.face;
-        if (this.box?.validFaceIndex(index)) {
-            this.box.setFace(index, imgURL);
-        }
-        else if (index == FACE_DEFAULT) {
+        if (index == FACE_DEFAULT) {
             this.kitbash.defaultFace = imgURL;
+        }
+        else if (this.box.validFaceIndex(index)) {
+            this.box.setFace(index, imgURL);
         }
         else if (index == FACE_NONE) {
             //do nothing
@@ -97,6 +108,10 @@ class SelectContext {
             let uid = this.uid_box;
             let obj = uiVars.findUid(house, uid);
             this.box = obj;
+        }        
+        if (!this.box) {
+            console.error("unable to find box with id", this.uid_box);
+            return;
         }
         if (this.uid_kitbash) {
             let uid = this.uid_kitbash;
