@@ -513,8 +513,36 @@ function btnGroup() {
     actionObjectsGroup();
 }
 
+function btnGroupFaceEdit() {
+    //set each context to cycle through all faces of furniture
+    uiVars.selector.forEach(c => {
+        c.boxSelected = false;
+        c.face = FACE_DEFAULT;
+    });
+    //show panel    
+    controllerEdit.updateFaceSelection();
+    controllerEdit.runFaceDelegate();
+    uiVars.viewPanelFace = true;
+    //ui
+    uiVars.editBoxes = false;
+    updateFaceEditPanel();
+}
+
 function btnFaceEdit() {
-    actionTogglePanelFaceView();
+    //set each context to cycle through only faces of selected box
+    uiVars.selector.forEach(c => {
+        c.boxSelected = true;
+        if (!(c.face > 0)) {
+            c.face = 0;
+        }
+    });
+    //show panel
+    controllerEdit.updateFaceSelection();
+    controllerEdit.runFaceDelegate();
+    uiVars.viewPanelFace = true;
+    //ui
+    uiVars.editBoxes = true;
+    updateFaceEditPanel();
 }
 
 function btnExitFaceEdit() {

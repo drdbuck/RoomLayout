@@ -550,6 +550,7 @@ class Controller {
         });
         this.updateFaceSelection();
         this.runFaceDelegate();
+        updateFaceEditPanel();
     }
 
     updateFaceSelection() {
