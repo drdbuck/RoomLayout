@@ -393,15 +393,7 @@ function updateFaceEditPanel() {
     let divhtml = "<label>Error: This element couldn't be displayed</label>";
     let faceContexts = _contexts.filter(c => c.faceSelected && c.validFaceIndex());
     let imageURLs = faceContexts
-        .map(c => {
-            let box = c.box;
-            if (box) {
-                return box.getFace(c.face);
-            }
-            else {
-                return c.Face;
-            }
-        })
+        .map(c => c.Face)
         .filter(url => isValidImage(url));
     //Images exist
     if (imageURLs.length > 0) {
@@ -490,7 +482,6 @@ function updateFaceEditPanel() {
     $("btnFaceReset").hidden = !(!usingImage && _contexts.some(c => c.Face == PIXEL_TRANSPARENT)
         || usingImage
     );//dirty: _contexts
-    $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.box && c.box?._faces[c.face] != PIXEL_TRANSPARENT)
     $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.face > 0 && c.Face != PIXEL_TRANSPARENT)
         || usingImage && _contexts.find(c => c.validFaceIndex())?.face >= 0
     );//dirty: _contexts

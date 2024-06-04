@@ -160,7 +160,7 @@ class Controller {
                     let context = this.selectObject(
                         selectTarget,
                         this.multiselectButton,
-                        (selectTarget.isKitBash) ? FACE_DEFAULT : undefined,
+                        (selectTarget.isKitBash) ? FACE_DEFAULT : targetFace,
                         !onlySelectButton && !anyPieceSingleSelected
                     );
                     context.stable = false;
@@ -223,6 +223,11 @@ class Controller {
                         //select box
                         if (!context.boxSelected) {
                             context.boxSelected = true;
+                            uiVars.selector.callDelegates();//TODO: setup delegates for listening to boxselected and faceselected
+                        }
+                        //select face
+                        else if (!context.faceSelected) {
+                            context.faceSelected = true;
                             uiVars.selector.callDelegates();//TODO: setup delegates for listening to boxselected and faceselected
                         }
                         //select other box/face

@@ -339,7 +339,7 @@ function hookupDelegates() {
         let room = house.rooms[0];//dirty: hardcoded which room to add to
         room.addFurniture(furniture);
         //Select new furniture
-        controllerEdit.selectObject(furniture, false);
+        controllerEdit.selectObject(furniture, false, FACE_DEFAULT);
         //Position new furniture
         furniture.worldPosition = getSpawnPoint();
     });
