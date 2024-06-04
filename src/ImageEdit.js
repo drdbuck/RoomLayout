@@ -198,6 +198,28 @@ class ImageEdit {
         return canvas.toDataURL();
     }
 
+    adjustOpacity(delta) {
+        const canvas = this.canvas;
+        const ctx = this.ctx;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+        const width = Math.max(this.cornerLT.distanceTo(this.cornerRT), this.cornerLB.distanceTo(this.cornerRB));
+        const height = Math.max(this.cornerLT.distanceTo(this.cornerLB), this.cornerRT.distanceTo(this.cornerRB));
+        const imgData = this.imgData;
+        for (let i = 0; i < width; i++) {// "<=" ?
+            for (let j = 0; j < height; j++) {// "<=" ?
+                const pt = this.pullVector(i / width, j / height);
+                pt.x = Math.round(pt.x);
+                pt.y = Math.round(pt.y);
+                const pixel = this.pullPixel(pt.x, pt.y);
+                pixel[3] = Math.clamp(pixel[3] + delta, 0, 255);
+                this.pushPixel(imgData, pixel, pt.x, pt.y);
+            }
+        }
+        ctx.putImageData(imgData, 0, 0);
+        return canvas.toDataURL();
+    }
+
     pushPixel(imgData, pixel, x, y) {
         let index = this.getIndex(x, y, imgData.width);
         for (let i = 0; i < 4; i++) {

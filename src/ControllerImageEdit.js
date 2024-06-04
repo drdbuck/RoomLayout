@@ -318,6 +318,11 @@ class ControllerImageEdit {
         this.onEditChanged.run(imageURL);
     }
 
+    adjustOpacity(delta) {
+        let imageURL = this.imageEdit.adjustOpacity(delta);
+        this.onEditChanged.run(imageURL);
+    }
+
     updateCursor() {
         let cursor = CURSOR_AUTO;
         switch (this.control.handle) {

@@ -646,6 +646,17 @@ function btnFaceErase() {
     undoMan.recordUndo("erase image");
 }
 
+function btnFaceOpacityDecrease() {
+    controllerImageEdit.adjustOpacity(-25.5);
+    //record undo
+    undoMan.recordUndo("decrease opacity");
+}
+function btnFaceOpacityIncrease() {
+    controllerImageEdit.adjustOpacity(25.5);
+    //record undo
+    undoMan.recordUndo("increase opacity");
+}
+
 function btnFaceImport() {
     //2024-05-03: copied from actionImportBox()
     //2024-03-06: copied from CardGenerator
