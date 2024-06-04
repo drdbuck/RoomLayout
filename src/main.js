@@ -186,16 +186,10 @@ function init() {
     //Update scene
     switchMode(true);
     uiVars.viewId = uiVars.viewId;//trigger delegate w/o changing anything
-    uiVars.selector.forEach(c => {
-        c.meshes.forEach(mesh => {
-            mesh.edge.visible = true;
-            updateFace(mesh, -2);
-        });
-        if (c.obj.isKitBash && c.meshBounds) {
-            c.meshBounds.edge.visible = true;
-        }
-        updateFace(c.mesh, c.face);
-    });
+    //trigger selection delegates w/o changing anything
+    let selection = uiVars.selector.selection;
+    uiVars.selector.clear();
+    uiVars.selector.selectAll(selection);
     player.animate();
 
     //Update UI
