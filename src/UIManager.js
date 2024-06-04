@@ -207,8 +207,8 @@ function updateUIVariables(contexts) {
 
     //defaults
     _contexts = contexts;
-    _groups = contexts.map(c => c.kitbash).filter(kb => kb);
-    _boxs = contexts.map(c => c.box).filter(b => b);
+    _groups = contexts.map(c => c.kitbash);
+    _boxs = contexts.map(c => c.box);
     _faces = contexts.filter(c => c.validFaceIndex()).map(c => c.face);
 }
 
@@ -343,7 +343,6 @@ function registerUIDelegates(context, register) {
 
     //box
     let box = context.box;
-    if (!box) { return; }
     [
         box.onSizeChanged,
         box.onPositionChanged,
@@ -392,7 +391,7 @@ function updateFaceEditPanel() {
     //divFaceDrop
     let usingImage = false;
     let divhtml = "<label>Error: This element couldn't be displayed</label>";
-    let faceContexts = _contexts.filter(c => !c.box || c.box?.validFaceIndex(c.face));
+    let faceContexts = _contexts.filter(c => c.faceSelected && c.validFaceIndex());
     let imageURLs = faceContexts
         .map(c => {
             let box = c.box;
@@ -429,14 +428,13 @@ function updateFaceEditPanel() {
         const maxSuggestions = 4;
         //last image
         _contexts//dirty: using _contexts
-            .filter(c => c.box)
             .forEach(context => {
                 let f = context.box;
                 suggest.push(f.lastImage);
             });
         //image from other side
         _contexts//dirty: using _contexts
-            .filter(c => c.face >= 0 && c.box)
+            .filter(c => c.face >= 0 && c.boxSelected)
             .forEach(context => {
                 let f = context.box;
                 let flipFace = context.face + ((context.face % 2 == 0) ? 1 : -1);
@@ -489,10 +487,11 @@ function updateFaceEditPanel() {
     }
     $("divImageEdit").hidden = !showFaceEdit;
     $("btnPanelFaceEdit").hidden = !usingImage;
-    $("btnFaceReset").hidden = !(!usingImage && _contexts.some(c => c.box && c.box?._faces[c.face] == PIXEL_TRANSPARENT)
+    $("btnFaceReset").hidden = !(!usingImage && _contexts.some(c => c.Face == PIXEL_TRANSPARENT)
         || usingImage
     );//dirty: _contexts
     $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.box && c.box?._faces[c.face] != PIXEL_TRANSPARENT)
+    $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.face > 0 && c.Face != PIXEL_TRANSPARENT)
         || usingImage && _contexts.find(c => c.validFaceIndex())?.face >= 0
     );//dirty: _contexts
     $("btnFaceImport").hidden = !!usingImage;

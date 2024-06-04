@@ -241,7 +241,7 @@ function hookupDelegates() {
             });
         //
         uiVars.editObjects = contexts.length > 0;
-        uiVars.editBoxes = contexts.length > 0 && contexts.some(c => !c.obj.isKitBash || c.box);
+        uiVars.editBoxes = contexts.length > 0 && contexts.some(c => !c.obj.isKitBash || c.boxSelected);
     });
     uiVars.selector.onSelectionGained.add(context => {
         context.meshes.forEach(mesh => {

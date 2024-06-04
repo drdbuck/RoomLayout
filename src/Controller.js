@@ -213,14 +213,22 @@ class Controller {
                 //
                 let targetHit = this.getObjectHitAtMousePos();
                 let target = targetHit?.object?.box ?? targetHit?.object?.kitbash;
+                let targetFace = targetHit?.face.materialIndex;
                 //if an object was clicked on
                 if (target) {
                     //if the object is selected
                     let context = this.getSelectContext(target);
                     if (context) {
+                        if (context.stable){
+                        //select box
+                        if (!context.boxSelected) {
+                            context.boxSelected = true;
+                            uiVars.selector.callDelegates();//TODO: setup delegates for listening to boxselected and faceselected
+                        }
+                        //select other box/face
+                        else{
                         let faceChanged = false;
                         //determine if face is already selected
-                        let targetFace = targetHit.face.materialIndex;
                         let alreadySelected = context.face == targetFace;
                         if (alreadySelected) {
                             uiVars.viewPanelFace = true;
@@ -240,21 +248,12 @@ class Controller {
                             //sort selected
                             this.sortSelected();
                         }
+                        }
+                        }
                     }
                     else {
                         if (target.isKitBash) {
-                            this.selectObject(target, this.multiselectButton, undefined, true);
-                        }
-                        else {
-                            let context2 = this.getSelectContext(target.group);
-                            if (context2?.stable) {
-                                uiVars.selector.deselect(context2);
-                                //select the box
-                                context2.box = target;
-                                context2.face = FACE_NONE;
-                                context2.grabInfo();
-                                uiVars.selector.select(context2);
-                            }
+                            this.selectObject(target, this.multiselectButton, targetFace, true);
                         }
                     }
                 }
@@ -343,13 +342,9 @@ class Controller {
         //create select context
         let selectContext = new SelectContext(obj, face);
         if (obj.isKitBash) {
-            selectContext.kitbash = obj;
-            let items = obj.items;
         }
         else {
-            selectContext.box = obj;
             let group = obj.group;
-            selectContext.kitbash = group;
             if (group && selectGroups) {
                 selectContext.obj = group;
             }
@@ -501,7 +496,7 @@ class Controller {
                 return;
             }
             //
-            const faceCount = context.mesh?.material.length ?? 1;
+            const faceCount = context.mesh.material.length;
             const max = faceCount - 1;
             let validFace = false;
             let loopProtect = 100;//to prevent infinite loops
@@ -521,14 +516,14 @@ class Controller {
                     context.face += dir;
                     if (!between(context.face, min, max)) {
                         //cycle through all faces in group
-                        if (!context.box) {
+                        if (!context.boxSelected) {
                             //unhighlight prev face
                             let prevFace = context.face;
                             context.face = FACE_NONE;
                             this.updateFaceSelection();
                             context.face = prevFace;
                             //select next object
-                            let group = context.obj;
+                            let group = context.kitbash;
                             let nextF = group.nextItem(context.box, dir);
                             let indexF = group.indexOf(nextF);
                             context.face = (dir > 0)
