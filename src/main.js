@@ -205,7 +205,7 @@ function hookupDelegates() {
     controllerEdit.onFaceSelectionChanged.add(faces => {
         updateUIVariables(uiVars.selector.selection);
         updateBoxEditPanel();
-        uiVars.viewPanelFace = faces.length > 0 && faces.some(f => f > -2);
+        uiVars.viewPanelFace = faces.length > 0 && faces.some(f => f > FACE_NONE);
         uiVars.viewPanelFaceEdit = false;
         updateFaceEditPanel();
         uiVars.highlightSelectedFace = true;
@@ -246,7 +246,7 @@ function hookupDelegates() {
     uiVars.selector.onSelectionGained.add(context => {
         context.meshes.forEach(mesh => {
             mesh.edge.visible = true;
-            updateFace(mesh, -2);
+            updateFace(mesh, FACE_NONE);
         });
         //
         updateFace(context.mesh, context.face);
@@ -255,7 +255,7 @@ function hookupDelegates() {
     uiVars.selector.onSelectionLost.add(context => {
         context.meshes.forEach(mesh => {
             mesh.edge.visible = false;
-            updateFace(mesh, -2);
+            updateFace(mesh, FACE_NONE);
         });
         //if group no longer selected,
         if (!uiVars.selector.find(c => c.kitbash == context.kitbash)) {
@@ -263,7 +263,7 @@ function hookupDelegates() {
             uiVars.viewPanelFace = false;
         }
         //        
-        updateFace(context.mesh, -2);
+        updateFace(context.mesh, FACE_NONE);
         registerUIDelegates(context, false);
     });
 

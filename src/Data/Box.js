@@ -7,6 +7,7 @@ let stringifyBox = [
 ];
 
 const FACE_DEFAULT = -1;
+const FACE_NONE = -2;
 
 class Box extends Block {
     constructor(width = 1, length = 1, height = 1) {

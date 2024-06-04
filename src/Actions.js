@@ -83,7 +83,7 @@ function actionSelectAll() {
     let room = house.rooms[0];//dirty: hard-coded room
     uiVars.selector.clear();
     room.furnitures.forEach(f => {
-        controllerEdit.selectObject(f, true, -2, true);
+        controllerEdit.selectObject(f, true, FACE_NONE, true);
     });
     player.animate();
 }

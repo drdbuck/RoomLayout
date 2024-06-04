@@ -368,7 +368,7 @@ function updateFaceEditPanel() {
     //spnFaceName
     const faces = _faces;
     const inequal = -3;
-    const defaultValue = (faces?.length > 0) ? undefined : -2;
+    const defaultValue = (faces?.length > 0) ? undefined : FACE_NONE;
     let face = defaultValue ?? faces.reduce(reduceFunc) ?? inequal;
     let faceText = "";
     switch (face) {
@@ -378,7 +378,7 @@ function updateFaceEditPanel() {
         case -1:
             faceText = "[Default]";
             break;
-        case -2:
+        case FACE_NONE:
             faceText = "None";
             break;
         case -3:

@@ -228,7 +228,7 @@ class Controller {
                         else {
                             //deselect all other faces
                             if (!this.multiselectButton) {
-                                uiVars.selector.forEach(c => c.face = -2);
+                                uiVars.selector.forEach(c => c.face = FACE_NONE);
                             }
                             //select target face
                             context.face = targetFace;
@@ -251,7 +251,7 @@ class Controller {
                                 uiVars.selector.deselect(context2);
                                 //select the box
                                 context2.box = target;
-                                context2.face = -2;
+                                context2.face = FACE_NONE;
                                 context2.grabInfo();
                                 uiVars.selector.select(context2);
                             }
@@ -330,7 +330,7 @@ class Controller {
         return mesh.userData.selectable && material.opacity > 0;
     }
 
-    selectObject(obj, add = false, face = -2, selectGroups = true) {
+    selectObject(obj, add = false, face = FACE_NONE, selectGroups = true) {
         //early exit: no obj
         if (!obj) {
             console.error("can't select obj", obj);
@@ -488,7 +488,7 @@ class Controller {
         uiVars.selector.forEach(context => {
             //early exit: deselect faces
             if (dir == undefined) {
-                context.face = -2;
+                context.face = FACE_NONE;
                 return;
             }
             //early exit: no items
@@ -524,7 +524,7 @@ class Controller {
                         if (!context.box) {
                             //unhighlight prev face
                             let prevFace = context.face;
-                            context.face = -2;
+                            context.face = FACE_NONE;
                             this.updateFaceSelection();
                             context.face = prevFace;
                             //select next object

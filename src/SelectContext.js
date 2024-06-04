@@ -8,7 +8,7 @@ const stringifySelectContext = [
 ];
 
 class SelectContext {
-    constructor(select, face = -2, autoGrab = true) {
+    constructor(select, face = FACE_NONE, autoGrab = true) {
         this.obj = select;
         this.box = undefined;
         this.kitbash = undefined;
@@ -75,7 +75,7 @@ class SelectContext {
         else if (index == FACE_DEFAULT) {
             this.kitbash.defaultFace = imgURL;
         }
-        else if (index == -2) {
+        else if (index == FACE_NONE) {
             //do nothing
         }
         else {
