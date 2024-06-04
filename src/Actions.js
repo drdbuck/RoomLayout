@@ -230,7 +230,10 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPo
     if (group) {
         //if first box in group, set it to group's size
         if (group.count == 0) {
-            box.scale = group.scale.clone();
+            let setFunc = (n, n2) => (n > 0) ? n2 : n;
+            box.scale.x = setFunc(box.scale.x, group.scale.x);
+            box.scale.y = setFunc(box.scale.y, group.scale.y);
+            box.scale.z = setFunc(box.scale.z, group.scale.z);
         }
         //limit size to group size
         box.scale.clamp(_zero, group.scale);
