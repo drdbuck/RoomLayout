@@ -105,7 +105,7 @@ function actionSelectGroups() {
 function actionSelectBox() {
     let selection = uiVars.selector.selection;
     selection = selection.map(c => {
-        if (c.obj.isKitBash) {
+        if (c.obj.isKitBash && c.box) {
             let sc = new SelectContext(c.box);
             sc.grabInfo();
             return sc;
