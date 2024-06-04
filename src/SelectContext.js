@@ -50,7 +50,7 @@ class SelectContext {
         }
         this.mesh ??= this.meshes[0];
         this.meshBounds = getBoxBounds(this.kitbash);
-        return this.mesh && this.meshes.length > 0;
+        return (this.mesh && this.meshes.length > 0) || this.meshBounds;
     }
 
     validFaceIndex(index) {
