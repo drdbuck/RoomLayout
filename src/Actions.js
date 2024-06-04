@@ -121,20 +121,11 @@ function actionSelectBox() {
 }
 function actionSelectPieces() {
     let selection = uiVars.selector.selection;
-    selection = selection.map(c => {
-        if (c.obj.isKitBash) {
-            return c.obj.items.map(f => {
-                let sc = new SelectContext(f);
-                sc.box = f;
-                sc.kitbash = f.group;
-                sc.grabInfo();
-                return sc;
-            });
-        }
-        else {
-            return c;
-        }
-    })
+    selection = selection.map(c =>
+        (c.obj.isKitBash)
+            ? c.obj.items.map(box => new SelectContext(box))
+            : c
+    )
         .flat(Infinity);
     uiVars.selector.clear();
     uiVars.selector.selectAll(selection);
