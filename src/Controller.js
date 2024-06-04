@@ -222,8 +222,10 @@ class Controller {
                         if (context.stable){
                         //select box
                         if (!context.boxSelected) {
+                            if (context.box) {
                             context.boxSelected = true;
                             uiVars.selector.callDelegates();//TODO: setup delegates for listening to boxselected and faceselected
+                            }
                         }
                         //select face
                         else if (!context.faceSelected) {
@@ -545,7 +547,7 @@ class Controller {
                 }
                 //check for valid face
                 validFace = context.face === FACE_DEFAULT
-                    || context.box.getValidFaceIndexes().includes(context.face);
+                    || context.box?.getValidFaceIndexes().includes(context.face);
             }
         });
         this.updateFaceSelection();

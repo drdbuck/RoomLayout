@@ -208,7 +208,7 @@ function updateUIVariables(contexts) {
     //defaults
     _contexts = contexts;
     _groups = contexts.map(c => c.kitbash);
-    _boxs = contexts.map(c => c.box);
+    _boxs = contexts.map(c => c.box).filter(box => box);
     _faces = contexts.filter(c => c.validFaceIndex()).map(c => c.face);
 }
 
@@ -343,6 +343,7 @@ function registerUIDelegates(context, register) {
 
     //box
     let box = context.box;
+    if (!box) { return; }
     [
         box.onSizeChanged,
         box.onPositionChanged,
@@ -420,6 +421,7 @@ function updateFaceEditPanel() {
         const maxSuggestions = 4;
         //last image
         _contexts//dirty: using _contexts
+            .filter(c => c.box)
             .forEach(context => {
                 let f = context.box;
                 suggest.push(f.lastImage);

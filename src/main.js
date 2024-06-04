@@ -396,6 +396,9 @@ function hookupDelegatesMenu() {
 }
 
 function getBox(box) {
+    if (!box) {
+        return undefined;
+    }
     return player.scene.children
         .find(mesh => mesh.box == box);
 }

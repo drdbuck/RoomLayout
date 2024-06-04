@@ -44,7 +44,7 @@ class SelectContext {
 
     grabIds() {
         this.uid_obj = this.obj.uid;
-        this.uid_box = this.box.uid;
+        this.uid_box = this.box?.uid;
         this.uid_kitbash = this.kitbash?.uid;
     }
 
@@ -54,7 +54,6 @@ class SelectContext {
         if (this.mesh) {
             this.meshes.push(this.mesh);
         }
-        this.mesh ??= this.meshes[0];
         this.meshBounds = getBoxBounds(this.kitbash);
         return (this.mesh && this.meshes.length > 0) || this.meshBounds;
     }
@@ -75,7 +74,7 @@ class SelectContext {
 
     validFaceIndex(index) {
         index ??= this.face;
-        return index == FACE_DEFAULT || this.box.validFaceIndex(index);
+        return index == FACE_DEFAULT || this.box?.validFaceIndex(index);
     }
 
     get Face() {
@@ -117,10 +116,6 @@ class SelectContext {
             let uid = this.uid_box;
             let obj = uiVars.findUid(house, uid);
             this.box = obj;
-        }        
-        if (!this.box) {
-            console.error("unable to find box with id", this.uid_box);
-            return;
         }
         if (this.uid_kitbash) {
             let uid = this.uid_kitbash;
