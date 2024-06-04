@@ -212,7 +212,7 @@ class ImageEdit {
                 pt.x = Math.round(pt.x);
                 pt.y = Math.round(pt.y);
                 const pixel = this.pullPixel(pt.x, pt.y);
-                pixel[3] = Math.clamp(pixel[3] + delta, 0, 255);
+                pixel[3] = Math.clamp(pixel[3] + delta, 10, 255);
                 this.pushPixel(imgData, pixel, pt.x, pt.y);
             }
         }
