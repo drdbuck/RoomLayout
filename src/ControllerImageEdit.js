@@ -313,6 +313,7 @@ class ControllerImageEdit {
             this.targetDimensions.x,
             this.targetDimensions.y
         );
+        this.prevContext = undefined;
         this.onEditChanged.run(imageURL);
     }
 
