@@ -185,11 +185,7 @@ function init() {
 
     //Update scene
     switchMode(true);
-    uiVars.viewId = uiVars.viewId;//trigger delegate w/o changing anything
-    //trigger selection delegates w/o changing anything
-    let selection = uiVars.selector.selection;
-    uiVars.selector.clear();
-    uiVars.selector.selectAll(selection);
+    uiVars.callDelegates();
     player.animate();
 
     //Update UI

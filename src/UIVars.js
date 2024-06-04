@@ -71,6 +71,9 @@ class UIVars {
                 .filter(c => inflateSelectContext(c, this))
         );
 
+        //view
+        this._view = this._views[this._viewId];
+
         //init uids
         this.nextUid = 1;
         this.clearUids(root);
@@ -222,6 +225,18 @@ class UIVars {
 
     prepareForSave() {
         this._selection = this.selector.selection;
+    }
+
+    callDelegates() {      
+        this.onEditRoomsChanged.run(this._editRooms);
+        this.onEditObjectsChanged.run(this._editObjects);
+        this.onEditBoxesChanged.run(this._editBoxes);
+        this.onViewPanelFaceChanged.run(this._viewPanelFace);
+        this.onViewPanelFaceEditChanged.run(this._viewPanelFaceEdit);
+        this.onHighlightSelectedFaceChanged.run(this._highlightSelectedFace);
+        this.onViewIdChanged.run(this._viewId, this._view);
+
+        this.selector.callDelegates();
     }
 }
 

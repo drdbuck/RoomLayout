@@ -188,4 +188,9 @@ class Selector {
     sort(func) {
         this._selection.sort(func);
     }
+
+    callDelegates() {        
+        this._selection.forEach(item => this.onSelectionGained.run(item));
+        this.onSelectionChanged.run(this._selection);
+    }
 }
