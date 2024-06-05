@@ -519,6 +519,7 @@ function btnGroupFaceEdit() {
     //set each context to cycle through all faces of furniture
     uiVars.selector.forEach(c => {
         c.boxSelected = false;
+        c.faceSelected = true;
         c.face = FACE_DEFAULT;
     });
     //show panel    
@@ -532,16 +533,19 @@ function btnGroupFaceEdit() {
 
 function btnFaceEdit() {
     //set each context to cycle through only faces of selected box
-    uiVars.selector.forEach(c => {
+    uiVars.selector.selection
+        .filter(c=>c.box)
+        .forEach(c => {
         c.boxSelected = true;
+        c.faceSelected = true;
         if (!(c.face > 0)) {
             c.face = 0;
         }
     });
     //show panel
+    uiVars.viewPanelFace = true;
     controllerEdit.updateFaceSelection();
     controllerEdit.runFaceDelegate();
-    uiVars.viewPanelFace = true;
     //ui
     uiVars.editBoxes = true;
     updateFaceEditPanel();

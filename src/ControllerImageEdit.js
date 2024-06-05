@@ -319,6 +319,7 @@ class ControllerImageEdit {
 
     erase() {
         let imageURL = this.imageEdit.setTransparent();
+        this.prevContext = undefined;
         this.onEditChanged.run(imageURL);
     }
 

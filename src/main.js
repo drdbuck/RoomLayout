@@ -244,14 +244,17 @@ function hookupDelegates() {
         uiVars.editBoxes = contexts.length > 0 && contexts.some(c => !c.obj.isKitBash || c.boxSelected);
     });
     uiVars.selector.onSelectionGained.add(context => {
+        if (context.boxSelected) {
         context.meshes.forEach(mesh => {
             mesh.edge.visible = true;
             updateFace(mesh, FACE_NONE);
         });
+        }
         //
         updateFace(context.mesh, context.face);
         registerUIDelegates(context, true);
         uiVars.viewPanelFace = uiVars.selector.some(c=>c.faceSelected);
+        uiVars.editBoxes = uiVars.selector.some(c => !c.obj.isKitBash || c.boxSelected);
     });
     uiVars.selector.onSelectionLost.add(context => {
         context.meshes.forEach(mesh => {
@@ -266,6 +269,7 @@ function hookupDelegates() {
         //        
         updateFace(context.mesh, FACE_NONE);
         registerUIDelegates(context, false);
+        uiVars.editBoxes = uiVars.selector.some(c => !c.obj.isKitBash || c.boxSelected);
     });
 
     //Controller FPS
@@ -281,6 +285,7 @@ function hookupDelegates() {
         uiVars.highlightSelectedFace = viewPanelFace;
         if (!viewPanelFace) {
             uiVars.viewPanelFaceEdit = false;
+            controllerImageEdit.prevContext = undefined;
         }
         //update face edit panel
         updateFaceEditPanel();
