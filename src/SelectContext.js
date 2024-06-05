@@ -64,7 +64,7 @@ class SelectContext {
     set boxSelected(value) {
         this._boxSelected = value;
     }
-    
+
     get faceSelected() {
         return this._faceSelected;
     }

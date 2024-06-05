@@ -65,12 +65,12 @@ class ControllerImageEdit {
         ctx.fillStyle = "#CCCCCC";
         let gridCountW = width / handleSize;
         let gridCountH = height / handleSize;
-        for (let ix = 0; ix < gridCountW; ix++){
-            for (let iy = 0; iy < gridCountH; iy++){
+        for (let ix = 0; ix < gridCountW; ix++) {
+            for (let iy = 0; iy < gridCountH; iy++) {
                 //alternate where these sqaures are drawn
                 if ((ix + iy) % 2 == 0) {
                     //draw the square
-                    ctx.fillRect(ix*handleSize, iy*handleSize, handleSize, handleSize);
+                    ctx.fillRect(ix * handleSize, iy * handleSize, handleSize, handleSize);
                 }
             }
         }

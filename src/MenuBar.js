@@ -27,7 +27,7 @@ const menuBarData = {
             action: "actionSelectGroups();",
             listen: ["select", "group"],
             update: "menuUpdateBoxSelected(_);",
-        },        
+        },
         "Select Component &enter": {
             action: "actionSelectBox();",
             listen: ["select", "group"],

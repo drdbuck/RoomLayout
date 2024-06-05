@@ -72,13 +72,13 @@ class ImageEdit {
         //points that define where to pull pixels from
         //default: use whole image
         if (resetCorners || !this.corners) {
-        this.cornerLT = new Vector2(0, 0);
-        this.cornerLB = new Vector2(0, this.height);
-        this.cornerRT = new Vector2(this.width, 0);
-        this.cornerRB = new Vector2(this.width, this.height);
-        this._cornersToList();
-        //
-        this._updateMidPoints();
+            this.cornerLT = new Vector2(0, 0);
+            this.cornerLB = new Vector2(0, this.height);
+            this.cornerRT = new Vector2(this.width, 0);
+            this.cornerRB = new Vector2(this.width, this.height);
+            this._cornersToList();
+            //
+            this._updateMidPoints();
         }
     }
 
@@ -148,7 +148,7 @@ class ImageEdit {
             w = longestEdge;
             h = w * height / width;
         }
-        else if (height > width){
+        else if (height > width) {
             h = longestEdge;
             w = h * width / height;
         }

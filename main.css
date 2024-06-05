@@ -141,7 +141,7 @@ canvas {
     border: 2px solid #aaaaaa;
 }
 
-.popupPanel input{
+.popupPanel input {
     width: 94%;
 }
 
@@ -149,6 +149,7 @@ canvas {
     display: inline;
     width: 90%;
 }
+
 .fieldtable {
     padding: 0px;
     border-spacing: 0px;

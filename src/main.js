@@ -245,15 +245,15 @@ function hookupDelegates() {
     });
     uiVars.selector.onSelectionGained.add(context => {
         if (context.boxSelected) {
-        context.meshes.forEach(mesh => {
-            mesh.edge.visible = true;
-            updateFace(mesh, FACE_NONE);
-        });
+            context.meshes.forEach(mesh => {
+                mesh.edge.visible = true;
+                updateFace(mesh, FACE_NONE);
+            });
         }
         //
         updateFace(context.mesh, context.face);
         registerUIDelegates(context, true);
-        uiVars.viewPanelFace = uiVars.selector.some(c=>c.faceSelected);
+        uiVars.viewPanelFace = uiVars.selector.some(c => c.faceSelected);
         uiVars.editBoxes = uiVars.selector.some(c => !c.obj.isKitBash || c.boxSelected);
     });
     uiVars.selector.onSelectionLost.add(context => {

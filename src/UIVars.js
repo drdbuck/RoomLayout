@@ -227,7 +227,7 @@ class UIVars {
         this._selection = this.selector.selection;
     }
 
-    callDelegates() {      
+    callDelegates() {
         this.onEditRoomsChanged.run(this._editRooms);
         this.onEditObjectsChanged.run(this._editObjects);
         this.onEditBoxesChanged.run(this._editBoxes);

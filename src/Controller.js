@@ -219,43 +219,43 @@ class Controller {
                     //if the object is selected
                     let context = this.getSelectContext(target);
                     if (context) {
-                        if (context.stable){
-                        //select box
-                        if (!context.boxSelected) {
-                            if (context.box) {
-                            context.boxSelected = true;
-                            uiVars.selector.callDelegates();//TODO: setup delegates for listening to boxselected and faceselected
+                        if (context.stable) {
+                            //select box
+                            if (!context.boxSelected) {
+                                if (context.box) {
+                                    context.boxSelected = true;
+                                    uiVars.selector.callDelegates();//TODO: setup delegates for listening to boxselected and faceselected
+                                }
                             }
-                        }
-                        //select face
-                        else if (!context.faceSelected) {
-                            context.faceSelected = true;
-                            uiVars.selector.callDelegates();//TODO: setup delegates for listening to boxselected and faceselected
-                        }
-                        //select other box/face
-                        else{
-                        let faceChanged = false;
-                        //determine if face is already selected
-                        let alreadySelected = context.face == targetFace;
-                        if (alreadySelected) {
-                            uiVars.viewPanelFace = true;
-                        }
-                        else {
-                            //deselect all other faces
-                            if (!this.multiselectButton) {
-                                uiVars.selector.forEach(c => c.face = FACE_NONE);
+                            //select face
+                            else if (!context.faceSelected) {
+                                context.faceSelected = true;
+                                uiVars.selector.callDelegates();//TODO: setup delegates for listening to boxselected and faceselected
                             }
-                            //select target face
-                            context.face = targetFace;
-                            faceChanged = true;
-                        }
-                        if (faceChanged) {
-                            this.updateFaceSelection();
-                            this.runFaceDelegate();
-                            //sort selected
-                            this.sortSelected();
-                        }
-                        }
+                            //select other box/face
+                            else {
+                                let faceChanged = false;
+                                //determine if face is already selected
+                                let alreadySelected = context.face == targetFace;
+                                if (alreadySelected) {
+                                    uiVars.viewPanelFace = true;
+                                }
+                                else {
+                                    //deselect all other faces
+                                    if (!this.multiselectButton) {
+                                        uiVars.selector.forEach(c => c.face = FACE_NONE);
+                                    }
+                                    //select target face
+                                    context.face = targetFace;
+                                    faceChanged = true;
+                                }
+                                if (faceChanged) {
+                                    this.updateFaceSelection();
+                                    this.runFaceDelegate();
+                                    //sort selected
+                                    this.sortSelected();
+                                }
+                            }
                         }
                     }
                     else {

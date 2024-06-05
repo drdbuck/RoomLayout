@@ -534,14 +534,14 @@ function btnGroupFaceEdit() {
 function btnFaceEdit() {
     //set each context to cycle through only faces of selected box
     uiVars.selector.selection
-        .filter(c=>c.box)
+        .filter(c => c.box)
         .forEach(c => {
-        c.boxSelected = true;
-        c.faceSelected = true;
-        if (!(c.face > 0)) {
-            c.face = 0;
-        }
-    });
+            c.boxSelected = true;
+            c.faceSelected = true;
+            if (!(c.face > 0)) {
+                c.face = 0;
+            }
+        });
     //show panel
     uiVars.viewPanelFace = true;
     controllerEdit.updateFaceSelection();
