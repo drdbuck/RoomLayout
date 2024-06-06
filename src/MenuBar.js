@@ -105,6 +105,7 @@ const menuBarData = {
             update: "menuUpdateGroupSelected(_);",
         },
         "Prefab": "---",
+        "Create Rectangle Stack %r": "actionObjectsCreateRectangleStack();",
         "Create Skirt Prefab #b": "actionObjectsCreateSkirt();",
     },
     view: {

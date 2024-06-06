@@ -243,6 +243,14 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPo
     undoMan.recordUndo(undoMsg);
 }
 
+function actionObjectsCreateRectangleStack() {
+    createObjectDialogue.show(
+        (answers) => _actionObjectsCreateSkirt(answers, spawnPoint),
+        undefined, //size, recline
+        "Create Rectangle Stack"
+    );
+}
+
 function actionObjectsCreateSkirt() {
     let spawnPoint = getSpawnPoint();
     createObjectDialogue.show(
