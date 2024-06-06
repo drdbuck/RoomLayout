@@ -377,7 +377,8 @@ function _actionObjectsCreateSkirt(answers, spawnPoint) {
     const height = answers.Height;
     const recline = answers.Recline;
     //
-    spawnPoint ??= getSpawnPoint();
+    let selectgroup = uiVars.selector.find(c => c.kitbash)?.kitbash;
+    spawnPoint ??= getSpawnPoint(selectgroup);
     //
     let group = new KitBash();
     group.position = spawnPoint;
@@ -409,7 +410,6 @@ function _actionObjectsCreateSkirt(answers, spawnPoint) {
     group.scale = new Vector3(width, height, depth);
     //Group
     //find selected group
-    let selectgroup = uiVars.selector.find(c => c.kitbash)?.kitbash;
     let newGroup = !selectgroup;
     //
     if (selectgroup) {
