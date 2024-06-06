@@ -244,7 +244,7 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPo
 }
 
 function actionObjectsCreateRectangleStack() {
-    createObjectDialogue.show(
+    createObjectDialogueStack.show(
         (answers) => _actionObjectsCreateRectangleStack(answers),
         undefined, //size, recline
         "Create Rectangle Stack"
@@ -359,7 +359,7 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
     //Select new box
     controllerEdit.selectObject(group ?? selectgroup, false, undefined, newGroup);
     //record undo
-    undoMan.recordUndo("create skirt prefab");
+    undoMan.recordUndo("create rectangle stack");
 }
 
 function actionObjectsCreateSkirt() {

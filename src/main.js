@@ -14,6 +14,7 @@ let controllerEdit;
 let controllerFPS;
 let controllerImageEdit;
 let createObjectDialogue;
+let createObjectDialogueStack;
 let house = new House();
 const selectColor = "#8ce8ff";
 const selectMaterial = createColorMaterial(selectColor, false);
@@ -168,6 +169,58 @@ function init() {
                 type: OPTION_TYPE_NUMBER_POSITIVE,
                 default: 0,
             },
+        ],
+        body,
+        "Create",
+        (answers) => {
+            answers.Width = parseNumber(answers.Width);
+            answers.Depth = parseNumber(answers.Depth);
+            answers.Height = parseNumber(answers.Height);
+            answers.Recline = parseNumber(answers.Recline);
+        }
+    );
+
+    //Create Object Dialogue Rectangle Stack
+    createObjectDialogueStack = new AdvancedDialogue(
+        "Create Rectangle Stacks",
+        [
+            
+            //Size
+            "Size",
+            {
+                name: "Width",
+                type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
+                default: () => uiVars.selector.first?.kitbash.scale.width ?? 2,
+            },
+            {
+                name: "Depth",
+                type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
+                default: () => uiVars.selector.first?.kitbash.scale.depth ?? 1,
+            },
+            {
+                name: "Height",
+                type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
+                default: () => uiVars.selector.first?.kitbash.scale.height ?? 3,
+            },
+            
+            //Count
+            "Count",
+            {
+                name: "Left-to-Right",
+                type: OPTION_TYPE_NUMBER_POSITIVE,
+                default: 0,
+            },
+            {
+                name: "Front-to-Back",
+                type: OPTION_TYPE_NUMBER_POSITIVE,
+                default: 0,
+            },
+            {
+                name: "Top-to-Bottom",
+                type: OPTION_TYPE_NUMBER_POSITIVE,
+                default: 0,
+            },
+
         ],
         body,
         "Create",
