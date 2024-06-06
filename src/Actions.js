@@ -256,41 +256,92 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
     const width = answers.Width;
     const depth = answers.Depth;
     const height = answers.Height;
-    const recline = answers.Recline;
+    const countX = answers["Left-to-Right"];
+    const countY = answers["Top-to-Bottom"];
+    const countZ = answers["Front-to-Back"];
     //
-    spawnPoint ??= getSpawnPoint();
+    let selectgroup = uiVars.selector.find(c => c.kitbash)?.kitbash;
+    spawnPoint ??= getSpawnPoint(selectgroup);
     //
     let group = new KitBash();
     group.position = spawnPoint;
     //
-    const count = 4;
-    for (let i = 0; i < count; i++) {
+
+    let id = 0;
+
+    //Left-to-Right
+    const bufferX = (countX - 1) / width;
+    const startX = new Vector3(
+        spawnPoint.x - width / 2,
+        spawnPoint.y,
+        spawnPoint.z
+    );
+    //TODO: account for count being 1
+    for (let i = 0; i < countX; i++) {
         let box = new Box();
         group.add(box);
-        box.name = `skirt wall ${i + 1}/${count}`;
-        let dim = (i % 2 == 0) ? width : depth;
-        let dim2 = (i % 2 == 0) ? depth : width;
-        box.width = dim;
+        box.name = `rectangle ${id + 1}`;
+        id++;
+        box.width = 0;
+        box.depth = depth;
+        box.height = height;
+        box.position = new Vector3(
+            startX.x + i * bufferX,
+            startX.y,
+            startX.z
+        );
+    }
+
+    //Front-to-Back
+    const bufferZ = (countZ - 1) / depth;
+    const startZ = new Vector3(
+        spawnPoint.x,
+        spawnPoint.y,
+        spawnPoint.z - depth / 2,
+    );
+    //TODO: account for count being 1
+    for (let i = 0; i < countZ; i++) {
+        let box = new Box();
+        group.add(box);
+        box.name = `rectangle ${id + 1}`;
+        id++;
+        box.width = width;
         box.depth = 0;
         box.height = height;
-        box.angle = i * 90;//dirty: assumes 4 sides
-        box.recline = recline;
         box.position = new Vector3(
-            (i % 2 == 0)
-                ? 0
-                : dim2 * 0.5 * -Math.sign(i - 1.5),
-            0,
-            (i % 2 == 0)
-                ? dim2 * 0.5 * -Math.sign(i - 1.5)
-                : 0
-        );//dirty: assumes 4 sides
-        box.setFace(5, PIXEL_TRANSPARENT);
+            startZ.x,
+            startZ.y,
+            startZ.z + i * bufferZ,
+        );
     }
+
+    //Top-to-Bottom
+    const bufferY = (countY - 1) / height;
+    const startY = new Vector3(
+        spawnPoint.x,
+        spawnPoint.y,
+        spawnPoint.z,
+    );
+    //TODO: account for count being 1
+    for (let i = 0; i < countY; i++) {
+        let box = new Box();
+        group.add(box);
+        box.name = `rectangle ${id + 1}`;
+        id++;
+        box.width = width;
+        box.depth = depth;
+        box.height = 0;
+        box.position = new Vector3(
+            startY.x,
+            startY.y + i * bufferY,
+            startY.z,
+        );
+    }
+
     // group.recalculateSize();
     group.scale = new Vector3(width, height, depth);
     //Group
     //find selected group
-    let selectgroup = uiVars.selector.find(c => c.kitbash)?.kitbash;
     let newGroup = !selectgroup;
     //
     if (selectgroup) {
