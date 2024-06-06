@@ -186,7 +186,6 @@ function actionObjectCreateBlankFlatWall() {
         (f) => {
             f.scale = DEFAULT_SCALE;
             f.depth = 0;
-            f.setFace(5, PIXEL_TRANSPARENT);
         },
         spawnPoint
     );
@@ -200,7 +199,6 @@ function actionObjectCreateBlankFlatFloor() {
         (f) => {
             f.scale = DEFAULT_SCALE;
             f.height = 0;
-            f.setFace(3, PIXEL_TRANSPARENT);
         },
         spawnPoint
     );
