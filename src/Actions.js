@@ -259,6 +259,10 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
     const countX = answers["Left-to-Right"];
     const countY = answers["Top-to-Bottom"];
     const countZ = answers["Front-to-Back"];
+
+    //early exit: no count specified
+    if (!(countX > 0 || countY > 0 || countZ > 0)) { return; }
+
     //
     let selectgroup = uiVars.selector.find(c => c.kitbash)?.kitbash;
     spawnPoint ??= getSpawnPoint(selectgroup);
