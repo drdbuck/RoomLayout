@@ -125,7 +125,7 @@ function createFloor(width = 11, length = 12, showTriangles = false) {
     floor.layers.set(objectMask);
 
     //position
-    floor.position.y = -0.001;//needed to prevent artifacts with backs of faces on floor
+    floor.position.y = -0.003;//needed to prevent artifacts with backs of faces on floor
 
     //type
     floor.planeType = "floor";
@@ -447,7 +447,7 @@ function createGeometry(box) {
     let bufferGeometry = new BufferGeometry();
 
     //create base points
-    const minSize = 0.005;
+    const minSize = 0.01;
     const width = Math.max(box.width, minSize);
     const depth = Math.max(box.depth, minSize);
     const w2 = width / 2;
