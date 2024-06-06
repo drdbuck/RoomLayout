@@ -341,11 +341,22 @@ function actionObjectsDelete() {
     uiVars.selector.clear();
     delList.forEach(c => {
         let f = c.obj;
+        //data
         if (f.group) {
             f.group.remove(f);
         }
         f.room.removeFurniture(f);
+        //scene
+        if (c.obj.isKitBash) {
+            c.kitbash.items.forEach(box => {
+                let mesh = getBox(box);
+                mesh?.parent?.remove(mesh);
+            })
+            c.meshBounds.parent?.remove(c.meshBounds);
+        }
+        else {
         c.meshes.forEach(mesh => mesh.parent?.remove(mesh));
+        }
     });
     //record undo
     undoMan.recordUndo("delete object");
