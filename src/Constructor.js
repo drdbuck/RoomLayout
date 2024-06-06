@@ -447,7 +447,7 @@ function createGeometry(box) {
     let bufferGeometry = new BufferGeometry();
 
     //create base points
-    const minSize = 0.001;
+    const minSize = 0.005;
     const width = Math.max(box.width, minSize);
     const depth = Math.max(box.depth, minSize);
     const w2 = width / 2;
