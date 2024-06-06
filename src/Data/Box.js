@@ -201,11 +201,6 @@ class Box extends Block {
             .map(v => v.x > 0 && v.y > 0)
             .map((b, i) => (b) ? i : undefined)
             .filter(i => i >= 0);
-        //if only two valid faces,
-        if (validList.length == 2) {
-            //only keep the one (to avoid user confusion while editing)
-            validList = [validList[0]];
-        }
         return validList;
     }
 
