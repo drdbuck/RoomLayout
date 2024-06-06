@@ -180,7 +180,12 @@ class AdvancedDialogue {
     reset() {
         this.options.forEach(o => {
             let input = this._controls[o.name];
-            input.value = o.default ?? "";
+            input.value = (
+                (isFunction(o.default))
+                    ? o.default()
+                    : o.default
+                    
+            ) ?? "";
         });
     }
 

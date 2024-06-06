@@ -25,6 +25,9 @@ function isInteger(n) { return isNumber(n) && Math.floor(n) === n; }
 //2024-05-02: copied from https://stackoverflow.com/a/8511350/2336212
 function isObject(o) { return typeof o === 'object' && !Array.isArray(o) && o !== null; }
 
+//2024-06-06: copied from https://stackoverflow.com/a/19717946/2336212
+function isFunction(f) { return f instanceof Function; }
+
 function $(id) {
     return document.getElementById(id);
 }
