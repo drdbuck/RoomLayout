@@ -205,8 +205,8 @@ class Controller {
                     if (uiVars.selector.count == 0) {
                         uiVars.selector.selectAll(uiVars.prevSelection);
                     }
-                    //record undo
-                    undoMan.recordUndo("move object");
+                    // //record undo
+                    // undoMan.recordUndo("move object");
                 }
             }
             else {
@@ -294,8 +294,8 @@ class Controller {
                 let box = c.obj;
                 this.setBoxAltitude(box, box.altitude + zoomDelta);
             });
-            //record undo
-            undoMan.recordUndo("change object altitude");
+            // //record undo
+            // undoMan.recordUndo("change object altitude");
         }
         //Rotate
         else if (event.shiftKey || uiVars.selector.count > 0) {
@@ -304,8 +304,8 @@ class Controller {
                 let deltaAngle = Math.round(zoomDelta) * 15;
                 this.setBoxAngle(c.obj, c.obj.angle + deltaAngle);
             });
-            //record undo
-            undoMan.recordUndo("change object angle");
+            // //record undo
+            // undoMan.recordUndo("change object angle");
         }
         //Camera zoom
         else {
