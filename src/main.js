@@ -184,7 +184,7 @@ function init() {
     createObjectDialogueStack = new AdvancedDialogue(
         "Create Rectangle Stacks",
         [
-            
+
             //Size
             "Size",
             {
@@ -202,7 +202,7 @@ function init() {
                 type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
                 default: () => uiVars.selector.first?.kitbash.scale.height ?? 3,
             },
-            
+
             //Count
             "Count",
             {

@@ -184,7 +184,7 @@ class AdvancedDialogue {
                 (isFunction(o.default))
                     ? o.default()
                     : o.default
-                    
+
             ) ?? "";
         });
     }

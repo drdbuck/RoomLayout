@@ -474,11 +474,11 @@ function actionObjectsDelete() {
             c.kitbash.items.forEach(box => {
                 let mesh = getBox(box);
                 mesh?.parent?.remove(mesh);
-            })
+            });
             c.meshBounds.parent?.remove(c.meshBounds);
         }
         else {
-        c.meshes.forEach(mesh => mesh.parent?.remove(mesh));
+            c.meshes.forEach(mesh => mesh.parent?.remove(mesh));
         }
     });
     //record undo
