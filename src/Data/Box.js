@@ -138,6 +138,15 @@ class Box extends Block {
         return [...this._faces];
     }
 
+    get faceListCompiled() {
+        const sideCount = 6;
+        let faceList = this.faceList;
+        for (let i = 0; i < sideCount; i++) {
+            faceList[i] = (this.validFaceIndex(i)) ? faceList[i] : PIXEL_TRANSPARENT;
+        }
+        return faceList;
+    }
+
     getFace(index) {
         if (index == FACE_DEFAULT) {
             return this.defaultFace;
@@ -205,7 +214,8 @@ class Box extends Block {
     }
 
     validFaceIndex(index) {
-        return index == FACE_DEFAULT || between(index, 0, 6 - 1);//dirty: hardcoding 6-sided shape
+        let faceDimensions = this.getFaceDimensions(index);
+        return index == FACE_DEFAULT || between(index, 0, 6 - 1) && faceDimensions.x > 0 && faceDimensions.y > 0;//dirty: hardcoding 6-sided shape
     }
 
     onScaleFactorChanged(scale) {

@@ -318,13 +318,13 @@ function constructKitBash(kitbash) {
 function constructBox(box) {
     //2024-01-09: copied from https://github.com/mrdoob/three.js/blob/master/examples/misc_controls_pointerlock.html
 
+    const sideCount = 6;
+
     //create geometry
     const boxGeometry = createGeometry(box);
 
     //create material
-    const validFaceIndexes = box.getValidFaceIndexes();
-    const faceList = box.faceList.map((f, i) => (validFaceIndexes.includes(i)) ? f : PIXEL_TRANSPARENT);
-    const meshMaterials = createMaterials(faceList, 6, box.defaultFace);
+    const meshMaterials = createMaterials(box.faceListCompiled, sideCount, box.defaultFace);
 
     //create mesh
     const mesh = new Mesh(boxGeometry, meshMaterials);
@@ -614,7 +614,7 @@ function createSelectHighlights(mesh) {
 function createInsideFaces(mesh, box) {
     //dirty: assumes a cube
 
-    const meshMaterials = createMaterials(box.faceList, 6, box.defaultFace, false);
+    const meshMaterials = createMaterials(box.faceListCompiled, 6, box.defaultFace, false);
 
     const insideMesh = new Mesh(mesh.geometry, meshMaterials);
     insideMesh.layers.set(objectMask);
