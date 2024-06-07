@@ -322,7 +322,9 @@ function constructBox(box) {
     const boxGeometry = createGeometry(box);
 
     //create material
-    const meshMaterials = createMaterials(box.faceList, 6, box.defaultFace);
+    const validFaceIndexes = box.getValidFaceIndexes();
+    const faceList = box.faceList.map((f, i) => (validFaceIndexes.includes(i)) ? f : PIXEL_TRANSPARENT);
+    const meshMaterials = createMaterials(faceList, 6, box.defaultFace);
 
     //create mesh
     const mesh = new Mesh(boxGeometry, meshMaterials);
