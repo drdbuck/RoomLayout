@@ -274,7 +274,7 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
     let id = 0;
 
     //Left-to-Right
-    const bufferX = (countX - 1) / width;
+    const bufferX = width / (countX - 1);
     const startX = new Vector3(
         spawnPoint.x - width / 2,
         spawnPoint.y,
@@ -297,7 +297,7 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
     }
 
     //Front-to-Back
-    const bufferZ = (countZ - 1) / depth;
+    const bufferZ = depth/ (countZ - 1);
     const startZ = new Vector3(
         spawnPoint.x,
         spawnPoint.y,
@@ -320,7 +320,7 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
     }
 
     //Top-to-Bottom
-    const bufferY = (countY - 1) / height;
+    const bufferY = height / (countY - 1);
     const startY = new Vector3(
         spawnPoint.x,
         spawnPoint.y,
