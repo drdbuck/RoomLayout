@@ -12,8 +12,7 @@ class ControllerImageEdit {
 
         this.canvasFactor = 1;
 
-        this.defaultTargetDimensions = new Vector2(5, 5);
-        this.targetDimensions = this.defaultTargetDimensions.clone();
+        this.targetDimensions = _zero.clone();
 
         this.control = {
             handle: undefined,
@@ -127,9 +126,9 @@ class ControllerImageEdit {
             this.setImage(imageURL, !context.equals(this.prevContext));
             this.prevContext = copyObject(context, stringifySelectContext);
         }
-        this.targetDimensions = (context.face == FACE_DEFAULT) ? _zero.clone() : context.box?.getFaceDimensions(context.face) ?? _zero.clone();
-        this.targetDimensions.x ||= this.defaultTargetDimensions.x;
-        this.targetDimensions.y ||= this.defaultTargetDimensions.y;
+        this.targetDimensions = (context.face == FACE_DEFAULT)
+            ? _zero.clone()
+            : context.box?.getFaceDimensions(context.face) ?? _zero.clone();
     }
 
     //dirty: boomerang'ing

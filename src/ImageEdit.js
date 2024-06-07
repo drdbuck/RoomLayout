@@ -130,7 +130,7 @@ class ImageEdit {
         return dir;
     }
 
-    convertToAspectRatio(width = 1, height = 1) {
+    convertToAspectRatio(width = 0, height = 0) {
         //find longest edge
         let longestEdge = 0;
         let cornerCount = this.corners.length;
@@ -141,6 +141,9 @@ class ImageEdit {
             let edge = c1.distanceTo(c2);
             longestEdge = Math.max(edge, longestEdge);
         }
+        //
+        width ||= longestEdge;
+        height ||= longestEdge;
         //calculate resolution
         let w = width || longestEdge;
         let h = height || longestEdge;
