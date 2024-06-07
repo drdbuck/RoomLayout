@@ -4,7 +4,7 @@ const stringifySelectContext = [
     "uid_obj",
     "uid_box",
     "uid_kitbash",
-    "face",
+    "_face",
     "_boxSelected",
     "_faceSelected",
 ];
@@ -19,7 +19,7 @@ class SelectContext {
         this.mesh = undefined;
         this.meshes = undefined;
         this.meshBounds = undefined;
-        this.face = face;
+        this._face = face;
         this.offset = _zero.clone();
         this.stable = true;
         //
@@ -56,6 +56,13 @@ class SelectContext {
         }
         this.meshBounds = getBoxBounds(this.kitbash);
         return (this.mesh && this.meshes.length > 0) || this.meshBounds;
+    }
+
+    get face() {
+        return this._face;
+    }
+    set face(value) {
+        this._face = value;
     }
 
     get boxSelected() {
