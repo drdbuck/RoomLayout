@@ -488,7 +488,6 @@ function updateFaceEditPanel() {
         || usingImage && _contexts.find(c => c.validFaceIndex())?.face >= 0
     );//dirty: _contexts
     $("btnFaceImport").hidden = !!usingImage;
-    $("btnFaceCrop").disabled = !(_contexts.some(c => c.face != FACE_DEFAULT));
 }
 
 
