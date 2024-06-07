@@ -264,8 +264,8 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
     if (!(countX > 0 || countY > 0 || countZ > 0)) { return; }
 
     //
-    let selectgroup = uiVars.selector.find(c => c.kitbash)?.kitbash;
-    spawnPoint ??= getSpawnPoint(selectgroup);
+    let selectgroup = uiVars.selector.first?.kitbash;
+    spawnPoint ??= selectgroup?.position ?? getSpawnPoint(selectgroup);
     //
     let group = new KitBash();
     group.position = spawnPoint;
@@ -289,7 +289,7 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
         box.width = 0;
         box.depth = depth;
         box.height = height;
-        box.position = new Vector3(
+        box.worldPosition = new Vector3(
             startX.x + i * bufferX,
             startX.y,
             startX.z
@@ -312,7 +312,7 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
         box.width = width;
         box.depth = 0;
         box.height = height;
-        box.position = new Vector3(
+        box.worldPosition = new Vector3(
             startZ.x,
             startZ.y,
             startZ.z + i * bufferZ,
@@ -335,7 +335,7 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
         box.width = width;
         box.depth = depth;
         box.height = 0;
-        box.position = new Vector3(
+        box.worldPosition = new Vector3(
             startY.x,
             startY.y + i * bufferY,
             startY.z,
