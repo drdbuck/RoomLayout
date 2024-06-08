@@ -146,7 +146,7 @@ class SelectContext {
         return this.uid_obj == context.uid_obj
             && this.uid_kitbash == context.uid_kitbash
             && this.uid_box == context.uid_box
-            && this.face == context.face;
+            && this._face == context._face;
     }
 }
 
