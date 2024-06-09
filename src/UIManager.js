@@ -625,7 +625,6 @@ function editFace(editFunc = (img) => img, completeFunc = () => { }) {
     let progressFunc = () => {
         progress++;
         if (progress == count) {
-            completeCalled = true;
             completeFunc();
         }
     };
