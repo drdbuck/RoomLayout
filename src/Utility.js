@@ -192,6 +192,7 @@ const PIXEL_WHITE_10p = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC
 const LIST_PIXEL = [
     PIXEL_TRANSPARENT,
     PIXEL_WHITE,
+    PIXEL_WHITE_10p,
 ];
 
 function isValidImage(imageURL) {
