@@ -155,6 +155,10 @@ class ImageEdit {
             h = longestEdge;
             w = h * width / height;
         }
+        else {
+            w = longestEdge;
+            h = longestEdge;
+        }
         //convert
         return this.convertToResolution(w, h);
     }
