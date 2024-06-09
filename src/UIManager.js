@@ -559,6 +559,7 @@ function btnUseSuggestedImage(imgURL) {
         c.Face = imgURL;
     });
     uiVars.viewPanelFaceEdit = true;
+    updateUIVariables(uiVars.selector.selection);
     updateFaceEditPanel();
     //record undo
     undoMan.recordUndo("use suggested image");
@@ -695,6 +696,7 @@ function btnFaceImport() {
             el.files,
             () => {
                 uiVars.highlightSelectedFace = false;
+                controllerEdit.prevContext = undefined;
                 updateFaceEditPanel();
                 player.animate();
                 //record undo
