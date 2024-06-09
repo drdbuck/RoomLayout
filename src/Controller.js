@@ -481,6 +481,9 @@ class Controller {
                 }
                 context.box = item;
                 context.grabInfo();
+                if (!context.validFaceIndex()) {
+                    context.face = context.box.getValidFaceIndexes()[0];
+                }
                 //
                 //TODO: verify newly selected face is valid
                 //
