@@ -342,6 +342,13 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
         );
     }
 
+    group.items.forEach(box => {
+        let faces = box.getValidFaceIndexes();
+        faces.forEach(i => {
+            box.setFace(i, PIXEL_WHITE_10p);
+        })
+    });
+
     // group.recalculateSize();
     group.scale = new Vector3(width, height, depth);
     //Group
