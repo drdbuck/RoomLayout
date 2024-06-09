@@ -538,7 +538,7 @@ function btnFaceEdit() {
             c.boxSelected = true;
             c.faceSelected = true;
             if (!(c.face > 0)) {
-                c.face = 0;
+                c.face = c.box.getValidFaceIndexes()[0];
             }
         });
     //show panel
