@@ -307,18 +307,22 @@ class ControllerImageEdit {
         this.control.handle = undefined;
     }
 
+    reset() {
+        this.prevContext = undefined;
+    }
+
     crop() {
         let imageURL = this.imageEdit.convertToAspectRatio(
             this.targetDimensions.x,
             this.targetDimensions.y
         );
-        this.prevContext = undefined;
+        this.reset();
         this.onEditChanged.run(imageURL);
     }
 
     erase() {
         let imageURL = this.imageEdit.setTransparent();
-        this.prevContext = undefined;
+        this.reset();
         this.onEditChanged.run(imageURL);
     }
 

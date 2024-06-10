@@ -342,7 +342,7 @@ function hookupDelegates() {
         if (!viewPanelFace) {
             uiVars.selector.forEach(c => c.faceSelected = false);
             uiVars.viewPanelFaceEdit = false;
-            controllerImageEdit.prevContext = undefined;
+            controllerImageEdit.reset();
         }
         //update face edit panel
         updateFaceEditPanel();

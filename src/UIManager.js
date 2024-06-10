@@ -555,6 +555,7 @@ function btnExitFaceEdit() {
 }
 
 function btnUseSuggestedImage(imgURL) {
+    controllerImageEdit.reset();
     uiVars.selector.forEach(c => {
         c.Face = imgURL;
     });
@@ -566,6 +567,7 @@ function btnUseSuggestedImage(imgURL) {
 }
 
 function btnUseDefaultImage() {
+    controllerImageEdit.reset();
     uiVars.selector.forEach(c => {
         c.Face = c.kitbash.defaultFace;
     });
@@ -695,7 +697,7 @@ function btnFaceImport() {
             el.files,
             () => {
                 uiVars.highlightSelectedFace = false;
-                controllerEdit.prevContext = undefined;
+                controllerEdit.reset();
                 updateFaceEditPanel();
                 player.animate();
                 //record undo
