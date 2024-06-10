@@ -258,7 +258,8 @@ function hookupDelegates() {
     controllerEdit.onFaceSelectionChanged.add(faces => {
         updateUIVariables(uiVars.selector.selection);
         updateBoxEditPanel();
-        uiVars.viewPanelFace = faces.length > 0 && faces.some(f => f > FACE_NONE);
+        uiVars.viewPanelFace = faces.length > 0 && faces.some(f => f > FACE_NONE) && uiVars.selector.some(c => c.faceSelected);
+        // if (uiVars.viewPanelFace) {
         uiVars.viewPanelFaceEdit = false;
         updateFaceEditPanel();
         uiVars.highlightSelectedFace = true;
@@ -337,6 +338,7 @@ function hookupDelegates() {
     uiVars.onViewPanelFaceChanged.add((viewPanelFace) => {
         uiVars.highlightSelectedFace = viewPanelFace;
         if (!viewPanelFace) {
+            uiVars.selector.forEach(c => c.faceSelected = false);
             uiVars.viewPanelFaceEdit = false;
             controllerImageEdit.prevContext = undefined;
         }

@@ -482,7 +482,7 @@ class Controller {
                 }
                 context.box = item;
                 context.grabInfo();
-                if (!context.validFaceIndex()) {
+                if (context.face >= 0 && !context.validFaceIndex()) {
                     context.face = context.box.getValidFaceIndexes()[0];
                 }
                 //
