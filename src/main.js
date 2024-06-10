@@ -17,7 +17,9 @@ let createObjectDialogue;
 let createObjectDialogueStack;
 let house = new House();
 const selectColor = "#8ce8ff";
-const selectMaterial = createColorMaterial(selectColor, false);
+const selectMaterial = createColorMaterial(selectColor, false, FrontSide);
+const selectColorBack = "#005a70";
+const selectMaterialBack = createColorMaterial(selectColorBack, false, BackSide);
 const edgeMaterial = new LineBasicMaterial({
     color: selectColor,
     linewidth: 1,
@@ -601,11 +603,14 @@ function updateFace(mesh, face, faceSelected) {
     //
     let edge = mesh.edge;
     let select = mesh.select;
+    let selectBack = mesh.selectBack;
 
     //unhighlight face
     edge.renderOrder = 0;
     select.material = undefined;
     select.visible = false;
+    selectBack.material = undefined;
+    selectBack.visible = false;
 
     //early exit: highlighting faces turned off
     if (!uiVars.highlightSelectedFace) { return; }
@@ -620,6 +625,9 @@ function updateFace(mesh, face, faceSelected) {
         select.material = new Array(faceCount);
         select.material[face] = selectMaterial;
         select.visible = true;
+        selectBack.material = new Array(faceCount);
+        selectBack.material[face] = selectMaterialBack;
+        selectBack.visible = true;
         edge.renderOrder = 999;
     }
 }
@@ -704,14 +712,14 @@ function createShaderMaterial(edgeColor = _one.clone(), faceColor = _zero.clone(
     });
     return material;
 }
-function createColorMaterial(color = 4687027, depth = true) {
+function createColorMaterial(color = 4687027, depth = true, side = DoubleSide) {
     let material = new MeshBasicMaterial(
         {
             color: color,
             blendColor: 0,
             depthTest: depth,
             depthWrite: depth,
-            side: DoubleSide,
+            side: side,
         });
     return material;
 }

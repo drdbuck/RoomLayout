@@ -345,6 +345,7 @@ function constructBox(box) {
         mesh.geometry.setAttribute('uv', newgeom.attributes.uv);
         let newselect = createSelectHighlights(mesh);
         mesh.select.geometry.setAttribute('position', newselect.geometry.attributes.position);
+        mesh.selectBack.geometry.setAttribute('position', newselect.geometry.attributes.position);
         let newedge = createEdgeHighlights(mesh);
         mesh.edge.geometry.setAttribute('position', newedge.geometry.attributes.position);
     };
@@ -434,6 +435,12 @@ function constructBox(box) {
     mesh.attach(select);
     select.visible = false;
     select.position.copy(_zero);
+    //select back highlights
+    let selectBack = createSelectHighlights(mesh);
+    mesh.selectBack = selectBack;
+    mesh.attach(selectBack);
+    selectBack.visible = false;
+    selectBack.position.copy(_zero);
 
     //init with update functions
     updatePosition(box.worldPosition);
