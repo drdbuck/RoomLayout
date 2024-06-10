@@ -572,7 +572,7 @@ class Controller {
 
     updateFaceSelection() {
         uiVars.selector.forEach(c => {
-            updateFace(c.mesh, c.face);
+            updateFace(c.mesh, c.face, c.faceSelected);
         });
     }
 

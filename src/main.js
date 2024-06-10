@@ -275,7 +275,7 @@ function hookupDelegates() {
         }
         //Update selected faces
         contexts.forEach(c => {
-            updateFace(c.mesh, c.face);
+            updateFace(c.mesh, c.face, c.faceSelected);
         });
         //update group bounding box selections
         player.scene.children
@@ -301,11 +301,11 @@ function hookupDelegates() {
         if (context.boxSelected) {
             context.meshes.forEach(mesh => {
                 mesh.edge.visible = true;
-                updateFace(mesh, FACE_NONE);
+                updateFace(mesh, FACE_NONE, context.faceSelected);
             });
         }
         //
-        updateFace(context.mesh, context.face);
+        updateFace(context.mesh, context.face, context.faceSelected);
         registerUIDelegates(context, true);
         uiVars.viewPanelFace = uiVars.selector.some(c => c.faceSelected);
         uiVars.editBoxes = uiVars.selector.some(c => !c.obj.isKitBash || c.boxSelected);
@@ -313,7 +313,7 @@ function hookupDelegates() {
     uiVars.selector.onSelectionLost.add(context => {
         context.meshes.forEach(mesh => {
             mesh.edge.visible = false;
-            updateFace(mesh, FACE_NONE);
+            updateFace(mesh, FACE_NONE, context.faceSelected);
         });
         //if group no longer selected,
         if (!uiVars.selector.find(c => c.kitbash == context.kitbash)) {
@@ -321,7 +321,7 @@ function hookupDelegates() {
             uiVars.viewPanelFace = false;
         }
         //        
-        updateFace(context.mesh, FACE_NONE);
+        updateFace(context.mesh, FACE_NONE, context.faceSelected);
         registerUIDelegates(context, false);
         uiVars.editBoxes = uiVars.selector.some(c => !c.obj.isKitBash || c.boxSelected);
     });
@@ -595,7 +595,7 @@ function uploadFace(image) {
     });
 };
 
-function updateFace(mesh, face) {
+function updateFace(mesh, face, faceSelected) {
     //early exit: no mesh
     if (!mesh) { return; }
     //
@@ -609,6 +609,9 @@ function updateFace(mesh, face) {
 
     //early exit: highlighting faces turned off
     if (!uiVars.highlightSelectedFace) { return; }
+
+    //early exit: context doesn't want faces selected
+    if (!faceSelected) { return; }
 
     //highlighting faces turned on
     let faceCount = mesh.material.length;
