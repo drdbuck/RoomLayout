@@ -154,11 +154,8 @@ class Controller {
                     }
                     //select object
                     uiVars.prevSelection = uiVars.selector.selection.filter(c => c.stable);
-                    let selectTarget = (!onlySelectButton && !anyPieceSingleSelected)
-                        ? target.group ?? target
-                        : target;
                     let context = this.selectObject(
-                        selectTarget,
+                        target,
                         this.multiselectButton,
                         targetFace,
                         !onlySelectButton && !anyPieceSingleSelected
@@ -365,6 +362,7 @@ class Controller {
             let group = obj.group;
             if (group && selectGroups) {
                 selectContext.obj = group;
+                selectContext.boxSelected = false;
             }
         }
         selectContext.grabInfo();
@@ -440,9 +438,11 @@ class Controller {
         //early exit: no obj
         if (!obj) { return undefined; }
         //find obj
-        return uiVars.selector.find(c => c.obj === obj)
-            || uiVars.selector.find(c => c.box == obj)
-            || uiVars.selector.find(c => c.kitbash == obj);
+        return uiVars.selector.find(c =>
+            c.obj === obj
+            || c.box == obj
+            || c.kitbash == obj
+        );
     }
 
     calculateSelectedOffsets() {
