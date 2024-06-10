@@ -332,16 +332,17 @@ class Controller {
     }
 
     getObjectHitAtMousePos() {
-        return this.getHitAtMousePos(o => this.isMeshSelectable(o.object, o.face.materialIndex));
+        return this.getHitAtMousePos(o => this.isMeshSelectable(o.object, o.face.materialIndex))
+            ?? this.getHitAtMousePos(o => this.isMeshSelectable(o.object, o.face.materialIndex, true));
     }
 
     getObjectAtMousePos() {
         return this.getObjectHitAtMousePos()?.object;
     }
 
-    isMeshSelectable(mesh, faceIndex) {
+    isMeshSelectable(mesh, faceIndex, allowInvisible = false) {
         let material = mesh.material[faceIndex] ?? mesh.material;
-        return mesh.userData.selectable && material.opacity > 0;
+        return mesh.userData.selectable && (material.opacity > 0 || allowInvisible);
     }
 
     selectObject(obj, add = false, face = FACE_NONE, selectGroups = true) {
