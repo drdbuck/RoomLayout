@@ -488,6 +488,8 @@ function updateFaceEditPanel() {
         || usingImage && _contexts.find(c => c.validFaceIndex())?.face >= 0
     );//dirty: _contexts
     $("btnFaceImport").hidden = !!usingImage;
+
+    $("lblFaceZoom").innerHTML = `${Math.floor(controllerImageEdit.zoom.zoom * 100)}%`;
 }
 
 
@@ -684,12 +686,15 @@ function btnFaceOpacityIncrease() {
 
 function btnFaceZoomDecrease() {
     controllerImageEdit.adjustZoom(0.9);
+    updateFaceEditPanel();
 }
 function btnFaceZoomIncrease() {
     controllerImageEdit.adjustZoom(1.1);
+    updateFaceEditPanel();
 }
 function btnFaceZoomReset() {
     controllerImageEdit.setZoom(1);
+    updateFaceEditPanel();
 }
 
 function btnFaceImport() {
