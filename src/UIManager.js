@@ -682,6 +682,16 @@ function btnFaceOpacityIncrease() {
     undoMan.recordUndo("increase opacity");
 }
 
+function btnFaceZoomDecrease() {
+    controllerImageEdit.adjustZoom(0.9);
+}
+function btnFaceZoomIncrease() {
+    controllerImageEdit.adjustZoom(1.1);
+}
+function btnFaceZoomReset() {
+    controllerImageEdit.setZoom(1);
+}
+
 function btnFaceImport() {
     //2024-05-03: copied from actionImportBox()
     //2024-03-06: copied from CardGenerator

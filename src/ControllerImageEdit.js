@@ -2,6 +2,8 @@
 
 const HANDLE_SIZE = 5;
 const HANDLE_SELECT_RANGE = HANDLE_SIZE * 2;
+const FACE_ZOOM_MAX = 2;
+const FACE_ZOOM_MIN = 0.5;
 
 class ControllerImageEdit {
     constructor(canvas, uiColor) {
@@ -11,6 +13,8 @@ class ControllerImageEdit {
         this.imageEdit = new ImageEdit();
 
         this.canvasFactor = 1;
+        this.zoom = 1;//changes with zoom buttons
+        this.offset = _zero.clone();
 
         this.targetDimensions = _zero.clone();
 
@@ -78,16 +82,16 @@ class ControllerImageEdit {
         ctx.fillStyle = this.uiColor;
         ctx.lineWidth = 1 * this.canvasFactor;
         //image
-        ctx.drawImage(this.imageEdit.original, 0, 0, width, height);
+        ctx.drawImage(this.imageEdit.original, 0 * this.zoom, 0 * this.zoom, width * this.zoom, height * this.zoom);
         //Box path
         ctx.beginPath();
         let firstCorner = this.imageEdit.corners[0];
-        ctx.moveTo(firstCorner.x, firstCorner.y);
+        ctx.moveTo(firstCorner.x * this.zoom, firstCorner.y * this.zoom);
         for (let i = 1; i < this.imageEdit.corners.length; i++) {
             let corner = this.imageEdit.corners[i];
-            ctx.lineTo(corner.x, corner.y);
+            ctx.lineTo(corner.x * this.zoom, corner.y * this.zoom);
         }
-        ctx.lineTo(firstCorner.x, firstCorner.y);
+        ctx.lineTo(firstCorner.x * this.zoom, firstCorner.y * this.zoom);
         ctx.stroke();
 
         //Draw handles
@@ -100,8 +104,8 @@ class ControllerImageEdit {
         ].flat();
         handles.forEach(
             handle => ctx.fillRect(
-                handle.x - handleSizeHalf,
-                handle.y - handleSizeHalf,
+                (handle.x - handleSizeHalf) * this.zoom,
+                (handle.y - handleSizeHalf) * this.zoom,
                 handleSize,
                 handleSize
             )
@@ -111,8 +115,8 @@ class ControllerImageEdit {
         if (this.control.medianLine) {
             ctx.lineWidth = 0.5 * this.canvasFactor;
             ctx.beginPath();
-            ctx.moveTo(this.control.medianLine.start.x, this.control.medianLine.start.y);
-            ctx.lineTo(this.control.medianLine.end.x, this.control.medianLine.end.y);
+            ctx.moveTo(this.control.medianLine.start.x * this.zoom, this.control.medianLine.start.y * this.zoom);
+            ctx.lineTo(this.control.medianLine.end.x * this.zoom, this.control.medianLine.end.y * this.zoom);
             ctx.stroke();
         }
     }
@@ -329,6 +333,16 @@ class ControllerImageEdit {
     adjustOpacity(delta) {
         let imageURL = this.imageEdit.adjustOpacity(delta);
         this.onEditChanged.run(imageURL);
+    }
+
+    setZoom(zoom) {
+        let prevZoom = this.zoom;
+        this.zoom = Math.clamp(zoom, FACE_ZOOM_MIN, FACE_ZOOM_MAX);
+        this.update();
+        //TODO: change offset too
+    }
+    adjustZoom(factor) {
+        this.setZoom(this.zoom * factor);
     }
 
     updateCursor() {
