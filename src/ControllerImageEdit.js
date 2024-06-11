@@ -82,16 +82,16 @@ class ControllerImageEdit {
         ctx.fillStyle = this.uiColor;
         ctx.lineWidth = 1 * this.canvasFactor;
         //image
-        ctx.drawImage(this.imageEdit.original, 0 * this.zoom, 0 * this.zoom, width * this.zoom, height * this.zoom);
+        ctx.drawImage(this.imageEdit.original, this.toX(0), this.toY(0), this.toWidth(width), this.toHeight(height));
         //Box path
         ctx.beginPath();
         let firstCorner = this.imageEdit.corners[0];
-        ctx.moveTo(firstCorner.x * this.zoom, firstCorner.y * this.zoom);
+        ctx.moveTo(this.toX(firstCorner.x), this.toY(firstCorner.y));
         for (let i = 1; i < this.imageEdit.corners.length; i++) {
             let corner = this.imageEdit.corners[i];
-            ctx.lineTo(corner.x * this.zoom, corner.y * this.zoom);
+            ctx.lineTo(this.toX(corner.x), this.toY(corner.y));
         }
-        ctx.lineTo(firstCorner.x * this.zoom, firstCorner.y * this.zoom);
+        ctx.lineTo(this.toX(firstCorner.x), this.toY(firstCorner.y));
         ctx.stroke();
 
         //Draw handles
@@ -104,8 +104,8 @@ class ControllerImageEdit {
         ].flat();
         handles.forEach(
             handle => ctx.fillRect(
-                (handle.x - handleSizeHalf) * this.zoom,
-                (handle.y - handleSizeHalf) * this.zoom,
+                this.toX(handle.x - handleSizeHalf),
+                this.toY(handle.y - handleSizeHalf),
                 handleSize,
                 handleSize
             )
@@ -115,8 +115,8 @@ class ControllerImageEdit {
         if (this.control.medianLine) {
             ctx.lineWidth = 0.5 * this.canvasFactor;
             ctx.beginPath();
-            ctx.moveTo(this.control.medianLine.start.x * this.zoom, this.control.medianLine.start.y * this.zoom);
-            ctx.lineTo(this.control.medianLine.end.x * this.zoom, this.control.medianLine.end.y * this.zoom);
+            ctx.moveTo(this.toX(this.control.medianLine.start.x), this.toY(this.control.medianLine.start.y));
+            ctx.lineTo(this.toX(this.control.medianLine.end.x), this.toY(this.control.medianLine.end.y));
             ctx.stroke();
         }
     }
@@ -372,5 +372,35 @@ class ControllerImageEdit {
 
     changeCursor(cursorStyle) {
         this.canvas.style.cursor = cursorStyle;
+    }
+
+    /**
+     * Converts from image X to canvas X
+     * @param {*} x 
+     */
+    toX(x) {
+        return x * this.zoom;
+    }
+    /**
+     * Converts from image Y to canvas Y
+     * @param {*} y 
+     */
+    toY(y) {
+        return y * this.zoom;
+    }
+
+    /**
+     * Converts from image width to canvas width
+     * @param {*} x 
+     */
+    toWidth(width) {
+        return width * this.zoom;
+    }
+    /**
+     * Converts from image height to canvas height
+     * @param {*} x 
+     */
+    toHeight(height) {
+        return height * this.zoom;
     }
 }
