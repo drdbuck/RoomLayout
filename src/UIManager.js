@@ -704,6 +704,17 @@ function btnFaceBrightnessIncrease() {
     controllerImageEdit.adjustBrightness(10);
 }
 
+function btnFaceUndo() {
+    actionUndo();
+    uiVars.viewPanelFaceEdit = true;
+    updateFaceEditPanel();
+}
+function btnFaceRedo() {
+    actionRedo();
+    uiVars.viewPanelFaceEdit = true;
+    updateFaceEditPanel();
+}
+
 function btnFaceImport() {
     //2024-05-03: copied from actionImportBox()
     //2024-03-06: copied from CardGenerator
