@@ -339,6 +339,11 @@ class ControllerImageEdit {
         this.onEditChanged.run(imageURL);
     }
 
+    adjustBrightness(delta) {
+        let imageURL = this.imageEdit.adjustBrightness(delta);
+        this.onEditChanged.run(imageURL);
+    }
+
     setZoom(zoom) {
         let prevZoom = this.zoom.zoom;
         let prevPivot = new Vector2(this.toX(this.zoom.pivot.x), this.toY(this.zoom.pivot.y));
