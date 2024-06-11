@@ -348,6 +348,8 @@ function constructBox(box) {
         mesh.selectBack.geometry.setAttribute('position', newselect.geometry.attributes.position);
         let newedge = createEdgeHighlights(mesh);
         mesh.edge.geometry.setAttribute('position', newedge.geometry.attributes.position);
+
+        updateInsideMesh();
     };
     let updateRotation = (angle = 0, recline = 0) => {
         //rotate to default
@@ -383,6 +385,8 @@ function constructBox(box) {
             meshMaterials[index] = material;
             insideMaterials[index] = materialBack;
         }
+        
+        updateInsideMesh();
     };
     let updateDefaultFace = (url) => {
         let defaultFace = url;
@@ -394,6 +398,15 @@ function constructBox(box) {
             }
         }
     };
+    let updateInsideMesh = () => {
+        let scale = box.worldScale;
+        //insideMesh should be visible when
+        insideMesh.visible =
+            //box is not a rectangle
+            (scale.x > 0 && scale.y > 0 && scale.z > 0)
+            //or has an invisible face
+            || box.getValidFaceIndexes().some(i => box.getFace(i) == PIXEL_TRANSPARENT);
+    }
 
 
     //inside faces
