@@ -151,7 +151,7 @@ class ControllerImageEdit {
         const rect = this.canvas.getBoundingClientRect();
         const x = (e.clientX - rect.left) * (this.imageEdit.width / rect.width);
         const y = (e.clientY - rect.top) * (this.imageEdit.height / rect.height);
-        return new Vector2(x, y);
+        return new Vector2(this.fromX(x), this.fromY(y));
     }
 
     processMouseDown(e) {
@@ -402,5 +402,20 @@ class ControllerImageEdit {
      */
     toHeight(height) {
         return height * this.zoom;
+    }
+
+    /**
+     * Converts from canvas X to image X
+     * @param {*} x 
+     */
+    fromX(x) {
+        return x / this.zoom;
+    }
+    /**
+    * Converts from canvas Y to image Y
+    * @param {*} y 
+    */
+    fromY(y) {
+        return y / this.zoom;
     }
 }
