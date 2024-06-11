@@ -162,6 +162,8 @@ class ControllerImageEdit {
 
         let mouse = this.getMouseVector(e);
         this.selectHandles(mouse);
+        this.zoom.pivot = this.control.handle
+            ?? new Vector2(this.imageEdit.width / 2, this.imageEdit.height / 2);
         this.mouseDown = true;
     }
     processMouseMove(e) {
