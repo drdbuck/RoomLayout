@@ -13,8 +13,10 @@ class ControllerImageEdit {
         this.imageEdit = new ImageEdit();
 
         this.canvasFactor = 1;
-        this.zoom = 1;//changes with zoom buttons
-        this.offset = _zero.clone();
+        this.zoom = {
+            zoom: 1,//changes with zoom buttons
+            offset: _zero.clone(),
+        };
 
         this.targetDimensions = _zero.clone();
 
@@ -336,13 +338,13 @@ class ControllerImageEdit {
     }
 
     setZoom(zoom) {
-        let prevZoom = this.zoom;
-        this.zoom = Math.clamp(zoom, FACE_ZOOM_MIN, FACE_ZOOM_MAX);
+        let prevZoom = this.zoom.zoom;
+        this.zoom.zoom = Math.clamp(zoom, FACE_ZOOM_MIN, FACE_ZOOM_MAX);
         this.update();
         //TODO: change offset too
     }
     adjustZoom(factor) {
-        this.setZoom(this.zoom * factor);
+        this.setZoom(this.zoom.zoom * factor);
     }
 
     updateCursor() {
@@ -379,14 +381,14 @@ class ControllerImageEdit {
      * @param {*} x 
      */
     toX(x) {
-        return x * this.zoom;
+        return (x * this.zoom.zoom) + this.zoom.offset.x;
     }
     /**
      * Converts from image Y to canvas Y
      * @param {*} y 
      */
     toY(y) {
-        return y * this.zoom;
+        return (y * this.zoom.zoom) + this.zoom.offset.y;
     }
 
     /**
@@ -394,14 +396,14 @@ class ControllerImageEdit {
      * @param {*} x 
      */
     toWidth(width) {
-        return width * this.zoom;
+        return width * this.zoom.zoom;
     }
     /**
      * Converts from image height to canvas height
      * @param {*} x 
      */
     toHeight(height) {
-        return height * this.zoom;
+        return height * this.zoom.zoom;
     }
 
     /**
@@ -409,13 +411,13 @@ class ControllerImageEdit {
      * @param {*} x 
      */
     fromX(x) {
-        return x / this.zoom;
+        return (x - this.zoom.offset.x) / this.zoom.zoom;
     }
     /**
     * Converts from canvas Y to image Y
     * @param {*} y 
     */
     fromY(y) {
-        return y / this.zoom;
+        return (y - this.zoom.offset.y) / this.zoom.zoom;
     }
 }
