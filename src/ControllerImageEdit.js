@@ -349,7 +349,7 @@ class ControllerImageEdit {
         let prevPivot = new Vector2(this.toX(this.zoom.pivot.x), this.toY(this.zoom.pivot.y));
         this.zoom.zoom = Math.clamp(zoom, FACE_ZOOM_MIN, FACE_ZOOM_MAX);
         let newPivot = new Vector2(this.toX(this.zoom.pivot.x), this.toY(this.zoom.pivot.y));
-        this.zoom.offset = prevPivot.sub(newPivot);
+        this.zoom.offset.add(prevPivot.sub(newPivot));
         this.update();
         //TODO: change offset too
     }
