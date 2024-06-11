@@ -15,7 +15,8 @@ class ControllerImageEdit {
         this.canvasFactor = 1;
         this.zoom = {
             zoom: 1,//changes with zoom buttons
-            offset: _zero.clone(),
+            offset: _zero.clone(),//how many canvas pixels to offset the image drawing by (canvas space)
+            pivot: _zero.clone(),//the point on the image to zoom in/out towards (image space)
         };
 
         this.targetDimensions = _zero.clone();
@@ -41,6 +42,7 @@ class ControllerImageEdit {
             this.imageEdit.setImage(_img, resetSelection);
             this.canvas.width = _img.width;
             this.canvas.height = _img.height;
+            this.zoom.pivot = new Vector2(_img.width / 2, _img.height / 2);
             if (this.savedCorners) {
                 this.boomerangCorners(false);
             }
@@ -339,7 +341,10 @@ class ControllerImageEdit {
 
     setZoom(zoom) {
         let prevZoom = this.zoom.zoom;
+        let prevPivot = new Vector2(this.toX(this.zoom.pivot.x), this.toY(this.zoom.pivot.y));
         this.zoom.zoom = Math.clamp(zoom, FACE_ZOOM_MIN, FACE_ZOOM_MAX);
+        let newPivot = new Vector2(this.toX(this.zoom.pivot.x), this.toY(this.zoom.pivot.y));
+        this.zoom.offset = prevPivot.sub(newPivot);
         this.update();
         //TODO: change offset too
     }
