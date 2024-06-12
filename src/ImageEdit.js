@@ -246,9 +246,9 @@ class ImageEdit {
                 pt.y = Math.round(pt.y);
                 let pixel = this.pullPixel(pt.x, pt.y);
                 // if (pixel.slice(0, 3).every(v => Math.between(v + delta, 0, 255))) {
-                    let alpha = pixel[3];
-                    pixel = pixel.map(v => v + delta);
-                    pixel[3] = alpha;
+                let alpha = pixel[3];
+                pixel = pixel.map(v => v + delta);
+                pixel[3] = alpha;
                 // }
                 this.pushPixel(imgData, pixel, pt.x, pt.y);
             }

@@ -455,9 +455,9 @@ function parseDimensions(txt, zerosAllowed = 0) {
     dimkeys.forEach(k => {
         //put space between each dimension key
         txt = txt.split(k).join(` ${k} `);
-    })
+    });
     //
-    let tokens = txt.split(" ").filter(t=>t?.trim());
+    let tokens = txt.split(" ").filter(t => t?.trim());
     let dimensions = {};
     let lastMeasurement = undefined;
     for (let i = 0; i < tokens.length; i++) {

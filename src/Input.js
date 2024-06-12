@@ -29,7 +29,7 @@ class Input {
                 wasDragged: false,
             },
             keys: [],
-        }
+        };
     }
 
     processMouseInput(event) {

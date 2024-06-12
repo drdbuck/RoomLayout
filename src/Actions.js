@@ -297,7 +297,7 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
     }
 
     //Front-to-Back
-    const bufferZ = depth/ (countZ - 1);
+    const bufferZ = depth / (countZ - 1);
     const startZ = new Vector3(
         spawnPoint.x,
         spawnPoint.y,
@@ -348,7 +348,7 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
         // box.setFace(faces[1], PIXEL_TRANSPARENT);
         faces.forEach(i => {
             box.setFace(i, PIXEL_TRANSPARENT);
-        })
+        });
     });
 
     // group.recalculateSize();

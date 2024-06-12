@@ -387,7 +387,7 @@ function constructBox(box) {
             meshMaterials[index] = material;
             insideMaterials[index] = materialBack;
         }
-        
+
         updateInsideMesh();
     };
     let updateDefaultFace = (url) => {
@@ -408,7 +408,7 @@ function constructBox(box) {
             (scale.x > 0 && scale.y > 0 && scale.z > 0)
             //or has an invisible face
             || box.getValidFaceIndexes().some(i => box.getFace(i) == PIXEL_TRANSPARENT);
-    }
+    };
 
 
     //inside faces
