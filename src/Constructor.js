@@ -364,7 +364,9 @@ function constructBox(box) {
 
         //recline
         let radRecline = -MathUtils.degToRad(recline);
-        let axisRecline = new Vector3(1, 0, 0);
+        let axisRecline = (box.width >= box.depth)
+            ? new Vector3(1, 0, 0)
+            : new Vector3(0, 0, 1);
         mesh.rotateOnAxis(axisRecline, radRecline);
     };
     let updateFace = (index, url) => {
