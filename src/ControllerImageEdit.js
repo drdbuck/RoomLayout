@@ -42,7 +42,9 @@ class ControllerImageEdit {
             this.imageEdit.setImage(_img, resetSelection);
             this.canvas.width = _img.width;
             this.canvas.height = _img.height;
-            this.zoom.pivot = new Vector2(_img.width / 2, _img.height / 2);
+            if (resetSelection) {
+                this.zoom.pivot = new Vector2(_img.width / 2, _img.height / 2);
+            }
             if (this.savedCorners) {
                 this.boomerangCorners(false);
             }
@@ -214,6 +216,8 @@ class ControllerImageEdit {
                 else {
                     console.error("unknown handle!", this.control.handle);
                 }
+                //pivot
+                this.zoom.pivot = this.control.handle;
             }
         }
         else {
