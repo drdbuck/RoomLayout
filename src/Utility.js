@@ -449,7 +449,15 @@ function _parseFootInchInput(txt, foot, inch) {
  * @returns An object like {w:6.17, h:6, d:2, any:1}
  */
 function parseDimensions(txt, zerosAllowed = 0) {
-    let tokens = txt.split(" ");
+    const dimkeys = ["w", "h", "d"];
+    //pre-format the txt
+    txt = txt.toLowerCase();
+    dimkeys.forEach(k => {
+        //put space between each dimension key
+        txt = txt.split(k).join(` ${k} `);
+    })
+    //
+    let tokens = txt.split(" ").filter(t=>t?.trim());
     let dimensions = {};
     let lastMeasurement = undefined;
     for (let i = 0; i < tokens.length; i++) {
@@ -462,9 +470,8 @@ function parseDimensions(txt, zerosAllowed = 0) {
         }
         //dimension
         else {
-            let ltoken = token.toLowerCase();
-            if (["w", "h", "d"].includes(ltoken)) {
-                dimensions[ltoken] = lastMeasurement;
+            if (dimkeys.includes(token)) {
+                dimensions[token] = lastMeasurement;
                 lastMeasurement = undefined;
             }
         }
