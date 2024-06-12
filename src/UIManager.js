@@ -444,6 +444,10 @@ function updateFaceEditPanel() {
         _boxs.forEach(box => {
             box.faceList.forEach(face => suggest.push(face));
         });
+        //group imported faces
+        _groups.forEach(group => {
+            group._faces.forEach(face => suggest.push(face));
+        });
         //images from other meshes in same group
         _groups.forEach(group => {
             group.items.forEach(item => {

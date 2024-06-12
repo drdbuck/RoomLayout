@@ -4,6 +4,7 @@ const stringifyKitBash = [
     "_items",
     "_defaultFace",
     "_scaleFactor",
+    "_faces",
 ];
 
 class KitBash extends Block {
@@ -18,6 +19,7 @@ class KitBash extends Block {
                 .find(iu => iu)
             ?? PIXEL_WHITE;
         this._scaleFactor = 1;
+        this._faces = [this._defaultFace].filter(url => isValidImage(url));
 
         //Delegates
         this.onItemAdded = new Delegate("item");
@@ -143,6 +145,13 @@ class KitBash extends Block {
         this.onDefaultFaceChanged.run(imageURL);
     }
 
+    addFace(imgURL) {
+        if (!isValidImage(imgURL)) { return; }
+        if (this._faces.includes(imgURL)) { return; }
+        
+        this._faces.push(imgURL);
+    }
+
     //Position
     get altitude() {
         return this._items.min(f => f.altitude);
@@ -249,4 +258,6 @@ function backwardsCompatifyKitBash(kitbash) {
     kitbash._scaleFactor ??= 1;
     //Change: defaultFace -> _defaultFace
     kitbash._defaultFace ??= kitbash.defaultFace;
+    //Change: add _faces
+    kitbash._faces ??= [];
 }
