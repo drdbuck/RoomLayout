@@ -192,17 +192,17 @@ function init() {
             {
                 name: "Width",
                 type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
-                default: () => uiVars.selector.first?.kitbash.scale.width ?? 2,
+                default: () => uiVars.selector.first?.kitbash.width ?? 2,
             },
             {
                 name: "Depth",
                 type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
-                default: () => uiVars.selector.first?.kitbash.scale.depth ?? 1,
+                default: () => uiVars.selector.first?.kitbash.depth ?? 1,
             },
             {
                 name: "Height",
                 type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
-                default: () => uiVars.selector.first?.kitbash.scale.height ?? 3,
+                default: () => uiVars.selector.first?.kitbash.height ?? 3,
             },
 
             //Count
@@ -210,17 +210,17 @@ function init() {
             {
                 name: "Left-to-Right",
                 type: OPTION_TYPE_NUMBER_POSITIVE,
-                default: 0,
+                default: 5,
             },
             {
                 name: "Front-to-Back",
                 type: OPTION_TYPE_NUMBER_POSITIVE,
-                default: 0,
+                default: 5,
             },
             {
                 name: "Top-to-Bottom",
                 type: OPTION_TYPE_NUMBER_POSITIVE,
-                default: 0,
+                default: 5,
             },
 
         ],
