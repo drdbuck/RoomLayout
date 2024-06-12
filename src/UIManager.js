@@ -693,7 +693,7 @@ function btnFaceZoomIncrease() {
     updateFaceEditPanel();
 }
 function btnFaceZoomReset() {
-    controllerImageEdit.setZoom(1);
+    controllerImageEdit.resetZoom();
     updateFaceEditPanel();
 }
 

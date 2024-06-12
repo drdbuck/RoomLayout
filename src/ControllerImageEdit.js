@@ -43,7 +43,7 @@ class ControllerImageEdit {
             this.canvas.width = _img.width;
             this.canvas.height = _img.height;
             if (resetSelection) {
-                this.zoom.pivot = new Vector2(_img.width / 2, _img.height / 2);
+                this.resetZoom();
             }
             if (this.savedCorners) {
                 this.boomerangCorners(false);
@@ -361,6 +361,11 @@ class ControllerImageEdit {
     }
     adjustZoom(factor) {
         this.setZoom(this.zoom.zoom * factor);
+    }
+    resetZoom() {
+        this.zoom.pivot = new Vector2(this.imageEdit.width / 2, this.imageEdit.height / 2);
+        this.setZoom(1);
+        this.zoom.offset = _zero.clone();
     }
 
     updateCursor() {
