@@ -53,7 +53,14 @@ function init() {
     );
 
     //Input init
-    input = new Input(canvas, body);
+    input = new Input(canvas, [
+        body,
+        $("btnChangeBoxL"),
+        $("btnChangeBoxR"),
+        $("btnFaceEdit"),
+        $("btnGroupFaceEdit"),
+        $("divFaceEdit"),
+    ]);
     window.onkeydown = input.processKeyDown.bind(input);
     window.onkeyup = input.processKeyUp.bind(input);
     window.onmousedown = input.processMouseDown.bind(input);

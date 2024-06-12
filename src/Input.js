@@ -1,9 +1,9 @@
 "use strict";
 
 class Input {
-    constructor(mouseTarget, keyTarget) {
+    constructor(mouseTarget, keyTargetList) {
         this.mouseTarget = mouseTarget;
-        this.keyTarget = keyTarget;
+        this.keyTargetList = [keyTargetList].flat(Infinity).filter(kt => kt);
 
         this.mouse = {
             move: new Delegate(),
@@ -146,6 +146,6 @@ class Input {
     verifyEvent(event) {
         return ["MouseEvent", "WheelEvent"].includes(event.constructor.name)
             && [event.target, event.target?.firstChild].includes(this.mouseTarget)
-            || event.constructor.name == "KeyboardEvent" && event.target === this.keyTarget;
+            || event.constructor.name == "KeyboardEvent" && (this.keyTargetList.includes(event.target) || this.keyTargetList.includes(event.target?.parentElement));
     }
 }
