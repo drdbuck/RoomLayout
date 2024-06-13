@@ -482,8 +482,8 @@ class Controller {
                 }
                 context.box = item;
                 context.grabInfo();
-                if (context.face >= 0 && !context.validFaceIndex()) {
-                    context.face = context.box.getValidFaceIndexes()[0];
+                if (context.face >= 0) {
+                    context.face = this.getFaceCloseToCamera(context.box);
                 }
                 //
                 //TODO: verify newly selected face is valid
