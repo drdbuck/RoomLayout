@@ -97,9 +97,13 @@ class SelectContext {
         let index = this.face;
         if (index == FACE_DEFAULT) {
             this.kitbash.defaultFace = imgURL;
+            //
+            this.kitbash.addFace(imgURL);
         }
         else if (this.box.validFaceIndex(index)) {
             this.box.setFace(index, imgURL);
+            //
+            this.kitbash.addFace(imgURL);
         }
         else if (index == FACE_NONE) {
             //do nothing
