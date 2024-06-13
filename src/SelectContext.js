@@ -62,6 +62,11 @@ class SelectContext {
         return this._face;
     }
     set face(value) {
+        if (!isNumber(value)) {
+            console.error("cannot set face to non-number value!", value);
+            return;
+        }
+        //
         this._face = value;
     }
 
