@@ -570,6 +570,23 @@ class Controller {
         updateFaceEditPanel();
     }
 
+    getFaceCloseToCamera(box) {
+        //early exit: no box
+        if (!box) {
+            return;
+        }
+        //
+        let boxpos = box.worldPosition.clone().add(new Vector3(0, box.height / 2, 0));
+        this.raycaster.set(
+            this.camera.position,
+            boxpos.clone().sub(this.camera.position).normalize()
+        );
+        let objects = this.raycaster.intersectObjects(this.scene.children);
+        return objects
+            .filter(o => o.object.box == box)[0]
+            .face.materialIndex;
+    }
+
     updateFaceSelection() {
         uiVars.selector.forEach(c => {
             updateFace(c.mesh, c.face, c.faceSelected);

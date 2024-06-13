@@ -543,9 +543,8 @@ function btnFaceEdit() {
         .forEach(c => {
             c.boxSelected = true;
             c.faceSelected = true;
-            if (!(c.face > 0)) {
-                c.face = c.box.getValidFaceIndexes()[0];
-            }
+            //select face
+            c.face = controllerEdit.getFaceCloseToCamera(c.box);
         });
     //show panel
     uiVars.viewPanelFace = true;
