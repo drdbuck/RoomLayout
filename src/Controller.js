@@ -254,6 +254,11 @@ class Controller {
                                 let alreadySelected = context.face == targetFace;
                                 if (alreadySelected) {
                                     uiVars.viewPanelFace = true;
+                                    
+                                    //make box invisible
+                                    context.mesh.visible = false;
+                                    context.mesh.userData.selectable = false;
+                                    context.mesh.insideMesh.userData.selectable = false;
                                 }
                                 else {
                                     //deselect all other faces
@@ -361,7 +366,7 @@ class Controller {
 
     isMeshSelectable(mesh, faceIndex, allowInvisible = false) {
         let material = mesh.material[faceIndex] ?? mesh.material;
-        return mesh.userData.selectable && (material.opacity > 0 || allowInvisible);
+        return mesh.userData.selectable && ((mesh.visible && material.opacity > 0) || allowInvisible);
     }
 
     selectObject(obj, add = false, face = FACE_NONE, selectGroups = true) {
