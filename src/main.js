@@ -328,6 +328,12 @@ function hookupDelegates() {
         if (!uiVars.selector.find(c => c.kitbash == context.kitbash)) {
             //hide face panel
             uiVars.viewPanelFace = false;
+            //show all invisible boxes
+            context.kitbash.items.forEach(box => {
+                let mesh = getBox(box);
+                mesh.visible = true;
+                mesh.insideMesh.visible = true;
+            })
         }
         //        
         updateFace(context.mesh, FACE_NONE, context.faceSelected);
