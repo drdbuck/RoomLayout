@@ -48,30 +48,35 @@ class Controller {
             return;
         }
         let moveDirection = _zero.clone();
+        let speed = 0;
         switch (event.keyCode) {
             case 87://W key
             case 38://Up Arrow
-                moveDirection.z -= 1;
+                moveDirection.z = 1;
+                speed = 1;
                 break;
             case 65://A key
             case 37://Left Arrow
-                moveDirection.x -= 1;
+                moveDirection.x = 1;
+                speed = -1;
                 break;
             case 83://S key
             case 40://Up Arrow
-                moveDirection.z += 1;
+                moveDirection.z = 1;
+                speed = -1;
                 break;
             case 68://D key
             case 39://Right Arrow
-                moveDirection.x += 1;
+                moveDirection.x = 1;
+                speed = 1;
                 break;
             default: break;
         }
         //if move the camera,
-        if (moveDirection.x != 0 || moveDirection.z != 0) {
-            
+        if (speed != 0) {
+
             //move the camera
-            this.moveCamera(moveDirection, this.speed);
+            this.moveCamera(moveDirection, speed * this.speed);
 
             //save position
             uiVars.view.position = this.camera.position;
@@ -81,11 +86,11 @@ class Controller {
     }
 
     moveCamera(direction, speed) {
-        let moveDirection = direction
-            .unproject(this.camera)
-            .sub(this.camera.position)
-            .setY(0)
-            .normalize();
+        //2024-06-13: copied from PointerLockControls.moveForward()
+        let moveDirection = new Vector3().setFromMatrixColumn(this.camera.matrix, 0);
+
+        moveDirection.crossVectors(_up, moveDirection);
+
         this.camera.position.addScaledVector(moveDirection, speed);
     }
 
