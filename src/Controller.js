@@ -257,8 +257,7 @@ class Controller {
                                     
                                     //make box invisible
                                     context.mesh.visible = false;
-                                    context.mesh.userData.selectable = false;
-                                    context.mesh.insideMesh.userData.selectable = false;
+                                    context.mesh.insideMesh.visible = false;
                                 }
                                 else {
                                     //deselect all other faces
