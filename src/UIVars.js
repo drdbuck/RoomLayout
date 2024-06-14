@@ -46,7 +46,7 @@ class UIVars {
         this._views = [];
         this._views[VIEW_OVERHEAD] = viewOverhead;
         this._views[VIEW_FIRSTPERSON] = viewImmersive;
-        this._viewId = VIEW_OVERHEAD;
+        this._viewId = VIEW_FIRSTPERSON;
         this._view = this._views[this._viewId];
         this.onViewIdChanged = new Delegate("viewId", "view");
 
