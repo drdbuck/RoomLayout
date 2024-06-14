@@ -284,12 +284,14 @@ class Controller {
                         else {
                             let context2 = this.getSelectContext(target.group);
                             if (context2?.stable) {
-                                uiVars.selector.deselect(context2);
+                                let newcontext = context2.clone();
                                 //select the box
-                                context2.box = target;
-                                context2.face = targetFace;
-                                context2.grabInfo();
-                                uiVars.selector.select(context2);
+                                newcontext.box = target;
+                                newcontext.face = targetFace;
+                                newcontext.grabInfo();
+                                uiVars.selector.select(newcontext);
+                                //deselect the other box
+                                uiVars.selector.deselect(context2);
                             }
                         }
                     }
