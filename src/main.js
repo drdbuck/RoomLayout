@@ -549,6 +549,7 @@ function registerKeyBindings(edit = inEditMode, play = !inEditMode) {
                 if (uiVars.viewInOverhead) {
                     switchMode(true);
                 }
+                player.animate();
                 e.preventDefault();
                 break;
         }
