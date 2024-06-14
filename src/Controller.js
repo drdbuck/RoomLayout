@@ -601,9 +601,14 @@ class Controller {
             boxpos.clone().sub(this.camera.position).normalize()
         );
         let objects = this.raycaster.intersectObjects(this.scene.children);
-        return objects
+        let face = objects
             .filter(o => o.object.box == box)[0]
             .face.materialIndex;
+        const validFaces = box.getValidFaceIndexes();
+        if (!validFaces.includes(face)) {
+            return validFaces[0];
+        }
+        return face;
     }
 
     updateFaceSelection() {
