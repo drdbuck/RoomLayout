@@ -157,6 +157,27 @@ class SelectContext {
             && this.uid_box == context.uid_box
             && this._face == context._face;
     }
+
+    clone(modFunc) {
+        let c = copyObject(this, stringifySelectContext, SelectContext.prototype);
+        //main selection
+        c.obj = this.obj;
+        c.box = this.box;
+        c.kitbash = this.kitbash;
+        //more info
+        c._boxSelected = this._boxSelected;
+        c._faceSelected = this._faceSelected;
+        c.face = this.face;
+        c.offset = this.offset.clone();
+        c.stable = this.stable;
+        //
+        if (modFunc) {
+            modFunc(newcontext);
+        }
+        //
+        c.grabInfo();
+        return c;
+    }
 }
 
 function inflateSelectContext(context, uiVars) {
