@@ -16,7 +16,7 @@ let stringifyUIVars = [
 const VIEW_OVERHEAD = 0;
 const VIEW_FIRSTPERSON = 1;
 const viewOverhead = new View(new Vector3(0, 10, 0), new Quaternion(-0.7, 0, 0, 0.7));
-const viewImmersive = new View(new Vector3(0, 5, 0), new Quaternion(0, 0, 0, 1));
+const viewImmersive = new View(new Vector3(0, 18, 10), new Quaternion(-0.5, 0, 0, 1));
 
 /**
  * Stores temporary variables that describe the current state of the UI
