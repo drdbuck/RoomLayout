@@ -86,10 +86,14 @@ class Controller {
     }
 
     moveCamera(direction, speed) {
+
+        direction.normalize();
+
         //2024-06-13: copied from PointerLockControls.moveForward()
         let moveDirection = new Vector3().setFromMatrixColumn(this.camera.matrix, 0);
-
-        moveDirection.crossVectors(_up, moveDirection);
+        if (direction.z != 0) {
+            moveDirection.crossVectors(_up, moveDirection);
+        }
 
         this.camera.position.addScaledVector(moveDirection, speed);
     }
