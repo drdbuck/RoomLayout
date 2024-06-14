@@ -47,37 +47,46 @@ class Controller {
             player.animate();
             return;
         }
-        let moveCamera = false;
+        let moveDirection = _zero.clone();
         switch (event.keyCode) {
             case 87://W key
             case 38://Up Arrow
-                this.camera.position.z -= this.speed;
-                moveCamera = true;
+                moveDirection.z -= 1;
                 break;
             case 65://A key
             case 37://Left Arrow
-                this.camera.position.x -= this.speed;
-                moveCamera = true;
+                moveDirection.x -= 1;
                 break;
             case 83://S key
             case 40://Up Arrow
-                this.camera.position.z += this.speed;
-                moveCamera = true;
+                moveDirection.z += 1;
                 break;
             case 68://D key
             case 39://Right Arrow
-                this.camera.position.x += this.speed;
-                moveCamera = true;
+                moveDirection.x += 1;
                 break;
             default: break;
         }
         //if move the camera,
-        if (moveCamera) {
+        if (moveDirection.x != 0 || moveDirection.z != 0) {
+            
+            //move the camera
+            this.moveCamera(moveDirection, this.speed);
+
             //save position
             uiVars.view.position = this.camera.position;
 
             player.animate();
         }
+    }
+
+    moveCamera(direction, speed) {
+        let moveDirection = direction
+            .unproject(this.camera)
+            .sub(this.camera.position)
+            .setY(0)
+            .normalize();
+        this.camera.position.addScaledVector(moveDirection, speed);
     }
 
     processMouseInput(event) {
