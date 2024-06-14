@@ -306,11 +306,12 @@ class Controller {
         }
         //Camera zoom
         else {
-            this.camera.position.y = Math.clamp(
-                this.camera.position.y + zoomDelta,
-                ZOOM_MIN,
-                ZOOM_MAX
-            );
+            //2024-06-13: copied from OrbitControls.updateZoomParameters() and OrbitControls.update()
+            let moveDirection = new Vector3(0, 0, 1)
+                .unproject(this.camera)
+                .sub(this.camera.position)
+                .normalize();
+            this.camera.position.addScaledVector(moveDirection, -zoomDelta);
         }
         player.animate();
     }
