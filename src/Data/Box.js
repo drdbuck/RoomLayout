@@ -6,6 +6,12 @@ let stringifyBox = [
     "_positionTop",
 ];
 
+const delegateListBox = [
+    "onFaceChanged",
+    "onScaleTopChanged",
+    "onPositionTopChanged",
+];
+
 const FACE_DEFAULT = -1;
 const FACE_NONE = -2;
 
@@ -250,11 +256,7 @@ function inflateBox(box) {
     let inflated = inflateObject(
         box,
         Box.prototype,
-        [
-            "onFaceChanged",
-            "onScaleTopChanged",
-            "onPositionTopChanged",
-        ]
+        delegateListBox
     );
     if (!inflated) { return; }
     inflateBlock(box);

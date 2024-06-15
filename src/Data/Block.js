@@ -9,6 +9,13 @@ let stringifyBlock = [
     "units",
 ];
 
+let delegateListBlock = [
+    "onSizeChanged",
+    "onPositionChanged",
+    "onAngleChanged",
+    "onReclineChanged",
+];
+
 class Block {
     constructor(scale) {
 
@@ -135,12 +142,7 @@ class Block {
  * Call this inside subtype inflate...() method
  */
 function inflateBlock(block) {
-    [
-        "onSizeChanged",
-        "onPositionChanged",
-        "onAngleChanged",
-        "onReclineChanged",
-    ]
+    delegateListBlock
         .forEach(delkey => block[delkey] = new Delegate());
 
     backwardsCompatifyBlock(block);
