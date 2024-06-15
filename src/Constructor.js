@@ -401,13 +401,7 @@ function constructBox(box) {
         }
     };
     let updateInsideMesh = () => {
-        let scale = box.worldScale;
-        //insideMesh should be visible when
-        insideMesh.visible =
-            //box is not a rectangle
-            (scale.x > 0 && scale.y > 0 && scale.z > 0)
-            //or has an invisible face
-            || box.getValidFaceIndexes().some(i => box.getFace(i) == PIXEL_TRANSPARENT);
+        insideMesh.visible = box.hasInside();
     };
 
 

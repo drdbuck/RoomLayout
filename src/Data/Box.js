@@ -218,6 +218,14 @@ class Box extends Block {
         return index == FACE_DEFAULT || between(index, 0, 6 - 1) && faceDimensions.x > 0 && faceDimensions.y > 0;//dirty: hardcoding 6-sided shape
     }
 
+    hasInside() {
+        return false
+            //box is not a rectangle
+            || (this.width > 0 && this.depth > 0 && this.height > 0)
+            //or has an invisible face
+            || this.getValidFaceIndexes().some(i => this.getFace(i) == PIXEL_TRANSPARENT);
+    }
+
     onScaleFactorChanged(scale) {
         this.onSizeChanged.run(this.scale);
     }
