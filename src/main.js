@@ -645,7 +645,7 @@ function updateFace(mesh, face, faceSelected) {
 function makeVisible(box, visible) {
     let mesh = getBox(box);
     mesh.visible = visible;
-    mesh.insideMesh.visible = visible;
+    mesh.insideMesh.visible = visible && box.hasInside();
     let boundingBox = getBoxBounds(box.group);
     if (visible) {
         let edge = player.scene.children.find(m => m.invisibleBox == box);
