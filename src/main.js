@@ -648,16 +648,19 @@ function makeVisible(box, visible) {
     let mesh = getBox(box);
     mesh.visible = visible;
     mesh.insideMesh.visible = visible;
+    let boundingBox = getBoxBounds(box.group);
     if (visible) {
         let edge = player.scene.children.find(m => m.invisibleBox == box);
         if (edge) {
-            player.scene.children.remove(edge);
+            boundingBox.children.remove(edge);
+            boundingBox.remove(edge);
         }
     }
     else {
         let edge = createEdgeHighlights(mesh, edgeMaterial3);
         edge.invisibleBox = box;
-        player.scene.children.push(edge);
+        boundingBox.children.push(edge);
+        boundingBox.attach(edge);
     }
     player.animate();
 }
