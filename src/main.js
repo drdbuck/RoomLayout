@@ -329,9 +329,7 @@ function hookupDelegates() {
             //hide face panel
             uiVars.viewPanelFace = false;
             //show all invisible boxes
-            context.kitbash.items.forEach(box => {
-            })
-                makeVisible(box, true);
+            context.kitbash.items.forEach(box => makeVisible(box, true));
         }
         //        
         updateFace(context.mesh, FACE_NONE, context.faceSelected);
