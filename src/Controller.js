@@ -52,8 +52,13 @@ class Controller {
         switch (event.keyCode) {
             case 87://W key
             case 38://Up Arrow
-                moveDirection.z = 1;
-                speed = 1;
+                this.camera.position.y = Math.clamp(
+                    this.camera.position.y + this.speed,
+                    ZOOM_MIN,
+                    ZOOM_MAX
+                );
+                uiVars.view.position = this.camera.position;
+                player.animate();
                 break;
             case 65://A key
             case 37://Left Arrow
@@ -61,9 +66,14 @@ class Controller {
                 speed = -1;
                 break;
             case 83://S key
-            case 40://Up Arrow
-                moveDirection.z = 1;
-                speed = -1;
+            case 40://Down Arrow
+                this.camera.position.y = Math.clamp(
+                    this.camera.position.y - this.speed,
+                    ZOOM_MIN,
+                    ZOOM_MAX
+                );
+                uiVars.view.position = this.camera.position;
+                player.animate();
                 break;
             case 68://D key
             case 39://Right Arrow
