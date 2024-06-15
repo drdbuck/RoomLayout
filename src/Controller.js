@@ -29,13 +29,16 @@ class Controller {
     }
 
     processInput(state, event) {
+        const ESC = 27;
+        const overrideESC = invisibleStack.length > 0;
+        const overrideKey = (event.keyCode == ESC && overrideESC);
         let key = menuKeys.find(key =>
             key.key.toLowerCase() == event.key.toLowerCase()
             && key.ctrl == event.ctrlKey
             && key.shift == event.shiftKey
             && key.alt == event.altKey
         );
-        if (key) {
+        if (key && !overrideKey) {
             //limit it to only calling action methods (for more security)
             if (!(/^action[a-zA-Z0-9]*\(\);$/.test(key.action))) { return; }
             //call the action method
@@ -50,6 +53,20 @@ class Controller {
         let moveDirection = _zero.clone();
         let speed = 0;
         switch (event.keyCode) {
+            //esc key
+            case ESC:
+                let box = invisibleStack.at(-1);
+                if (box) {
+                    makeVisible(box, true);
+                    //select box
+                    let context = uiVars.selector.find(c => c.kitbash == box.group);
+                    let newContext = context.clone();
+                    newContext.box = box;
+                    newContext.grabInfo();
+                    uiVars.selector.select(newContext);
+                    uiVars.selector.deselect(context);
+                }
+                break;
             case 87://W key
             case 38://Up Arrow
                 this.camera.position.y = Math.clamp(

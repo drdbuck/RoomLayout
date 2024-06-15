@@ -642,6 +642,7 @@ function updateFace(mesh, face, faceSelected) {
     }
 }
 
+let invisibleStack = [];
 function makeVisible(box, visible) {
     let mesh = getBox(box);
     mesh.visible = visible;
@@ -661,6 +662,8 @@ function makeVisible(box, visible) {
                 .flat(Infinity)
                 .forEach(delKey => box[delKey].remove(_listenForEdits));
         }
+        //remove from stack
+        invisibleStack.remove(box);
     }
     else {
         let edge = createEdgeHighlights(mesh, edgeMaterial3);
@@ -678,6 +681,8 @@ function makeVisible(box, visible) {
         ]
             .flat(Infinity)
             .forEach(delKey => box[delKey].add(_listenForEdits));
+        //add to stack
+        invisibleStack.push(box);
     }
     player.animate();
 }
