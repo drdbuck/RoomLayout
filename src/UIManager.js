@@ -733,7 +733,7 @@ function btnFaceImport() {
             el.files,
             () => {
                 uiVars.highlightSelectedFace = false;
-                controllerEdit.reset();
+                controllerImageEdit.reset();
                 updateFaceEditPanel();
                 player.animate();
                 //record undo
