@@ -652,6 +652,14 @@ function makeVisible(box, visible) {
         if (edge) {
             boundingBox.children.remove(edge);
             boundingBox.remove(edge);
+            //unregister edit listner
+            let _listenForEdits = edge.listener;
+            [
+                delegateListBlock,
+                delegateListBox,
+            ]
+                .flat(Infinity)
+                .forEach(delKey => box[delKey].remove(_listenForEdits));
         }
     }
     else {
@@ -659,6 +667,17 @@ function makeVisible(box, visible) {
         edge.invisibleBox = box;
         boundingBox.children.push(edge);
         boundingBox.attach(edge);
+        //listen for edits to make box visible again
+        let _listenForEdits = () => {
+            makeVisible(box, true);
+        }
+        edge.listener = _listenForEdits;
+        [
+            delegateListBlock,
+            delegateListBox,
+        ]
+            .flat(Infinity)
+            .forEach(delKey => box[delKey].add(_listenForEdits));
     }
     player.animate();
 }
