@@ -485,10 +485,10 @@ function updateFaceEditPanel() {
     }
     $("divImageEdit").hidden = !showFaceEdit;
     $("btnPanelFaceEdit").hidden = !usingImage;
-    $("btnFaceReset").hidden = !(!usingImage && _contexts.some(c => c.Face == PIXEL_TRANSPARENT)
+    $("btnFaceReset").disabled = !(!usingImage && _contexts.some(c => c.Face == PIXEL_TRANSPARENT)
         || usingImage
     );//dirty: _contexts
-    $("btnFaceClear").hidden = !(!usingImage && _contexts.some(c => c.face > 0 && c.Face != PIXEL_TRANSPARENT)
+    $("btnFaceClear").disabled = !(!usingImage && _contexts.some(c => c.face > 0 && c.Face != PIXEL_TRANSPARENT)
         || usingImage && _contexts.find(c => c.validFaceIndex())?.face >= 0
     );//dirty: _contexts
     $("btnFaceImport").hidden = !!usingImage;

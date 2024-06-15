@@ -223,6 +223,16 @@ canvas {
     background-color: rgb(255, 190, 190) !important;
 }
 
+.dangerous:disabled {
+    color: rgb(173, 130, 130) !important;
+    border-color: rgb(173, 130, 130) !important;
+}
+.dangerous:disabled:hover {
+    color: rgb(173, 130, 130) !important;
+    border-color: rgb(173, 130, 130) !important;
+    background-color: #555555 !important;
+}
+
 .exitButton {
     color: white;
     position: absolute;
