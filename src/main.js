@@ -648,7 +648,7 @@ function makeVisible(box, visible) {
     mesh.insideMesh.visible = visible && box.hasInside();
     let boundingBox = getBoxBounds(box.group);
     if (visible) {
-        let edge = player.scene.children.find(m => m.invisibleBox == box);
+        let edge = boundingBox.children.find(m => m.invisibleBox == box);
         if (edge) {
             boundingBox.children.remove(edge);
             boundingBox.remove(edge);
