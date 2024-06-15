@@ -330,10 +330,8 @@ function hookupDelegates() {
             uiVars.viewPanelFace = false;
             //show all invisible boxes
             context.kitbash.items.forEach(box => {
-                let mesh = getBox(box);
-                mesh.visible = true;
-                mesh.insideMesh.visible = true;
             })
+                makeVisible(box, true);
         }
         //        
         updateFace(context.mesh, FACE_NONE, context.faceSelected);
@@ -644,6 +642,24 @@ function updateFace(mesh, face, faceSelected) {
         selectBack.visible = true;
         edge.renderOrder = 999;
     }
+}
+
+function makeVisible(box, visible) {
+    let mesh = getBox(box);
+    mesh.visible = visible;
+    mesh.insideMesh.visible = visible;
+    if (visible) {
+        let edge = player.scene.children.find(m => m.invisibleBox == box);
+        if (edge) {
+            player.scene.children.remove(edge);
+        }
+    }
+    else {
+        let edge = createEdgeHighlights(mesh, edgeMaterial3);
+        edge.invisibleBox = box;
+        player.scene.children.push(edge);
+    }
+    player.animate();
 }
 
 function createMaterials(imageURLs = [PIXEL_WHITE], mincount = 6, defaultImageURL = undefined, front = true) {

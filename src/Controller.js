@@ -266,8 +266,7 @@ class Controller {
                                     uiVars.viewPanelFace = true;
                                     
                                     //make box invisible
-                                    context.mesh.visible = false;
-                                    context.mesh.insideMesh.visible = false;
+                                    makeVisible(context.box, false);
                                 }
                                 else {
                                     //deselect all other faces
