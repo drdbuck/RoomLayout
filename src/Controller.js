@@ -507,7 +507,7 @@ class Controller {
         let mouseWorld = this.getMouseWorld(this.mouse);
         uiVars.selector.forEach(context => {
             let select = context.obj;
-            let origPos = new Vector3(select.worldPosition);
+            let origPos = new Vector3(convertUnits(select.worldPosition, select.units, UNITS_FEET));
             let offset = origPos.sub(mouseWorld);
             context.offset.copy(offset);
         });
@@ -667,7 +667,7 @@ class Controller {
             let item = context.obj;
             pos.copy(mouseWorld);
             pos = pos.add(context.offset);
-            this.setBoxPositionWorld(item, pos);
+            this.setBoxPositionWorld(item, convertUnits(pos, UNITS_FEET, item.units));
         });
     }
 
