@@ -137,7 +137,7 @@ canvas {
 
 .popupPanel button:disabled {
     color: #aaaaaa;
-    background-color: #555555;
+    background-color: #1a1a1a;
     border: 2px solid #aaaaaa;
 }
 
@@ -230,7 +230,7 @@ canvas {
 .dangerous:disabled:hover {
     color: rgb(173, 130, 130) !important;
     border-color: rgb(173, 130, 130) !important;
-    background-color: #555555 !important;
+    background-color: #1a1a1a !important;
 }
 
 .exitButton {
