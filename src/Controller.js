@@ -676,16 +676,18 @@ class Controller {
     }
 
     setBoxPosition(box, position) {
-        let min = box.room.min;
-        let max = box.room.max;
+        let room = box.room;
+        let min = convertUnits(room.min, room.units, box.units);
+        let max = convertUnits(room.max, room.units, box.units);
         position.x = Math.clamp(position.x, min.x, max.x);
         position.z = Math.clamp(position.z, min.z, max.z);
         // position.z = -Math.clamp(position.z, min.z, max.z);
         box.position = position;
     }
     setBoxPositionWorld(box, worldPos) {
-        let min = box.room.min;
-        let max = box.room.max;
+        let room = box.room;
+        let min = convertUnits(room.min, room.units, box.units);
+        let max = convertUnits(room.max, room.units, box.units);
         worldPos.x = Math.clamp(worldPos.x, min.x, max.x);
         worldPos.z = Math.clamp(worldPos.z, min.z, max.z);
         // worldPos.z = -Math.clamp(worldPos.z, min.z, max.z);
@@ -693,10 +695,11 @@ class Controller {
     }
 
     setBoxAltitude(box, altitude) {
+        let room = box.room;
         box.altitude = Math.clamp(
             altitude,
-            box.room.min.y,
-            box.room.max.y - box.height
+            convertUnits(room.min.y, room.units, box.units),
+            convertUnits(room.max.y, room.units, box.units) - box.height
         );
     }
 
