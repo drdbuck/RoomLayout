@@ -7,6 +7,7 @@ let stringifyUIVars = [
     "_viewPanelFace",
     "_viewPanelFaceEdit",
     "_highlightSelectedFace",
+    "_units",
     "_viewId",
     "_views",
     //
@@ -41,6 +42,10 @@ class UIVars {
 
         this._highlightSelectedFace = false;
         this.onHighlightSelectedFaceChanged = new Delegate("highSelectedFace");
+
+        //Units
+        this._units = UNITS_FEET;
+        this.onUnitsChanged = new Delegate("units");
 
         //View
         this._views = [];
@@ -143,6 +148,14 @@ class UIVars {
         //
         this._highlightSelectedFace = value;
         this.onHighlightSelectedFaceChanged.run(this._highlightSelectedFace);
+    }
+
+    get units() {
+        return this._units;
+    }
+    set units(value) {
+        this._units = value;
+        this.onUnitsChanged.run(this._units);
     }
 
     get view() {
@@ -251,6 +264,7 @@ function inflateUIVars(uiVars) {
             "onViewPanelFaceChanged",
             "onViewPanelFaceEditChanged",
             "onHighlightSelectedFaceChanged",
+            "onUnitsChanged",
             "onViewIdChanged",
         ]
     );
