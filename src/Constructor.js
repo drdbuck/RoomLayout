@@ -337,7 +337,7 @@ function constructBox(box) {
 
     //update functions
     let updatePosition = (pos) => {
-        mesh.position.copy(pos);
+        mesh.position.copy(convertToFeet(pos, box));
     };
     let updateScale = (scale) => {
         let newgeom = createGeometry(box);
@@ -413,19 +413,19 @@ function constructBox(box) {
 
     //delegates
     box.onSizeChanged.add(() => {
-        updateScale(box.worldScale);
-        updatePosition(box.worldPosition);
+        updateScale(convertToFeet(box.worldScale, box));
+        updatePosition(convertToFeet(box.worldPosition, box));
     });
     box.onScaleTopChanged.add(() => {
-        updateScale(box.worldScale);
+        updateScale(convertToFeet(box.worldScale, box));
     });
     box.onPositionTopChanged.add(() => {
-        updateScale(box.worldScale);
+        updateScale(convertToFeet(box.worldScale, box));
     });
-    box.onPositionChanged.add(() => updatePosition(box.worldPosition));
+    box.onPositionChanged.add(() => updatePosition(convertToFeet(box.worldPosition, box)));
     box.onAngleChanged.add(() => {
         updateRotation(box.worldAngle, box.recline);
-        updatePosition(box.worldPosition);
+        updatePosition(convertToFeet(box.worldPosition, box));
     });
     box.onReclineChanged.add(() => updateRotation(box.worldAngle, box.recline));
     box.onFaceChanged.add(updateFace);
@@ -452,11 +452,36 @@ function constructBox(box) {
     selectBack.position.copy(_zero);
 
     //init with update functions
-    updatePosition(box.worldPosition);
-    updateScale(box.worldScale);
+    updatePosition(convertToFeet(box.worldPosition, box));
+    updateScale(convertToFeet(box.worldScale, box));
     updateRotation(box.worldAngle, box.recline);
 
     return mesh;
+}
+
+function convertToFeet(distance, box) {
+    let fromUnits = box.units;
+    if (distance.isVector3) {
+        let v = distance;
+        return new Vector3(
+            convertUnits(v.x, fromUnits, UNITS_FEET),
+            convertUnits(v.y, fromUnits, UNITS_FEET),            
+            convertUnits(v.z, fromUnits, UNITS_FEET)
+        )
+    }
+    return convertUnits(distance, fromUnits, UNITS_FEET);
+}
+function convertFromFeet(distance, box) {
+    let toUnits = box.units;
+    if (distance.isVector3) {
+        let v = distance;
+        return new Vector3(
+            convertUnits(v.x, UNITS_FEET, toUnits),
+            convertUnits(v.y, UNITS_FEET, toUnits),            
+            convertUnits(v.z, UNITS_FEET, toUnits)
+        )
+    }
+    return convertUnits(distance, UNITS_FEET, toUnits);
 }
 
 function createGeometry(box) {
@@ -466,8 +491,8 @@ function createGeometry(box) {
 
     //create base points
     const minSize = 0.01;
-    const width = Math.max(box.width, minSize);
-    const depth = Math.max(box.depth, minSize);
+    const width = Math.max(convertToFeet(box.width, box), minSize);
+    const depth = Math.max(convertToFeet(box.depth, box), minSize);
     const w2 = width / 2;
     const d2 = depth / 2;
     let v0 = new Vector3(-w2, 0, -d2);
@@ -475,10 +500,10 @@ function createGeometry(box) {
     let v2 = new Vector3(w2, 0, d2);
     let v3 = new Vector3(-w2, 0, d2);
     //create top points
-    const posTop = box.positionTop.clone().setY(0);
-    const height = box.height;
-    const widthTop = Math.max(box.widthTop, minSize);
-    const depthTop = Math.max(box.depthTop, minSize);
+    const posTop = convertToFeet(box.positionTop, box).setY(0);
+    const height = convertToFeet(box.height, box);
+    const widthTop = Math.max(convertToFeet(box.widthTop, box), minSize);
+    const depthTop = Math.max(convertToFeet(box.depthTop, box), minSize);
     const wt2 = widthTop / 2;
     const dt2 = depthTop / 2;
     let v4 = new Vector3(-wt2, height, -dt2).add(posTop);
