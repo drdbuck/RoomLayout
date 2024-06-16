@@ -666,6 +666,7 @@ function makeVisible(box, visible) {
         invisibleStack.remove(box);
     }
     else {
+        //make it invivisble
         let edge = createEdgeHighlights(mesh, edgeMaterial3);
         edge.invisibleBox = box;
         boundingBox.children.push(edge);
@@ -681,6 +682,12 @@ function makeVisible(box, visible) {
         ]
             .flat(Infinity)
             .forEach(delKey => box[delKey].add(_listenForEdits));
+        //deselect face
+        let context = uiVars.selector.find(c => c.box == box);
+        if (context) {
+            context.faceSelected = false;
+            uiVars.viewPanelFace = false;
+        }
         //add to stack
         invisibleStack.push(box);
     }
