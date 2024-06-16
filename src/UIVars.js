@@ -44,7 +44,7 @@ class UIVars {
         this.onHighlightSelectedFaceChanged = new Delegate("highSelectedFace");
 
         //Units
-        this._units = UNITS_FEET;
+        this._units = UNITS_INCHES;
         this.onUnitsChanged = new Delegate("units");
 
         //View
