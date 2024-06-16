@@ -288,13 +288,13 @@ function constructKitBash(kitbash) {
 
     //delegates
     kitbash.onSizeChanged.add(() => {
-        updateScale(convertToFeet(kitbash.scale, kitbash));
-        updatePosition(convertToFeet(kitbash.position, kitbash));
+        updateScale(kitbash.scale);
+        updatePosition(kitbash.position);
     });
-    kitbash.onPositionChanged.add(() => updatePosition(convertToFeet(kitbash.position, kitbash)));
+    kitbash.onPositionChanged.add(() => updatePosition(kitbash.position));
     kitbash.onAngleChanged.add(() => {
         updateRotation(kitbash.angle);
-        updatePosition(convertToFeet(kitbash.position, kitbash));
+        updatePosition(kitbash.position);
     });
     kitbash.onItemAdded.add(() => updateFace(kitbash.count > 0));
     kitbash.onItemRemoved.add(() => updateFace(kitbash.count > 0));
@@ -307,9 +307,9 @@ function constructKitBash(kitbash) {
     edge.position.copy(_zero);
 
     //init with update functions
-    updateScale(convertToFeet(kitbash.scale, kitbash));
+    updateScale(kitbash.scale,);
     updateRotation(kitbash.angle);
-    updatePosition(convertToFeet(kitbash.position, kitbash));
+    updatePosition(kitbash.position);
     updateFace(kitbash.count > 0, true);
 
     return mesh;
@@ -340,6 +340,7 @@ function constructBox(box) {
         mesh.position.copy(convertToFeet(pos, box));
     };
     let updateScale = (scale) => {
+        // let scale = convertToFeet(scale, box);
         let newgeom = createGeometry(box);
         mesh.geometry.setAttribute('position', newgeom.attributes.position);
         mesh.geometry.setAttribute('uv', newgeom.attributes.uv);
@@ -413,19 +414,19 @@ function constructBox(box) {
 
     //delegates
     box.onSizeChanged.add(() => {
-        updateScale(convertToFeet(box.worldScale, box));
-        updatePosition(convertToFeet(box.worldPosition, box));
+        updateScale(box.worldScale);
+        updatePosition(box.worldPosition);
     });
     box.onScaleTopChanged.add(() => {
-        updateScale(convertToFeet(box.worldScale, box));
+        updateScale(box.worldScale);
     });
     box.onPositionTopChanged.add(() => {
-        updateScale(convertToFeet(box.worldScale, box));
+        updateScale(box.worldScale);
     });
-    box.onPositionChanged.add(() => updatePosition(convertToFeet(box.worldPosition, box)));
+    box.onPositionChanged.add(() => updatePosition(box.worldPosition));
     box.onAngleChanged.add(() => {
         updateRotation(box.worldAngle, box.recline);
-        updatePosition(convertToFeet(box.worldPosition, box));
+        updatePosition(box.worldPosition);
     });
     box.onReclineChanged.add(() => updateRotation(box.worldAngle, box.recline));
     box.onFaceChanged.add(updateFace);
@@ -452,8 +453,8 @@ function constructBox(box) {
     selectBack.position.copy(_zero);
 
     //init with update functions
-    updatePosition(convertToFeet(box.worldPosition, box));
-    updateScale(convertToFeet(box.worldScale, box));
+    updatePosition(box.worldPosition);
+    updateScale(box.worldScale);
     updateRotation(box.worldAngle, box.recline);
 
     return mesh;
