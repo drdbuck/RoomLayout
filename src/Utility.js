@@ -345,6 +345,15 @@ const unitConversionTable = {
 }
 
 function convertUnits(value, fromUnits, toUnits) {
+    //handle vector input
+    if (value.isVector3) {
+        return new Vector3(
+            convertUnits(value.x, fromUnits, toUnits),
+            convertUnits(value.y, fromUnits, toUnits),
+            convertUnits(value.z, fromUnits, toUnits),
+        )
+    }
+    //
     if (value == 0) {
         return value;
     }
