@@ -250,11 +250,11 @@ function constructKitBash(kitbash) {
 
     //update functions
     let updatePosition = (pos) => {
-        mesh.position.copy(pos);
+        mesh.position.copy(convertToFeet(pos, kitbash));
         mesh.position.y += mesh.scale.y / 2;
     };
     let updateScale = (scale) => {
-        mesh.scale.copy(scale);
+        mesh.scale.copy(convertToFeet(scale, kitbash));
         //need to make it small but nonzero so it can be detected by raycast
         let minFunc = (dim) => Math.max(dim, 0.0001);
         mesh.scale.x = minFunc(mesh.scale.x);
@@ -288,13 +288,13 @@ function constructKitBash(kitbash) {
 
     //delegates
     kitbash.onSizeChanged.add(() => {
-        updateScale(kitbash.scale);
-        updatePosition(kitbash.position);
+        updateScale(convertToFeet(kitbash.scale, kitbash));
+        updatePosition(convertToFeet(kitbash.position, kitbash));
     });
-    kitbash.onPositionChanged.add(() => updatePosition(kitbash.position));
+    kitbash.onPositionChanged.add(() => updatePosition(convertToFeet(kitbash.position, kitbash)));
     kitbash.onAngleChanged.add(() => {
         updateRotation(kitbash.angle);
-        updatePosition(kitbash.position);
+        updatePosition(convertToFeet(kitbash.position, kitbash));
     });
     kitbash.onItemAdded.add(() => updateFace(kitbash.count > 0));
     kitbash.onItemRemoved.add(() => updateFace(kitbash.count > 0));
@@ -307,9 +307,9 @@ function constructKitBash(kitbash) {
     edge.position.copy(_zero);
 
     //init with update functions
-    updateScale(kitbash.scale);
+    updateScale(convertToFeet(kitbash.scale, kitbash));
     updateRotation(kitbash.angle);
-    updatePosition(kitbash.position);
+    updatePosition(convertToFeet(kitbash.position, kitbash));
     updateFace(kitbash.count > 0, true);
 
     return mesh;
@@ -459,8 +459,8 @@ function constructBox(box) {
     return mesh;
 }
 
-function convertToFeet(distance, box) {
-    let fromUnits = box.units;
+function convertToFeet(distance, block) {
+    let fromUnits = block.units;
     if (distance.isVector3) {
         let v = distance;
         return new Vector3(
@@ -471,8 +471,8 @@ function convertToFeet(distance, box) {
     }
     return convertUnits(distance, fromUnits, UNITS_FEET);
 }
-function convertFromFeet(distance, box) {
-    let toUnits = box.units;
+function convertFromFeet(distance, block) {
+    let toUnits = block.units;
     if (distance.isVector3) {
         let v = distance;
         return new Vector3(
