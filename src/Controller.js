@@ -271,8 +271,14 @@ class Controller {
                             }
                             //select face
                             else if (!context.faceSelected) {
+                                if (invisibleStack.length == 0) {
                                 context.faceSelected = true;
                                 uiVars.selector.callDelegates();//TODO: setup delegates for listening to boxselected and faceselected
+                                }
+                                else {
+                                    //make box invisible
+                                    makeVisible(context.box, false);
+                                }
                             }
                             //select other box/face
                             else {
