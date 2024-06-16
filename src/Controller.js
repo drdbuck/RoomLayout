@@ -345,7 +345,7 @@ class Controller {
         if (state.mouse.lmbDown || event.altKey) {
             uiVars.selector.forEach(c => {
                 let box = c.obj;
-                this.setBoxAltitude(box, box.altitude + zoomDelta);
+                this.setBoxAltitude(box, box.altitude + convertUnits(zoomDelta, UNITS_FEET, box.units));
             });
             // //record undo
             // undoMan.recordUndo("change object altitude");
