@@ -269,6 +269,8 @@ function inflateUIVars(uiVars) {
         ]
     );
 
+    backwardsCompatifyUIVars(uiVars);
+
     uiVars._views.forEach(view => {
         inflateView(view);
     });
@@ -283,4 +285,9 @@ function getDataStringifyUIVars() {
         stringifyVector3,
         stringifySelectContext,
     ].flat();
+}
+
+function backwardsCompatifyUIVars(uiVars) {
+    //Change: #32 add unit options
+    uiVars._units ??= UNITS_INCHES;
 }
