@@ -53,7 +53,7 @@ function initUI() {
             let value = undefined;
             if (float) {
                 if (allowFootNotation) {
-                    value = parseFootInchInput(rawvalue);
+                    value = parseFootInchInput(rawvalue, uiVars.units);
                 }
                 value ??= parseFloatInput(rawvalue);
             }
@@ -104,7 +104,7 @@ function initUI() {
                     prevValue = rawvalue;
                     txtChanged = true;
                 }
-                let dimensions = parseDimensions(rawvalue, 1);
+                let dimensions = parseDimensions(rawvalue, 1, uiVars.units);
                 dimensions[obj.symbol] ??= dimensions.any;
                 dimensions.any = undefined;
                 _changeFunc(dimensions);
