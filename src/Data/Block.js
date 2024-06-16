@@ -22,7 +22,7 @@ class Block {
         this._name = "";
 
         this._scale = scale ?? _one.clone();
-        this.units = "feet";
+        this.units = UNITS_FEET;
 
         this._position = new Vector3();
 

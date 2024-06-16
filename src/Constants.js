@@ -18,3 +18,9 @@ const CURSOR_RESIZE_VERTICAL = "n-resize";
 const CURSOR_RESIZE_HORIZONTAL = "e-resize";
 const CURSOR_RESIZE_DIAGONAL_LEFT = "nw-resize";
 const CURSOR_RESIZE_DIAGONAL_RIGHT = "ne-resize";
+
+//Units
+const UNITS_FEET = "feet";
+const UNITS_INCHES = "inches";
+const UNITS_METERS = "meters";
+const UNITS_CENTIMETERS = "centimeters";
