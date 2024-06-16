@@ -335,6 +335,30 @@ function validateIndexBounds(value, max, name) {
     return true;
 }
 
+const unitConversionTable = {
+    "feet": {
+        "inches": 12,
+    },
+    "inches": {
+        "feet": 1/12,
+    }
+}
+
+function convertUnits(value, fromUnits, toUnits) {
+    if (value == 0) {
+        return value;
+    }
+    if (fromUnits == toUnits) {
+        return value;
+    }
+    let newValue = value * unitConversionTable[fromUnits][toUnits];
+    if (!isNumber(newValue)) {
+        console.error("unable to convert", value, "from", fromUnits, "to", toUnits);
+        return value;
+    }
+    return newValue;
+}
+
 const REGEXP_FLOAT = new RegExp("-?(([0-9]+.?[0-9]*)|([0-9]*.?[0-9]+))", "g");
 function regtest(value) {
     //log("regexp test", REGEXP_FLOAT.test(value));
