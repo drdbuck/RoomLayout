@@ -386,11 +386,11 @@ function cleanInput(value, regexp = REGEXP_FLOAT) {
     return parts.map(a => a[0]).join("");
 }
 
-function parseNumber(txt) {
+function parseNumber(txt, units) {
     if (!isString(txt)) {
         return txt;
     }
-    return parseFootInchInput(txt) ?? parseFloatInput(txt);
+    return parseFootInchInput(txt, units) ?? parseFloatInput(txt);
 }
 
 function parseFloatInput(txt) {
@@ -405,7 +405,7 @@ function parseFloatInput(txt) {
     return f;
 }
 
-function parseFootInchInput(txt) {
+function parseFootInchInput(txt, units = UNITS_FEET) {
     //style: 6'2"
     let unitInches = ["''", "\""];
     let unitFeet = ["'"];
@@ -421,23 +421,23 @@ function parseFootInchInput(txt) {
         if (str.endsWith("\"")) {
             str = str.substring(0, str.length - 1);
             f ??= 0;
-            f += parseFloat(str) / 12;
+            f += convertUnits(parseFloat(str), UNITS_INCHES, units);
             return;
         }
         if (str.endsWith("''")) {
             str = str.substring(0, str.length - 2);
             f ??= 0;
-            f += parseFloat(str) / 12;
+            f += convertUnits(parseFloat(str), UNITS_INCHES, units);
             return;
         }
         //feet
         if (str.endsWith("'")) {
             str = str.substring(0, str.length - 1);
             f ??= 0;
-            f += parseFloat(str);
+            f += convertUnits(parseFloat(str), UNITS_FEET, units);
             return;
         }
-        //no recognized given units, assume feet
+        //no recognized given units, assume given default units
         let f0 = parseFloatInput(str);
         if (f0 != undefined) {
             f ??= 0;
@@ -472,7 +472,7 @@ function _parseFootInchInput(txt, foot, inch) {
  * @param {number} zerosAllowed How many of the dimensions are allowed to be zero
  * @returns An object like {w:6.17, h:6, d:2, any:1}
  */
-function parseDimensions(txt, zerosAllowed = 0) {
+function parseDimensions(txt, zerosAllowed = 0, units = UNITS_FEET) {
     const dimkeys = ["w", "h", "d"];
     //pre-format the txt
     txt = txt.toLowerCase();
@@ -490,7 +490,7 @@ function parseDimensions(txt, zerosAllowed = 0) {
         let f = parseFloatInput(token);
         if (f != undefined) {
             lastMeasurement ??= 0;
-            lastMeasurement += parseFootInchInput(token);
+            lastMeasurement += parseFootInchInput(token, units);
         }
         //dimension
         else {
