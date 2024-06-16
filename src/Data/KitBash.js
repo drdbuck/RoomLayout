@@ -21,6 +21,8 @@ class KitBash extends Block {
         this._scaleFactor = 1;
         this._faces = [this._defaultFace].filter(url => isValidImage(url));
 
+        this.units = UNITS_INCHES;
+
         //Delegates
         this.onItemAdded = new Delegate("item");
         this.onItemRemoved = new Delegate("item");

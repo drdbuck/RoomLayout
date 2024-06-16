@@ -24,6 +24,8 @@ class Box extends Block {
 
         this._faces = [];
 
+        this.units = UNITS_INCHES;
+
         this.onScaleTopChanged = new Delegate("scaleTop");
         this.onPositionTopChanged = new Delegate("positionTop");
         this.onFaceChanged = new Delegate("index", "imageURL");
