@@ -328,6 +328,7 @@ function registerUIDelegates(context, register) {
     let group = context.kitbash;
     if (group) {
         [
+            group.onSizeChanged,
             group.onPositionChanged,
             group.onAngleChanged,
         ]
