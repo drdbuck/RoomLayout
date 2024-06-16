@@ -155,20 +155,6 @@ class KitBash extends Block {
     }
 
     //Position
-    get altitude() {
-        return this._items.min(f => f.altitude);
-    }
-    set altitude(value) {
-        const prev = this.altitude;
-        const offset = value - prev;
-        this._items.forEach(item => {
-            let newPos = item.position.clone();
-            newPos.y += offset;
-            item.position = newPos;
-        });
-        //delegate
-        super.altitude = value;
-    }
 
     //Rotation
 
