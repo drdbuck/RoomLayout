@@ -348,13 +348,17 @@ function hookupDelegates() {
     uiVars.onEditBoxesChanged.add(updateAllPanels);
     uiVars.onViewPanelFaceChanged.add((viewPanelFace) => {
         uiVars.highlightSelectedFace = viewPanelFace;
+        uiVars.selector.forEach(c => {
+            c.faceSelected = viewPanelFace;
+            updateFace(c.mesh, c.face, c.faceSelected);
+        });
         if (!viewPanelFace) {
-            uiVars.selector.forEach(c => c.faceSelected = false);
             uiVars.viewPanelFaceEdit = false;
             controllerImageEdit.reset();
         }
         //update face edit panel
         updateFaceEditPanel();
+        player.animate();
     });
     uiVars.onViewPanelFaceEditChanged.add((viewPanelFaceEdit) => {
         if (viewPanelFaceEdit && !uiVars.viewPanelFace) {
