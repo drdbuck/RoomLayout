@@ -270,7 +270,6 @@ function hookupDelegates() {
         uiVars.viewPanelFace = faces.length > 0 && faces.some(f => f > FACE_NONE) && uiVars.selector.some(c => c.faceSelected);
         // if (uiVars.viewPanelFace) {
         uiVars.viewPanelFaceEdit = false;
-        updateFaceEditPanel();
         uiVars.highlightSelectedFace = true;
         player.animate();
     });

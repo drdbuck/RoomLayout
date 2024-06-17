@@ -618,7 +618,6 @@ class Controller {
         });
         this.updateFaceSelection();
         this.runFaceDelegate();
-        updateFaceEditPanel();
     }
 
     getFaceCloseToCamera(box) {
