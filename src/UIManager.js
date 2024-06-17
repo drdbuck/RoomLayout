@@ -28,6 +28,9 @@ const updateFunc = (id, list, func, float = true) => {
     }
     txt.value = value ?? inequal;
 };
+const lblDropFace = "<label>Drop face image here</label>";
+let workerSuggestionGallery;
+let stringifySuggestionGallery;
 
 function initUI() {
 
@@ -184,6 +187,36 @@ function initUI() {
     );
     onChangeFunc("txtPosXTop", flistfunc, (f, v) => f.positionTop = f.positionTop.setX(v));
     onChangeFunc("txtPosYTop", flistfunc, (f, v) => f.positionTop = f.positionTop.setZ(v));
+
+    //Suggestion Gallery Worker
+    workerSuggestionGallery = new Worker("/src/Workers/SuggestionGallery.js");
+    workerSuggestionGallery.onmessage = (event) => {
+        let suggestList = event.data;
+        let suggestStr = suggestList
+        .filter(url=>isValidImage(url))
+        //convert to html img element
+        //uiVars.selector.forEach(c => c.Face = url);
+        .map(url => `<img src='${url}' class="selectableImage"
+            onclick="btnUseSuggestedImage(this.src);"
+        />`)
+        //merge into single string
+        .join("");
+    let divSuggest = (suggestStr)
+        ? `Suggested Images:<br>${suggestStr}`
+        : "";
+    //
+    let divhtml = lblDropFace + divSuggest;
+    $("divFaceDrop").innerHTML = divhtml;
+    };
+    stringifySuggestionGallery = [
+        getDataStringify(),
+        stringifyUndo,
+        stringifySelectContext,
+        "obj",
+        "box",
+        "kitbash",
+    ]
+        .flat(Infinity);
 
 }
 
@@ -426,35 +459,9 @@ function updateFaceEditPanel() {
         //
 
         //make html img elements from suggested
-        let worker = new Worker("/src/Workers/SuggestionGallery.js");
-        worker.onmessage = (event) => {
-            let suggestList = event.data;
-            let suggestStr = suggestList
-            .filter(url=>isValidImage(url))
-            //convert to html img element
-            //uiVars.selector.forEach(c => c.Face = url);
-            .map(url => `<img src='${url}' class="selectableImage"
-                onclick="btnUseSuggestedImage(this.src);"
-            />`)
-            //merge into single string
-            .join("");
-        divSuggest = (suggestStr)
-            ? `Suggested Images:<br>${suggestStr}`
-            : divSuggest = "";
-        //
-        divhtml = lblDropFace + divSuggest;
-        $("divFaceDrop").innerHTML = divhtml;
-        };
-        let stringify = [
-            getDataStringify(),
-            stringifyUndo,
-            stringifySelectContext,
-            "obj",
-            "box",
-            "kitbash",
-        ]
-            .flat(Infinity);
-        worker.postMessage(copyObject(_contexts, stringify));
+        workerSuggestionGallery.postMessage(
+            copyObject(_contexts, stringifySuggestionGallery)
+        );
         usingImage = false;
     }
     $("divFaceDrop").innerHTML = divhtml;

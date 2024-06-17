@@ -65,7 +65,7 @@ function removeDuplicates(array) {
 }
 
 onmessage = function(event) {
-    console.log("Suggestion Gallery", event.data.length, event.data);
+    console.log("Suggestion Gallery", event.data.length);
     let _contexts = event.data;
     let suggestList = createSuggestionList(_contexts);
     suggestList = removeDuplicates(suggestList);
