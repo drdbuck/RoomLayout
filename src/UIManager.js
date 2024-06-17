@@ -191,6 +191,10 @@ function initUI() {
     //Suggestion Gallery Worker
     workerSuggestionGallery = new Worker("/src/Workers/SuggestionGallery.js");
     workerSuggestionGallery.onmessage = (event) => {
+        //early exit: face selection has moved while it was running
+        if (_contexts.some(c => isValidImage(c.Face))) { return; }
+        
+        //
         let suggestList = event.data;
         let suggestStr = suggestList
         .filter(url=>isValidImage(url))
