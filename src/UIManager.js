@@ -454,7 +454,6 @@ function updateFaceEditPanel() {
 
         //
         //
-        const lblDropFace = "<label>Drop face image here</label>";
         divhtml = lblDropFace + divSuggest;
         //
 
