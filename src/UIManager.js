@@ -417,52 +417,17 @@ function updateFaceEditPanel() {
     //There's no images here yet
     else {
         //Suggest images you might want
-        let divSuggest = "";
-        let suggest = [];
-        const maxSuggestions = 4;
-        //last image
-        _contexts//dirty: using _contexts
-            .filter(c => c.box)
-            .forEach(context => {
-                let f = context.box;
-                suggest.push(f.lastImage);
-            });
-        //image from other side
-        _contexts//dirty: using _contexts
-            .filter(c => c.face >= 0 && c.boxSelected)
-            .forEach(context => {
-                let f = context.box;
-                let flipFace = context.face + ((context.face % 2 == 0) ? 1 : -1);
-                let flipURL = f.getFace(flipFace);
-                suggest.push(flipURL);
-            });
-        //default face image
-        _contexts.forEach(context => {//dirty: using _contexts
-            let f = context.kitbash ?? context.box;
-            suggest.push(f.defaultFace);
-        });
-        //images from other sides
-        _boxs.forEach(box => {
-            box.faceList.forEach(face => suggest.push(face));
-        });
-        //group imported faces
-        _groups.forEach(group => {
-            group._faces.forEach(face => suggest.push(face));
-        });
-        //images from other meshes in same group
-        _groups.forEach(group => {
-            group.items.forEach(item => {
-                item.faceList.forEach(face => suggest.push(face));
-            });
-        });
+        let divSuggest = "<label>Loading suggestion gallery...</label>";
+
+        //
+        //
+        const lblDropFace = "<label>Drop face image here</label>";
+        divhtml = lblDropFace + divSuggest;
+        //
+
         //make html img elements from suggested
-        let suggestStr = suggest
-            //remove blanks
-            .filter(url => isValidImage(url))
-            //remove duplicates
-            .removeDuplicates()
-            //only get first few suggestions
-            // .slice(0, maxSuggestions)
+        createSuggestionList().then((suggestList) => {
+        let suggestStr = suggestList
             //convert to html img element
             //uiVars.selector.forEach(c => c.Face = url);
             .map(url => `<img src='${url}' class="selectableImage"
@@ -470,12 +435,13 @@ function updateFaceEditPanel() {
             />`)
             //merge into single string
             .join("");
-        if (suggestStr) {
-            divSuggest = `Suggested Images:<br>${suggestStr}`;
-        }
+        divSuggest = (suggestStr)
+            ? `Suggested Images:<br>${suggestStr}`
+            : divSuggest = "";
         //
-        const lblDropFace = "<label>Drop face image here</label>";
         divhtml = lblDropFace + divSuggest;
+        $("divFaceDrop").innerHTML = divhtml;
+        });
         usingImage = false;
     }
     $("divFaceDrop").innerHTML = divhtml;
@@ -495,6 +461,55 @@ function updateFaceEditPanel() {
     $("btnFaceImport").hidden = !!usingImage;
 
     $("lblFaceZoom").innerHTML = `${Math.floor(controllerImageEdit.zoom.zoom * 100)}%`;
+}
+
+async function createSuggestionList() {
+    let suggest = [];
+    const maxSuggestions = 4;
+    //last image
+    _contexts//dirty: using _contexts
+        .filter(c => c.box)
+        .forEach(context => {
+            let f = context.box;
+            suggest.push(f.lastImage);
+        });
+    //image from other side
+    _contexts//dirty: using _contexts
+        .filter(c => c.face >= 0 && c.boxSelected)
+        .forEach(context => {
+            let f = context.box;
+            let flipFace = context.face + ((context.face % 2 == 0) ? 1 : -1);
+            let flipURL = f.getFace(flipFace);
+            suggest.push(flipURL);
+        });
+    //default face image
+    _contexts.forEach(context => {//dirty: using _contexts
+        let f = context.kitbash ?? context.box;
+        suggest.push(f.defaultFace);
+    });
+    //images from other sides
+    _boxs.forEach(box => {
+        box.faceList.forEach(face => suggest.push(face));
+    });
+    //group imported faces
+    _groups.forEach(group => {
+        group._faces.forEach(face => suggest.push(face));
+    });
+    //images from other meshes in same group
+    _groups.forEach(group => {
+        group.items.forEach(item => {
+            item.faceList.forEach(face => suggest.push(face));
+        });
+    });
+    //return
+    return suggest
+        //remove blanks
+        .filter(url => isValidImage(url))
+        //remove duplicates
+        .removeDuplicates()
+        //only get first few suggestions
+        // .slice(0, maxSuggestions)
+        ;
 }
 
 
