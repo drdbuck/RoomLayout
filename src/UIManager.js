@@ -445,7 +445,16 @@ function updateFaceEditPanel() {
         divhtml = lblDropFace + divSuggest;
         $("divFaceDrop").innerHTML = divhtml;
         };
-        worker.postMessage(_contexts);
+        let stringify = [
+            getDataStringify(),
+            stringifyUndo,
+            stringifySelectContext,
+            "obj",
+            "box",
+            "kitbash",
+        ]
+            .flat(Infinity);
+        worker.postMessage(copyObject(_contexts, stringify));
         usingImage = false;
     }
     $("divFaceDrop").innerHTML = divhtml;

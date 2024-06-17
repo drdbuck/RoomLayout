@@ -17,7 +17,7 @@ function createSuggestionList(_contexts) {
         });
     //image from other side
     _contexts//dirty: using _contexts
-        .filter(c => c.face >= 0 && c.boxSelected)
+        .filter(c => c.face >= 0 && c._boxSelected)
         .forEach(context => {
             let f = context.box;
             let flipFace = context.face + ((context.face % 2 == 0) ? 1 : -1);
@@ -30,17 +30,19 @@ function createSuggestionList(_contexts) {
         suggest.push(f.defaultFace);
     });
     //images from other sides
+    let _boxs = _contexts.map(c => c.box);
     _boxs.forEach(box => {
-        box.faceList.forEach(face => suggest.push(face));
+        box._faces.forEach(face => suggest.push(face));
     });
     //group imported faces
+    let _groups = _contexts.map(c => c.kitbash);
     _groups.forEach(group => {
         group._faces.forEach(face => suggest.push(face));
     });
     //images from other meshes in same group
     _groups.forEach(group => {
-        group.items.forEach(item => {
-            item.faceList.forEach(face => suggest.push(face));
+        group._items.forEach(item => {
+            item._faces.forEach(face => suggest.push(face));
         });
     });
     //return
@@ -63,7 +65,7 @@ function removeDuplicates(array) {
 }
 
 onmessage = function(event) {
-    console.log("Suggestion Gallery", event.data.length);
+    console.log("Suggestion Gallery", event.data.length, event.data);
     let _contexts = event.data;
     let suggestList = createSuggestionList(_contexts);
     suggestList = removeDuplicates(suggestList);
