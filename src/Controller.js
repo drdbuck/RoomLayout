@@ -272,6 +272,7 @@ class Controller {
                             //select face
                             else if (!context.faceSelected) {
                                 context.faceSelected = true;
+                                context.face = targetFace;
                                 uiVars.selector.callDelegates();//TODO: setup delegates for listening to boxselected and faceselected
                             }
                             //select other box/face
