@@ -604,6 +604,7 @@ function getDataStringify() {
 function uploadFace(image) {
     uiVars.selector.forEach(context => {
         context.Face = image.src;
+        context.kitbash.addFace(image.src);
     });
 };
 
