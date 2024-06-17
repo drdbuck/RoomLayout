@@ -635,7 +635,7 @@ class Controller {
         let objects = this.raycaster.intersectObjects(this.scene.children);
         let face = objects
             .filter(o => o.object.box == box)[0]
-            .face.materialIndex;
+            ?.face?.materialIndex ?? 0;
         const validFaces = box.getValidFaceIndexes();
         if (!validFaces.includes(face)) {
             return validFaces[0];
