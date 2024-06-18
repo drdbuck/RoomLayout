@@ -160,6 +160,8 @@ canvas {
     text-align: center;
     width: 95%;
     margin: 3px;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 .dropArea label {
@@ -169,6 +171,7 @@ canvas {
 
 .dropArea img {
     max-width: 175px;
+    max-height: 175px;
 }
 
 .selectableImage {
