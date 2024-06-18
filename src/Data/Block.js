@@ -1,6 +1,6 @@
 "use strict";
 
-let stringifyBlock = [
+const stringifyBlock = [
     "_name",
     "_scale",
     "_position",

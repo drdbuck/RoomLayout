@@ -1,6 +1,6 @@
 "use strict";
 
-let stringifyHouse = [
+const stringifyHouse = [
     "units",
     "rooms",
 ];

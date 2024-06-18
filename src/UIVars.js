@@ -1,6 +1,6 @@
 "use strict";
 
-let stringifyUIVars = [
+const stringifyUIVars = [
     "_editRooms",
     "_editObjects",
     "_editBoxes",

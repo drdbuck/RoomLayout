@@ -22,7 +22,7 @@ class UndoManager {
             "_faces",
             "defaultFace",
         ];
-        let stringify = [
+        const stringify = [
             getDataStringify(),
             stringifyUndo,
             stringifySelectContext,

@@ -1,6 +1,6 @@
 "use strict";
 
-let stringifyBox = [
+const stringifyBox = [
     "_faces",
     "_scaleTop",
     "_positionTop",
