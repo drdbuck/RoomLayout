@@ -475,9 +475,9 @@ class Controller {
         }
         const avgFunc = (func) => uiVars.selector.map(func).sum() / count;
         let collectiveCenter = new Vector3(
-            avgFunc(c => c.obj.worldPosition.x),
-            avgFunc(c => c.obj.worldPosition.y),
-            avgFunc(c => c.obj.worldPosition.z),
+            avgFunc(c => convertToFeet(c.obj.worldPosition.x, c.obj)),
+            avgFunc(c => convertToFeet(c.obj.worldPosition.y, c.obj)),
+            avgFunc(c => convertToFeet(c.obj.worldPosition.z, c.obj)),
         );
         this.collectiveCenter = collectiveCenter;
         uiVars.selector.forEach(c => c.collectiveCenter = collectiveCenter);
