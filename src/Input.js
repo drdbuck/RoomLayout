@@ -1,5 +1,7 @@
 "use strict";
 
+const DRAG_THRESHOLD = 0.0001;
+
 class Input {
     constructor(mouseTarget, keyTargetList) {
         this.mouseTarget = mouseTarget;
@@ -48,7 +50,7 @@ class Input {
         this.processMouseInput(event);
         if (this.state.mouse.lmbDown || this.state.mouse.rmbDown) {
             let moveAmount = this.state.mouse.posStart.clone().sub(this.state.mouse.pos).length();
-            if (moveAmount > 0.0001) {
+            if (moveAmount > DRAG_THRESHOLD) {
                 this.state.mouse.wasDragged = true;
             }
         }
