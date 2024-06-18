@@ -368,12 +368,6 @@ class Controller {
     }
 
     processMouseDoubleClick(state, event) {
-        let targetHit = this.getObjectHitAtMousePos();
-        if (targetHit?.object?.box) {
-            //open up face edit panel
-            uiVars.viewPanelFace = true;
-            player.animate();
-        }
     }
 
     getHitAtMousePos(findFunc = (rch) => true) {
