@@ -203,6 +203,7 @@ canvas {
     width: 200px;
     background-color: #2f2f2f;
     border: 2px solid #aaaaaa;
+    max-height: 500px;
 }
 
 .lineButton {

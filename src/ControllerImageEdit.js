@@ -48,7 +48,7 @@ class ControllerImageEdit {
             if (this.savedCorners) {
                 this.boomerangCorners(false);
             }
-            this.canvasFactor = _img.width / 200;//dirty: hardcoded on-screen width of canvas
+            this.canvasFactor = Math.min(_img.width / 200, _img.height / 500);//dirty: hardcoded on-screen width and height of canvas
             this.update();
         };
         if (isString(img)) {
