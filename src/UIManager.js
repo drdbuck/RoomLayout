@@ -363,7 +363,7 @@ function registerUIDelegates(context, register) {
 
     //group
     let group = context.kitbash;
-    if (group) {
+    if (group) {//TODO: make this an early exit
         [
             group.onSizeChanged,
             group.onPositionChanged,
@@ -455,11 +455,7 @@ function updateFaceEditPanel() {
     else {
         //Suggest images you might want
         let divSuggest = "<label>Loading suggestion gallery...</label>";
-
-        //
-        //
         divhtml = lblDropFace + divSuggest;
-        //
 
         //make html img elements from suggested
         workerSuggestionGallery.postMessage(

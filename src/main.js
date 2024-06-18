@@ -133,7 +133,7 @@ function init() {
 
     //Create Object Dialogue
     createObjectDialogue = new AdvancedDialogue(
-        "Create Object", //TODO: have the title changed based on what's being created
+        "Create Object",
         [
             "Size",
             {
