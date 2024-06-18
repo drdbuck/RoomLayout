@@ -1,6 +1,6 @@
 "use strict";
 
-const DRAG_THRESHOLD = 0.0001;
+const DRAG_THRESHOLD = 0.01;
 
 class Input {
     constructor(mouseTarget, keyTargetList) {
