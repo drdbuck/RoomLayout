@@ -150,7 +150,7 @@ class KitBash extends Block {
     addFace(imgURL) {
         if (!isValidImage(imgURL)) { return; }
         if (this._faces.includes(imgURL)) { return; }
-        
+
         this._faces.push(imgURL);
     }
 

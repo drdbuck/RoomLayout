@@ -340,9 +340,9 @@ const unitConversionTable = {
         "inches": 12,
     },
     "inches": {
-        "feet": 1/12,
+        "feet": 1 / 12,
     }
-}
+};
 
 function convertUnits(value, fromUnits, toUnits) {
     //handle vector input
@@ -351,7 +351,7 @@ function convertUnits(value, fromUnits, toUnits) {
             convertUnits(value.x, fromUnits, toUnits),
             convertUnits(value.y, fromUnits, toUnits),
             convertUnits(value.z, fromUnits, toUnits),
-        )
+        );
     }
     //
     if (value == 0) {

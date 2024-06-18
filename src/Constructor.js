@@ -466,9 +466,9 @@ function convertToFeet(distance, block) {
         let v = distance;
         return new Vector3(
             convertUnits(v.x, fromUnits, UNITS_FEET),
-            convertUnits(v.y, fromUnits, UNITS_FEET),            
+            convertUnits(v.y, fromUnits, UNITS_FEET),
             convertUnits(v.z, fromUnits, UNITS_FEET)
-        )
+        );
     }
     return convertUnits(distance, fromUnits, UNITS_FEET);
 }
@@ -478,9 +478,9 @@ function convertFromFeet(distance, block) {
         let v = distance;
         return new Vector3(
             convertUnits(v.x, UNITS_FEET, toUnits),
-            convertUnits(v.y, UNITS_FEET, toUnits),            
+            convertUnits(v.y, UNITS_FEET, toUnits),
             convertUnits(v.z, UNITS_FEET, toUnits)
-        )
+        );
     }
     return convertUnits(distance, UNITS_FEET, toUnits);
 }

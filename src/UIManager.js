@@ -193,24 +193,24 @@ function initUI() {
     workerSuggestionGallery.onmessage = (event) => {
         //early exit: face selection has moved while it was running
         if (_contexts.some(c => isValidImage(c.Face))) { return; }
-        
+
         //
         let suggestList = event.data;
         let suggestStr = suggestList
-        .filter(url=>isValidImage(url))
-        //convert to html img element
-        //uiVars.selector.forEach(c => c.Face = url);
-        .map(url => `<img src='${url}' class="selectableImage"
+            .filter(url => isValidImage(url))
+            //convert to html img element
+            //uiVars.selector.forEach(c => c.Face = url);
+            .map(url => `<img src='${url}' class="selectableImage"
             onclick="btnUseSuggestedImage(this.src);"
         />`)
-        //merge into single string
-        .join("");
-    let divSuggest = (suggestStr)
-        ? `Suggested Images:<br>${suggestStr}`
-        : "";
-    //
-    let divhtml = lblDropFace + divSuggest;
-    $("divFaceDrop").innerHTML = divhtml;
+            //merge into single string
+            .join("");
+        let divSuggest = (suggestStr)
+            ? `Suggested Images:<br>${suggestStr}`
+            : "";
+        //
+        let divhtml = lblDropFace + divSuggest;
+        $("divFaceDrop").innerHTML = divhtml;
     };
     stringifySuggestionGallery = [
         getDataStringify(),

@@ -678,7 +678,7 @@ function makeVisible(box, visible) {
         //listen for edits to make box visible again
         let _listenForEdits = () => {
             makeVisible(box, true);
-        }
+        };
         edge.listener = _listenForEdits;
         [
             delegateListBlock,

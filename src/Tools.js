@@ -92,10 +92,10 @@ performance.analyze = function (testName) {
         " avg:", average,
         " cnt:", entries.length
     );
-}
+};
 performance.clear = function () {
     performance.clearMeasures("world repaint");
-}
+};
 
 //TOOL: Show Note Index
 function showNoteIndex(show = true) {
@@ -306,7 +306,7 @@ var deepDiffMapper = function () {
             this.obj2 = undefined;
             return this.map(obj1, obj2);
         },
-    }
+    };
 }();
 
 //TOOL: Print Constants
@@ -326,7 +326,7 @@ function _initConstantDict() {
             }
             item.push(name);
         }
-    }
+    };
     constantDict = {};
 
     ////////////// Add all known enums ///////////
@@ -337,7 +337,7 @@ function _initConstantDict() {
             let enumKey = enums[i];
             _addConstant(enumParam[enumKey], `${enumName}.${enumKey}`);
         }
-    }
+    };
     knownEnums.forEach(_addEnumConstants);
 
     ////////////// Unified show column selection constants ///////////

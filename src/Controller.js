@@ -282,7 +282,7 @@ class Controller {
                                 let alreadySelected = context.face == targetFace;
                                 if (alreadySelected) {
                                     uiVars.viewPanelFace = true;
-                                    
+
                                     //make box invisible
                                     makeVisible(context.box, false);
                                 }
