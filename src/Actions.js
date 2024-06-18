@@ -288,9 +288,10 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
         group.add(box);
         box.name = `rectangle ${id + 1}`;
         id++;
-        box.width = 0;
-        box.depth = depth;
+        box.width = depth;
+        box.depth = 0;
         box.height = height;
+        box.angle = 90;
         box.worldPosition = new Vector3(
             startX.x + i * bufferX,
             startX.y,
