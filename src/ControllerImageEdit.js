@@ -1,7 +1,8 @@
 "use strict";
 
-const HANDLE_SIZE = 5;
+const HANDLE_SIZE = 10;
 const HANDLE_SELECT_RANGE = HANDLE_SIZE * 2;
+const TRANSPARENCY_GRID_SIZE = 5;
 const FACE_ZOOM_MAX = 2;
 const FACE_ZOOM_MIN = 0.5;
 
@@ -69,6 +70,7 @@ class ControllerImageEdit {
         ctx.clearRect(0, 0, width, height);
         //paint transparency grid
         const handleSize = HANDLE_SIZE * this.canvasFactor;
+        const transGridSize = TRANSPARENCY_GRID_SIZE * this.canvasFactor;
         ctx.fillStyle = "#555555";
         ctx.fillRect(0, 0, width, height);
         ctx.fillStyle = "#CCCCCC";
@@ -79,7 +81,7 @@ class ControllerImageEdit {
                 //alternate where these squares are drawn
                 if ((ix + iy) % 2 == 0) {
                     //draw the square
-                    ctx.fillRect(ix * handleSize, iy * handleSize, handleSize, handleSize);
+                    ctx.fillRect(ix * transGridSize, iy * transGridSize, transGridSize, transGridSize);
                 }
             }
         }
