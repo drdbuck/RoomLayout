@@ -180,7 +180,7 @@ class ControllerImageEdit {
                 //Corner
                 if (this.control.isCorner) {
                     mouse.add(this.offset);
-                    this.control.handle.copy(mouse);
+                    this.control.handle.copy(this.fromPosition(mouse));
                     this.update();
                 }
                 //Midpoint
@@ -244,8 +244,8 @@ class ControllerImageEdit {
     }
 
     selectHandles(mouse) {
-        this.control.handle = undefined;
-        this.offset = undefined;
+        this.control.handle = undefined;//image space
+        this.offset = undefined;//canvas space
         //select control handle
         let handles = this.imageEdit.handleList;
         const handleSelectRange = HANDLE_SELECT_RANGE;
@@ -256,8 +256,7 @@ class ControllerImageEdit {
         if (handles.length > 0) {
             this.control.handle = handles.reduce((a, b) => (a.dist < b.dist) ? a : b);
             //find offset
-            this.offset = this.control.handle.clone();
-            this.offset.sub(mouse);
+            this.offset = this.toPosition( this.control.handle).sub(mouse);
             this.control.isCorner = true;
             this.control.isMidpoint = false;
             this.control.medianLine = undefined;
@@ -433,6 +432,14 @@ class ControllerImageEdit {
     }
 
     /**
+     * Converts from image position to canvas position
+     * @param {*} pos 
+     */
+    toPosition(pos) {
+        return new Vector2(this.toX(pos.x), this.toY(pos.y));
+    }
+
+    /**
      * Converts from canvas X to image X
      * @param {*} x 
      */
@@ -445,5 +452,13 @@ class ControllerImageEdit {
     */
     fromY(y) {
         return (y - this.zoom.offset.y) / this.zoom.zoom;
+    }
+
+     /**
+     * Converts from canvas position to image position
+     * @param {*} pos 
+     */
+     fromPosition(pos) {
+        return new Vector2(this.fromX(pos.x), this.fromY(pos.y));
     }
 }
