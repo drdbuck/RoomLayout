@@ -274,3 +274,8 @@ canvas {
     text-align: center;
     width: 50%;
 }
+
+#cvsCrop {
+    width: 200px;
+    height: 400px;
+}
