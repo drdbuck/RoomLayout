@@ -226,9 +226,9 @@ class Controller {
         this.processMouseInput(event);
         if (state.mouse.lmbDown) {
             if (state.mouse.wasDragged) {
-            if (uiVars.selector.count > 0) {
-                this.moveObject();
-            }
+                if (uiVars.selector.count > 0) {
+                    this.moveObject();
+                }
             }
         }
         else {
