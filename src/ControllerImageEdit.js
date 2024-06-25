@@ -185,8 +185,7 @@ class ControllerImageEdit {
                 }
                 //Midpoint
                 else if (this.control.isMidpoint) {
-                    let posOffset = mouse.clone();
-                    posOffset.add(this.offset);
+                    let posOffset = this.fromPosition(mouse.clone().add(this.offset));
 
                     //determine closest point on median line to posOffset
                     let target = new Vector3();
