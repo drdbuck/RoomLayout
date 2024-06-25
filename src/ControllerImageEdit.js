@@ -53,6 +53,10 @@ class ControllerImageEdit {
                 this.canvas.width / _img.width,
                 this.canvas.height / _img.height
             );
+            this.zoom.offset = new Vector2(
+                (this.canvas.width - this.toWidth(_img.width)) / 2,
+                (this.canvas.height - this.toHeight(_img.height)) / 2,
+            );
             this.update();
         };
         if (isString(img)) {
