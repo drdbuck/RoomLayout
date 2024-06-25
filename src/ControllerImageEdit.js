@@ -160,9 +160,9 @@ class ControllerImageEdit {
     getMouseVector(e) {
         //2024-01-30: copied from https://stackoverflow.com/a/18053642/2336212
         const rect = this.canvas.getBoundingClientRect();
-        const x = (e.clientX - rect.left) * (this.imageEdit.width / rect.width);
-        const y = (e.clientY - rect.top) * (this.imageEdit.height / rect.height);
-        return new Vector2(this.fromX(x), this.fromY(y));
+        const x = (e.clientX - rect.left);
+        const y = (e.clientY - rect.top);
+        return new Vector2(x, y);
     }
 
     processMouseDown(e) {
@@ -250,7 +250,7 @@ class ControllerImageEdit {
         let handles = this.imageEdit.handleList;
         const handleSelectRange = HANDLE_SELECT_RANGE;
         handles.forEach(c =>
-            c.dist = Math.sqrt(Math.pow(c.x - mouse.x, 2) + Math.pow(c.y - mouse.y, 2))
+            c.dist = Math.sqrt(Math.pow(this.toX(c.x) - mouse.x, 2) + Math.pow(this.toY(c.y) - mouse.y, 2))
         );
         handles = handles.filter(c => c.dist <= handleSelectRange);
         if (handles.length > 0) {
