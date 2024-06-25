@@ -1,7 +1,7 @@
 "use strict";
 
 const HANDLE_SIZE = 10;
-const HANDLE_SELECT_RANGE = HANDLE_SIZE * 2;
+const HANDLE_SELECT_RANGE = HANDLE_SIZE * 5;
 const TRANSPARENCY_GRID_SIZE = 5;
 const FACE_ZOOM_MAX = 2;
 const FACE_ZOOM_MIN = 0.5;
@@ -13,8 +13,8 @@ class ControllerImageEdit {
         this.uiColor = uiColor;
         this.imageEdit = new ImageEdit();
 
-        this.canvas.width = 200;
-        this.canvas.height = 400;
+        this.canvas.width = 200;//dirty: hardcoding canvas width
+        this.canvas.height = 400;//dirty: hardcoding canvas height
 
         this.zoom = {
             zoom: 1,//changes with zoom buttons
@@ -49,6 +49,10 @@ class ControllerImageEdit {
             if (this.savedCorners) {
                 this.boomerangCorners(false);
             }
+            this.zoom.zoom = Math.min(
+                this.canvas.width / _img.width,
+                this.canvas.height / _img.height
+            );
             this.update();
         };
         if (isString(img)) {
@@ -89,7 +93,7 @@ class ControllerImageEdit {
         ctx.fillStyle = this.uiColor;
         ctx.lineWidth = 1;
         //image
-        ctx.drawImage(this.imageEdit.original, this.toX(0), this.toY(0), this.toWidth(width), this.toHeight(height));
+        ctx.drawImage(this.imageEdit.original, this.toX(0), this.toY(0), this.toWidth(this.imageEdit.width), this.toHeight(this.imageEdit.height));
         //Box path
         ctx.beginPath();
         let firstCorner = this.imageEdit.corners[0];
@@ -111,8 +115,8 @@ class ControllerImageEdit {
         ].flat();
         handles.forEach(
             handle => ctx.fillRect(
-                this.toX(handle.x - handleSizeHalf),
-                this.toY(handle.y - handleSizeHalf),
+                this.toX(handle.x) - handleSizeHalf,
+                this.toY(handle.y) - handleSizeHalf,
                 handleSize,
                 handleSize
             )
