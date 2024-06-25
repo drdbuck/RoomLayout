@@ -13,6 +13,9 @@ class ControllerImageEdit {
         this.uiColor = uiColor;
         this.imageEdit = new ImageEdit();
 
+        this.canvas.width = 200;
+        this.canvas.height = 400;
+
         this.canvasFactor = 1;
         this.zoom = {
             zoom: 1,//changes with zoom buttons
@@ -41,15 +44,13 @@ class ControllerImageEdit {
     setImage(img, resetSelection = false) {
         let setFunc = (_img) => {
             this.imageEdit.setImage(_img, resetSelection);
-            this.canvas.width = _img.width;
-            this.canvas.height = _img.height;
             if (resetSelection) {
                 this.resetZoom();
             }
             if (this.savedCorners) {
                 this.boomerangCorners(false);
             }
-            this.canvasFactor = Math.min(_img.width / 200, _img.height / 500);//dirty: hardcoded on-screen width and height of canvas
+            this.canvasFactor = Math.min(_img.width / 200, _img.height / 400);//dirty: hardcoded on-screen width and height of canvas
             this.update();
         };
         if (isString(img)) {
@@ -74,8 +75,8 @@ class ControllerImageEdit {
         ctx.fillStyle = "#555555";
         ctx.fillRect(0, 0, width, height);
         ctx.fillStyle = "#CCCCCC";
-        let gridCountW = width / handleSize;
-        let gridCountH = height / handleSize;
+        let gridCountW = width / transGridSize;
+        let gridCountH = height / transGridSize;
         for (let ix = 0; ix < gridCountW; ix++) {
             for (let iy = 0; iy < gridCountH; iy++) {
                 //alternate where these squares are drawn
