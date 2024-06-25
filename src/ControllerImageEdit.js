@@ -16,7 +16,6 @@ class ControllerImageEdit {
         this.canvas.width = 200;
         this.canvas.height = 400;
 
-        this.canvasFactor = 1;
         this.zoom = {
             zoom: 1,//changes with zoom buttons
             offset: _zero.clone(),//how many canvas pixels to offset the image drawing by (canvas space)
@@ -50,7 +49,6 @@ class ControllerImageEdit {
             if (this.savedCorners) {
                 this.boomerangCorners(false);
             }
-            this.canvasFactor = Math.min(_img.width / 200, _img.height / 400);//dirty: hardcoded on-screen width and height of canvas
             this.update();
         };
         if (isString(img)) {
@@ -70,8 +68,8 @@ class ControllerImageEdit {
         //clear
         ctx.clearRect(0, 0, width, height);
         //paint transparency grid
-        const handleSize = HANDLE_SIZE * this.canvasFactor;
-        const transGridSize = TRANSPARENCY_GRID_SIZE * this.canvasFactor;
+        const handleSize = HANDLE_SIZE;
+        const transGridSize = TRANSPARENCY_GRID_SIZE;
         ctx.fillStyle = "#555555";
         ctx.fillRect(0, 0, width, height);
         ctx.fillStyle = "#CCCCCC";
@@ -89,7 +87,7 @@ class ControllerImageEdit {
         //
         ctx.strokeStyle = this.uiColor;
         ctx.fillStyle = this.uiColor;
-        ctx.lineWidth = 1 * this.canvasFactor;
+        ctx.lineWidth = 1;
         //image
         ctx.drawImage(this.imageEdit.original, this.toX(0), this.toY(0), this.toWidth(width), this.toHeight(height));
         //Box path
@@ -122,7 +120,7 @@ class ControllerImageEdit {
 
         //Median line
         if (this.control.medianLine) {
-            ctx.lineWidth = 0.5 * this.canvasFactor;
+            ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(this.toX(this.control.medianLine.start.x), this.toY(this.control.medianLine.start.y));
             ctx.lineTo(this.toX(this.control.medianLine.end.x), this.toY(this.control.medianLine.end.y));
@@ -246,7 +244,7 @@ class ControllerImageEdit {
         this.offset = undefined;
         //select control handle
         let handles = this.imageEdit.handleList;
-        const handleSelectRange = HANDLE_SELECT_RANGE * this.canvasFactor;
+        const handleSelectRange = HANDLE_SELECT_RANGE;
         handles.forEach(c =>
             c.dist = Math.sqrt(Math.pow(c.x - mouse.x, 2) + Math.pow(c.y - mouse.y, 2))
         );
