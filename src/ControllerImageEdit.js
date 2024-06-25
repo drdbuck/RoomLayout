@@ -80,7 +80,7 @@ class ControllerImageEdit {
         const transGridSize = TRANSPARENCY_GRID_SIZE;
         ctx.fillStyle = "#555555";
         ctx.fillRect(0, 0, width, height);
-        ctx.fillStyle = "#CCCCCC";
+        ctx.fillStyle = "#BBBBBB";
         let gridCountW = width / transGridSize;
         let gridCountH = height / transGridSize;
         for (let ix = 0; ix < gridCountW; ix++) {
