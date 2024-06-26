@@ -5,7 +5,7 @@
 //
 
 //App Info
-const VERSION = "0.083";
+const VERSION = "0.084";
 const APP_NAME = "Room Plan 3D";
 
 //Cursor Styles
