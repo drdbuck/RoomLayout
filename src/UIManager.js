@@ -545,6 +545,9 @@ function btnFaceEdit() {
 function btnExitFaceEdit() {
     uiVars.viewPanelFace = false;
 }
+function btnExitImageEdit() {
+    uiVars.viewPanelFaceEdit = false;
+}
 
 function btnUseSuggestedImage(imgURL) {
     controllerImageEdit.reset();
