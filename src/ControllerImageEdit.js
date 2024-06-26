@@ -18,6 +18,7 @@ class ControllerImageEdit {
 
         this.zoom = {
             zoom: 1,//changes with zoom buttons
+            scaleFactor: 1,//how much to multiply by to make the image full scale at 100% zoom level
             offset: _zero.clone(),//how many canvas pixels to offset the image drawing by (canvas space)
             pivot: _zero.clone(),//the point on the image to zoom in/out towards (image space)
         };
@@ -49,7 +50,8 @@ class ControllerImageEdit {
             if (this.savedCorners) {
                 this.boomerangCorners(false);
             }
-            this.zoom.zoom = Math.min(
+            this.zoom.zoom = 1;
+            this.zoom.scaleFactor = Math.min(
                 this.canvas.width / _img.width,
                 this.canvas.height / _img.height
             );
@@ -409,14 +411,14 @@ class ControllerImageEdit {
      * @param {*} x 
      */
     toX(x) {
-        return (x * this.zoom.zoom) + this.zoom.offset.x;
+        return (x * (this.zoom.zoom * this.zoom.scaleFactor)) + this.zoom.offset.x;
     }
     /**
      * Converts from image Y to canvas Y
      * @param {*} y 
      */
     toY(y) {
-        return (y * this.zoom.zoom) + this.zoom.offset.y;
+        return (y * (this.zoom.zoom * this.zoom.scaleFactor)) + this.zoom.offset.y;
     }
 
     /**
@@ -424,14 +426,14 @@ class ControllerImageEdit {
      * @param {*} x 
      */
     toWidth(width) {
-        return width * this.zoom.zoom;
+        return width * (this.zoom.zoom * this.zoom.scaleFactor);
     }
     /**
      * Converts from image height to canvas height
      * @param {*} x 
      */
     toHeight(height) {
-        return height * this.zoom.zoom;
+        return height * (this.zoom.zoom * this.zoom.scaleFactor);
     }
 
     /**
@@ -447,14 +449,14 @@ class ControllerImageEdit {
      * @param {*} x 
      */
     fromX(x) {
-        return (x - this.zoom.offset.x) / this.zoom.zoom;
+        return (x - this.zoom.offset.x) / (this.zoom.zoom * this.zoom.scaleFactor);
     }
     /**
     * Converts from canvas Y to image Y
     * @param {*} y 
     */
     fromY(y) {
-        return (y - this.zoom.offset.y) / this.zoom.zoom;
+        return (y - this.zoom.offset.y) / (this.zoom.zoom * this.zoom.scaleFactor);
     }
 
     /**
