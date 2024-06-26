@@ -13,8 +13,8 @@ class ControllerImageEdit {
         this.uiColor = uiColor;
         this.imageEdit = new ImageEdit();
 
-        this.canvas.width = 200;//dirty: hardcoding canvas width
-        this.canvas.height = 400;//dirty: hardcoding canvas height
+        this.canvas.width = 500;//dirty: hardcoding canvas width
+        this.canvas.height = 500;//dirty: hardcoding canvas height
 
         this.zoom = {
             zoom: 1,//changes with zoom buttons
