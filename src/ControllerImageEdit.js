@@ -1,7 +1,7 @@
 "use strict";
 
 const HANDLE_SIZE = 10;
-const HANDLE_SELECT_RANGE = HANDLE_SIZE * 5;
+const HANDLE_SELECT_RANGE = HANDLE_SIZE * 2;
 const TRANSPARENCY_GRID_SIZE = 5;
 const FACE_ZOOM_MAX = 2;
 const FACE_ZOOM_MIN = 0.5;
