@@ -270,6 +270,11 @@ canvas {
     width: 230px;
 }
 
+#divImageEdit {
+    left: 210px;
+    width: 50%;
+}
+
 #spnFaceName {
     display: inline-grid;
     text-align: center;
