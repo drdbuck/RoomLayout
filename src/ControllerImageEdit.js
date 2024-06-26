@@ -259,7 +259,7 @@ class ControllerImageEdit {
         if (handles.length > 0) {
             this.control.handle = handles.reduce((a, b) => (a.dist < b.dist) ? a : b);
             //find offset
-            this.offset = this.toPosition( this.control.handle).sub(mouse);
+            this.offset = this.toPosition(this.control.handle).sub(mouse);
             this.control.isCorner = true;
             this.control.isMidpoint = false;
             this.control.medianLine = undefined;
@@ -457,11 +457,11 @@ class ControllerImageEdit {
         return (y - this.zoom.offset.y) / this.zoom.zoom;
     }
 
-     /**
-     * Converts from canvas position to image position
-     * @param {*} pos 
-     */
-     fromPosition(pos) {
+    /**
+    * Converts from canvas position to image position
+    * @param {*} pos 
+    */
+    fromPosition(pos) {
         return new Vector2(this.fromX(pos.x), this.fromY(pos.y));
     }
 }
