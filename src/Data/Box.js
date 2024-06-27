@@ -5,6 +5,7 @@ const stringifyBox = [
     "_scaleTop",
     "_positionTop",
     "_degrees",
+    "_faceDirection",
 ];
 
 const delegateListBox = [
@@ -12,6 +13,7 @@ const delegateListBox = [
     "onScaleTopChanged",
     "onPositionTopChanged",
     "onDegreesChanged",
+    "onFaceDirectionChanged",
 ];
 
 const FACE_DEFAULT = -1;
@@ -25,6 +27,7 @@ class Box extends Block {
         this._positionTop = undefined;
 
         this._degrees = undefined;
+        this._faceDirection = undefined;
 
         this._faces = [];
 
@@ -33,6 +36,7 @@ class Box extends Block {
         this.onScaleTopChanged = new Delegate("scaleTop");
         this.onPositionTopChanged = new Delegate("positionTop");
         this.onDegreesChanged = new Delegate("degrees");
+        this.onFaceDirectionChanged = new Delegate("_faceDirection");
         this.onFaceChanged = new Delegate("index", "imageURL");
 
         this.bind_ScaleFactorChanged = this.onScaleFactorChanged.bind(this);
@@ -143,6 +147,15 @@ class Box extends Block {
             ? value
             : loopAngle(value);
         this.onDegreesChanged.run(this._degrees);
+    }
+
+    get faceDirection() {
+        return this._faceDirection;
+    }
+    set faceDirection(value) {
+        value ||= 0;//NaN prevention
+        this._faceDirection = loopAngle(value);
+        this.onFaceDirectionChanged.run(this._faceDirection);
     }
 
     get defaultFace() {
