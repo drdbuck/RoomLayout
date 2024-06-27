@@ -401,6 +401,7 @@ function updateFaceEditPanel() {
     //
     let showPanel = uiVars.viewPanelFace;
     $("divFaceEdit").hidden = !showPanel;
+    $("divImageEdit").hidden = !uiVars.viewPanelFaceEdit;
     if (!showPanel) { return; }
 
     //spnFaceName
