@@ -213,6 +213,17 @@ class Box extends Block {
     }
 
     getFaceDimensions(index) {
+        if (this.degrees > 0) {
+            if (index == 0) {
+                return new Vector2(
+                    2 * Math.max(this.radius, this.radiusTop) * Math.PI * this.degrees / 360,
+                    this.height
+                );
+            }
+            else {
+                return _zero.clone();
+            }
+        }
         //dirty: assumes 6-sided shape
         switch (index) {
             case FACE_DEFAULT:
