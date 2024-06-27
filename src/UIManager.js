@@ -357,8 +357,8 @@ function updateBoxEditPanel() {
     updateFunc("txtPosXTop", flist, f => f.positionTop.x);
     updateFunc("txtPosYTop", flist, f => f.positionTop.z);
     //Cylinder
-    updateFunc("txtDegrees", flist, f => f.degrees);
-    updateFunc("txtFaceDirection", flist, f => f.faceDirection);
+    updateFunc("txtDegrees", flist, f => f.degrees ?? 0);
+    updateFunc("txtFaceDirection", flist, f => f.faceDirection ?? 0);
 
     //Buttons
     $("btnFaceEdit").checked = uiVars.viewPanelFace;
