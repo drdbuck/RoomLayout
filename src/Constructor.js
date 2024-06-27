@@ -623,6 +623,23 @@ function createBoxGeometry(box) {
     return bufferGeometry;
 }
 
+function createCylinderGeometry(box) {
+    const radius = convertToFeet(Math.max(box.width, box.depth), box);
+    const radialSegments = 50;
+    const heightSegments = 1;
+    let cylinderGeometry = new CylinderGeometry(
+        radius,
+        radius,
+        convertToFeet(box.height, box),
+        radialSegments,
+        heightSegments,
+        true,
+        degToRad(90),//TODO: face direction
+        degToRad(box.degrees ?? 360)
+    );
+    return cylinderGeometry;
+}
+
 function createEdgeHighlights(mesh, material = edgeMaterial) {
     //2024-01-16: copied from https://discourse.threejs.org/t/highlighting-the-edge-of-a-cube-on-hover-linesegmentsgeometry/28480
     const edgesGeometry = new EdgesGeometry(mesh.geometry, 40);
