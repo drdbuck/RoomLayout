@@ -625,18 +625,25 @@ function createBoxGeometry(box) {
 
 function createCylinderGeometry(box) {
     const radius = convertToFeet(Math.max(box.width, box.depth), box) / 2;
+    const height = convertToFeet(box.height, box);
     const radialSegments = 50;
     const heightSegments = 1;
     let cylinderGeometry = new CylinderGeometry(
         radius,
         radius,
-        convertToFeet(box.height, box),
+        height,
         radialSegments,
         heightSegments,
         true,
         degToRad(90),//TODO: face direction
         degToRad(box.degrees ?? 360)
     );
+    const halfHeight = height / 2;
+    let posArr = cylinderGeometry.attributes.position;
+    for (let i = 0; i < posArr.count; i++){
+        let y = posArr.getY(i);
+        posArr.setY(i, y + halfHeight);
+    }
     return cylinderGeometry;
 }
 
