@@ -368,6 +368,46 @@ function constructBox(box) {
         let axisRecline = new Vector3(1, 0, 0);
         mesh.rotateOnAxis(axisRecline, radRecline);
     };
+    let updateCylinder = () => {
+        let geom = createGeometry(box);
+        if (mesh.geometry.type == geom.type) {
+            updateScale();
+        }
+        else {
+            mesh.geometry = geom;
+
+            //inside faces
+            mesh.remove(mesh.insideMesh);
+            let insideMesh = createInsideFaces(mesh, box);
+            mesh.attach(insideMesh);
+            mesh.insideMesh = insideMesh;
+            insideMesh.position.copy(_zero);
+            updateInsideMesh();
+
+            //edge highlights
+            mesh.remove(mesh.edge);
+            let edge = createEdgeHighlights(mesh);
+            mesh.edge = edge;
+            mesh.attach(edge);
+            edge.visible = false;
+            edge.position.copy(_zero);
+
+            //select highlights
+            mesh.remove(mesh.select);
+            let select = createSelectHighlights(mesh);
+            mesh.select = select;
+            mesh.attach(select);
+            select.visible = false;
+            select.position.copy(_zero);
+            //select back highlights
+            mesh.remove(mesh.selectBack);
+            let selectBack = createSelectHighlights(mesh);
+            mesh.selectBack = selectBack;
+            mesh.attach(selectBack);
+            selectBack.visible = false;
+            selectBack.position.copy(_zero);
+        }
+    };
     let updateFace = (index, url) => {
         let material = createMaterial(url ?? box.defaultFace);
         let materialBack = createMaterial(url ?? box.defaultFace, false);
@@ -427,6 +467,8 @@ function constructBox(box) {
         updatePosition(box.worldPosition);
     });
     box.onReclineChanged.add(() => updateRotation(box.worldAngle, box.recline));
+    box.onDegreesChanged.add(() => updateCylinder());
+    box.onFaceDirectionChanged.add(() => updateCylinder());
     box.onFaceChanged.add(updateFace);
     box.group.onDefaultFaceChanged.add(updateDefaultFace);
 
@@ -451,6 +493,7 @@ function constructBox(box) {
     selectBack.position.copy(_zero);
 
     //init with update functions
+    updateCylinder();
     updatePosition(box.worldPosition);
     updateScale(box.worldScale);
     updateRotation(box.worldAngle, box.recline);
