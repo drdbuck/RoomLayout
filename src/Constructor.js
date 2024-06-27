@@ -321,7 +321,7 @@ function constructBox(box) {
     const sideCount = 6;
 
     //create geometry
-    const boxGeometry = createGeometry(box);
+    const boxGeometry = createBoxGeometry(box);
 
     //create material
     const meshMaterials = createMaterials(box.faceListCompiled, sideCount, box.defaultFace);
@@ -341,7 +341,7 @@ function constructBox(box) {
     };
     let updateScale = (scale) => {
         // let scale = convertToFeet(scale, box);
-        let newgeom = createGeometry(box);
+        let newgeom = createBoxGeometry(box);
         mesh.geometry.setAttribute('position', newgeom.attributes.position);
         mesh.geometry.setAttribute('uv', newgeom.attributes.uv);
         let newselect = createSelectHighlights(mesh);
@@ -483,7 +483,7 @@ function convertFromFeet(distance, block) {
     return convertUnits(distance, UNITS_FEET, toUnits);
 }
 
-function createGeometry(box) {
+function createBoxGeometry(box) {
 
     //create geometry
     let bufferGeometry = new BufferGeometry();
