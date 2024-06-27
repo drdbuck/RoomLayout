@@ -46,19 +46,18 @@ class ControllerImageEdit {
             this.imageEdit.setImage(_img, resetSelection);
             if (resetSelection) {
                 this.resetZoom();
+                this.zoom.scaleFactor = Math.min(
+                    this.canvas.width / _img.width,
+                    this.canvas.height / _img.height
+                );
+                this.zoom.offset = new Vector2(
+                    (this.canvas.width - this.toWidth(_img.width)) / 2,
+                    (this.canvas.height - this.toHeight(_img.height)) / 2,
+                );
             }
             if (this.savedCorners) {
                 this.boomerangCorners(false);
             }
-            this.zoom.zoom = 1;
-            this.zoom.scaleFactor = Math.min(
-                this.canvas.width / _img.width,
-                this.canvas.height / _img.height
-            );
-            this.zoom.offset = new Vector2(
-                (this.canvas.width - this.toWidth(_img.width)) / 2,
-                (this.canvas.height - this.toHeight(_img.height)) / 2,
-            );
             this.update();
         };
         if (isString(img)) {
