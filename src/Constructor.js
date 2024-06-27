@@ -634,6 +634,7 @@ function createCylinderGeometry(box) {
     const height = convertToFeet(box.height, box);
     const radialSegments = 50;
     const heightSegments = 1;
+    const degrees = box.degrees ?? 360;
     let cylinderGeometry = new CylinderGeometry(
         radius,
         radius,
@@ -641,8 +642,8 @@ function createCylinderGeometry(box) {
         radialSegments,
         heightSegments,
         true,
-        degToRad(90),//TODO: face direction
-        degToRad(box.degrees ?? 360)
+        degToRad(90 + (180 - degrees) / 2),//TODO: face direction
+        degToRad(degrees)
     );
     const halfHeight = height / 2;
     let posArr = cylinderGeometry.attributes.position;
