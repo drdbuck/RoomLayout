@@ -94,6 +94,11 @@ const menuBarData = {
             listen: ["select"],
             update: "menuUpdateGroupSelected(_);",
         },
+        "Create Cylinder #&b": {
+            action: "actionObjectCreateCylinder();",
+            listen: ["select"],
+            update: "menuUpdateGroupSelected(_);",
+        },
         "Create Rectangle %&b": {
             action: "actionObjectCreateBlankFlatWall();",
             listen: ["select"],

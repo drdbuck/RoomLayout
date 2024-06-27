@@ -178,6 +178,20 @@ function actionObjectCreateBlank() {
     );
 }
 
+function actionObjectCreateCylinder() {
+    let spawnPoint = getSpawnPoint();
+    _actionObjectCreate(
+        "cylinder _",
+        "create cylinder",
+        (f) => {
+            f.scale = DEFAULT_SCALE;
+            f.degrees = 360;
+            f.faceDirection = 0;
+        },
+        spawnPoint
+    );
+}
+
 function actionObjectCreateBlankFlatWall() {
     let spawnPoint = getSpawnPoint();
     _actionObjectCreate(
