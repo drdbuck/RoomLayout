@@ -138,7 +138,10 @@ class Box extends Block {
         return this._degrees;
     }
     set degrees(value) {
-        this._degrees = loopAngle(value);
+        value ||= 0;//NaN prevention
+        this._degrees = (value == 360)
+            ? value
+            : loopAngle(value);
         this.onDegreesChanged.run(this._degrees);
     }
 
