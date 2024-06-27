@@ -377,7 +377,8 @@ function constructBox(box) {
             mesh.geometry = geom;
 
             //inside faces
-            mesh.remove(mesh.insideMesh);
+            let oldInsideMesh = mesh.insideMesh;
+            mesh.remove(oldInsideMesh);
             let insideMesh = createInsideFaces(mesh, box);
             mesh.attach(insideMesh);
             mesh.insideMesh = insideMesh;
@@ -385,26 +386,29 @@ function constructBox(box) {
             updateInsideMesh();
 
             //edge highlights
-            mesh.remove(mesh.edge);
+            let oldEdge = mesh.edge;
+            mesh.remove(oldEdge);
             let edge = createEdgeHighlights(mesh);
             mesh.edge = edge;
             mesh.attach(edge);
-            edge.visible = false;
+            edge.visible = oldEdge?.visible ?? false;
             edge.position.copy(_zero);
 
             //select highlights
-            mesh.remove(mesh.select);
+            let oldSelect = mesh.select;
+            mesh.remove(oldSelect);
             let select = createSelectHighlights(mesh);
             mesh.select = select;
             mesh.attach(select);
-            select.visible = false;
+            select.visible = oldSelect?.visible ?? false;
             select.position.copy(_zero);
             //select back highlights
-            mesh.remove(mesh.selectBack);
+            let oldSelectBack = mesh.selectBack;
+            mesh.remove(oldSelectBack);
             let selectBack = createSelectHighlights(mesh);
             mesh.selectBack = selectBack;
             mesh.attach(selectBack);
-            selectBack.visible = false;
+            selectBack.visible = oldSelectBack?.visible ?? false;
             selectBack.position.copy(_zero);
         }
     };
