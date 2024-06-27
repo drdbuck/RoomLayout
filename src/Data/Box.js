@@ -4,12 +4,14 @@ const stringifyBox = [
     "_faces",
     "_scaleTop",
     "_positionTop",
+    "_degrees",
 ];
 
 const delegateListBox = [
     "onFaceChanged",
     "onScaleTopChanged",
     "onPositionTopChanged",
+    "onDegreesChanged",
 ];
 
 const FACE_DEFAULT = -1;
@@ -22,12 +24,15 @@ class Box extends Block {
         this._scaleTop = undefined;
         this._positionTop = undefined;
 
+        this._degrees = undefined;
+
         this._faces = [];
 
         this.units = UNITS_INCHES;
 
         this.onScaleTopChanged = new Delegate("scaleTop");
         this.onPositionTopChanged = new Delegate("positionTop");
+        this.onDegreesChanged = new Delegate("degrees");
         this.onFaceChanged = new Delegate("index", "imageURL");
 
         this.bind_ScaleFactorChanged = this.onScaleFactorChanged.bind(this);
@@ -127,6 +132,14 @@ class Box extends Block {
     set positionTop(value) {
         this._positionTop = value;
         this.onPositionTopChanged.run(this._positionTop);
+    }
+
+    get degrees() {
+        return this._degrees;
+    }
+    set degrees(value) {
+        this._degrees = loopAngle(value);
+        this.onDegreesChanged.run(this._degrees);
     }
 
     get defaultFace() {
