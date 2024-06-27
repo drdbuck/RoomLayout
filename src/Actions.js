@@ -1,6 +1,6 @@
 "use strict";
 
-const DEFAULT_SCALE = new Vector3(2, 3, 1);
+const DEFAULT_SCALE = new Vector3(24, 36, 12);
 
 function actionImportBox() {
     //2024-03-06: copied from CardGenerator

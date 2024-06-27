@@ -139,17 +139,17 @@ function init() {
             {
                 name: "Width",
                 type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
-                default: 2,
+                default: DEFAULT_SCALE.x,
             },
             {
                 name: "Depth",
                 type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
-                default: 1,
+                default: DEFAULT_SCALE.z,
             },
             {
                 name: "Height",
                 type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
-                default: 3,
+                default: DEFAULT_SCALE.y,
             },
             // "Position",
             // {
@@ -199,17 +199,17 @@ function init() {
             {
                 name: "Width",
                 type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
-                default: () => uiVars.selector.first?.kitbash.width ?? 2,
+                default: () => uiVars.selector.first?.kitbash.width ?? DEFAULT_SCALE.x,
             },
             {
                 name: "Depth",
                 type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
-                default: () => uiVars.selector.first?.kitbash.depth ?? 1,
+                default: () => uiVars.selector.first?.kitbash.depth ?? DEFAULT_SCALE.z,
             },
             {
                 name: "Height",
                 type: OPTION_TYPE_NUMBER_POSITIVE_NONZERO,
-                default: () => uiVars.selector.first?.kitbash.height ?? 3,
+                default: () => uiVars.selector.first?.kitbash.height ?? DEFAULT_SCALE.y,
             },
 
             //Count
