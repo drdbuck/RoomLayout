@@ -233,6 +233,8 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPo
     let group = uiVars.selector.find(c => c.kitbash)?.kitbash;
     //
     if (group) {
+        //match units
+        box.units = group.units;
         //if first box in group, set it to group's size
         if (group.count == 0) {
             let setFunc = (n, n2) => (n > 0) ? n2 : n;
@@ -284,6 +286,9 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
     spawnPoint ??= selectgroup?.position ?? getSpawnPoint(selectgroup);
     //
     let group = new KitBash();
+    if (selectgroup) {
+        group.units = selectgroup.units;
+    }
     group.position = spawnPoint;
     //
 
@@ -299,6 +304,7 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
     //TODO: account for count being 1
     for (let i = 0; i < countX; i++) {
         let box = new Box();
+        box.units = group.units;
         group.add(box);
         box.name = `rectangle ${id + 1}`;
         id++;
@@ -323,6 +329,7 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
     //TODO: account for count being 1
     for (let i = 0; i < countZ; i++) {
         let box = new Box();
+        box.units = group.units;
         group.add(box);
         box.name = `rectangle ${id + 1}`;
         id++;
@@ -346,6 +353,7 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
     //TODO: account for count being 1
     for (let i = 0; i < countY; i++) {
         let box = new Box();
+        box.units = group.units;
         group.add(box);
         box.name = `rectangle ${id + 1}`;
         id++;
@@ -411,11 +419,15 @@ function _actionObjectsCreateSkirt(answers, spawnPoint) {
     spawnPoint ??= getSpawnPoint(selectgroup);
     //
     let group = new KitBash();
+    if (selectgroup) {
+        group.units = selectgroup.units;
+    }
     group.position = spawnPoint;
     //
     const count = 4;
     for (let i = 0; i < count; i++) {
         let box = new Box();
+        box.units = group.units;
         group.add(box);
         box.name = `skirt wall ${i + 1}/${count}`;
         let dim = (i % 2 == 0) ? width : depth;
