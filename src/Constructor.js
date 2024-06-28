@@ -696,7 +696,7 @@ function createCylinderGeometry(box) {
     );
     const halfHeight = height / 2;
     let posArr = cylinderGeometry.attributes.position;
-    for (let i = 0; i < posArr.count; i++){
+    for (let i = 0; i < posArr.count; i++) {
         let y = posArr.getY(i);
         posArr.setY(i, y + halfHeight);
     }

@@ -670,7 +670,7 @@ function makeVisible(box, visible) {
         invisibleStack.remove(box);
     }
     else {
-        //make it invivisble
+        //make it invisible
         let edge = createEdgeHighlights(mesh, edgeMaterial3);
         edge.invisibleBox = box;
         boundingBox.children.push(edge);
