@@ -677,8 +677,8 @@ function createBoxGeometry(box) {
 }
 
 function createCylinderGeometry(box) {
-    const radius = convertToFeet(Math.max(box.width, box.depth), box) / 2;
-    const radiusTop = convertToFeet(Math.max(box.widthTop, box.depthTop), box) / 2;
+    const radius = convertToFeet(box.radius, box);
+    const radiusTop = convertToFeet(box.radiusTop, box);
     const height = convertToFeet(box.height, box);
     const radialSegments = 50;
     const heightSegments = 1;

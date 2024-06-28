@@ -138,6 +138,13 @@ class Box extends Block {
         this.onPositionTopChanged.run(this._positionTop);
     }
 
+    get radius() {
+        return Math.max(this.width, this.depth) / 2;
+    }
+    get radiusTop() {
+        return Math.max(this.widthTop, this.depthTop) / 2;
+    }
+
     get degrees() {
         return this._degrees;
     }
