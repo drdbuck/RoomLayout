@@ -710,7 +710,6 @@ class Controller {
 
     setBoxRecline(box, recline) {
         box.recline = Math.clamp(recline, -90, 90);
-        updateBoxEditPanel();
     }
 
     getMouseWorld(mouse) {

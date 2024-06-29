@@ -419,11 +419,11 @@ function registerUIDelegates(context, register) {
     let box = context.box;
     if (!box) { return; }
     [
-        box.onSizeChanged,
-        box.onPositionChanged,
-        box.onAngleChanged,
+        delegateListBlock,
+        delegateListBox,
     ]
-        .forEach(del => del.listen(updateBoxEditPanel, register));
+        .flat(Infinity)
+        .forEach(del => box[del].listen(updateBoxEditPanel, register));
 
     //face
     [
