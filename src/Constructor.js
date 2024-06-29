@@ -376,40 +376,8 @@ function constructBox(box) {
         else {
             mesh.geometry = geom;
 
-            //inside faces
-            let oldInsideMesh = mesh.insideMesh;
-            mesh.remove(oldInsideMesh);
-            let insideMesh = createInsideFaces(mesh, box);
-            mesh.attach(insideMesh);
-            mesh.insideMesh = insideMesh;
-            insideMesh.position.copy(_zero);
+            createSupportObjects(mesh, box);
             updateInsideMesh();
-
-            //edge highlights
-            let oldEdge = mesh.edge;
-            mesh.remove(oldEdge);
-            let edge = createEdgeHighlights(mesh);
-            mesh.edge = edge;
-            mesh.attach(edge);
-            edge.visible = oldEdge?.visible ?? false;
-            edge.position.copy(_zero);
-
-            //select highlights
-            let oldSelect = mesh.select;
-            mesh.remove(oldSelect);
-            let select = createSelectHighlights(mesh);
-            mesh.select = select;
-            mesh.attach(select);
-            select.visible = oldSelect?.visible ?? false;
-            select.position.copy(_zero);
-            //select back highlights
-            let oldSelectBack = mesh.selectBack;
-            mesh.remove(oldSelectBack);
-            let selectBack = createSelectHighlights(mesh);
-            mesh.selectBack = selectBack;
-            mesh.attach(selectBack);
-            selectBack.visible = oldSelectBack?.visible ?? false;
-            selectBack.position.copy(_zero);
         }
     };
     let updateFace = (index, url) => {
@@ -444,15 +412,8 @@ function constructBox(box) {
         }
     };
     let updateInsideMesh = () => {
-        insideMesh.visible = box.hasInside();
+        mesh.insideMesh.visible = box.hasInside();
     };
-
-
-    //inside faces
-    let insideMesh = createInsideFaces(mesh, box);
-    mesh.attach(insideMesh);
-    mesh.insideMesh = insideMesh;
-    insideMesh.position.copy(_zero);
 
     //delegates
     box.onSizeChanged.add(() => {
@@ -476,25 +437,9 @@ function constructBox(box) {
     box.onFaceChanged.add(updateFace);
     box.group.onDefaultFaceChanged.add(updateDefaultFace);
 
-    //edge highlights
-    let edge = createEdgeHighlights(mesh);
-    mesh.edge = edge;
-    mesh.attach(edge);
-    edge.visible = false;
-    edge.position.copy(_zero);
-
-    //select highlights
-    let select = createSelectHighlights(mesh);
-    mesh.select = select;
-    mesh.attach(select);
-    select.visible = false;
-    select.position.copy(_zero);
-    //select back highlights
-    let selectBack = createSelectHighlights(mesh);
-    mesh.selectBack = selectBack;
-    mesh.attach(selectBack);
-    selectBack.visible = false;
-    selectBack.position.copy(_zero);
+    //Create additional visual effects
+    createSupportObjects(mesh, box);
+    updateInsideMesh();
 
     //init with update functions
     updateCylinder();
@@ -701,6 +646,42 @@ function createCylinderGeometry(box) {
         posArr.setY(i, y + halfHeight);
     }
     return cylinderGeometry;
+}
+
+function createSupportObjects(mesh, box) {
+    //inside faces
+    let oldInsideMesh = mesh.insideMesh;
+    mesh.remove(oldInsideMesh);
+    let insideMesh = createInsideFaces(mesh, box);
+    mesh.attach(insideMesh);
+    mesh.insideMesh = insideMesh;
+    insideMesh.position.copy(_zero);
+
+    //edge highlights
+    let oldEdge = mesh.edge;
+    mesh.remove(oldEdge);
+    let edge = createEdgeHighlights(mesh);
+    mesh.edge = edge;
+    mesh.attach(edge);
+    edge.visible = oldEdge?.visible ?? false;
+    edge.position.copy(_zero);
+
+    //select highlights
+    let oldSelect = mesh.select;
+    mesh.remove(oldSelect);
+    let select = createSelectHighlights(mesh);
+    mesh.select = select;
+    mesh.attach(select);
+    select.visible = oldSelect?.visible ?? false;
+    select.position.copy(_zero);
+    //select back highlights
+    let oldSelectBack = mesh.selectBack;
+    mesh.remove(oldSelectBack);
+    let selectBack = createSelectHighlights(mesh);
+    mesh.selectBack = selectBack;
+    mesh.attach(selectBack);
+    selectBack.visible = oldSelectBack?.visible ?? false;
+    selectBack.position.copy(_zero);
 }
 
 function createEdgeHighlights(mesh, material = edgeMaterial) {
