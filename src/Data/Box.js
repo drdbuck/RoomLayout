@@ -156,6 +156,9 @@ class Box extends Block {
             return super.width;
         }
     }
+    set width(value) {
+        super.width = value;
+    }
     get depth() {
         if (this.isCylindroid) {
             return this.diameter;
@@ -163,6 +166,9 @@ class Box extends Block {
         else {
             return super.depth;
         }
+    }
+    set depth(value) {
+        super.depth = value;
     }
 
     /**
