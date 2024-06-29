@@ -312,7 +312,7 @@ function hookupDelegates() {
     uiVars.selector.onSelectionGained.add(context => {
         if (context.boxSelected) {
             context.meshes.forEach(mesh => {
-                mesh.edge.visible = true;
+                updateSelect(mesh, true);
                 updateFace(mesh, FACE_NONE, context.faceSelected);
             });
         }
@@ -324,7 +324,7 @@ function hookupDelegates() {
     });
     uiVars.selector.onSelectionLost.add(context => {
         context.meshes.forEach(mesh => {
-            mesh.edge.visible = false;
+            updateSelect(mesh, false);
             updateFace(mesh, FACE_NONE, context.faceSelected);
         });
         //if group no longer selected,
@@ -614,6 +614,11 @@ function uploadFace(image) {
         context.kitbash.addFace(image.src);
     });
 };
+
+function updateSelect(mesh, show) {
+    mesh.edge.visible = show;
+    mesh.bounds.visible = !mesh.box.isCuboid && show;
+}
 
 function updateFace(mesh, face, faceSelected) {
     //early exit: no mesh
