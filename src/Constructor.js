@@ -351,6 +351,7 @@ function constructBox(box) {
         mesh.edge.geometry.setAttribute('position', newedge.geometry.attributes.position);
 
         updateInsideMesh();
+        updateBounds();
     };
     let updateRotation = (angle = 0, recline = 0) => {
         //rotate to default
@@ -414,6 +415,19 @@ function constructBox(box) {
     let updateInsideMesh = () => {
         mesh.insideMesh.visible = box.hasInside();
     };
+    let updateBounds = () => {
+        let bounds = mesh.bounds;
+        bounds.visible = !box.isCuboid && controllerEdit?.isSelected(box);
+
+        bounds.scale.copy(new Vector3(
+            convertToFeet(box.width, box),
+            convertToFeet(box.height, box),
+            convertToFeet(box.depth, box)
+        ));
+
+        bounds.position.copy(_zero);
+        bounds.position.y += bounds.scale.y / 2;
+    };
 
     //delegates
     box.onSizeChanged.add(() => {
@@ -440,6 +454,7 @@ function constructBox(box) {
     //Create additional visual effects
     createSupportObjects(mesh, box);
     updateInsideMesh();
+    updateBounds();
 
     //init with update functions
     updateCylinder();
@@ -691,17 +706,10 @@ function createSupportObjects(mesh, box) {
         edgeMaterial4
     );
     bounds.layers.set(effectMask);
-    bounds.scale.copy(new Vector3(
-        convertToFeet(box.width, box),
-        convertToFeet(box.height, box),
-        convertToFeet(box.depth, box)
-    ));
     // bounds.renderOrder = 999;
     mesh.bounds = bounds;
     mesh.attach(bounds);
     bounds.visible = oldBounds?.visible ?? false;
-    bounds.position.copy(_zero);
-    bounds.position.y = bounds.position.y + bounds.scale.y / 2;
 
 }
 
