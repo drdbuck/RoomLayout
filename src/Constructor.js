@@ -682,6 +682,23 @@ function createSupportObjects(mesh, box) {
     mesh.attach(selectBack);
     selectBack.visible = oldSelectBack?.visible ?? false;
     selectBack.position.copy(_zero);
+
+    //bounding box
+    let oldBounds = mesh.bounds;
+    mesh.remove(oldBounds);
+    const bounds = new LineSegments(
+        new EdgesGeometry(meshGeometry, 40),
+        edgeMaterial4
+    );
+    bounds.layers.set(effectMask);
+    bounds.scale.copy(convertToFeet(box.scale, box));
+    // bounds.renderOrder = 999;
+    mesh.bounds = bounds;
+    mesh.attach(bounds);
+    bounds.visible = oldBounds?.visible ?? false;
+    bounds.position.copy(_zero);
+    bounds.position.y = bounds.position.y + bounds.scale.y / 2;
+
 }
 
 function createEdgeHighlights(mesh, material = edgeMaterial) {
