@@ -68,6 +68,7 @@ function toRadians(angle) {
 }
 
 function loopAngle(angle) {
+    angle *= 1;//force number
     return (angle + 360 * Math.ceil(Math.abs(angle / 360))) % 360;
 }
 
