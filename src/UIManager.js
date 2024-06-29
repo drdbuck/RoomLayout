@@ -201,6 +201,7 @@ function initUI() {
     onChangeFunc("txtPosY", flistfunc, (f, v) => controllerEdit.setBoxPosition(f, f.position.setZ(v)));
     onChangeFunc("txtAltitude", flistfunc, (f, v) => controllerEdit.setBoxAltitude(f, v));
     onChangeFunc("txtAngle", flistfunc, (f, v) => controllerEdit.setBoxAngle(f, v), true, false);
+    onChangeFuncRange("rngAngle", flistfunc, (f, v) => controllerEdit.setBoxAngle(f, v));
     onChangeFunc("txtRecline", flistfunc, (f, v) => controllerEdit.setBoxRecline(f, v), true, false);
     onChangeFuncRange("rngRecline", flistfunc, (f, v) => controllerEdit.setBoxRecline(f, v));
     //Top
@@ -377,6 +378,7 @@ function updateBoxEditPanel() {
     updateFunc("txtPosY", flist, f => f.position.z);
     updateFunc("txtAltitude", flist, f => f.altitude);
     updateFunc("txtAngle", flist, f => f.angle);
+    updateFunc("rngAngle", flist, f => f.angle);
     updateFunc("txtRecline", flist, f => f.recline);
     updateFunc("rngRecline", flist, f => f.recline);
     //Top
