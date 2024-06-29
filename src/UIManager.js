@@ -376,6 +376,7 @@ function updateBoxEditPanel() {
     updateFunc("txtAltitude", flist, f => f.altitude);
     updateFunc("txtAngle", flist, f => f.angle);
     updateFunc("txtRecline", flist, f => f.recline);
+    updateFunc("rngRecline", flist, f => f.recline);
     //Top
     updateFunc("txtWidthTop", flist, f => f.widthTop);
     updateFunc("txtLengthTop", flist, f => f.depthTop);
