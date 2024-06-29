@@ -214,7 +214,9 @@ function initUI() {
     onChangeFunc("txtPosYTop", flistfunc, (f, v) => f.positionTop = f.positionTop.setZ(v));
     //Cylinder
     onChangeFunc("txtDegrees", flistfunc, (f, v) => f.degrees = v);
+    onChangeFuncRange("rngDegrees", flistfunc, (f, v) => f.degrees = v);
     onChangeFunc("txtFaceDirection", flistfunc, (f, v) => f.faceDirection = v);
+    onChangeFuncRange("rngFaceDirection", flistfunc, (f, v) => f.faceDirection = v);
 
     //Suggestion Gallery Worker
     workerSuggestionGallery = new Worker("/src/Workers/SuggestionGallery.js");
@@ -384,7 +386,9 @@ function updateBoxEditPanel() {
     updateFunc("txtPosYTop", flist, f => f.positionTop.z);
     //Cylinder
     updateFunc("txtDegrees", flist, f => f.degrees ?? 0);
+    updateFunc("rngDegrees", flist, f => f.degrees ?? 0);
     updateFunc("txtFaceDirection", flist, f => f.faceDirection ?? 0);
+    updateFunc("rngFaceDirection", flist, f => f.faceDirection ?? 0);
 
     //Buttons
     $("btnFaceEdit").checked = uiVars.viewPanelFace;
