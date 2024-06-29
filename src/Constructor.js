@@ -417,7 +417,8 @@ function constructBox(box) {
     };
     let updateBounds = () => {
         let bounds = mesh.bounds;
-        bounds.visible = !box.isCuboid && controllerEdit?.isSelected(box);
+        bounds.visible = !box.isCuboid
+            && !!uiVars && uiVars.selector.find(c => c.box == box);//cant use ? nullish operator bc visible defaults to true
 
         bounds.scale.copy(new Vector3(
             convertToFeet(box.width, box),
