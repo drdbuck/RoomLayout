@@ -347,15 +347,26 @@ class Controller {
             // //record undo
             // undoMan.recordUndo("change object altitude");
         }
-        //Rotate
-        else if (event.shiftKey || uiVars.selector.count > 0) {
+        //Rotate / Recline
+        else if (uiVars.selector.count > 0) {
+            //Recline
+            if (event.shiftKey) {
+                uiVars.selector.forEach(c => {
+                    let deltaAngle = Math.round(zoomDelta) * 15;
+                    this.setBoxRecline(c.box, c.box.recline + deltaAngle);
+                });
+                // //record undo
+                // undoMan.recordUndo("change object recline");
+            }
+            //Rotate
+            else {
             uiVars.selector.forEach(c => {
-                //Rotate object
                 let deltaAngle = Math.round(zoomDelta) * 15;
                 this.setBoxAngle(c.obj, c.obj.angle + deltaAngle);
             });
             // //record undo
             // undoMan.recordUndo("change object angle");
+            }
         }
         //Camera zoom
         else {
