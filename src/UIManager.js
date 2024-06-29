@@ -414,11 +414,10 @@ function registerUIDelegates(context, register) {
     let group = context.kitbash;
     if (group) {//TODO: make this an early exit
         [
-            group.onSizeChanged,
-            group.onPositionChanged,
-            group.onAngleChanged,
+            delegateListBlock,
         ]
-            .forEach(del => del.listen(updateGroupEditPanel, register));
+            .flat(Infinity)
+            .forEach(del => group[del].listen(updateGroupEditPanel, register));
         [
             group.onFaceChanged,
         ]
