@@ -138,6 +138,28 @@ class Box extends Block {
         this.onPositionTopChanged.run(this._positionTop);
     }
 
+    /**
+     * Returns true if this box is a rectangular prism with 6 sides and all faces are rectangles
+     */
+    get isCuboid() {
+        return !this.isPrismoid && !this.isCylindroid;
+    }
+
+    /**
+     * Returns true if the top is smaller than the base or the top is displaced from the base
+     */
+    get isPrismoid() {
+        return (this._positionTop != undefined && !this._positionTop.equals(_zero))
+            || (this._scaleTop != undefined && !this._scaleTop.equals(this._scale));
+    }
+
+    /**
+     * Returns true if this box is a cylinder or cone
+     */
+    get isCylindroid() {
+        return this.degrees > 0;
+    }
+
     get radius() {
         return Math.max(this.width, this.depth) / 2;
     }
