@@ -183,6 +183,7 @@ function initUI() {
     onChangeFunc("txtGroupPosY", glistfunc, (g, v) => controllerEdit.setBoxPosition(g, g.position.setZ(v)));
     onChangeFunc("txtGroupAltitude", glistfunc, (g, v) => controllerEdit.setBoxAltitude(g, v));
     onChangeFunc("txtGroupAngle", glistfunc, (g, v) => controllerEdit.setBoxAngle(g, v), true, false);
+    onChangeFuncRange("rngGroupAngle", glistfunc, (g, v) => controllerEdit.setBoxAngle(g, v));
 
     //BOX
     let flistfunc = () => uiVars.selector.map(c => c.box);
@@ -335,6 +336,7 @@ function updateGroupEditPanel() {
     updateFunc("txtGroupPosY", glist, g => g.position.z);
     updateFunc("txtGroupAltitude", glist, g => g.altitude);
     updateFunc("txtGroupAngle", glist, g => g.angle);
+    updateFunc("rngGroupAngle", glist, g => g.angle);
 
     //Buttons
     $("btnGroupFaceEdit").checked = uiVars.viewPanelFace;
