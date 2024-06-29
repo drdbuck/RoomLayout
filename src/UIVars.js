@@ -75,6 +75,7 @@ class UIVars {
             this._selection
                 .filter(c => inflateSelectContext(c, this))
         );
+        this.selector.forEach(c => c.stable = true);
 
         //view
         this._view = this._views[this._viewId];
