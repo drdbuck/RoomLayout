@@ -399,7 +399,9 @@ function updateBoxEditPanel() {
     //Range Limits
     let rngAltitude = $("rngAltitude");
     let room = house.rooms[0];//dirty: hardcoded which room
-    let maxFeet = convertToFeet(room.height, room) - flist.max(box => convertToFeet(box.height, box));
+    let maxFeet = flist.min(box =>
+            convertToFeet(box.group.height, box.group) - convertToFeet(box.height, box)
+        );
     let units = flist.reduce((a, b) => reduceFunc(a.units,b.units) ?? UNITS_INCHES, UNITS_INCHES);
     rngAltitude.max = convertUnits(maxFeet, UNITS_FEET, units);
 
