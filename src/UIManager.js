@@ -77,6 +77,30 @@ function initUI() {
             }
         };
     };
+    const onChangeFuncRange = (id, listFunc, func) => {
+        let rngChanged = false;
+        let prevValue;
+        const rng = $(id);
+        rng.oninput = () => {
+            const rawvalue = rng.value;
+            if (rawvalue != prevValue) {
+                prevValue = rawvalue;
+                rngChanged = true;
+            }
+            let value = rawvalue;
+            let list = listFunc();
+            list.forEach(
+                item => func(item, value)
+            );
+            player.animate();
+        };
+        rng.onblur = () => {
+            if (rngChanged) {
+                //record undo
+                undoMan.recordUndo("change object attribute");
+            }
+        };
+    }
 
     const onChangeFuncGroup = (listFunc, onblur, ...paramObjs) => {
         paramObjs.flat();
@@ -178,6 +202,7 @@ function initUI() {
     onChangeFunc("txtAltitude", flistfunc, (f, v) => controllerEdit.setBoxAltitude(f, v));
     onChangeFunc("txtAngle", flistfunc, (f, v) => controllerEdit.setBoxAngle(f, v), true, false);
     onChangeFunc("txtRecline", flistfunc, (f, v) => controllerEdit.setBoxRecline(f, v), true, false);
+    onChangeFuncRange("rngRecline", flistfunc, (f, v) => controllerEdit.setBoxRecline(f, v));
     //Top
     onChangeFuncGroup(
         flistfunc,
