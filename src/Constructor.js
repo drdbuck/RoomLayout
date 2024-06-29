@@ -691,7 +691,11 @@ function createSupportObjects(mesh, box) {
         edgeMaterial4
     );
     bounds.layers.set(effectMask);
-    bounds.scale.copy(convertToFeet(box.scale, box));
+    bounds.scale.copy(new Vector3(
+        convertToFeet(box.width, box),
+        convertToFeet(box.height, box),
+        convertToFeet(box.depth, box)
+    ));
     // bounds.renderOrder = 999;
     mesh.bounds = bounds;
     mesh.attach(bounds);

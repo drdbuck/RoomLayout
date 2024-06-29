@@ -109,7 +109,12 @@ class Box extends Block {
     }
 
     get widthTop() {
+        if (this.isCylindroid) {
+            return this.diameterTop;
+        }
+        else {
         return this._scaleTop?.x ?? this.scale.x;
+        }
     }
     set widthTop(value) {
         value ||= 0;//NaN prevention
@@ -120,7 +125,12 @@ class Box extends Block {
     }
 
     get depthTop() {
+        if (this.isCylindroid) {
+            return this.diameterTop;
+        }
+        else {
         return this._scaleTop?.z ?? this.scale.z;
+        }
     }
     set depthTop(value) {
         value ||= 0;//NaN prevention
@@ -136,6 +146,23 @@ class Box extends Block {
     set positionTop(value) {
         this._positionTop = value;
         this.onPositionTopChanged.run(this._positionTop);
+    }
+
+    get width() {
+        if (this.isCylindroid) {
+            return this.diameter;
+        }
+        else {
+            return super.width;
+        }
+    }
+    get depth() {
+        if (this.isCylindroid) {
+            return this.diameter;
+        }
+        else {
+            return super.depth;
+        }
     }
 
     /**
@@ -161,10 +188,16 @@ class Box extends Block {
     }
 
     get radius() {
-        return Math.max(this.width, this.depth) / 2;
+        return Math.max(this.scale.x, this.scale.z) / 2;
     }
     get radiusTop() {
-        return Math.max(this.widthTop, this.depthTop) / 2;
+        return Math.max(this.scaleTop.x, this.scaleTop.z) / 2;
+    }
+    get diameter() {
+        return this.radius * 2;
+    }
+    get diameterTop() {
+        return this.radiusTop * 2;
     }
 
     get degrees() {
