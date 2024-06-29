@@ -394,6 +394,13 @@ function updateBoxEditPanel() {
     updateFunc("txtFaceDirection", flist, f => f.faceDirection ?? 0);
     updateFunc("rngFaceDirection", flist, f => f.faceDirection ?? 0);
 
+    //Range Limits
+    let rngAltitude = $("rngAltitude");
+    let room = house.rooms[0];//dirty: hardcoded which room
+    let maxFeet = convertToFeet(room.height, room) - flist.max(box => convertToFeet(box.height, box));
+    let units = flist.reduce((a, b) => reduceFunc(a.units,b.units) ?? UNITS_INCHES, UNITS_INCHES);
+    rngAltitude.max = convertUnits(maxFeet, UNITS_FEET, units);
+
     //Buttons
     $("btnFaceEdit").checked = uiVars.viewPanelFace;
     $("btnFaceEdit").disabled = !anySelected;
