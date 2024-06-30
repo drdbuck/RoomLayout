@@ -241,6 +241,11 @@ function _actionObjectCreate(objName, undoMsg, processFunc = (f) => { }, spawnPo
             box.scale.x = setFunc(box.scale.x, group.scale.x);
             box.scale.y = setFunc(box.scale.y, group.scale.y);
             box.scale.z = setFunc(box.scale.z, group.scale.z);
+            if (box.degrees > 0) {
+                let minDim = Math.min(box.scale.x, box.scale.z);
+                box.scale.x = minDim;
+                box.scale.z = minDim;
+            }
         }
         //limit size to group size
         box.scale.clamp(_zero, group.scale);
