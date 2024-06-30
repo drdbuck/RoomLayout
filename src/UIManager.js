@@ -340,6 +340,13 @@ function updateGroupEditPanel() {
     updateFunc("txtGroupAngle", glist, g => g.angle);
     updateFunc("rngGroupAngle", glist, g => g.angle);
 
+    //Range Limits
+    let rngGroupAltitude = $("rngGroupAltitude");
+    let room = house.rooms[0];//dirty: hardcoded which room
+    let maxFeet = convertToFeet(room.height, room) - glist.max(f => convertToFeet(f.height, f));
+    let units = glist.reduce((a, b) => reduceFunc(a.units, b.units) ?? UNITS_INCHES, UNITS_INCHES);
+    rngGroupAltitude.max = convertUnits(maxFeet, UNITS_FEET, units);
+
     //Buttons
     $("btnGroupFaceEdit").checked = uiVars.viewPanelFace;
     $("btnGroupFaceEdit").disabled = !anySelected;
