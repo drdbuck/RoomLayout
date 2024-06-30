@@ -182,6 +182,7 @@ function initUI() {
     onChangeFunc("txtGroupPosX", glistfunc, (g, v) => controllerEdit.setBoxPosition(g, g.position.setX(v)));
     onChangeFunc("txtGroupPosY", glistfunc, (g, v) => controllerEdit.setBoxPosition(g, g.position.setZ(v)));
     onChangeFunc("txtGroupAltitude", glistfunc, (g, v) => controllerEdit.setBoxAltitude(g, v));
+    onChangeFuncRange("rngGroupAltitude", glistfunc, (g, v) => controllerEdit.setBoxAltitude(g, v));
     onChangeFunc("txtGroupAngle", glistfunc, (g, v) => controllerEdit.setBoxAngle(g, v), true, false);
     onChangeFuncRange("rngGroupAngle", glistfunc, (g, v) => controllerEdit.setBoxAngle(g, v));
 
@@ -335,6 +336,7 @@ function updateGroupEditPanel() {
     updateFunc("txtGroupPosX", glist, g => g.position.x);
     updateFunc("txtGroupPosY", glist, g => g.position.z);
     updateFunc("txtGroupAltitude", glist, g => g.altitude);
+    updateFunc("rngGroupAltitude", glist, g => g.altitude);
     updateFunc("txtGroupAngle", glist, g => g.angle);
     updateFunc("rngGroupAngle", glist, g => g.angle);
 
