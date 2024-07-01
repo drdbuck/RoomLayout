@@ -677,9 +677,22 @@ class Controller {
     }
 
     setBoxPosition(box, position) {
+        let min;
+        let max;
+        //confine furniture to room
+        if (box.isKitBash) {
         let room = box.room;
-        let min = convertUnits(room.min, room.units, box.units);
-        let max = convertUnits(room.max, room.units, box.units);
+        min = convertUnits(room.min, room.units, box.units);
+        max = convertUnits(room.max, room.units, box.units);
+        }
+        //confine box to furniture
+        else {
+            let kitbash = box.group;
+            let dim = Math.max(kitbash.width, kitbash.depth) / 2;
+            min = new Vector3(-dim, 0, -dim);
+            max = new Vector3(dim, 0, dim);
+        }
+        //
         position.x = Math.clamp(position.x, min.x, max.x);
         position.z = Math.clamp(position.z, min.z, max.z);
         // position.z = -Math.clamp(position.z, min.z, max.z);
