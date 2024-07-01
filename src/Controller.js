@@ -696,12 +696,17 @@ class Controller {
     }
 
     setBoxAltitude(box, altitude) {
+        if (box.isKitBash) {
         let room = box.room;
         box.altitude = Math.clamp(
             altitude,
             convertUnits(room.min.y, room.units, box.units),
             convertUnits(room.max.y, room.units, box.units) - box.height
         );
+        }
+        else {
+            box.altitude = Math.clamp(altitude, 0, box.group.height);
+        }
     }
 
     setBoxAngle(box, angle) {
