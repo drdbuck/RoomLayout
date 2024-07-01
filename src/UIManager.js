@@ -182,7 +182,7 @@ function initUI() {
     onChangeFunc("txtGroupPosX", glistfunc, (g, v) => controllerEdit.setBoxPosition(g, g.position.setX(v)));
     onChangeFunc("txtGroupPosY", glistfunc, (g, v) => controllerEdit.setBoxPosition(g, g.position.setZ(v)));
     onChangeFunc("txtGroupAltitude", glistfunc, (g, v) => controllerEdit.setBoxAltitude(g, v));
-    onChangeFuncRange("rngGroupAltitude", glistfunc, (g, v) => controllerEdit.setBoxAltitude(g, v));
+    onChangeFuncRange("rngGroupAltitude", glistfunc, (g, v) => controllerEdit.setBoxAltitude(g, v / 100));
     onChangeFunc("txtGroupAngle", glistfunc, (g, v) => controllerEdit.setBoxAngle(g, v), true, false);
     onChangeFuncRange("rngGroupAngle", glistfunc, (g, v) => controllerEdit.setBoxAngle(g, v));
 
@@ -202,7 +202,7 @@ function initUI() {
     onChangeFunc("txtPosX", flistfunc, (f, v) => controllerEdit.setBoxPosition(f, f.position.setX(v)));
     onChangeFunc("txtPosY", flistfunc, (f, v) => controllerEdit.setBoxPosition(f, f.position.setZ(v)));
     onChangeFunc("txtAltitude", flistfunc, (f, v) => controllerEdit.setBoxAltitude(f, v));
-    onChangeFuncRange("rngAltitude", flistfunc, (f, v) => controllerEdit.setBoxAltitude(f, v));
+    onChangeFuncRange("rngAltitude", flistfunc, (f, v) => controllerEdit.setBoxAltitude(f, v / 100));
     onChangeFunc("txtAngle", flistfunc, (f, v) => controllerEdit.setBoxAngle(f, v), true, false);
     onChangeFuncRange("rngAngle", flistfunc, (f, v) => controllerEdit.setBoxAngle(f, v));
     onChangeFunc("txtRecline", flistfunc, (f, v) => controllerEdit.setBoxRecline(f, v), true, false);
@@ -336,7 +336,7 @@ function updateGroupEditPanel() {
     updateFunc("txtGroupPosX", glist, g => g.position.x);
     updateFunc("txtGroupPosY", glist, g => g.position.z);
     updateFunc("txtGroupAltitude", glist, g => g.altitude);
-    updateFunc("rngGroupAltitude", glist, g => g.altitude);
+    updateFunc("rngGroupAltitude", glist, g => g.altitude * 100);
     updateFunc("txtGroupAngle", glist, g => g.angle);
     updateFunc("rngGroupAngle", glist, g => g.angle);
 
@@ -345,7 +345,7 @@ function updateGroupEditPanel() {
     let room = house.rooms[0];//dirty: hardcoded which room
     let maxFeet = convertToFeet(room.height, room) - glist.max(f => convertToFeet(f.height, f));
     let units = glist.reduce((a, b) => reduceFunc(a.units, b.units) ?? UNITS_INCHES, UNITS_INCHES);
-    rngGroupAltitude.max = convertUnits(maxFeet, UNITS_FEET, units);
+    rngGroupAltitude.max = convertUnits(maxFeet, UNITS_FEET, units) * 100;
 
     //Buttons
     $("btnGroupFaceEdit").checked = uiVars.viewPanelFace;
@@ -389,7 +389,7 @@ function updateBoxEditPanel() {
     updateFunc("txtPosX", flist, f => f.position.x);
     updateFunc("txtPosY", flist, f => f.position.z);
     updateFunc("txtAltitude", flist, f => f.altitude);
-    updateFunc("rngAltitude", flist, f => f.altitude);
+    updateFunc("rngAltitude", flist, f => f.altitude * 100);
     updateFunc("txtAngle", flist, f => f.angle);
     updateFunc("rngAngle", flist, f => f.angle);
     updateFunc("txtRecline", flist, f => f.recline);
@@ -412,7 +412,7 @@ function updateBoxEditPanel() {
             convertToFeet(box.group.height, box.group) - convertToFeet(box.height, box)
         );
     let units = flist.reduce((a, b) => reduceFunc(a.units,b.units) ?? UNITS_INCHES, UNITS_INCHES);
-    rngAltitude.max = convertUnits(maxFeet, UNITS_FEET, units);
+    rngAltitude.max = convertUnits(maxFeet, UNITS_FEET, units) * 100;
 
     //Buttons
     $("btnFaceEdit").checked = uiVars.viewPanelFace;
