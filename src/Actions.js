@@ -458,6 +458,7 @@ function _actionObjectsCreateTub(answers, spawnPoint) {
             box.depth = depth;
             box.height = height;
             box.name = name;
+            box.position = _zero.clone();
         }
 
         //semicircles
@@ -470,6 +471,7 @@ function _actionObjectsCreateTub(answers, spawnPoint) {
             semi.height = height;
             semi.degrees = 180;
             semi.faceDirection = faceDirection;
+            semi.position = _zero.clone();
             semi.position.x = posx;
             semi.name = name;
         }
