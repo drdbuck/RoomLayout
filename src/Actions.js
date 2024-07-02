@@ -398,15 +398,7 @@ function _actionObjectsCreateSkirt(answers, spawnPoint) {
     const height = answers.Height;
     const recline = answers.Recline;
     //
-    let selectgroup = uiVars.selector.find(c => c.kitbash)?.kitbash;
-    spawnPoint ??= getSpawnPoint(selectgroup);
-    //
-    let group = new KitBash();
-    if (selectgroup) {
-        group.units = selectgroup.units;
-    }
-    group.position = spawnPoint;
-    //
+    let processFunc = (group) => {
     const count = 4;
     for (let i = 0; i < count; i++) {
         let box = new Box();
@@ -433,26 +425,9 @@ function _actionObjectsCreateSkirt(answers, spawnPoint) {
     }
     // group.recalculateSize();
     group.scale = new Vector3(width, height, depth);
-    //Group
-    //find selected group
-    let newGroup = !selectgroup;
-    //
-    if (selectgroup) {
-        let items = group.items;
-        items.forEach(item => {
-            group.remove(item);
-            selectgroup.add(item);
-        });
-        group = undefined;
     }
-    else {
-        let room = house.rooms[0];//dirty: hardcoded which room to add to
-        room.addFurniture(group);
-    }
-    //Select new box
-    controllerEdit.selectObject(group ?? selectgroup, false, undefined, newGroup);
-    //record undo
-    undoMan.recordUndo("create skirt prefab");
+    __actionObjectsCreatePrefab(spawnPoint, processFunc, "create skirt prefab");
+
 }
 
 function __actionObjectsCreatePrefab(spawnPoint, processFunc, undoMsg) {
