@@ -287,17 +287,11 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
     if (!(countX > 0 || countY > 0 || countZ > 0)) { return; }
 
     //
-    let selectgroup = uiVars.selector.first?.kitbash;
-    spawnPoint ??= selectgroup?.position ?? getSpawnPoint(selectgroup);
-    //
-    let group = new KitBash();
-    if (selectgroup) {
-        group.units = selectgroup.units;
-    }
-    group.position = spawnPoint;
-    //
 
-    let id = 0;
+    let processFunc = (group) => {
+
+        let id = 0;
+        const spawnPoint = _zero.clone();
 
     //Left-to-Right
     const bufferX = width / (countX - 1);
@@ -383,26 +377,10 @@ function _actionObjectsCreateRectangleStack(answers, spawnPoint) {
 
     // group.recalculateSize();
     group.scale = new Vector3(width, height, depth);
-    //Group
-    //find selected group
-    let newGroup = !selectgroup;
-    //
-    if (selectgroup) {
-        let items = group.items;
-        items.forEach(item => {
-            group.remove(item);
-            selectgroup.add(item);
-        });
-        group = undefined;
+        
     }
-    else {
-        let room = house.rooms[0];//dirty: hardcoded which room to add to
-        room.addFurniture(group);
-    }
-    //Select new box
-    controllerEdit.selectObject(group ?? selectgroup, false, undefined, newGroup);
-    //record undo
-    undoMan.recordUndo("create rectangle stack");
+
+    __actionObjectsCreatePrefab(spawnPoint, processFunc, "create rectangle stack");
 }
 
 function actionObjectsCreateSkirt() {
@@ -475,6 +453,42 @@ function _actionObjectsCreateSkirt(answers, spawnPoint) {
     controllerEdit.selectObject(group ?? selectgroup, false, undefined, newGroup);
     //record undo
     undoMan.recordUndo("create skirt prefab");
+}
+
+function __actionObjectsCreatePrefab(spawnPoint, processFunc, undoMsg) {
+     //
+     let selectgroup = uiVars.selector.first?.kitbash;
+     spawnPoint ??= selectgroup?.position ?? getSpawnPoint(selectgroup);
+     //
+     let group = new KitBash();
+     if (selectgroup) {
+         group.units = selectgroup.units;
+     }
+     group.position = spawnPoint;
+     //
+ 
+    processFunc(group);
+  
+     //Group
+     //find selected group
+     let newGroup = !selectgroup;
+     //
+     if (selectgroup) {
+         let items = group.items;
+         items.forEach(item => {
+             group.remove(item);
+             selectgroup.add(item);
+         });
+         group = undefined;
+     }
+     else {
+         let room = house.rooms[0];//dirty: hardcoded which room to add to
+         room.addFurniture(group);
+     }
+     //Select new box
+     controllerEdit.selectObject(group ?? selectgroup, false, undefined, newGroup);
+     //record undo
+     undoMan.recordUndo(undoMsg);
 }
 
 function actionObjectsDuplicate() {
