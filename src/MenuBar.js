@@ -112,6 +112,7 @@ const menuBarData = {
         "Prefab": "---",
         "Create Rectangle Stack #r": "actionObjectsCreateRectangleStack();",
         "Create Skirt Prefab %p": "actionObjectsCreateSkirt();",
+        "Create Tub Prefab #t": "actionObjectsCreateTub();",
     },
     view: {
         title: "View",

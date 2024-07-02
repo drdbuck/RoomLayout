@@ -430,6 +430,62 @@ function _actionObjectsCreateSkirt(answers, spawnPoint) {
 
 }
 
+function actionObjectsCreateTub() {
+
+    let spawnPoint = getSpawnPoint();
+    createObjectDialogue.show(
+        (answers) => _actionObjectsCreateTub(answers, spawnPoint),
+        ["Width", "Depth", "Height"],
+        "Create Tub"
+    );
+    
+}
+function _actionObjectsCreateTub(answers, spawnPoint) {
+    //
+    const width = answers.Width;
+    const depth = answers.Depth;
+    const height = answers.Height;
+    const boxwidth = width - depth;
+    //
+    let processFunc = (group) => {
+        
+        //box
+        let makeBox = (name) => {
+            let box = new Box();
+            box.units = group.units;
+            group.add(box);
+            box.width = boxwidth;
+            box.depth = depth;
+            box.height = height;
+            box.name = name;
+        }
+
+        //semicircles
+        let makeSemiCircle = (name, faceDirection, posx) => {
+            let semi = new Box();
+            semi.units = group.units;
+            group.add(semi);
+            semi.width = depth;
+            semi.depth = depth;
+            semi.height = height;
+            semi.degrees = 180;
+            semi.faceDirection = faceDirection;
+            semi.position.x = posx;
+            semi.name = name;
+        }
+
+        //making them all
+        makeSemiCircle("tub piece 1", 90, -boxwidth / 2);
+        makeBox("tub piece 2");
+        makeSemiCircle("tub piece 3", -90, boxwidth / 2);
+
+        // group.recalculateSize();
+        group.scale = new Vector3(width, height, depth);
+    }
+
+    __actionObjectsCreatePrefab(spawnPoint, processFunc, "create tub prefab");
+}
+
 function __actionObjectsCreatePrefab(spawnPoint, processFunc, undoMsg) {
      //
      let selectgroup = uiVars.selector.first?.kitbash;
